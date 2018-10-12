@@ -1,31 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-<!--h1 *ngIf="isOffline==false">Seems like you are offline</h1>
-
-<nav 
-style="background-color: #673ab7; height: 56px; width: 100%">
-</nav>
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ isOffline }}!
-  </h1>
-</div-->
-
-<!--h1>Super simple CSS spinner</h1-->
-<!--div id="loading"></div>
-<p *ngIf="joke">{{joke.value}}</p>
-
-<noscript>
-  <h3 style="color: #673ab7; font-family: Helvetica; margin: 2rem;">
-      Sorry, but app is not available without javascript
-  </h3>
-</noscript-->
-
 <!-->Imp Code Commented Below<-->
 
-<!--div>
-  
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div>
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -91,12 +67,22 @@ style="background-color: #673ab7; height: 56px; width: 100%">
           <div class="col-lg-12">
           <ul class="game_select">          
           
-          <li><a routerLink="/SelectGameComponent" routerLinkActive="active">
+          <li><a (click)="selectGameData()" routerLink="/SelectGameComponent" routerLinkActive="active">
             <img src="../../assets/images/game_icon.png" alt="Game Icon" />
             <span>Select <br class="breakWord" />Games</span>
           </a></li> 
 
-          <li><a routerLink="/ReportGameComponent" routerLinkActive="active"><img src="../../assets/images/report_icon.png" alt="Report Icon" /><span>Report <br class="breakWord" />Games</span></a><span class="notification_tip report_pos">20</span></li>
+          <li>
+            <a [routerLinkActiveOptions]="{ exact: true }"
+             routerLink="/ReportGameComponent" routerLinkActive="active">
+             <div class="imgRelative">
+              <img src="../../assets/images/report_icon.png" alt="Report Icon" />
+              <span class="notification_tip report_pos">20</span>
+            </div>
+              <span>Report <br class="breakWord" />Games</span>
+            </a>
+              
+          </li>
           <li><a routerLink="/PayComponent" routerLinkActive="active"><img src="../../assets/images/paid_icon.png" alt="Paid Icon" /><span>Get <br class="breakWord" />Paid</span></a></li>
           <li><a routerLink="/ProfileComponent" routerLinkActive="active"><img src="../../assets/images/officiating.png" alt="Officiating Icon" /><span>Officiating <br class="breakWord" />Profile</span></a></li>
           </ul>
@@ -106,30 +92,8 @@ style="background-color: #673ab7; height: 56px; width: 100%">
           </div>     
 
 
-</div-->
+</div>
 
-<!--app-login *ngIf="!loginService.isLoggedIn"></app-login>
-
-<div *ngIf="loginService.loginFailed">Invalid Login Credentials</div>
-
-<app-official *ngIf="loginService.isLoggedIn"></app-official-->
-
+<router-outlet>
   
-  <!--app-dropdown></app-dropdown-->
-
-  <app-official></app-official>
-
-  <!--app-multiselect></app-multiselect-->
-
-  <!--app-modal></app-modal-->
-
-  <!--app-cookie></app-cookie-->
-
-
-<!--router-outlet>
-  
-</router-outlet-->
-  
-
-
-
+</router-outlet>

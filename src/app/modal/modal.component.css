@@ -1,0 +1,25 @@
+.dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+
+  .show {
+    opacity: 1;
+    transition: opacity 1s;
+ }
+ 
+ .hide {
+    opacity: 0;
+    transition: opacity 1s;
+ }
+
+ body.noscroll{
+  position:fixed;
+  overflow:hidden;
+}

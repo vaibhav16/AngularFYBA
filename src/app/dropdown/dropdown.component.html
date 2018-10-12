@@ -1,0 +1,18 @@
+<form #form="ngForm" (ngSubmit)="logForm(form.value)">
+    <label>Firstname:</label>
+    <input type="text" name="firstname" ngModel>
+  
+    <label>Lastname:</label>
+    <input type="text" name="lastname" ngModel>
+  
+    <label>Street:</label>
+    <input type="text" name="street" ngModel>
+  
+    <label>Zip:</label>
+    <input type="text" name="zip" ngModel>
+  
+    <label>City:</label>
+    <input type="text" name="city" ngModel>
+  
+    <button type="submit">Submit</button>
+  </form>

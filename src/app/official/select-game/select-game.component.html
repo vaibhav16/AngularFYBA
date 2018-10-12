@@ -1,0 +1,135 @@
+<div *ngIf="officialService.selectGameJson!=undefined" class="container paddingBottom50">
+        <!--form #form="ngForm" (ngSubmit)="logForm(form.value)">           
+           <select [(ngModel)]="selectedFilter.Division" name="Division" value="option.Division">
+               <option *ngFor='let option of officialService.selectGameJson.Value.Filters.Filter_Divisions'>
+                {{option.Abbreviation}}
+            </option>
+        </select>
+           
+        <button type="submit">Submit</button>
+        </form-->
+        
+        <!--form (ngSubmit)="onSubmit(loginForm.value)" #loginForm="ngForm" style="border: 1px solid #ccc; padding: 10px;">
+            <div class="form-group">
+                <label for="name">Skills</label>
+                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" [(ngModel)]="formModel.skills" 
+                                      [settings]="settings" 
+                                      (onSelect)="onItemSelect($event)"
+                                      (onDeSelect)="OnItemDeSelect($event)" 
+                                      (onSelectAll)="onSelectAll($event)" 
+                                      (onDeSelectAll)="onDeSelectAll($event)" 
+                                      name="skills" #skills="ngModel" required>
+                </angular2-multiselect>
+                <div [hidden]="skills.valid" class="alert alert-danger">
+                    <div [hidden]="!skills.hasError('required')">Atleast one Skill is required</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.form.valid">Submit</button>
+        </form--> 
+        
+        <div class="row">
+           <div class="col-lg-12">
+              <ngb-accordion #acc="ngbAccordion">
+                 <ngb-panel id="toggle-1" title="Filter">
+                    <ng-template ngbPanelContent>
+                       <form #form="ngForm" (ngSubmit)="logForm(form.value)">
+                       <div class="filter_div">
+                          <div class="row">
+                             <div class="col-lg-4"><label>Division:</label></div>
+                             <div class="col-lg-8">
+                                <div class="custom-dropdown">
+                                   <select [(ngModel)]="selectedFilter.Division" name="Division">
+                                   <option value=null disabled selected> </option>
+                                   <option *ngFor='let option of officialService.selectGameJson.Value.Filters.Filter_Divisions' [value]="option.DivisionId">
+                                      {{option.Abbreviation}}
+                                   </option>
+                                   </select>
+                                </div>
+                             </div>
+                          </div>
+                          <div class="row marginTop10">
+                             <div class="col-lg-4"><label>Location:</label></div>
+                             <div class="col-lg-8">
+                                <div class="custom-dropdown">
+                                   <select [(ngModel)]="selectedFilter.Location" name="Location">
+                                   <option value=null disabled selected> </option>
+                                   <option *ngFor="let option of officialService.selectGameJson.Value.Filters.Filter_Locations"  [value]="option.LocationID">
+                                      {{option.ShortName}}
+                                   </option>
+                                   </select>                                       
+                                </div>
+                             </div>
+                          </div>
+                          <div class="row marginTop10">
+                             <div class="col-lg-4"><label>Times:</label></div>
+                             <div class="col-lg-8">
+                                <div class="custom-dropdown">
+                                   <select [(ngModel)]="selectedFilter.StartTime" name="StartTime" >      
+                                   <option value=null disabled selected> </option>
+                                   <option *ngFor="let option of officialService.selectGameJson.Value.Filters.Filter_StartTimes" [value]="option.StartTime">{{option.StartTime}}</option>
+                                   </select>
+                                </div>
+                             </div>
+                          </div>
+                          <div class="row marginTop10">
+                             <div class="col-lg-4"><label>Position:</label></div>
+                             <div class="col-lg-8">
+                                <div class="custom-dropdown">
+                                   <select [(ngModel)]="selectedFilter.Position" name="Position">  
+                                   <option value=null disabled selected> </option>
+                                   <option *ngFor="let option of officialService.selectGameJson.Value.Filters.Filter_Positions" [value]="option.PositionId">{{option.Position}}</option>
+                                   </select>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                       <button type="submit">Submit</button>
+                       </form>
+                    </ng-template>
+                 </ngb-panel>
+              </ngb-accordion>
+           </div>
+        </div>
+        <div class="row">
+           <div *ngFor='let item of officialService.selectGameJson.Value.SelectGame' class="col-lg-12">
+              <h1 class="mainDate"><strong>{{item.GameDateName}}</strong></h1>
+              <ngb-accordion #acc="ngbAccordion" class="data_module" >
+                 <ngb-panel *ngFor='let child of item.GameDateSlots'  class="teamList" id="{{child.GameTimeSlots[0].GameTimeSlotName}}" title="{{child.GameTimeSlots[0].GameTimeSlotName}}">
+                    <ng-template ngbPanelContent>
+                       <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
+                       <ngb-accordion #acc="ngbAccordion">
+                          <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" class="teamList" id="{{nestedChild.MatchupName}}" title="{{nestedChild.MatchupName}}">
+                             <ng-template ngbPanelContent>
+                                <h3>
+                                   {{nestedChild.MatchupName}}
+                                   <div class="matchInfo"><span>{{nestedChild.FMS}}</span><br>
+                                      Umpire: {{nestedChild.Umpire}}<br>
+                                      Refree: {{nestedChild.Refree}}<br>
+                                      Scorekeeper: {{nestedChild.ScoreKeeper}}
+                                   </div>
+                                </h3>
+                             </ng-template>
+                          </ngb-panel>
+                       </ngb-accordion>
+                       <div class="row signupPosition">
+                          <div class="col-md-3 col-sm-6 col-xs-12"><strong>Positions:</strong></div>
+                          <div class="col-md-3 col-sm-6 col-xs-6">Referee</div>
+                          <div class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Referee}}</div>
+                       </div>
+                       <div class="row signupPosition">
+                          <div class="col-md-3 col-sm-6 col-xs-12"></div>
+                          <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Umpire</div>
+                          <div id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a href="javascript:void(0);" class="btn signupRedBtn">SIGNUP</a></div>
+                       </div>
+                       <div class="row signupPosition">
+                          <div class="col-md-3 col-sm-6 col-xs-12"></div>
+                          <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Skorekeeper</div>
+                          <div id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-6 col-sm-6 col-xs-6"><a href="javascript:void(0);" class="btn signupRedBtn">SIGNUP</a></div>
+                       </div>
+                    </ng-template>
+                 </ngb-panel>
+              </ngb-accordion>
+           </div>
+        </div>
+        <div class="clearfix"></div>
+     </div>
