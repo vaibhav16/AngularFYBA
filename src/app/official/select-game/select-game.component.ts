@@ -3,6 +3,9 @@ import { OfficialService } from '../official.service';
 import { NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup,  FormBuilder } from '@angular/forms';
 import { Filter } from './filter.model';
+import { count } from 'rxjs/operators';
+import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-select-game',
@@ -18,18 +21,18 @@ export class SelectGameComponent implements OnInit {
   public shouldShow = true;
   optionSelected: any;
 
-  itemList = [];
-  itemList1 = [];
+  divisionList = [];
   selectedItems = [];
   settings = {};
-  formModel = {
-      name: null,
-      email: '',
-      skills: []
+  filterModel = {     
+      Division: [],
+      Location: [],
+      StartTime: [],
+      EndTime: [],
+      Position:[]
   };
   submitted = false;
   
-
   selectedFilter:Filter = {      
     Division: '',
     Location: '',
@@ -38,7 +41,7 @@ export class SelectGameComponent implements OnInit {
     Position: ''        
   } 
 
-  constructor(fb:FormBuilder, 
+  constructor(fb:FormBuilder, private http: Http,
     public officialService: OfficialService,
     config: NgbAccordionConfig, private modalService: NgbModal) {
     config.closeOthers = true;
@@ -47,10 +50,52 @@ export class SelectGameComponent implements OnInit {
 
 
   logForm(value: any) {
-    console.log(value);
-    console.log("Filter:");
+    this.selectedFilter = {      
+      Division: '',
+      Location: '',
+      StartTime: '',
+      EndTime: '',
+      Position: ''        
+    } 
+    
+    console.log(value);  
+    console.log(value.DivisionSelect.length);
+    for(let i=0; i<value.DivisionSelect.length-1; ++i){
+      { 
+        //if(i==value.DivisionSelect.length-1)
+        //this.selectedFilter.Division+=value.DivisionSelect[i].itemName;
+        //else
+        this.selectedFilter.Division+=value.DivisionSelect[i].itemName+',';    
+      }         
+    }  
+    //this.selectedFilter.Division = this.selectedFilter.Division.slice(0,-1);
+
+    for(let i=0; i<value.LocationSelect.length-1; ++i){
+      { 
+        //if(i==value.LocationSelect.length-1)
+        //this.selectedFilter.Location+=value.LocationSelect[i].itemName;
+        //else
+        this.selectedFilter.Location+=value.LocationSelect[i].itemName+',';    
+      }         
+    }
+
+    //console.log(Object.keys(value.PositionSelect).length-1);
+    //console.log(value.PositionSelect.length);
+    for(let i=0; i<(value.PositionSelect.length-1); ++i){
+      { 
+        //if(i==(value.PositionSelect.length-1))
+        //this.selectedFilter.Position+=value.PositionSelect[i].itemName;
+        //else
+        this.selectedFilter.Position+=value.PositionSelect[i].itemName+',';  
+        //console.log(value.PositionSelect[i].itemName);
+      }         
+    }
+    console.log("Selected Filter"); 
     console.log(this.selectedFilter);
+    this.officialService.postFilterData(this.selectedFilter);
+    
   }
+
 
   ngOnInit() {
     //this.selectGameJson = this.officialService.getSelectGames(); 
@@ -62,49 +107,24 @@ export class SelectGameComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       classes: "myclass custom-class"
   };
-
-  this.itemList1 = [
-    { "id": 1, "itemName": "Angular" },
-    { "id": 2, "itemName": "JavaScript" },
-    { "id": 3, "itemName": "HTML" },
-    { "id": 4, "itemName": "CSS" },
-    { "id": 5, "itemName": "ReactJS" },
-    { "id": 6, "itemName": "HTML5" }
-];
-
-  this.itemList = [
-    {"id":1,"itemName":"1B"},
-  {"id":2,"itemName":"2B"},
-  {"id":3,"itemName":"3B"},
-  {"id":4,"itemName":"4B"},
-  {"id":5,"itemName":"5B"},
-  {"id":6,"itemName":"6B"},
-  {"id":7,"itemName":"7B"},
-  {"id":8,"itemName":"8/9B"},
-  {"id":12,"itemName":"3G"},
-  {"id":13,"itemName":"4G"},
-];
-
-console.log(this.itemList);
-//console.log(this.officialService.selectGameJson["Value"].Filters.Filter_Divisions)
-    
-    
-  }
+}
 
   onItemSelect(item: any) {
     console.log(item);
-    console.log(this.officialService.selectGameJson["Value"].Filters.Filter_Divisions)
+    //console.log(this.officialService.selectGameJson["Value"].Filters.Filter_Divisions)
+    console.log("Selected");
     console.log(this.selectedItems);
-}
-OnItemDeSelect(item: any) {
+  }
+
+  OnItemDeSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
-}
-onSelectAll(items: any) {
+  }
+  onSelectAll(items: any) {
     console.log(items);
-}
-onDeSelectAll(items: any) {
+  }
+  
+  onDeSelectAll(items: any) {
     console.log(items);
-}
-
+  }
 }

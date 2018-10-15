@@ -26,12 +26,10 @@ export class MultiselectComponent implements OnInit {
     for(let i=0; i<form.skills.length; ++i){
       console.log(form.skills[i].itemName);
     }  
-   
   }
 
   constructor() { }
   ngOnInit() {
-
       this.itemList = [
           { "id": 1, "itemName": "Angular" },
           { "id": 2, "itemName": "JavaScript" },

@@ -9,82 +9,38 @@
         <button type="submit">Submit</button>
         </form-->
         
-        <!--form (ngSubmit)="onSubmit(loginForm.value)" #loginForm="ngForm" style="border: 1px solid #ccc; padding: 10px;">
-            <div class="form-group">
-                <label for="name">Skills</label>
-                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" [(ngModel)]="formModel.skills" 
-                                      [settings]="settings" 
-                                      (onSelect)="onItemSelect($event)"
-                                      (onDeSelect)="OnItemDeSelect($event)" 
-                                      (onSelectAll)="onSelectAll($event)" 
-                                      (onDeSelectAll)="onDeSelectAll($event)" 
-                                      name="skills" #skills="ngModel" required>
-                </angular2-multiselect>
-                <div [hidden]="skills.valid" class="alert alert-danger">
-                    <div [hidden]="!skills.hasError('required')">Atleast one Skill is required</div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-success btn-block" [disabled]="!loginForm.form.valid">Submit</button>
-        </form--> 
-        
+       
+
         <div class="row">
            <div class="col-lg-12">
               <ngb-accordion #acc="ngbAccordion">
                  <ngb-panel id="toggle-1" title="Filter">
                     <ng-template ngbPanelContent>
-                       <form #form="ngForm" (ngSubmit)="logForm(form.value)">
-                       <div class="filter_div">
-                          <div class="row">
-                             <div class="col-lg-4"><label>Division:</label></div>
-                             <div class="col-lg-8">
-                                <div class="custom-dropdown">
-                                   <select [(ngModel)]="selectedFilter.Division" name="Division">
-                                   <option value=null disabled selected> </option>
-                                   <option *ngFor='let option of officialService.selectGameJson.Value.Filters.Filter_Divisions' [value]="option.DivisionId">
-                                      {{option.Abbreviation}}
-                                   </option>
-                                   </select>
-                                </div>
-                             </div>
-                          </div>
-                          <div class="row marginTop10">
-                             <div class="col-lg-4"><label>Location:</label></div>
-                             <div class="col-lg-8">
-                                <div class="custom-dropdown">
-                                   <select [(ngModel)]="selectedFilter.Location" name="Location">
-                                   <option value=null disabled selected> </option>
-                                   <option *ngFor="let option of officialService.selectGameJson.Value.Filters.Filter_Locations"  [value]="option.LocationID">
-                                      {{option.ShortName}}
-                                   </option>
-                                   </select>                                       
-                                </div>
-                             </div>
-                          </div>
-                          <div class="row marginTop10">
-                             <div class="col-lg-4"><label>Times:</label></div>
-                             <div class="col-lg-8">
-                                <div class="custom-dropdown">
-                                   <select [(ngModel)]="selectedFilter.StartTime" name="StartTime" >      
-                                   <option value=null disabled selected> </option>
-                                   <option *ngFor="let option of officialService.selectGameJson.Value.Filters.Filter_StartTimes" [value]="option.StartTime">{{option.StartTime}}</option>
-                                   </select>
-                                </div>
-                             </div>
-                          </div>
-                          <div class="row marginTop10">
-                             <div class="col-lg-4"><label>Position:</label></div>
-                             <div class="col-lg-8">
-                                <div class="custom-dropdown">
-                                   <select [(ngModel)]="selectedFilter.Position" name="Position">  
-                                   <option value=null disabled selected> </option>
-                                   <option *ngFor="let option of officialService.selectGameJson.Value.Filters.Filter_Positions" [value]="option.PositionId">{{option.Position}}</option>
-                                   </select>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                       <button type="submit">Submit</button>
-                       </form>
+                        <form (ngSubmit)="logForm(filterForm.value)" #filterForm="ngForm" style="border: 1px solid #ccc; padding: 10px;">
+                            <div class="form-group">
+                                <label for="name">Division</label>
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" [(ngModel)]="filterModel.Division" 
+                                                      [settings]="settings" 
+                                                     
+                                                      name="DivisionSelect" #DivisionSelect="ngModel" required>
+                                </angular2-multiselect>
+                
+                                <label for="name">Location</label>
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" [(ngModel)]="filterModel.Location" 
+                                                      [settings]="settings"                                                       
+                                                      name="LocationSelect" #LocationSelect="ngModel" required>
+                                </angular2-multiselect>
+                
+                                <label for="name">Position</label>
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" [(ngModel)]="filterModel.Position" 
+                                                      [settings]="settings" 
+                                                     
+                                                      name="PositionSelect" #PositionSelect="ngModel" required>
+                                </angular2-multiselect>
+                               
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Submit</button>
+                        </form> 
                     </ng-template>
                  </ngb-panel>
               </ngb-accordion>
@@ -101,8 +57,8 @@
                           <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" class="teamList" id="{{nestedChild.MatchupName}}" title="{{nestedChild.MatchupName}}">
                              <ng-template ngbPanelContent>
                                 <h3>
-                                   {{nestedChild.MatchupName}}
-                                   <div class="matchInfo"><span>{{nestedChild.FMS}}</span><br>
+                                   
+                                   <div class="matchInfo"><span>{{nestedChild.Location}}</span><br>
                                       Umpire: {{nestedChild.Umpire}}<br>
                                       Refree: {{nestedChild.Refree}}<br>
                                       Scorekeeper: {{nestedChild.ScoreKeeper}}

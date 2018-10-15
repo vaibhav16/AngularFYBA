@@ -108,16 +108,17 @@ style="background-color: #673ab7; height: 56px; width: 100%">
 
 </div-->
 
-<!--app-login *ngIf="!loginService.isLoggedIn"></app-login>
+<app-login *ngIf="!loginService.isLoggedIn"></app-login>
 
 <div *ngIf="loginService.loginFailed">Invalid Login Credentials</div>
 
-<app-official *ngIf="loginService.isLoggedIn"></app-official-->
+<app-official *ngIf="loginService.isLoggedIn"></app-official>
 
   
   <!--app-dropdown></app-dropdown-->
 
-  <app-official></app-official>
+  <!--app-official></app-official-->
+  
 
   <!--app-multiselect></app-multiselect-->
 

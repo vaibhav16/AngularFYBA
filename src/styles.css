@@ -1,18 +1,33 @@
-@import "node_modules/bootstrap/dist/css/bootstrap.min.css";
+/*@import "node_modules/bootstrap/dist/css/bootstrap.min.css";*/
 
 /* You can add global styles to this file, and also import other style files */
 /*actual design*/
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('./assets/fonts/glyphicons-halflings-regular.eot');
+    src: url('./assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+         url('./assets/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('./assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+         url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
+}
+
+
+
 body{font-family: 'Open Sans', sans-serif !important;}
 .bg-info {
     background-color:#ededed !important;
 }
 .card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 10px;}
 .card{border:0px;}
-.card .btn-link{color:#000000;}
-.card-body{border:1px solid #bbc9da; border-top:0px;}
+.card .btn-link{color:#000000; font-weight:bold; padding:10px; font-size:16px; width: 100%; text-align:left;}
+.card-body{border:1px solid #bbc9da; border-top:0px; padding:10px;}
 .btn-link.focus, .btn-link:hover, .btn-link:focus {
     text-decoration: none;
 }
+
+.card h5{margin:0px;}
+
 .card-header:first-child {
     border-radius: 0;
 }
@@ -21,25 +36,26 @@ body{font-family: 'Open Sans', sans-serif !important;}
 
 
 .topBg{background:#f3f3f3;}
-.add_to_home a{background-color:#e64b24; padding:5px 15px; margin:10px 0; display:inline-block; color:#ffffff;}
+.add_to_home a{background-color:#b03d26; padding:5px 15px; margin:10px 0; display:inline-block; color:#ffffff;}
 .add_to_home a:hover, .add_to_home a:focus{color:#ffffff; text-decoration:none;}
-.logo_text a{color:#ffffff; font-size:46px; font-weight:bold; letter-spacing:1px;}
-.logo_text a:hover, .logo_text a:focus{color:#ffffff; text-decoration:none;}
-.bg_logo{background-color:#000000; padding:15px 0;}
+.logo_text a{color:#000000; font-size:46px; font-weight:bold; letter-spacing:1px;}
+.logo_text a:hover, .logo_text a:focus{color:#000000; text-decoration:none;}
+.bg_logo{background-color:#d4bba0; padding:15px 0;}
 .logo_main a{float:right;}
 ul.tab_main{list-style:none; margin:0px; padding:0px;}
 ul.tab_main li{float:left; width:33.33%; text-align:center; margin:15px 0; cursor:pointer;}
 ul.tab_main li:first-child{border-left:0px;}
 ul.tab_main li{color:#828282; display:block; border-left:1px solid #dddddd;}
 ul.tab_main li span{display:block; padding-top:5px; font-size:18px; font-weight:normal;}
+ul.tab_main li a{color:#828282;}
 .bg_img_style{ height:67px; width:67px; background-position:center;background-repeat: no-repeat;background-size: contain; margin:0px auto;}
 .player_img{background-image:url("./assets/images/player_icon.png");}
 .coach_img{background-image:url("./assets/images/coach_icon.png");}
 .official_img{background-image:url("./assets/images/official_icon.png");}
 ul.tab_main li:hover .player_img{background-image:url("./assets/images/player_icon_hover.png");}
 ul.tab_main li.active .player_img{background-image:url("./assets/images/player_icon_hover.png");}
-ul.tab_main li:hover{color:#ed1c24;}
-ul.tab_main li.active{color:#ed1c24;}
+ul.tab_main li a:hover, ul.tab_main li a:focus{color:#b03d26; text-decoration: none;}
+ul.tab_main li.active a{color:#b03d26;}
 ul.tab_main li.active span{font-weight:bolder;}
 ul.tab_main li:hover .coach_img{background-image:url("./assets/images/coach_icon_hover.png");}
 ul.tab_main li.active .coach_img{background-image:url("./assets/images/coach_icon_hover.png");}
@@ -144,7 +160,7 @@ ul.teamList li{background:#3c98db; border-radius:10px; margin:10px 0; cursor:poi
 ul.teamList li:first-child{margin-top:20px;}
 ul.teamList li h3{color:#ffffff; font-size:18px; padding:10px; margin:0px; font-weight:bold;}
 .signupPosition{font-size:16px; margin-top:10px;}
-a.signupRedBtn{background:#ff0000; padding:4px 15px; color:#ffffff; border-radius:0px;}
+a.signupRedBtn{background:#ff0000; padding:4px 15px; color:#ffffff; border-radius:0px; font-size:14px;}
 a.signupRedBtn:hover, a.signupRedBtn:focus{color:#ffffff; text-decoration:none;}
 .paddTop4{padding-top:4px;}
 
@@ -455,7 +471,7 @@ ul.game_select li span{font-size:13px;}
 .report_pos{margin-left: -15px;}
 .get_pos{margin-left: -15px;}
 .officiating_pos{margin-left: -19px;}
-.filter_div label{text-align:left;}
+.filter_div label{text-align:left;font-size: 14px;margin-bottom: 5px;margin-top: 0;}
 .lognin_box{width:100%;}
 .signIn_btn{width:80%;display: inline-block;}
 .forgot_pass{margin-right:15px;}
@@ -491,6 +507,9 @@ ul.teamList li h3{font-size:16px !important;}
 .wordLimit{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 ul.width20Game li span{font-size:11px; padding:5px;}
 ul.width20Game li span.notification_tip{right: -20px;font-size: 9px !important;}
+.accordion .accordion .card .btn-link{font-size:14px !important;}
+.signupPosition .col-xs-6{font-size:14px;}
+
 }
 
 @media only screen and (max-width : 991px) {
@@ -584,3 +603,33 @@ ul.teamList li h3{font-size:14px !important;}
     background: #e9f4ff; }
   
 /*----- Multiselect CSS --*/
+
+.accordion .accordion .card-header{border:0px;  background-color: #1e31ae !important;}
+.accordion .accordion .card .btn-link{color:#ffffff !important;font-weight: bold;font-size: 18px;}
+.accordion .accordion .card-body{ background-color: #1e31ae !important; border:0px; padding-top:0px;}
+.accordion .accordion h3{color:#ffffff; margin-top: 0px;}
+.accordion .accordion h5{margin: 0px;}
+.accordion .accordion .card .btn-link:before{position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;content: "\e250";}
+
+    .accordion .accordion .matchInfo{margin-top:0px;}
+
+    .accordion .card .btn-link:before{position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;content: "\e250";}
+        .card-body button[type="submit"]{    background: #1e31ae;
+            padding: 5px 10px;
+            border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
+
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
