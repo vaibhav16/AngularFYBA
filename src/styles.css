@@ -190,11 +190,11 @@ a.cancelBtn:hover, a.cancelBtn:focus{color:#ffffff;}
 .logo_login{text-align:center; margin-bottom:80px;}
 .forgot_pass{text-align:right; margin-top:15px;}
 .forgot_pass a{color:rgba(255,255,255,0.4);}
-.validation-error{color:#ff0000;}
+.validation-error{color:#ff0000;padding: 0 10px;}
 .forgot_pass a:hover, .forgot_pass a:focus{color:rgba(255,255,255,0.4); text-decoration:none;}
 .dont_acnt{color:rgba(255,255,255,0.4); text-align:center;}
 .dont_acnt a, .dont_acnt a:hover, .dont_acnt a:focus{color:#ffffff; text-decoration:none;}
-.signIn_btn{background: #3c98db;height: 50px;width: 100%;
+.signIn_btn{background: #1e31ae;height: 50px;width: 100%;
     border-radius: 50px;
     color: #ffffff !important;
     font-size: 16px;
@@ -633,3 +633,5 @@ ul.teamList li h3{font-size:14px !important;}
             border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
 
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
+
+

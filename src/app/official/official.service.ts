@@ -14,7 +14,7 @@ export class OfficialService {
   }
 
   getSelectGames():any{
-    console.log("in getprofile");
+    //console.log("in getprofile");
     this.http.get("http://testfaafireworks.1city.us/api/officialgames")
     .pipe(map((data: Response) => {
       return data.json()
@@ -22,19 +22,8 @@ export class OfficialService {
       console.log(x);
       return Promise.resolve(this.selectGameJson = x);      
     });
-    
   }
 
-  getSelectGames2():any{
-    console.log("in getprofile");
-    this.http.get("../../assets/rawJson.json")
-    .pipe(map((data: Response) => {
-      return data.json()
-    })).toPromise().then(x => {
-      console.log(x);
-      return Promise.resolve(this.selectGameJson = x);      
-    });    
-  }
 
   postFilterData(obj : Filter){
     var body = JSON.stringify(obj);

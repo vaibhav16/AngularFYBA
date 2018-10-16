@@ -99,7 +99,8 @@ export class SelectGameComponent implements OnInit {
 
   ngOnInit() {
     //this.selectGameJson = this.officialService.getSelectGames(); 
-    this.selectGameJson = this.officialService.getSelectGames2();  
+    this.selectGameJson = this.officialService.getSelectGames();  
+
 
     this.settings = {
       text: "Select Skills",
