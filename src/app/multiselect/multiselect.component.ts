@@ -9,56 +9,49 @@ import { ValueTransformer } from '@angular/compiler/src/util';
 })
 
 export class MultiselectComponent implements OnInit {
-  itemList = [];
-  selectedItems = [];
-  settings = {};
-  formModel = {
-      name: null,
-      email: '',
-      skills: []
-  };
-  submitted = false;
-  
-  onSubmit(form: any) 
-  { 
-    this.submitted = true;
-    console.log(form); 
-    for(let i=0; i<form.skills.length; ++i){
-      console.log(form.skills[i].itemName);
-    }  
-  }
+    itemList = [];
+    selectedItems = [];
+    settings = {};
+    
+    constructor() {}
+    ngOnInit() {
 
-  constructor() { }
-  ngOnInit() {
-      this.itemList = [
-          { "id": 1, "itemName": "Angular" },
-          { "id": 2, "itemName": "JavaScript" },
-          { "id": 3, "itemName": "HTML" },
-          { "id": 4, "itemName": "CSS" },
-          { "id": 5, "itemName": "ReactJS" },
-          { "id": 6, "itemName": "HTML5" }
-      ];
+        this.itemList = [
+            { "id": 1, "itemName": "India" },
+            { "id": 2, "itemName": "Singapore" },
+            { "id": 3, "itemName": "Australia" },
+            { "id": 4, "itemName": "Canada" },
+            { "id": 5, "itemName": "South Korea" },
+            { "id": 6, "itemName": "Brazil" }
+        ];
 
-      this.settings = {
-          text: "Select Skills",
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          classes: "myclass custom-class"
-      };
-  }
-  onItemSelect(item: any) {
-      console.log(item);
-      console.log(this.selectedItems);
-  }
-  OnItemDeSelect(item: any) {
-      console.log(item);
-      console.log(this.selectedItems);
-  }
-  onSelectAll(items: any) {
-      console.log(items);
-  }
-  onDeSelectAll(items: any) {
-      console.log(items);
-  }
+        this.selectedItems = [
+            { "id": 1, "itemName": "India" },
+            { "id": 2, "itemName": "Singapore" }
+        ];
+        this.settings = {
+            text: "Select Countries",
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
+            classes: "myclass custom-class"
+        };
+    
+    }
+
+    onItemSelect(item: any) {
+        console.log(item);
+        console.log(this.selectedItems);
+    }
+    OnItemDeSelect(item: any) {
+        console.log(item);
+        console.log(this.selectedItems);
+    }
+    onSelectAll(items: any) {
+        console.log(items);
+    }
+    onDeSelectAll(items: any) {
+        console.log(items);
+    }
+
 
 }

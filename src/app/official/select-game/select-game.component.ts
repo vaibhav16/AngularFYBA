@@ -6,6 +6,8 @@ import { Filter } from './filter.model';
 import { count } from 'rxjs/operators';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { map } from 'rxjs/operators';
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { LoginService } from './../../login/login.service';
 
 @Component({
   selector: 'app-select-game',
@@ -16,14 +18,14 @@ import { map } from 'rxjs/operators';
 })
 
 export class SelectGameComponent implements OnInit {
-  selectGameJson: JSON;
-  closeResult: string;
-  public shouldShow = true;
-  optionSelected: any;
-
-  divisionList = [];
+  sessionKey:string;
+  //selectGameJson: JSON;
+  expandTriangle:boolean=false;
+  public shouldShow = true; 
+  
   selectedItems = [];
   settings = {};
+  
   filterModel = {     
       Division: [],
       Location: [],
@@ -31,7 +33,6 @@ export class SelectGameComponent implements OnInit {
       EndTime: [],
       Position:[]
   };
-  submitted = false;
   
   selectedFilter:Filter = {      
     Division: '',
@@ -43,7 +44,9 @@ export class SelectGameComponent implements OnInit {
 
   constructor(fb:FormBuilder, private http: Http,
     public officialService: OfficialService,
-    config: NgbAccordionConfig, private modalService: NgbModal) {
+    config: NgbAccordionConfig, private modalService: NgbModal, 
+    public loginService: LoginService) {
+
     config.closeOthers = true;
     config.type = 'info';  
    }  
@@ -58,52 +61,48 @@ export class SelectGameComponent implements OnInit {
       Position: ''        
     } 
     
-    console.log(value);  
-    console.log(value.DivisionSelect.length);
-    for(let i=0; i<value.DivisionSelect.length-1; ++i){
+   
+    for(let i=0; i<value.DivisionSelect.length; ++i){
       { 
-        //if(i==value.DivisionSelect.length-1)
-        //this.selectedFilter.Division+=value.DivisionSelect[i].itemName;
-        //else
-        this.selectedFilter.Division+=value.DivisionSelect[i].itemName+',';    
+        this.selectedFilter.Division+=value.DivisionSelect[i].id+',';    
       }         
     }  
     //this.selectedFilter.Division = this.selectedFilter.Division.slice(0,-1);
 
-    for(let i=0; i<value.LocationSelect.length-1; ++i){
+    for(let i=0; i<value.LocationSelect.length; ++i){
       { 
-        //if(i==value.LocationSelect.length-1)
-        //this.selectedFilter.Location+=value.LocationSelect[i].itemName;
-        //else
-        this.selectedFilter.Location+=value.LocationSelect[i].itemName+',';    
+        this.selectedFilter.Location+=value.LocationSelect[i].id+',';    
       }         
     }
 
-    //console.log(Object.keys(value.PositionSelect).length-1);
-    //console.log(value.PositionSelect.length);
-    for(let i=0; i<(value.PositionSelect.length-1); ++i){
-      { 
-        //if(i==(value.PositionSelect.length-1))
-        //this.selectedFilter.Position+=value.PositionSelect[i].itemName;
-        //else
-        this.selectedFilter.Position+=value.PositionSelect[i].itemName+',';  
-        //console.log(value.PositionSelect[i].itemName);
+
+    for(let i=0; i<(value.PositionSelect.length); ++i){
+      {        
+        this.selectedFilter.Position+=value.PositionSelect[i].id+',';         
       }         
     }
-    console.log("Selected Filter"); 
-    console.log(this.selectedFilter);
+
+    //console.log(this.officialService.selectGameJson);
+  
+    this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
+    //console.log()
     this.officialService.postFilterData(this.selectedFilter);
+
     
   }
 
 
   ngOnInit() {
-    //this.selectGameJson = this.officialService.getSelectGames(); 
-    this.selectGameJson = this.officialService.getSelectGames();  
+    
+    //this.sessionKey = this.loginService.selectGameJson["SessionKey"];
+    //this.officialService.selectGameJson = this.officialService.postSelectGames(this.selectedFilter,this.sessionKey);  
+    this.officialService.postSelectGames(this.selectedFilter);  
+    
+    
 
 
     this.settings = {
-      text: "Select Skills",
+      text: "Select...",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       classes: "myclass custom-class"
@@ -127,5 +126,20 @@ export class SelectGameComponent implements OnInit {
   
   onDeSelectAll(items: any) {
     console.log(items);
+  }
+
+  public beforeChange($event: NgbPanelChangeEvent) {
+    
+    if ($event.panelId === 'toggle-1' && $event.nextState === false) {
+      console.log($event);
+      this.expandTriangle=true;
+      //$event.preventDefault();
+    }
+    if ($event.panelId === 'toggle-2' && $event.nextState === false) {
+        $event.preventDefault();
+    }
+    if ($event.panelId === 'toggle-3' && $event.nextState === false) {
+        $event.preventDefault();
+    }
   }
 }

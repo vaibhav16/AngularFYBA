@@ -12,6 +12,8 @@ import { OfficialService } from './official.service';
 export class OfficialComponent implements OnInit {
   //selectedClass:string;
   selectGameJson:JSON;
+  isSelectGameActive:boolean=false;
+
  
 
   constructor(private http: Http, private officialService: OfficialService) {
@@ -19,12 +21,13 @@ export class OfficialComponent implements OnInit {
    }
 
   ngOnInit() {
-    
+    this.isSelectGameActive=true;
   }
 
   selectGameData(){
     if(this.selectGameJson===null){
       this.selectGameJson = this.officialService.getSelectGames();
+      
     }
     
 

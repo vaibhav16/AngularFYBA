@@ -7,21 +7,23 @@
         </select>
            
         <button type="submit">Submit</button>
+          class="glyphicon glyphicon-triangle-bottom"
+          [ngClass]="{glyphicon:expandTriangle}"
         </form-->
-        
+      
        
 
         <div class="row">
            <div class="col-lg-12">
-              <ngb-accordion #acc="ngbAccordion">
+              <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
                  <ngb-panel id="toggle-1" title="Filter">
+                    
                     <ng-template ngbPanelContent>
                         <form (ngSubmit)="logForm(filterForm.value)" #filterForm="ngForm" style="border: 1px solid #ccc; padding: 10px;">
                             <div class="form-group">
                                 <label for="name">Division</label>
                                 <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" [(ngModel)]="filterModel.Division" 
-                                                      [settings]="settings" 
-                                                     
+                                                      [settings]="settings"                                                     
                                                       name="DivisionSelect" #DivisionSelect="ngModel" required>
                                 </angular2-multiselect>
                 
@@ -59,9 +61,9 @@
                                 <h3>
                                    
                                    <div class="matchInfo"><span>{{nestedChild.Location}}</span><br>
-                                      Umpire: {{nestedChild.Umpire}}<br>
-                                      Refree: {{nestedChild.Refree}}<br>
-                                      Scorekeeper: {{nestedChild.ScoreKeeper}}
+                                    Referee: {{nestedChild.Referee}}<br>  
+                                    Umpire: {{nestedChild.Umpire}}<br>                                      
+                                    Scorekeeper: {{nestedChild.ScoreKeeper}}
                                    </div>
                                 </h3>
                              </ng-template>
@@ -70,17 +72,21 @@
                        <div class="row signupPosition">
                           <div class="col-md-3 col-sm-6 col-xs-12"><strong>Positions:</strong></div>
                           <div class="col-md-3 col-sm-6 col-xs-6">Referee</div>
-                          <div class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Referee}}</div>
+                          
+                          <div  *ngIf="child.GameTimeSlots[0].Positions.Referee"class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Referee}}</div>
+                          <div *ngIf="!child.GameTimeSlots[0].Positions.Referee" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a href="" class="btn signupRedBtn">SIGNUP</a></div>
                        </div>
                        <div class="row signupPosition">
                           <div class="col-md-3 col-sm-6 col-xs-12"></div>
                           <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Umpire</div>
-                          <div id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a href="javascript:void(0);" class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
+                          <div *ngIf="!child.GameTimeSlots[0].Positions.Umpire" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a href="" class="btn signupRedBtn">SIGNUP</a></div>
                        </div>
                        <div class="row signupPosition">
                           <div class="col-md-3 col-sm-6 col-xs-12"></div>
                           <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Skorekeeper</div>
-                          <div id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-6 col-sm-6 col-xs-6"><a href="javascript:void(0);" class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
+                          <div *ngIf="!child.GameTimeSlots[0].Positions.ScoreKeeper" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-6 col-sm-6 col-xs-6"><a href="" class="btn signupRedBtn">SIGNUP</a></div>
                        </div>
                     </ng-template>
                  </ngb-panel>
