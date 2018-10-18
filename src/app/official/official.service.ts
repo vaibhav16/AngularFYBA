@@ -18,6 +18,9 @@ export class OfficialService {
   RequestedData:''
  }
 
+ selectedDivisions = [
+];
+
   constructor(private http: Http, public loginService: LoginService) {    
   }
 
@@ -33,8 +36,7 @@ export class OfficialService {
 
   postSelectGames(obj: Filter):any{
     this.finalFilter.RequestedData=JSON.stringify(obj);
-    //console.log("Inside post select games");
-    //console.log(this.finalFilter);
+
     this.finalFilter.SessionKey = this.loginService.sessionKey; //JSON.stringify(sessionKey);
     this.finalFilter.UserID = JSON.stringify(this.loginService.userId);
     var body = JSON.stringify(this.finalFilter);   
@@ -48,8 +50,10 @@ export class OfficialService {
 
       console.log(x);
       this.loginService.sessionKey=x["SessionKey"];
-      console.log("session key after post select Games");
-      console.log(this.loginService.sessionKey);
+      //if(x["Value"].SelectedFilters.Division.length>0)
+      this.selectedDivisions[0] = { "id": 1, "itemName": "6B" } ;
+      //console.log("session key after post select Games");
+      //console.log(this.loginService.sessionKey);
       return Promise.resolve(this.selectGameJson = x);      
     });
   }
@@ -73,7 +77,7 @@ export class OfficialService {
     })).toPromise().then(x => {     
       //console.log("Inside Post");
       console.log(x);
-      return Promise.resolve(this.selectGameJson = x);      
+      return Promise.resolve(this.selectGameJson = null);      
     });
   }
 }

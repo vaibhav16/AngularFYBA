@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,ElementRef,Renderer2,ViewChild } from '@angular/core';
 import { OfficialService } from '../official.service';
 import { NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup,  FormBuilder } from '@angular/forms';
@@ -18,12 +18,15 @@ import { LoginService } from './../../login/login.service';
 })
 
 export class SelectGameComponent implements OnInit {
+  @ViewChild("acchead1", {read: ElementRef})
+  private acchead1: ElementRef;
   sessionKey:string;
   //selectGameJson: JSON;
   expandTriangle:boolean=false;
   public shouldShow = true; 
   
   selectedItems = [];
+  itemList = [];
   settings = {};
   
   filterModel = {     
@@ -43,6 +46,7 @@ export class SelectGameComponent implements OnInit {
   } 
 
   constructor(fb:FormBuilder, private http: Http,
+    private renderer:Renderer2,
     public officialService: OfficialService,
     config: NgbAccordionConfig, private modalService: NgbModal, 
     public loginService: LoginService) {
@@ -82,10 +86,10 @@ export class SelectGameComponent implements OnInit {
       }         
     }
 
-    //console.log(this.officialService.selectGameJson);
+
   
     this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
-    //console.log()
+
     this.officialService.postFilterData(this.selectedFilter);
 
     
@@ -93,40 +97,47 @@ export class SelectGameComponent implements OnInit {
 
 
   ngOnInit() {
-    
-    //this.sessionKey = this.loginService.selectGameJson["SessionKey"];
-    //this.officialService.selectGameJson = this.officialService.postSelectGames(this.selectedFilter,this.sessionKey);  
-    this.officialService.postSelectGames(this.selectedFilter);  
-    
-    
+    this.itemList = [
+      { "id": 1, "itemName": "India" },
+      { "id": 2, "itemName": "Singapore" },
+      { "id": 3, "itemName": "Australia" },
+      { "id": 4, "itemName": "Canada" },
+      { "id": 5, "itemName": "South Korea" },
+      { "id": 6, "itemName": "Brazil" }
+  ];
 
-
-    this.settings = {
-      text: "Select...",
+  this.selectedItems = [
+      { "id": 1, "itemName": "India" },
+      { "id": 2, "itemName": "Singapore" }
+  ];
+  this.settings = {
+      text: "Select....",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       classes: "myclass custom-class"
   };
+    
+    
+    this.officialService.postSelectGames(this.selectedFilter);  
+    
 }
 
-  onItemSelect(item: any) {
-    console.log(item);
-    //console.log(this.officialService.selectGameJson["Value"].Filters.Filter_Divisions)
-    console.log("Selected");
-    console.log(this.selectedItems);
-  }
+onItemSelect(item: any) {
+  console.log(item);
+  console.log(this.selectedItems);
+}
+OnItemDeSelect(item: any) {
+  console.log(item);
+  console.log(this.selectedItems);
+}
+onSelectAll(items: any) {
+  console.log(items);
+}
+onDeSelectAll(items: any) {
+  console.log(items);
+}
 
-  OnItemDeSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  
-  onDeSelectAll(items: any) {
-    console.log(items);
-  }
+
 
   public beforeChange($event: NgbPanelChangeEvent) {
     

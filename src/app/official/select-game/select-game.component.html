@@ -22,8 +22,14 @@
                         <form (ngSubmit)="logForm(filterForm.value)" #filterForm="ngForm" style="border: 1px solid #ccc; padding: 10px;">
                             <div class="form-group">
                                 <label for="name">Division</label>
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" [(ngModel)]="filterModel.Division" 
-                                                      [settings]="settings"                                                     
+                                <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
+                                                      [(ngModel)]="officialService.selectedDivisions" 
+                                                      [settings]="settings"                                    
+                                                      (onSelect)="onItemSelect($event)"
+                                                      (onDeSelect)="OnItemDeSelect($event)" 
+                                                      (onSelectAll)="onSelectAll($event)" 
+                                                      (onDeSelectAll)="onDeSelectAll($event)"                 
                                                       name="DivisionSelect" #DivisionSelect="ngModel" required>
                                 </angular2-multiselect>
                 
