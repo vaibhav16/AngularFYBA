@@ -139,8 +139,7 @@ ul.game_select li > span{opacity:0.5;}
 }
 
 .filter_module{background:#ededed; border:1px solid #bbc9da; padding:10px 20px; box-shadow:0 0 10px #cccccc; margin-top:20px;}
-.data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:10px;}
-/*.data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc; padding:10px 0px; margin-top:10px;}*/
+.data_module{/*background:#ffffff; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ padding:10px 0px; margin-top:10px;}
 .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px;    display: inline-block;width: 100%;line-height: 24px;}
 .filter_div label{margin-top:5px;}
 .filter_div{margin-top:0px; display:inline-block; width:100%;}
@@ -150,7 +149,7 @@ a.btnFilter:hover, a.btnFilter:focus{ color:#ffffff;}
 h1.mainDate{font-size:30px;margin-bottom: 0;margin-top: 30px;}
 
 .data_module h3{font-size:18px; color:#000000; margin-top:10px; font-weight:bold;}
-.marginLeft20{margin-left:20px !important;}
+/*.marginLeft20{margin-left:20px !important;}*/
 .Leftmargin20{margin-left:0px !important;}
 .marginLeft30{margin-left:30px !important;}
 .matchInfo2{margin-left:25px !important;font-size: 16px !important;line-height: 22px !important;}
@@ -320,7 +319,7 @@ ul.addList li img{position: absolute;
 
 .amountPaid{float:right;    color: #fffb85;
     text-decoration: underline; display:block !important;}	
-	.fms_time{display:block; margin-left:0px; background: #ffffff; padding: 10px;}
+	.fms_time{display:none; margin-left:0px; background: #ffffff; padding: 10px;}
 	
 .rating_player{float:right; font-weight:bold;}	
 .name_player{display: inline-block;
@@ -605,7 +604,7 @@ ul.teamList li h3{font-size:14px !important;}
   
 /*----- Multiselect CSS --*/
 
-/*.accordion .accordion .card-header{border:0px;  background-color: #1e31ae !important;}
+.accordion .accordion .card-header{border:0px;  background-color: #1e31ae !important;}
 .accordion .accordion .card .btn-link{color:#ffffff !important;font-weight: bold;font-size: 18px;}
 .accordion .accordion .card-body{ background-color: #1e31ae !important; border:0px; padding-top:0px;}
 .accordion .accordion h3{color:#ffffff; margin-top: 0px;}
@@ -633,6 +632,6 @@ ul.teamList li h3{font-size:14px !important;}
             padding: 5px 10px;
             border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
 
-.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}*/
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
 
 

@@ -14,7 +14,7 @@ import { ProfileComponent } from './official/profile/profile.component';
 import { AppRoutingModule, routingComponents} from './app-routing.module';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { OfficialComponent } from './official/official.component';
-import { NgbAccordionModule,NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule,NgbAccordionConfig,NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
 import { CookieComponent } from './cookie/cookie.component';
 import { CookieService } from 'ngx-cookie-service';
@@ -52,7 +52,7 @@ import { MultiselectComponent } from './multiselect/multiselect.component';
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     
   ],
-  providers: [HttpClientModule,CookieService, { provide: APP_BASE_HREF, useValue : '/' } ],
+  providers: [HttpClientModule,CookieService,NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
