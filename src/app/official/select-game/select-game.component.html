@@ -34,16 +34,26 @@
                                 </angular2-multiselect>
                 
                                 <label for="name">Location</label>
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" [(ngModel)]="filterModel.Location" 
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" 
+                                [(ngModel)]="officialService.selectedLocations" 
                                                       [settings]="settings"                                                       
                                                       name="LocationSelect" #LocationSelect="ngModel" required>
                                 </angular2-multiselect>
                 
                                 <label for="name">Position</label>
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" [(ngModel)]="filterModel.Position" 
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" 
+                                [(ngModel)]="officialService.selectedPositions" 
                                                       [settings]="settings" 
                                                      
                                                       name="PositionSelect" #PositionSelect="ngModel" required>
+                                </angular2-multiselect>
+
+                                <label for="name">Time</label>
+                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
+                                [(ngModel)]="officialService.selectedTimes" 
+                                                      [settings]="settings" 
+                                                     
+                                                      name="TimeSelect" #TimeSelect="ngModel" required>
                                 </angular2-multiselect>
                                
                             </div>

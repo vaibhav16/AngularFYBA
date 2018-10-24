@@ -86,6 +86,14 @@ export class SelectGameComponent implements OnInit {
       }         
     }
 
+    
+    for(let i=0; i<(value.TimeSelect.length); ++i){
+      {        
+        this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
+      }         
+    }
+
+
 
   
     this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
@@ -119,6 +127,7 @@ export class SelectGameComponent implements OnInit {
     
     
     this.officialService.postSelectGames(this.selectedFilter);  
+    //this.officialService.getSelectGames();
     
 }
 
