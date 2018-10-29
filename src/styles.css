@@ -605,7 +605,7 @@ ul.teamList li h3{font-size:14px !important;}
   
 /*----- Multiselect CSS --*/
 
-/*.accordion .accordion .card-header{border:0px;  background-color: #1e31ae !important;}
+.accordion .accordion .card-header{border:0px;  background-color: #1e31ae !important;}
 .accordion .accordion .card .btn-link{color:#ffffff !important;font-weight: bold;font-size: 18px;}
 .accordion .accordion .card-body{ background-color: #1e31ae !important; border:0px; padding-top:0px;}
 .accordion .accordion h3{color:#ffffff; margin-top: 0px;}
@@ -633,6 +633,6 @@ ul.teamList li h3{font-size:14px !important;}
             padding: 5px 10px;
             border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
 
-.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}*/
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
 
 

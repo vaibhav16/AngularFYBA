@@ -52,7 +52,8 @@ import { MultiselectComponent } from './multiselect/multiselect.component';
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     
   ],
-  providers: [HttpClientModule,CookieService,NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' } ],
+  providers: [HttpClientModule,CookieService,
+    NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

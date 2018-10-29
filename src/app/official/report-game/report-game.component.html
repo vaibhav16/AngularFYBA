@@ -5,10 +5,15 @@
       <div class="col-lg-12">
       <h1 class="mainDate"><strong>Games to Report</strong></h1>
         <div class="data_module">
-          <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
-              <ngb-panel >
+          <ngb-accordion #acc="ngbAccordion">
+              <!----ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)"-->
+              <ngb-panel>
                   <ng-template ngbPanelTitle >
-                      <h2 #acchead1><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> (4B) Tigers vs. Lions</h2>
+                      <h2 #acchead1>
+                          <!----span class="glyphicon glyphicon-triangle-right"aria-hidden="true"-->
+                        <span>
+
+                        </span> (4B) Tigers vs. Lions</h2>
                   </ng-template>
                   <ng-template ngbPanelContent>
                       <div class="fms_time">

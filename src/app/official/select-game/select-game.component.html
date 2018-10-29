@@ -89,20 +89,20 @@
                           <div class="col-md-3 col-sm-6 col-xs-12"><strong>Positions:</strong></div>
                           <div class="col-md-3 col-sm-6 col-xs-6">Referee</div>
                           
-                          <div  *ngIf="child.GameTimeSlots[0].Positions.Referee"class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Referee}}</div>
-                          <div *ngIf="!child.GameTimeSlots[0].Positions.Referee" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a href="" class="btn signupRedBtn">SIGNUP</a></div>
+                          <div  *ngIf="child.GameTimeSlots[0].Positions.Referee!=1"class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Referee}}</div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" id="{{child.GameTimeSlots[0].Positions.Umpire}}" (click)="postSignUp()" class="col-md-6 col-sm-6 col-xs-6"><a class="btn signupRedBtn">SIGNUP</a></div>
                        </div>
                        <div class="row signupPosition">
                           <div class="col-md-3 col-sm-6 col-xs-12"></div>
                           <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Umpire</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
-                          <div *ngIf="!child.GameTimeSlots[0].Positions.Umpire" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a href="" class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a class="btn signupRedBtn">SIGNUP</a></div>
                        </div>
                        <div class="row signupPosition">
                           <div class="col-md-3 col-sm-6 col-xs-12"></div>
                           <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Skorekeeper</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
-                          <div *ngIf="!child.GameTimeSlots[0].Positions.ScoreKeeper" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-6 col-sm-6 col-xs-6"><a href="" class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-6 col-sm-6 col-xs-6"><a class="btn signupRedBtn">SIGNUP</a></div>
                        </div>
                     </ng-template>
                  </ngb-panel>

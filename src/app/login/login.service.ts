@@ -23,6 +23,7 @@ export class LoginService {
   loginFailed: boolean;
   userId:number=null;
   sessionKey:string=null;
+  officialSeasonId:string=null;
 
   constructor(private http: Http,private router: Router) {
     this.isLoggedIn=false;
@@ -36,12 +37,14 @@ postLoginData(userVar : Login){
  
   //var body = JSON.parse(userVar); 
   //console.log(body);
+  //sconsole.log(userVar);
   var headerOptions =  new Headers({'Content-Type':'application/json'});
   var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
   return this.http.post('http://testfaafireworks.1city.us/api/Home',userVar,requestOptions)
   .pipe(map((data: Response) => {
   return data.json() as JSON;
   })).toPromise().then(x => {
+    console.log(x);
   this.jsonResult = x; 
   this.sessionKey=x["SessionKey"];
   //console.log("Inside login service");
@@ -54,7 +57,8 @@ postLoginData(userVar : Login){
     //this.sessionKey=this.jsonResult["SessionKey"];
     console.log("SessionKey After Login")
     console.log(this.sessionKey);
-    this.userId=this.jsonResult["Value"][0].UserID;
+    this.userId=this.jsonResult["Value"].UserId;
+    this.officialSeasonId=this.jsonResult["Value"].OfficialSeasonalId;
     //console.log(this.userId);
   }
   else{
