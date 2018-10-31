@@ -25,6 +25,9 @@ export class SelectGameComponent implements OnInit {
   expandTriangle:boolean=false;
   public shouldShow = true; 
   
+  activeIds: string[] =[];
+  panels = [0, 1,2,3];
+
   selectedItems = [];
   itemList = [];
   settings = {};
@@ -49,9 +52,10 @@ export class SelectGameComponent implements OnInit {
     private renderer:Renderer2,
     public officialService: OfficialService,
     config: NgbAccordionConfig, private modalService: NgbModal, 
-    public loginService: LoginService) {
+    public loginService: LoginService,
+    ) {
 
-    config.closeOthers = true;
+    config.closeOthers = false;
     config.type = 'info';  
    }  
 
@@ -92,40 +96,22 @@ export class SelectGameComponent implements OnInit {
         this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
       }         
     }
-
-
-
   
     this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
 
     this.officialService.postFilterData(this.selectedFilter);
-
     
   }
 
 
   ngOnInit() {
-    this.itemList = [
-      { "id": 1, "itemName": "India" },
-      { "id": 2, "itemName": "Singapore" },
-      { "id": 3, "itemName": "Australia" },
-      { "id": 4, "itemName": "Canada" },
-      { "id": 5, "itemName": "South Korea" },
-      { "id": 6, "itemName": "Brazil" }
-  ];
-
-  this.selectedItems = [
-      { "id": 1, "itemName": "India" },
-      { "id": 2, "itemName": "Singapore" }
-  ];
   this.settings = {
       text: "Select....",
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       classes: "myclass custom-class"
   };
-    
-    
+       
     this.officialService.postSelectGames(this.selectedFilter);  
     //this.officialService.getSelectGames();
     
@@ -146,20 +132,25 @@ onDeSelectAll(items: any) {
   console.log(items);
 }
 
+postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
+  this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp);
 
+}
 
-  public beforeChange($event: NgbPanelChangeEvent) {
-    
-    if ($event.panelId === 'toggle-1' && $event.nextState === false) {
-      console.log($event);
-      this.expandTriangle=true;
-      //$event.preventDefault();
-    }
-    if ($event.panelId === 'toggle-2' && $event.nextState === false) {
-        $event.preventDefault();
-    }
-    if ($event.panelId === 'toggle-3' && $event.nextState === false) {
-        $event.preventDefault();
-    }
+public beforeChange($event: NgbPanelChangeEvent) {
+
+  //this.activeIds = this.panels.map(p => "panel-"+ p);
+  this.activeIds.push($event.panelId);
+  console.log($event.panelId);
+  console.log(this.activeIds);
+
+  if ($event.panelId === 'preventchange-2') {
+    $event.preventDefault();
   }
+
+  if ($event.panelId === 'preventchange-3' && $event.nextState === false) {
+    $event.preventDefault();
+  }
+}
+
 }

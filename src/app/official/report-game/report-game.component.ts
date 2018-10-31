@@ -1,5 +1,6 @@
 import { Component, ElementRef,Renderer2,ViewChild } from '@angular/core';
 import { NgbAccordionConfig} from '@ng-bootstrap/ng-bootstrap';
+import { OfficialService } from '../official.service';
 
 @Component({
   selector: 'app-report-game',
@@ -29,11 +30,14 @@ export class ReportGameComponent {
   showIncident:boolean;
   
   playername = ['Bobby Brady', 'Greg Brady', 'Mike Brady'];
-  constructor( private elementRef: ElementRef,private renderer:Renderer2, config: NgbAccordionConfig) { }
+  constructor( private elementRef: ElementRef,private renderer:Renderer2, config: NgbAccordionConfig, public officialService: OfficialService) { 
+    
+  }
 
   ngOnInit() {
     this.incidentcounter=0;
     this.showIncident=false;
+   
   }
    
 

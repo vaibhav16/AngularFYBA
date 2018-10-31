@@ -5,12 +5,28 @@ import { LoginService} from './../login/login.service';
 import { FinalFilter } from './select-game/finalFilter.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { SignUpRequestedData } from './../models/signUp_rd.model';
+import { IntialFilter } from './../models/initialFilter.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class OfficialService {
  selectGameJson:JSON = null;
+ initialData:Filter;
+ initialFilter: IntialFilter = {
+   UserID:'',
+   SessionKey:''
+ }
+
+ signUpRD: SignUpRequestedData = {
+     GameIds: '',
+     GroupId: '',
+     PositionID: '',
+     OfficialSeasonId:'',
+     ForCancelSignUp:''
+ }
  
  finalFilter: FinalFilter={
   UserID:'',
@@ -37,13 +53,11 @@ export class OfficialService {
     });
   }
 
-  postSelectGames(obj: Filter):any{
-    this.finalFilter.RequestedData=JSON.stringify(obj);
-
-    this.finalFilter.SessionKey = this.loginService.sessionKey; //JSON.stringify(sessionKey);
-    this.finalFilter.UserID = JSON.stringify(this.loginService.userId);
-    var body = JSON.stringify(this.finalFilter);   
-
+  postSelectGames(obj: Filter):any{  
+    //this.finalFilter.RequestedData=JSON.stringify(obj);
+    this.initialFilter.SessionKey = this.loginService.sessionKey; //JSON.stringify(sessionKey);
+    this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
+    var body = JSON.stringify(this.initialFilter);   
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
     return this.http.post('http://testfaafireworks.1city.us/api/officialgames',body,requestOptions)
@@ -59,41 +73,30 @@ export class OfficialService {
 
   fetchPreselectedFilters(x:any){
     this.loginService.sessionKey=x["SessionKey"];
-    
-    //console.log(x["Value"].SelectedFilters.Division);
 
     //Fetching all the pre-selected Divisions
   
     let y = x["Value"].SelectedFilters.Division.split(",");
-    //console.log(y);
 
     for(let i=0; i<(y.length); ++i){
       x["Value"].Filters.Filter_Divisions.forEach(element => {   
       
         if(element.id==y[i])
         {
-         //console.log(y[i]);
-          //console.log(element.id);
           this.selectedDivisions.push(element);
-
         }  
   });
 }
-       
-    //console.log(this.selectedDivisions);
 
     y = x["Value"].SelectedFilters.Location.split(",");
-    //console.log(y);
+
 
     for(let i=0; i<(y.length); ++i){
       x["Value"].Filters.Filter_Locations.forEach(element => {   
       
         if(element.id==y[i])
         {
-          //console.log(y[i]);
-          //console.log(element.id);
           this.selectedLocations.push(element);
-
         }  
   });
 }
@@ -101,17 +104,13 @@ export class OfficialService {
 //console.log(this.selectedLocations);
 
 y = x["Value"].SelectedFilters.Position.split(",");
-//console.log(y);
 
 for(let i=0; i<(y.length); ++i){
   x["Value"].Filters.Filter_Positions.forEach(element => {   
   
     if(element.id==y[i])
     {
-      //console.log(y[i]);
-      //console.log(element.id);
       this.selectedPositions.push(element);
-
     }  
 });
 }
@@ -119,24 +118,17 @@ for(let i=0; i<(y.length); ++i){
 //console.log(this.selectedPositions);
 
 y = x["Value"].SelectedFilters.StartTime.split(",");
-//console.log(y);
 
 for(let i=0; i<(y.length); ++i){
   x["Value"].Filters.Filter_StartTimes.forEach(element => {   
   
     if(element.id==y[i])
     {
-      //console.log(y[i]);
-      //console.log(element.id);
       this.selectedTimes.push(element);
-
     }  
 });
 }
-   
-//console.log(this.selectedTimes);
   }
-
 
   postFilterData(obj : Filter){
     console.log("Inside post filter data");
@@ -157,6 +149,29 @@ for(let i=0; i<(y.length); ++i){
       //console.log("Inside Post");
       console.log(x);
       return Promise.resolve(this.selectGameJson = x);      
+    });
+  }
+
+  postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
+    this.signUpRD.GroupId=groupId;
+    this.signUpRD.GameIds=gameId;
+    this.signUpRD.PositionID=positionId;
+    this.signUpRD.OfficialSeasonId=this.loginService.officialSeasonId;
+    this.signUpRD.ForCancelSignUp=ForCancelSignUp;
+
+    this.finalFilter.UserID=this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.RequestedData = JSON.stringify(this.signUpRD)
+    var body = JSON.stringify(this.finalFilter);
+    console.log(JSON.stringify(this.finalFilter));
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://testfaafireworks.1city.us/api/SignOfficial/  ',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {     
+      console.log(x);
+      return Promise.resolve(this.postSelectGames(this.initialData));      
     });
   }
 }

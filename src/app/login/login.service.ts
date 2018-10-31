@@ -47,18 +47,17 @@ postLoginData(userVar : Login){
     console.log(x);
   this.jsonResult = x; 
   this.sessionKey=x["SessionKey"];
-  //console.log("Inside login service");
-  //console.log(this.jsonResult);
+
 
   if(this.jsonResult["Error"]==200){    
-    //this.router.navigate(['./OfficalComponent']);
+   
     this.isLoggedIn=true;
     this.loginFailed=false;
-    //this.sessionKey=this.jsonResult["SessionKey"];
-    console.log("SessionKey After Login")
-    console.log(this.sessionKey);
+
     this.userId=this.jsonResult["Value"].UserId;
+    //console.log(this.jsonResult);
     this.officialSeasonId=this.jsonResult["Value"].OfficialSeasonalId;
+    console.log(this.officialSeasonId);
     //console.log(this.userId);
   }
   else{

@@ -28,9 +28,19 @@ export class OfficialComponent implements OnInit {
     if(this.selectGameJson===null){
       this.selectGameJson = this.officialService.getSelectGames();
       
-    }
-    
+    }  
 
+  }
+
+  keepSelectActive(){
+    if(this.isSelectGameActive==false)
+    this.isSelectGameActive=true;
+
+  }
+
+  toggleSelectClass(){
+    if(this.isSelectGameActive==true)
+    this.isSelectGameActive=!this.isSelectGameActive;
   }
 
 
