@@ -17,12 +17,12 @@
         <div class="row">
            <div class="col-lg-12">
               <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
-                 <ngb-panel id="toggle-1" title="Filter">
+                 <ngb-panel id="filter" title="Filter">
                     
                     <ng-template ngbPanelContent>
-                        <form (ngSubmit)="logForm(filterForm.value)" #filterForm="ngForm" style="border: 1px solid #ccc; padding: 10px;">
+                        <form (ngSubmit)="logForm(filterForm.value)" #filterForm="ngForm">
                             <div class="form-group">
-                                <label for="name">Division</label>
+                                <label for="name" class="marginTopBottom marginTopNone">Division</label>
                                 <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
                                 <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
                                                       [(ngModel)]="officialService.selectedDivisions" 
@@ -34,14 +34,14 @@
                                                       name="DivisionSelect" #DivisionSelect="ngModel" required>
                                 </angular2-multiselect>
                 
-                                <label for="name">Location</label>
+                                <label for="name" class="marginTopBottom">Location</label>
                                 <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" 
                                 [(ngModel)]="officialService.selectedLocations" 
                                                       [settings]="settings"                                                       
                                                       name="LocationSelect" #LocationSelect="ngModel" required>
                                 </angular2-multiselect>
                 
-                                <label for="name">Position</label>
+                                <label for="name" class="marginTopBottom">Position</label>
                                 <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" 
                                 [(ngModel)]="officialService.selectedPositions" 
                                                       [settings]="settings" 
@@ -49,8 +49,8 @@
                                                       name="PositionSelect" #PositionSelect="ngModel" required>
                                 </angular2-multiselect>
 
-                                <label for="name">Time</label>
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
+                                <label for="name" class="marginTopBottom">Time</label>
+                                <angular2-multiselect id="timeMultiselect" [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
                                 [(ngModel)]="officialService.selectedTimes" 
                                                       [settings]="settings" 
                                                      
@@ -58,7 +58,7 @@
                                 </angular2-multiselect>
                                
                             </div>
-                            <button type="submit" class="btn btn-success btn-block">Submit</button>
+                            <button type="submit" class="btn btn-success btn-block">Save Filters</button>
                         </form> 
                     </ng-template>
                  </ngb-panel>
@@ -70,12 +70,24 @@
               <h1 class="mainDate"><strong>{{item.GameDateName}}</strong></h1>
               <ngb-accordion #acc="ngbAccordion" class="data_module" [activeIds]="activeIds" (panelChange)="beforeChange($event)">
                  <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
-                 id="{{child.GameTimeSlots[0].GameTimeSlotName}}"
-                   title="{{child.GameTimeSlots[0].GameTimeSlotName}}">
+                 id="{{child.GameTimeSlots[0].GameTimeSlotName}}">
+                   <ng-template ngbPanelTitle>
+                       <div class="HeadCollapse">
+                           {{child.GameTimeSlots[0].GameTimeSlotName}}
+                       </div>                         
+                   </ng-template>
+
+                   
                     <ng-template ngbPanelContent>
                        <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
                        <ngb-accordion #acc="ngbAccordion">
-                          <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" class="teamList" id="{{nestedChild.MatchupName}}" title="{{nestedChild.MatchupName}}">
+                          <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" 
+                          class="teamList" id="{{nestedChild.MatchupName}}">
+                          <ng-template ngbPanelTitle>
+                              <div class="HeadCollapse">
+                                  {{nestedChild.MatchupName}}
+                              </div>
+                          </ng-template>
                              <ng-template ngbPanelContent>
                                 <h3>
                                    
@@ -89,26 +101,26 @@
                           </ngb-panel>
                        </ngb-accordion>
                        <div class="row signupPosition">
-                          <div class="col-md-3 col-sm-6 col-xs-12"><strong>Positions:</strong></div>
-                          <div class="col-md-3 col-sm-6 col-xs-6">Referee</div>
+                          <div class="col-md-12 col-sm-12 col-xs-12 marginBottom10"><strong>Positions: </strong></div>
+                          <div class="col-md-4 col-sm-4 col-xs-4">Referee</div>
                           
-                          <div  *ngIf="child.GameTimeSlots[0].Positions.Referee!=1"class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Referee}}</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" id="{{child.GameTimeSlots[0].Positions.Umpire}}" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, false)" class="col-md-6 col-sm-6 col-xs-6"><a class="btn signupRedBtn">SIGNUP</a></div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, true)" class="col-md-6 col-sm-6 col-xs-6"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
+                          <div  *ngIf="child.GameTimeSlots[0].Positions.Referee!=1"class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Referee}}</div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" id="{{child.GameTimeSlots[0].Positions.Umpire}}" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, false)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, true)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
                        </div>
                        <div class="row signupPosition">
-                          <div class="col-md-3 col-sm-6 col-xs-12"></div>
-                          <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Umpire</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, false)" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-6 col-sm-6 col-xs-6"><a class="btn signupRedBtn">SIGNUP</a></div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, true)" class="col-md-6 col-sm-6 col-xs-6"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
+                          <div class="col-md-12 col-sm-12 col-xs-12"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-4">Umpire: </div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, false)" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, true)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
                        </div>
                        <div class="row signupPosition">
-                          <div class="col-md-3 col-sm-6 col-xs-12"></div>
-                          <div class="col-md-3 col-sm-6 col-xs-6 paddTop4">Skorekeeper</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-6 col-sm-6 col-xs-6">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, false)" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-6 col-sm-6 col-xs-6"><a class="btn signupRedBtn">SIGNUP</a></div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, true)" class="col-md-6 col-sm-6 col-xs-6"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
+                          <div class="col-md-12 col-sm-12 col-xs-12"></div> 
+                          <div class="col-md-4 col-sm-4 col-xs-4">Skorekeeper: </div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, false)" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
+                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, true)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
                        </div>
                     </ng-template>
                  </ngb-panel>

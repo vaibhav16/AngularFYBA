@@ -13,12 +13,20 @@
 }
 
 
+.HeadCollapse{float:left; margin-left: 5px; width:calc(100% - 25px);}
+
+.floatLeftAlign {
+    float: left;
+    margin-right: 5px;
+}
+.btn{white-space: normal;}
+.marginTopBottom{margin-top: 12px;margin-bottom: 2px;}
 
 body{font-family: 'Open Sans', sans-serif !important;}
 .bg-info {
     background-color:#ededed !important;
 }
-.card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 10px;}
+.card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 10px; background: #ededed;}
 .card{border:0px;}
 .card .btn-link{color:#000000; font-weight:bold; padding:10px; font-size:16px; width: 100%; text-align:left;}
 .card-body{border:1px solid #bbc9da; border-top:0px; padding:10px;}
@@ -34,7 +42,11 @@ body{font-family: 'Open Sans', sans-serif !important;}
 #toggle-1-header{margin-top:20px;}
 
 
-
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: rgba(250, 255, 189, 0) !important;
+    background-image: none !important;
+    color: rgb(0, 0, 0) !important;
+}
 .topBg{background:#f3f3f3;}
 .add_to_home a{background-color:#b03d26; padding:5px 15px; margin:10px 0; display:inline-block; color:#ffffff;}
 .add_to_home a:hover, .add_to_home a:focus{color:#ffffff; text-decoration:none;}
@@ -149,6 +161,7 @@ a.btnFilter{background:#3c98db; padding:5px 10px; border-radius:5px; color:#ffff
 a.btnFilter:hover, a.btnFilter:focus{ color:#ffffff;}
 h1.mainDate{font-size:30px;margin-bottom: 0;margin-top: 30px;}
 
+.marginBottom10{margin-bottom:10px;}
 .data_module h3{font-size:18px; color:#000000; margin-top:10px; font-weight:bold;}
 .marginLeft20{margin-left:20px !important;}
 .Leftmargin20{margin-left:0px !important;}
@@ -160,10 +173,10 @@ ul.teamList{list-style:none; padding:0px; margin:0px;}
 ul.teamList li{background:#3c98db; border-radius:10px; margin:10px 0; cursor:pointer;}
 ul.teamList li:first-child{margin-top:20px;}
 ul.teamList li h3{color:#ffffff; font-size:18px; padding:10px; margin:0px; font-weight:bold;}
-.signupPosition{font-size:16px; margin-top:10px;}
-a.signupRedBtn{background:#ff0000; padding:4px 15px; color:#ffffff; border-radius:0px; font-size:14px;}
+.signupPosition{font-size:14px; margin-top:10px;}
+a.signupRedBtn{background:#ff0000; padding:3px 12px; color:#ffffff; border-radius:0px; font-size:12px;}
 a.signupRedBtn:hover, a.signupRedBtn:focus{color:#ffffff; text-decoration:none;}
-a.cancelSignupBtn{background:#FFD700; padding:4px 15px; color:#ffffff; border-radius:0px; font-size:14px;}
+a.cancelSignupBtn{background:#FFD700; padding:3px 12px; color:#000000; border-radius:0px; font-size:12px;}
 .paddTop4{padding-top:4px;}
 
 .matchInfo{font-size:14px; margin-left:40px; margin-top:10px; line-height:20px; font-weight:normal;}
@@ -184,21 +197,21 @@ a.cancelBtn{background:#e4b100; color:#ffffff; border-radius:0px; padding:4px 15
 a.saveBtn{background:#ff2d55; color:#ffffff; border-radius:0px; padding:4px 20px;}
 a.saveBtn:hover, a.saveBtn:focus{color:#ffffff;}
 a.cancelBtn:hover, a.cancelBtn:focus{color:#ffffff;}
-.lognin_bg{background-image:url("./assets/images/login_bg.jpg"); background-size:cover; background-repeat:no-repeat; height:100%; width:100%; position:fixed; background-position:center center;}
+.lognin_bg{background-image:url("./assets/images/login_bg2.jpg"); background-size:cover; background-repeat:no-repeat; height:100%; width:100%; position:fixed; background-position:center center;}
 .lognin_box{position:absolute; width:400px; left:50%; top:50%; transform:translateX(-50%) translateY(-50%);}
 .input_field input{width:100%; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:40px; color:#cccccc; text-align:center; border-radius:0px !important; box-shadow:none !important;}
 .invalid_credintial{
     color: #ff0000; text-align: center; font-weight:bold;}
 .logo_login{text-align:center; margin-bottom:80px;}
 .forgot_pass{text-align:right; margin-top:15px;}
-.forgot_pass a{color:rgba(255,255,255,0.4);}
+.forgot_pass a{color:rgba(255,255,255,1);}
 .validation-error{color:#ff0000;padding: 0 10px;}
-.forgot_pass a:hover, .forgot_pass a:focus{color:rgba(255,255,255,0.4); text-decoration:none;}
+.forgot_pass a:hover, .forgot_pass a:focus{color:rgba(255,255,255,1); text-decoration:none;}
 .dont_acnt{color:rgba(255,255,255,0.4); text-align:center;}
 .dont_acnt a, .dont_acnt a:hover, .dont_acnt a:focus{color:#ffffff; text-decoration:none;}
-.signIn_btn{background: #1e31ae;height: 50px;width: 100%;
+.signIn_btn{background: rgba(255,214,2,1);height: 50px;width: 100%;
     border-radius: 50px;
-    color: #ffffff !important;
+    color: #000000 !important;
     font-size: 16px;
     margin: 30px 0;
     display: block;
@@ -208,7 +221,7 @@ a.cancelBtn:hover, a.cancelBtn:focus{color:#ffffff;}
     border:0px;
 }
 	
-.signIn_btn:hover{background: rgba(60,152,221,0.7);}	
+.signIn_btn:hover{background: rgba(255,214,2,0.9);}	
 	
 	
 .marginTop30{margin-top:30px;}
@@ -237,12 +250,12 @@ a.cancelBtn:hover, a.cancelBtn:focus{color:#ffffff;}
 =============================== */
 	
 ul.reportlist{list-style:none; margin:0px; padding:0px;}
-ul.reportlist li{background:#3c98db; color:#ffffff; padding:5px 10px; font-size:16px; font-weight:bold;}	
+ul.reportlist li{background:#1e31ae; color:#ffffff; padding:5px 10px; font-size:16px; font-weight:bold;}	
 .bgGrey{background:#ffffff; padding:10px 0px;}	
 .bgGrey .col-md-2{font-size:16px;}
 table.scoreTable{border-collapse:collapse;}
 table.scoreTable tr td{padding:8px; background:#ffffff; border:1px solid #cccccc; text-align:center;}
-table.scoreTable tr th{padding:8px; background:#ebf4fb; border:1px solid #cccccc; text-align:center;}
+table.scoreTable tr th{padding:8px; background:#74b3de; border:1px solid #cccccc; text-align:center; color:#ffffff;}
 table.scoreTable tr td input[type="number"]{width:100%; border:1px solid #cccccc;}
 table.scoreTable tr td:nth-child(2), table.scoreTable tr th:nth-child(2){text-align:left;}
 .describe_text{color:#ffffff; font-style:italic; color:#3c98db; font-weight:bold;}
@@ -321,7 +334,7 @@ ul.addList li img{position: absolute;
 
 .amountPaid{float:right;    color: #fffb85;
     text-decoration: underline; display:block !important;}	
-	.fms_time{display:block; margin-left:0px; background: #ffffff; padding: 10px;}
+	.fms_time{display:block; margin-left:0px; background: #ffffff; padding: 0px;}
 	
 .rating_player{float:right; font-weight:bold;}	
 .name_player{display: inline-block;
@@ -611,14 +624,17 @@ ul.teamList li h3{font-size:14px !important;}
 .accordion .accordion .card-body{ background-color: #1e31ae !important; border:0px; padding-top:0px;}
 .accordion .accordion h3{color:#ffffff; margin-top: 0px;}
 .accordion .accordion h5{margin: 0px;}
-.accordion .accordion .card .btn-link:before{position: relative;
+
+.accordion .accordion .card .btn-link.collapsed:before{position: relative; 
     top: 1px;
     display: inline-block;
     font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    -webkit-font-smoothing: antialiased;content: "\e250";}
+    -webkit-font-smoothing: antialiased;content: "\e250"; float:left;}
+
+.accordion .accordion .card .btn-link:before{content: "\e252"; float:left;}
 
     .accordion .accordion .matchInfo{margin-top:0px;}
 
@@ -629,7 +645,9 @@ ul.teamList li h3{font-size:14px !important;}
         font-style: normal;
         font-weight: normal;
         line-height: 1;
-        -webkit-font-smoothing: antialiased;content: "\e250";}
+        -webkit-font-smoothing: antialiased;content: "\e252"; float:left;}
+
+    .accordion .card .btn-link.collapsed:before{content: "\e250"; float:left;}
         .card-body button[type="submit"]{    background: #1e31ae;
             padding: 5px 10px;
             border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}

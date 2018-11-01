@@ -143,14 +143,6 @@ public beforeChange($event: NgbPanelChangeEvent) {
   this.activeIds.push($event.panelId);
   console.log($event.panelId);
   console.log(this.activeIds);
-
-  if ($event.panelId === 'preventchange-2') {
-    $event.preventDefault();
-  }
-
-  if ($event.panelId === 'preventchange-3' && $event.nextState === false) {
-    $event.preventDefault();
-  }
 }
 
 }

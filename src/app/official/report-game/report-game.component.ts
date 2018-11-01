@@ -29,15 +29,18 @@ export class ReportGameComponent {
   IncidentImage;
   showIncident:boolean;
   
-  playername = ['Bobby Brady', 'Greg Brady', 'Mike Brady'];
-  constructor( private elementRef: ElementRef,private renderer:Renderer2, config: NgbAccordionConfig, public officialService: OfficialService) { 
+  //playername = ['Bobby Brady', 'Greg Brady', 'Mike Brady'];
+  constructor( private elementRef: ElementRef,
+    private renderer:Renderer2, 
+    config: NgbAccordionConfig, 
+    public officialService: OfficialService) { 
     
   }
 
   ngOnInit() {
     this.incidentcounter=0;
     this.showIncident=false;
-   
+    this.officialService.getReportData();   
   }
    
 
@@ -49,8 +52,7 @@ export class ReportGameComponent {
     }else{
       this.renderer.removeClass(el,'glyphicon-triangle-bottom');
       this.renderer.addClass(el,'glyphicon-triangle-right');
-    }
-  
+    }  
   }
   
   onFileChanged(event:any,ImageName:string) {

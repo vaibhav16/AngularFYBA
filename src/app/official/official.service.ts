@@ -7,6 +7,10 @@ import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection 
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { SignUpRequestedData } from './../models/signUp_rd.model';
 import { IntialFilter } from './../models/initialFilter.model';
+import { ReportGameData } from '../models/official/reportgame/reportGame.model';
+import { APIGamePost } from '../models/official/reportgame/APIGamePost.model';
+import { APIPlayerScorePost } from '../models/official/reportgame/APIPlayerScorePost.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +18,7 @@ import { IntialFilter } from './../models/initialFilter.model';
 
 export class OfficialService {
  selectGameJson:JSON = null;
+ reportGameJson:JSON = null;
  initialData:Filter;
  initialFilter: IntialFilter = {
    UserID:'',
@@ -27,11 +32,36 @@ export class OfficialService {
      OfficialSeasonId:'',
      ForCancelSignUp:''
  }
+
+ reportGameData: ReportGameData = {
+   SeasonId:'',
+   OfficialSeasonId:''
+ }
  
  finalFilter: FinalFilter={
   UserID:'',
   SessionKey:'',
   RequestedData:''
+ }
+
+ APIGamePost: APIGamePost ={
+  GameId : '',
+  HomeTeamId : '',
+  VisitingTeamId : '',
+  HomeTeamScore : '',
+  VisitingTeamScore : '',
+  HomeTeamPlayerScores : '',
+  VisitingTeamPlayerScores : ''
+ }
+
+ APIPlayerScorePost : APIPlayerScorePost ={
+  GameId : '',
+  PlayerName : '',
+  PlayerSeasonalId : '',
+  FoulId : '',
+  Points : '',
+  PlayerNote : null,
+  TeamId : ''
  }
 
  selectedDivisions = [];
@@ -67,6 +97,22 @@ export class OfficialService {
 
       console.log(x);
       this.fetchPreselectedFilters(x);
+      return Promise.resolve(this.selectGameJson = x);      
+    });
+  }
+
+  
+  refershSelectGameData(obj: Filter):any{  
+    //this.finalFilter.RequestedData=JSON.stringify(obj);
+    this.initialFilter.SessionKey = this.loginService.sessionKey; //JSON.stringify(sessionKey);
+    this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
+    var body = JSON.stringify(this.initialFilter);   
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://testfaafireworks.1city.us/api/officialgames',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {     
       return Promise.resolve(this.selectGameJson = x);      
     });
   }
@@ -171,7 +217,30 @@ for(let i=0; i<(y.length); ++i){
       return data.json()
     })).toPromise().then(x => {     
       console.log(x);
-      return Promise.resolve(this.postSelectGames(this.initialData));      
+      return Promise.resolve(this.refershSelectGameData(this.initialData));      
+    });
+  }
+
+  getReportData(){
+    this.reportGameData.SeasonId=this.loginService.seasonId;
+    this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;
+    
+    this.finalFilter.RequestedData= JSON.stringify(this.reportGameData);
+    //console.log(this.loginService.sessionKey);
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID =this.loginService.userId.toString();
+    var body = JSON.stringify(this.finalFilter);   
+    console.log(JSON.stringify(this.finalFilter));
+    //console.log(this.finalFilter);
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://testfaafireworks.1city.us/api/loadreportgames',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {     
+      //console.log("Inside Post");
+      console.log(x);
+      return Promise.resolve(this.reportGameJson = x);      
     });
   }
 }
