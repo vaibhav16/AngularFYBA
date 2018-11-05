@@ -10,12 +10,12 @@
   <div class="input_field">
     <div class="form-group">
       <input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Email" required>    
-      <div class="validation-error" *ngIf="Email.invalid && (Email.dirty || Email.touched)">Invalid Email</div>
+      <!--div class="validation-error" *ngIf="Email.invalid && (Email.dirty || Email.touched)">Invalid Email</div-->
     </div>
   
     <div class="form-group">
       <input type="password" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="loginService.selectedLogin.Password" placeholder="Password" required>
-      <div class="validation-error" *ngIf="Password.invalid && (Password.dirty || Password.touched)">Invalid Password</div>
+      <!----div class="validation-error" *ngIf="Password.invalid && (Password.dirty || Password.touched)">Invalid Password</div-->
     </div> 
 
   <div class="forgot_pass"><a href="#">Forgot Password?</a></div>

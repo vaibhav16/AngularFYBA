@@ -1,155 +1,193 @@
 
 
   <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">
-    <div class="row">
-      <div class="col-lg-12">
-      <h1 class="mainDate"><strong>Games to Report</strong></h1>
-        <div class="data_module">
-          <ngb-accordion #acc="ngbAccordion">
-              <!----ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)"-->
-              <ngb-panel *ngFor="let item of officialService.reportGameJson.Value.GameList">
-                  <ng-template ngbPanelTitle >
-                    <div class="HeadCollapse">
-                      <h2 #acchead1>
-                        {{item.GameName}}</h2>
-                    </div>
-                      
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                      <div class="fms_time">
-                        <h3 class="">{{item.GameDate}} @{{item.Location}} @ {{item.GameStartTime}}</h3>
-                        <div>
+      <div class="row">
+        <div class="col-lg-12">
+        <h1 class="mainDate"><strong>Games to Report</strong></h1>
+          <div class="data_module">
+            <ngb-accordion #acc="ngbAccordion">
+                <!----ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)"-->
+               
+                <ngb-panel *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
+                    
+                    <ng-template ngbPanelTitle >
+                      <div class="HeadCollapse">
+                        <h2 #acchead1>
+                          {{item.GameName}}</h2>
+                      </div>
+                        
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <form #reportForm="ngForm" (ngSubmit)="onSubmit(reportForm)">
+                            <input style="display:none" type="text" value="{{gameListIndex}}" name="glIndex" #glIndex="ngModel" [(ngModel)]="{{gameListIndex}}"/>                                  
+                        <div class="fms_time">
+                          <h3 class="">{{item.GameDate}} @{{item.Location}} @ {{item.GameStartTime}}</h3>
+                          <div>
+                              <ul class="reportlist">
+                                <li>Final Team Scores</li>
+                              </ul>
+                              <div class="bgGrey inputfull">
+                                <div class="row">
+                                <div class="col-md-12">
+                                <div class="overflowAuto widthTableAuto">
+                                <table class="scoreTable marginTop10 widthTable leftAlign" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <thead>
+                                <tr><th>Team Name</th><th>Final Score</th></tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td>{{item.HomeTeam}}</td>
+                                  <td><input type="text" value="{{item.HomeTeamScore}}"/></td>
+                                </tr>
+                                <tr>
+                                  <td>{{item.VisitingTeam}}</td>
+                                  <td><input type="text" value="{{item.VisitingTeamScore}}"/></td>
+                                </tr>
+                                </tbody>
+                                </table>
+                                </div>
+                                </div>
+                                </div>
+                                </div> 
+                          </div>
+                        </div>
+                        <div class="marginTop10">
                             <ul class="reportlist">
-                              <li>Final Team Scores</li>
+                               <li>Individual Stats</li>
                             </ul>
-                            <div class="bgGrey inputfull">
+                            <div class="bgGrey">
                               <div class="row">
                               <div class="col-md-12">
-                              <div class="overflowAuto widthTableAuto">
-                              <table class="scoreTable marginTop10 widthTable leftAlign" cellspacing="0" cellpadding="0" border="0" width="100%">
+                              <p class="describe_text">Best viewed in landscape mode on mobile devices</p>
+                              <h2><strong>{{item.Division}} {{item.HomeTeam}}</strong></h2>
+                              <div class="overflowAuto" >
+
+                              <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
                               <thead>
-                              <tr><th>Team Name</th><th>Final Score</th></tr>
+                              <tr>
+                                <th width="7%">#</th>
+                                <th width="43%">Name</th>
+                                <th width="10%">NP <div class="tooltip_abc">
+                                  <img class="info_icon" src="../../assets/images/info-icon.png" /> 
+                                  <span class="tooltiptext tooltip-top">Help Text</span>
+                                </div>
+                               </th>
+                                <th width="10%">PON <div class="tooltip_abc">
+                                  <img class="info_icon" src="../../assets/images/info-icon.png" /> 
+                                  <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                </th>
+                                <th width="10%">PTS <div class="tooltip_abc">
+                                  <img class="info_icon" src="../../assets/images/info-icon.png" /> 
+                                  <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                </th>
+                                <th width="10%">FOU <div class="tooltip_abc">
+                                  <img class="info_icon" src="../../assets/images/info-icon.png" /> 
+                                  <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                </th>
+                                <th width="10%">REB <div class="tooltip_abc">
+                                 <img class="info_icon" src="../../assets/images/info-icon.png" /> 
+                                 <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                </th></tr>
                               </thead>
-                              <tbody>
-                              <tr><td>{{item.HomeTeam}}</td><td><input type="text" value="{{item.HomeTeamScore}}"/></td></tr>
-                              <tr><td>{{item.VisitingTeam}}</td><td><input type="text" value="{{item.VisitingTeamScore}}"/></td></tr>
+                              <tbody >
+                              <tr *ngFor= "let child of item.HomeTeamPlayerScores; let i = index" >
+                                <td>{{i+1}}</td>                                
+                                <td style="display:none"><input type="number" value="child.GameId" name="HGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
+                                <td style="display:none"><input type="number" value="child.PlayerName" name="HPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
+                                <td style="display:none"><input type="number" value="child.PlayerSeasonId" name="HPlayerSeasonId{{i}}" [(ngModel)]="child.PlayerSeasonId" /></td>
+                                <td style="display:none"><input type="number" value="child.FoulId" name="HFoulId{{i}}" [(ngModel)]="child.FoulId" /></td>
+                                <td style="display:none"><input type="number" value="child.PlayerNote" name="HPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td>
+                                <td style="display:none"><input type="number" value="child.TeamId" name="HTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
+                                <td><span value="child.PlayerName">{{child.PlayerName}}</span></td>
+                                <td><input type="checkbox"  /></td>
+                                <td><input type="checkbox" /></td>
+                                <!--<td><input type="number" value="child.Points" pattern="[0-9]*" name="Points" [(ngModel)]="child.Points" /></td>-->
+                                <!--<td><input type="number" value="child.Points" pattern="[0-9]*" name="Points" #Points="ngModel" [(ngModel)]="officialService.APIPlayerScorePost.Points" /></td>-->
+                                <td><input type="number" value="child.Points" pattern="[0-9]*" name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>
+                                
+                                <td><input type="number"  pattern="[0-9]*" /></td>
+                                <td><input type="number" pattern="[0-9]*" /></td>
+                              </tr>
+                   
+                              
                               </tbody>
                               </table>
                               </div>
                               </div>
                               </div>
-                              </div> 
-                        </div>
-                      </div>
-                      <div class="marginTop10">
-                          <ul class="reportlist">
-                             <li>Individual Stats</li>
-                          </ul>
-                          <div class="bgGrey">
-                            <div class="row">
-                            <div class="col-md-12">
-                            <p class="describe_text">Best viewed in landscape mode on mobile devices</p>
-                            <h2><strong>{{item.Division}} {{item.HomeTeam}}</strong></h2>
-                            <div class="overflowAuto" >
-                            <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
-                            <thead>
-                            <tr>
-                              <th width="7%">#</th>
-                              <th width="43%">Name</th>
-                              <th width="10%">NP <div class="tooltip_abc">
-                                <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                <span class="tooltiptext tooltip-top">Help Text</span>
-                              </div>
-                             </th>
-                              <th width="10%">PON <div class="tooltip_abc">
-                                <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                <span class="tooltiptext tooltip-top">Help Text</span></div>
-                              </th>
-                              <th width="10%">PTS <div class="tooltip_abc">
-                                <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                <span class="tooltiptext tooltip-top">Help Text</span></div>
-                              </th>
-                              <th width="10%">FOU <div class="tooltip_abc">
-                                <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                <span class="tooltiptext tooltip-top">Help Text</span></div>
-                              </th>
-                              <th width="10%">REB <div class="tooltip_abc">
-                               <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                               <span class="tooltiptext tooltip-top">Help Text</span></div>
-                              </th></tr>
-                            </thead>
-                            <tbody >
-                            <tr *ngFor= "let child of item.HomeTeamPlayerScores; let i = index" >
-                              <td>{{i+1}}</td>
-                              <td>{{child.PlayerName}}</td>
-                              <td><input type="checkbox" /></td>
-                              <td><input type="checkbox" /></td>
-                              <td><input type="number" value="child.Points" pattern="[0-9]*" /></td>
-                              <td><input type="number"  pattern="[0-9]*" /></td>
-                              <td><input type="number" pattern="[0-9]*" /></td></tr>
-                            
-                            </tbody>
-                            </table>
-                            </div>
-                            </div>
-                            </div>
-                            <div class="row marginTop20">
-                            <div class="col-md-12">
-                            <h2><strong>{{item.Division}} {{item.VisitingTeam}}</strong></h2>
-                            <div class="overflowAuto">
-                            <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
-                            <thead>
-                            <tr><th width="7%">#</th>
-                              <th width="43%">Name</th>
-                              <th width="10%">NP</th>
-                              <th width="10%">PON</th>
-                              <th width="10%">PTS</th>
-                              <th width="10%">FOU</th>
-                              <th width="10%">REB</th></tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngFor= "let child of item.VisitingTeamPlayerScores; let i = index" >
-                                <td>{{i+1}}</td>
-                                <td>{{child.PlayerName}}</td>
-                                <td><input type="checkbox" /></td>
-                                <td><input type="checkbox" /></td>
-                                <td><input type="number" value="child.Points" pattern="[0-9]*" /></td>
-                                <td><input type="number" pattern="[0-9]*" /></td>
-                                <td><input type="number" pattern="[0-9]*" /></td>
-                              </tr>
-                            </tbody>
-                            </table>
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-                            
-
-                      </div>
-                      <div class="marginTop10">
-                          <ul class="reportlist">
-                          <li>Incident Report</li>
-                          </ul>
-                          <div class="bgGrey">
-                            <div class="row">
+                              <div class="row marginTop20">
                               <div class="col-md-12">
-                                <p class="describe_text">Describe any incidents that were observed during the game.</p>
-                                 <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
-                                <ul class="addList" #Incidentlist>
-                                    
-                                     <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Incident</a></li>
-                                </ul>
+                              <h2><strong>{{item.Division}} {{item.VisitingTeam}}</strong></h2>
+                              <div class="overflowAuto">
+                              <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
+                              <thead>
+                              <tr><th width="7%">#</th>
+                                <th width="43%">Name</th>
+                                <th width="10%">NP</th>
+                                <th width="10%">PON</th>
+                                <th width="10%">PTS</th>
+                                <th width="10%">FOU</th>
+                                <th width="10%">REB</th></tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor= "let child of item.VisitingTeamPlayerScores; let i = index" >
+                                  <td style="display:none"><input type="number" value="child.GameId" name="VGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
+                                  <td style="display:none"><input type="number" value="child.PlayerName" name="VPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
+                                  <td style="display:none"><input type="number" value="child.PlayerSeasonId" name="VPlayerSeasonId{{i}}" [(ngModel)]="child.PlayerSeasonId" /></td>
+                                  <td style="display:none"><input type="number" value="child.FoulId" name="VFoulId{{i}}" [(ngModel)]="child.FoulId" /></td>
+                                  <td style="display:none"><input type="number" value="child.PlayerNote" name="VPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td>
+                                  <td style="display:none"><input type="number" value="child.TeamId" name="VTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
+                                  
+                                  <td>{{i+1}}</td>
+                                  
+                                  
+                                  <td>{{child.PlayerName}}</td>
+                                  <td><input type="checkbox" /></td>
+                                  <td><input type="checkbox" /></td>
+                                  <td><input type="number" value="child.Points" name="VPoints{{i}}" [(ngModel)]="child.Points" pattern="[0-9]*" /></td>
+                                  <td><input type="number" pattern="[0-9]*" /></td>
+                                  <td><input type="number" pattern="[0-9]*" /></td>
+                                </tr>
+                              </tbody>
+                              </table>
+                              </div>
+                              </div>
+                              </div>
+                              </div>
+                              
+  
+                        </div>
+                        <div class="marginTop10">
+                            <ul class="reportlist">
+                            <li>Incident Report</li>
+                            </ul>
+                            <div class="bgGrey">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <p class="describe_text">Describe any incidents that were observed during the game.</p>
+                                   <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
+                                  <ul class="addList" #Incidentlist>
+                                      
+                                       <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Incident</a></li>
+                                  </ul>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                      </div>
-
-                  </ng-template>
-
-              </ngb-panel>
-          </ngb-accordion>
+                        </div>
+                        <button type="submit">SAVE</button>
+                        <!----div class="row text-center paddingBottom20">
+                          <a class="btn saveBtn marginTop30">SAVE</a>
+                        </div-->
+                        </form>
+                     
+                    </ng-template>
+                 
+                </ngb-panel>
+                
+            </ngb-accordion>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
+  
+  

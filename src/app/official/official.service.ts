@@ -45,6 +45,9 @@ export class OfficialService {
  }
 
  APIGamePost: APIGamePost ={
+  Roleid:'',
+  SeasonId:'',
+  OfficialSeasonId:'',
   GameId : '',
   HomeTeamId : '',
   VisitingTeamId : '',
@@ -59,7 +62,7 @@ export class OfficialService {
   PlayerName : '',
   PlayerSeasonalId : '',
   FoulId : '',
-  Points : '',
+  Points : null,
   PlayerNote : null,
   TeamId : ''
  }
@@ -69,7 +72,14 @@ export class OfficialService {
  selectedLocations = [];
  selectedTimes = [];
 
-  constructor(private http: Http, public loginService: LoginService) {    
+ 
+
+ //public testArray:APIPlayerScorePost[] = [];
+
+  constructor(private http: Http, public loginService: LoginService) {  
+   
+    //console.log( this.testArray);
+    
   }
 
   getSelectGames():any{    

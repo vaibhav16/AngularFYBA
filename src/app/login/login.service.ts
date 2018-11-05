@@ -25,6 +25,7 @@ export class LoginService {
   sessionKey:string=null;
   officialSeasonId:string=null;
   seasonId:string=null;
+  roleId: string=null;
 
   constructor(private http: Http,private router: Router) {
     this.isLoggedIn=false;
@@ -59,6 +60,7 @@ postLoginData(userVar : Login){
     //console.log(this.jsonResult);
     this.officialSeasonId=this.jsonResult["Value"].OfficialSeasonalId;
     this.seasonId=this.jsonResult["Value"].SeasonId;
+    this.roleId = this.jsonResult["Value"].RoleId;
     console.log(this.officialSeasonId);
     //console.log(this.userId);
   }
