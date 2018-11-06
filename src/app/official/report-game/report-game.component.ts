@@ -52,6 +52,7 @@ export class ReportGameComponent {
     HomeTeamScore : '',
     VisitingTeamScore : '',
     Division:'',
+    LeagueId:'',
     HomeTeamPlayerScores : [{
       GameId: '',
       PlayerName:'',
@@ -208,6 +209,8 @@ export class ReportGameComponent {
     
     this.APIGamePost.Location = this.officialService.reportGameJson["Value"].GameList[gameListIndex].Location;
     this.APIGamePost.Division = this.officialService.reportGameJson["Value"].GameList[gameListIndex].Division;
+    this.APIGamePost.LeagueId = this.loginService.leagueId;
+
 
     this.APIGamePost.GameId = this.officialService.reportGameJson["Value"].GameList[gameListIndex].GameId;
     this.APIGamePost.GameName= this.officialService.reportGameJson["Value"].GameList[gameListIndex].GameName;

@@ -71,29 +71,29 @@
                                 <th width="43%">Name</th>
                                 <th width="10%">NP <div class="tooltip_abc">
                                   <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                  <span class="tooltiptext tooltip-top">Help Text</span>
+                                  <span class="tooltiptext tooltip-top">Not Present</span>
                                 </div>
                                </th>
                                 <th width="10%">PON <div class="tooltip_abc">
                                   <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                  <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                  <span class="tooltiptext tooltip-top">Player Of Note</span></div>
                                 </th>
                                 <th width="10%">PTS <div class="tooltip_abc">
                                   <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                  <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                  <span class="tooltiptext tooltip-top">Points Scored</span></div>
                                 </th>
                                 <th width="10%">FOU <div class="tooltip_abc">
                                   <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                  <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                  <span class="tooltiptext tooltip-top">Personal Fouls</span></div>
                                 </th>
                                 <th width="10%">REB <div class="tooltip_abc">
                                  <img class="info_icon" src="../../assets/images/info-icon.png" /> 
-                                 <span class="tooltiptext tooltip-top">Help Text</span></div>
+                                 <span class="tooltiptext tooltip-top">Rebounds</span></div>
                                 </th></tr>
                               </thead>
                               <tbody >
                               <tr *ngFor= "let child of item.HomeTeamPlayerScores; let i = index" >
-                                <td>{{i+1}}</td>                                
+                                <td>{{child.JersyNumber}}</td>                                
                                 <td style="display:none"><input type="number" value="child.GameId" name="HGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
                                 <td style="display:none"><input type="text" value="child.PlayerName" name="HPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
                                 <td style="display:none"><input type="number" value="child.PlayerSeasonalId" name="HPlayerSeasonalId{{i}}" [(ngModel)]="child.PlayerSeasonalId" /></td>
@@ -143,7 +143,7 @@
                                   <td style="display:none"><input type="number" value="child.TeamId" name="VTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
                                   <td style="display:none"><input type="text" value="child.TeamName" name="VTeamName{{i}}" [(ngModel)]="child.TeamName" /></td>
                                   
-                                  <td>{{i+1}}</td>
+                                  <td>{{child.JersyNumber}}</td>   
                                   
                                   
                                   <td>{{child.PlayerName}}</td>
@@ -177,9 +177,9 @@
                                   </ul>
                                 </div>
                               </div>
-                            </div>
+                            </div> 
                         </div>
-                        <button type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button>
+                        <div class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
                         <!----div class="row text-center paddingBottom20">
                           <a class="btn saveBtn marginTop30">SAVE</a>
                         </div-->

@@ -8,10 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { Observable } from 'rxjs';
 
-
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -26,21 +22,15 @@ export class LoginService {
   officialSeasonId:string=null;
   seasonId:string=null;
   roleId: string=null;
+  leagueId: string = null;
 
   constructor(private http: Http,private router: Router) {
     this.isLoggedIn=false;
-    //this.loginFailed=false;
     console.log(this.isLoggedIn);
    } 
 
 postLoginData(userVar : Login){
   userVar.Email=userVar.Email.toLowerCase();
-  //console.log("Inside POST 1.2");
-  //var jsonData= JSON.stringify(userVar);
- 
-  //var body = JSON.parse(userVar); 
-  //console.log(body);
-  //sconsole.log(userVar);
   var headerOptions =  new Headers({'Content-Type':'application/json'});
   var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
   return this.http.post('http://testfaafireworks.1city.us/api/Home',userVar,requestOptions)
@@ -58,10 +48,11 @@ postLoginData(userVar : Login){
     this.loginFailed=false;
 
     this.userId=this.jsonResult["Value"].UserId;
-    //console.log(this.jsonResult);
+    
     this.officialSeasonId=this.jsonResult["Value"].OfficialSeasonalId;
     this.seasonId=this.jsonResult["Value"].SeasonId;
     this.roleId = this.jsonResult["Value"].RoleId;
+    this.leagueId = this.jsonResult["Value"].LeagueId;
     console.log(this.officialSeasonId);
     //console.log(this.userId);
   }

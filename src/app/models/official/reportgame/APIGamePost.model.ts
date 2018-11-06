@@ -15,7 +15,8 @@ export class APIGamePost{
     public VisitingTeamId : string
     public HomeTeamScore : string
     public VisitingTeamScore : string
-    public Division: String
+    public Division: string
+    public LeagueId: string
     
     public HomeTeamPlayerScores : HomeTeamPlayerScores[]
     public VisitingTeamPlayerScores : VisitingTeamPlayerScores[]
@@ -29,7 +30,8 @@ export class APIGamePost{
         this.HomeTeamId = '',
         this.VisitingTeamId = '',
         this.HomeTeamScore = '',
-        this.VisitingTeamScore = ''
+        this.VisitingTeamScore = '',
+        this.LeagueId = ''
     }
 
  }

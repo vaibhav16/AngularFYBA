@@ -61,6 +61,7 @@ export class OfficialService {
   HomeTeamScore : '',
   VisitingTeamScore : '',
   Division:'',
+  LeagueId:'',
   HomeTeamPlayerScores : [{
     GameId: '',
     PlayerName:'',
