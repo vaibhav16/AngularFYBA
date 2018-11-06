@@ -31,67 +31,72 @@ export class ReportGameComponent {
   @ViewChild("Incidentlist", {read: ElementRef}) 
   private Incidentlist: ElementRef;
   
-  gameListIndex: number = null;
+  HomeTeamPlayerScores: APIPlayerScorePost[] = [];
+  VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
+  fg: FormGroup;
 
   APIGamePost: APIGamePost ={
     Roleid:'',
     SeasonId:'',
     OfficialSeasonId:'',
+    OfficiatingPositionId:'',
     GameId : '',
+    GameName:'',
+    GameDate:'',
+    Location:'',
+    GameStartTime:'',
+    HomeTeam:'',
+    VisitingTeam:'',
     HomeTeamId : '',
-    VisitingTeamId : '',
+    VisitingTeamId:'',   
     HomeTeamScore : '',
     VisitingTeamScore : '',
-    HomeTeamPlayerScores : '',
-    VisitingTeamPlayerScores : ''
+    Division:'',
+    HomeTeamPlayerScores : [{
+      GameId: '',
+      PlayerName:'',
+      PlayerSeasonalId: '',
+      FoulId: '',
+      Points: null,
+      PlayerNote: null,
+      TeamId:'',
+      TeamName:''
+    }],
+    VisitingTeamPlayerScores : [{
+      GameId: '',
+      PlayerName:'',
+      PlayerSeasonalId: '',
+      FoulId: '',
+      Points: null,
+      PlayerNote: null,
+      TeamId:'',
+      TeamName:''
+      
+    }]
    }
-  
 
-
- fg: FormGroup;
- //testJson;
-  
-  //playername = ['Bobby Brady', 'Greg Brady', 'Mike Brady'];
-  constructor(public officialService: OfficialService, 
+   constructor(public officialService: OfficialService, 
     public fb: FormBuilder, public loginService: LoginService,
     public elRef: ElementRef
-    ) { 
-    this.fg = this.fb.group({
+    ){ 
+      this.fg = this.fb.group({
       GameList: this.fb.array([])
-    })
-
-    //this.setGameList();
+    });
     
   }
-  
-  x;
-  signValue;
 
   ngOnInit() { 
     console.log("report");
     this.asyncReport();
-  
-    
-    //console.log("gamelist");
-    //this.asyncGameList();
-    
   }
 
   async asyncReport(){
-    this.x = await this.officialService.getReportData();
-    this.x = await this.setGameList();
-  
-    //var q = await this.setGameList();
+    await this.officialService.getReportData();
+    await this.setGameList();
  }
 
- HomeTeamPlayerScores: APIPlayerScorePost[] = [];
- VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
-
   setGameList(){
-
     if(this.officialService.reportGameJson!=undefined){
-      //console.log(this.officialService.reportGameJson);
-
       let control = <FormArray>this.fg.controls.GameList;
       this.officialService.reportGameJson["Value"].GameList.forEach(x => {
         //console.log(x);
@@ -108,7 +113,6 @@ export class ReportGameComponent {
           VisitingTeamPlayerScores: this.setVisitingScores(x) }))
       })
     }
-
   }
 
   setHomeScores(x) {
@@ -147,61 +151,51 @@ export class ReportGameComponent {
 
 
 
-
-
-
-  onSubmit(form: NgForm) {
-    console.log(form.value.gameListIndex);
-    //console.log(form.value["HomeTeamPlayerScores[1].PlayerName"]);
-    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[0].HomeTeamPlayerScores.length; ++i){
+  onSubmit(form: NgForm, gameListIndex: number) {
+    console.log(form.value);     
+    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
       
       let point = "HPoints"+i;
       let playername = "HPlayerName"+i;    
       let gameid = "HGameId"  +i;
-      let playerseasonId = "HPlayerSeasonId"+i;
+      let playerseasonalId = "HPlayerSeasonalId"+i;
       let fouldId = "HFoulId"+i;
       let playernote = "HPlayerNote"+i;
       let teamid = "HTeamId"+i;
-      //console.log(form.value[point]);
-      //console.log(form.value[playername]);
+      let teamname = "HTeamName"+i;
     
       this.HomeTeamPlayerScores[i] = new APIPlayerScorePost();
       this.HomeTeamPlayerScores[i].PlayerName = form.value[playername];
       this.HomeTeamPlayerScores[i].Points = form.value[point];
       this.HomeTeamPlayerScores[i].GameId = form.value[gameid];
-      this.HomeTeamPlayerScores[i].PlayerSeasonalId = form.value[playername];
-      this.HomeTeamPlayerScores[i].FoulId = form.value[playernote];
+      this.HomeTeamPlayerScores[i].PlayerSeasonalId = form.value[playerseasonalId];
+      this.HomeTeamPlayerScores[i].FoulId = form.value[fouldId];
       this.HomeTeamPlayerScores[i].PlayerNote = form.value[playernote];
       this.HomeTeamPlayerScores[i].TeamId = form.value[teamid];
-
-      //this.HomeTeamPlayerScores.push(this.test);
-      
+      this.HomeTeamPlayerScores[i].TeamName = form.value[teamname];
 
     }
 
-    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[0].VisitingTeamPlayerScores.length; ++i){
+    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamPlayerScores.length; ++i){
       
       let point = "VPoints"+i;
       let playername = "VPlayerName"+i;    
       let gameid = "VGameId"  +i;
-      let playerseasonId = "VPlayerSeasonId"+i;
+      let playerseasonalId = "VPlayerSeasonalId"+i;
       let fouldId = "VFoulId"+i;
       let playernote = "VPlayerNote"+i;
       let teamid = "VTeamId"+i;
-      //console.log(form.value[point]);
-      //console.log(form.value[playername]);
-    
+      let teamname = "VTeamName"+i;
+
       this.VisitingTeamPlayerScores[i] = new APIPlayerScorePost();
       this.VisitingTeamPlayerScores[i].PlayerName = form.value[playername];
       this.VisitingTeamPlayerScores[i].Points = form.value[point];
       this.VisitingTeamPlayerScores[i].GameId = form.value[gameid];
-      this.VisitingTeamPlayerScores[i].PlayerSeasonalId = form.value[playername];
-      this.VisitingTeamPlayerScores[i].FoulId = form.value[playernote];
+      this.VisitingTeamPlayerScores[i].PlayerSeasonalId = form.value[playerseasonalId];
+      this.VisitingTeamPlayerScores[i].FoulId = form.value[fouldId];
       this.VisitingTeamPlayerScores[i].PlayerNote = form.value[playernote];
       this.VisitingTeamPlayerScores[i].TeamId = form.value[teamid];
-
-      //this.HomeTeamPlayerScores.push(this.test);
-      
+      this.VisitingTeamPlayerScores[i].TeamName = form.value[teamname];
 
     }
 
@@ -210,19 +204,27 @@ export class ReportGameComponent {
     this.APIGamePost.Roleid = this.loginService.roleId;
     this.APIGamePost.SeasonId=this.loginService.seasonId;
     this.APIGamePost.OfficialSeasonId = this.loginService.officialSeasonId;
-    this.APIGamePost.GameId = this.officialService.reportGameJson["Value"].GameList[0].GameId;
-    this.APIGamePost.HomeTeamId = this.officialService.reportGameJson["Value"].GameList[0].HomeTeamId;
-    this.APIGamePost.VisitingTeamId = this.officialService.reportGameJson["Value"].GameList[0].VisitingTeamId;
-    this.APIGamePost.HomeTeamScore = this.officialService.reportGameJson["Value"].GameList[0].HomeTeamScore;
-    this.APIGamePost.VisitingTeamScore = this.officialService.reportGameJson["Value"].GameList[0].VisitingTeamScore;
-    this.APIGamePost.HomeTeamPlayerScores = JSON.stringify(this.HomeTeamPlayerScores);
-    this.APIGamePost.VisitingTeamPlayerScores = JSON.stringify(this.VisitingTeamPlayerScores);
+    this.APIGamePost.OfficiatingPositionId = this.officialService.reportGameJson["Value"].GameList[gameListIndex].OfficiatingPositionId;
+    
+    this.APIGamePost.Location = this.officialService.reportGameJson["Value"].GameList[gameListIndex].Location;
+    this.APIGamePost.Division = this.officialService.reportGameJson["Value"].GameList[gameListIndex].Division;
+
+    this.APIGamePost.GameId = this.officialService.reportGameJson["Value"].GameList[gameListIndex].GameId;
+    this.APIGamePost.GameName= this.officialService.reportGameJson["Value"].GameList[gameListIndex].GameName;
+    this.APIGamePost.GameDate = this.officialService.reportGameJson["Value"].GameList[gameListIndex].GameDate;
+    this.APIGamePost.GameStartTime = this.officialService.reportGameJson["Value"].GameList[gameListIndex].GameStartTime;
+    
+    this.APIGamePost.HomeTeam = this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeam;
+    this.APIGamePost.VisitingTeam = this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeam;
+    this.APIGamePost.HomeTeamId = this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamId;
+    this.APIGamePost.VisitingTeamId = this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamId;
+    this.APIGamePost.HomeTeamScore = this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamScore;
+    this.APIGamePost.VisitingTeamScore = this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamScore;
+    this.APIGamePost.HomeTeamPlayerScores = this.HomeTeamPlayerScores;
+    this.APIGamePost.VisitingTeamPlayerScores = this.VisitingTeamPlayerScores;
  
     console.log(this.APIGamePost);
-    //console.log(this.officialService.reportGameJson["Value"].GameList[0].HomeTeamPlayerScores.length);
-    //this.signValue = this.elRef.nativeElement.querySelector('#SeasonId');
-    //console.log(this.loginService.seasonId);
-    //console.log(this.elRef.nativeElement.querySelector('#SeasonId'));
+    this.officialService.postReportData(this.APIGamePost);
 
     if (this.fg.valid) {
       //console.log("Form Submitted!");

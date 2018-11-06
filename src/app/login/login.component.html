@@ -9,7 +9,8 @@
   
   <div class="input_field">
     <div class="form-group">
-      <input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Email" required>    
+      <input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" placeholder="Email" required>    
+      <!----input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Email" required-->    
       <!--div class="validation-error" *ngIf="Email.invalid && (Email.dirty || Email.touched)">Invalid Email</div-->
     </div>
   

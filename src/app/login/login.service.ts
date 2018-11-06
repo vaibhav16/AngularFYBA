@@ -34,6 +34,7 @@ export class LoginService {
    } 
 
 postLoginData(userVar : Login){
+  userVar.Email=userVar.Email.toLowerCase();
   //console.log("Inside POST 1.2");
   //var jsonData= JSON.stringify(userVar);
  

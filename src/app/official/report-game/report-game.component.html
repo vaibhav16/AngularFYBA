@@ -1,6 +1,7 @@
 
 
   <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">
+    
       <div class="row">
         <div class="col-lg-12">
         <h1 class="mainDate"><strong>Games to Report</strong></h1>
@@ -18,8 +19,9 @@
                         
                     </ng-template>
                     <ng-template ngbPanelContent>
-                        <form #reportForm="ngForm" (ngSubmit)="onSubmit(reportForm)">
-                            <input style="display:none" type="text" value="{{gameListIndex}}" name="glIndex" #glIndex="ngModel" [(ngModel)]="{{gameListIndex}}"/>                                  
+                        <form #reportForm="ngForm" >
+                          
+                          <!----input type="text" value={{gameListIndex}} name="glIndex" [(ngModel)]="{{gameListIndex}}" /-->                                  
                         <div class="fms_time">
                           <h3 class="">{{item.GameDate}} @{{item.Location}} @ {{item.GameStartTime}}</h3>
                           <div>
@@ -93,11 +95,13 @@
                               <tr *ngFor= "let child of item.HomeTeamPlayerScores; let i = index" >
                                 <td>{{i+1}}</td>                                
                                 <td style="display:none"><input type="number" value="child.GameId" name="HGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
-                                <td style="display:none"><input type="number" value="child.PlayerName" name="HPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
-                                <td style="display:none"><input type="number" value="child.PlayerSeasonId" name="HPlayerSeasonId{{i}}" [(ngModel)]="child.PlayerSeasonId" /></td>
+                                <td style="display:none"><input type="text" value="child.PlayerName" name="HPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
+                                <td style="display:none"><input type="number" value="child.PlayerSeasonalId" name="HPlayerSeasonalId{{i}}" [(ngModel)]="child.PlayerSeasonalId" /></td>
                                 <td style="display:none"><input type="number" value="child.FoulId" name="HFoulId{{i}}" [(ngModel)]="child.FoulId" /></td>
                                 <td style="display:none"><input type="number" value="child.PlayerNote" name="HPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td>
                                 <td style="display:none"><input type="number" value="child.TeamId" name="HTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
+                                <td style="display:none"><input type="text" value="child.TeamName" name="HTeamName{{i}}" [(ngModel)]="child.TeamName" /></td>
+                                
                                 <td><span value="child.PlayerName">{{child.PlayerName}}</span></td>
                                 <td><input type="checkbox"  /></td>
                                 <td><input type="checkbox" /></td>
@@ -132,11 +136,12 @@
                               <tbody>
                                 <tr *ngFor= "let child of item.VisitingTeamPlayerScores; let i = index" >
                                   <td style="display:none"><input type="number" value="child.GameId" name="VGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
-                                  <td style="display:none"><input type="number" value="child.PlayerName" name="VPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
-                                  <td style="display:none"><input type="number" value="child.PlayerSeasonId" name="VPlayerSeasonId{{i}}" [(ngModel)]="child.PlayerSeasonId" /></td>
+                                  <td style="display:none"><input type="text" value="child.PlayerName" name="VPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
+                                  <td style="display:none"><input type="number" value="child.PlayerSeasonalId" name="VPlayerSeasonalId{{i}}" [(ngModel)]="child.PlayerSeasonalId" /></td>
                                   <td style="display:none"><input type="number" value="child.FoulId" name="VFoulId{{i}}" [(ngModel)]="child.FoulId" /></td>
                                   <td style="display:none"><input type="number" value="child.PlayerNote" name="VPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td>
                                   <td style="display:none"><input type="number" value="child.TeamId" name="VTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
+                                  <td style="display:none"><input type="text" value="child.TeamName" name="VTeamName{{i}}" [(ngModel)]="child.TeamName" /></td>
                                   
                                   <td>{{i+1}}</td>
                                   
@@ -174,7 +179,7 @@
                               </div>
                             </div>
                         </div>
-                        <button type="submit">SAVE</button>
+                        <button type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button>
                         <!----div class="row text-center paddingBottom20">
                           <a class="btn saveBtn marginTop30">SAVE</a>
                         </div-->
