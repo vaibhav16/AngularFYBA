@@ -1,100 +1,42 @@
-<!--Imp Code Commented Below<-->
 
 <div>
-  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel"></h4>
-        </div>
-        <div class="modal-body">
-          <p>Selecting OK will add an icon to your app screen which can be used to launch the application directly in the future</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-success">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="topBg">
-  <div class="container">
-  <div class="row">
-  <div class="col-lg-12 text-center">
-  <div class="add_to_home"><a href="javascript:void(0);" alt="" data-toggle="modal" data-target=".bs-example-modal-sm">ADD TO HOME</a></div>
-  </div>
-  </div>
-  </div>
-  </div>
-  
-  <div class="bg_logo">
-  <div class="container">
-  <div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-  <div class="logo_text"><a href="javascript:void(0);" alt="Logo Text">FYBA</a></div>
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-  <div class="logo_main"><a href="javascript:void(0);"><img src="../../assets/images/fyba_logo.png" alt="FYBA Logo" /></a></div>
-  </div>
-  </div>
-  </div>
-  </div>
-  
-  <div class="container">
-  <div class="row">
-  <div class="col-lg-12">
-  <ul class="tab_main">
-  <li><a href="javascript:void(0);"><div class="bg_img_style player_img"></div><span>PLAYER</span></a></li>
-  <li><a href="javascript:void(0);"><div class="bg_img_style coach_img"></div><span>COACH</span></a></li>
-  <li class="active"><a href="javascript:void(0);"><div class="bg_img_style official_img"></div><span>OFFICIAL</span></a></li>
-  </ul>
-  </div>
-  </div>
-  </div>
-
-
-  <div class="container official_header_img_paddNone">
-      <div class="row">
-      <div class="col-md-12 text-center">
-      <div class="official_header_img"></div>
-      </div>
-      </div>
-      </div>
-      <div class="game_select_bg">
-          <div class="container">
-          <div class="row">
-          <div class="col-lg-12">
-          <ul class="game_select">          
-          
-          <li><a (click)="keepSelectActive()" [ngClass]="{active:isSelectGameActive}" routerLink="/SelectGameComponent" routerLinkActive="active">
-            <img src="../../assets/images/game_icon.png" alt="Game Icon" />
-            <span>Select <br class="breakWord" />Games</span>
-          </a></li> 
-
-          <li>
-            <a [routerLinkActiveOptions]="{ exact: true }"
-            (click)="toggleSelectClass()"
-             routerLink="/ReportGameComponent" routerLinkActive="active">
-             <div class="imgRelative">
-              <img src="../../assets/images/report_icon.png" alt="Report Icon" />
-              <span class="notification_tip report_pos">20</span>
-            </div>
-              <span>Report <br class="breakWord" />Games</span>
-            </a>
-              
-          </li>
-          <li><a (click)="toggleSelectClass()" routerLink="/PayComponent" routerLinkActive="active"><img src="../../assets/images/paid_icon.png" alt="Paid Icon" /><span>Get <br class="breakWord" />Paid</span></a></li>
-          <li><a (click)="toggleSelectClass()" routerLink="/ProfileComponent" routerLinkActive="active"><img src="../../assets/images/officiating.png" alt="Officiating Icon" /><span>Officiating <br class="breakWord" />Profile</span></a></li>
-          </ul>
-          </div>
-          </div>
-          </div>
-          </div>     
-
-
+	
+	<app-header [topImage]='headerImg'></app-header>
+	 
+	<div class="game_select_bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="game_select">          
+						
+						<li><a (click)="keepSelectActive()" [ngClass]="{active:isSelectGameActive}" routerLink="/official/SelectGameComponent" routerLinkActive="active">
+							<img src="../../assets/images/game_icon.png" alt="Game Icon" />
+							<span>Select <br class="breakWord" />Games</span>
+						</a></li> 
+						
+						<li>
+							<a [routerLinkActiveOptions]="{ exact: true }"
+							(click)="toggleSelectClass()"
+							routerLink="/official/ReportGameComponent" routerLinkActive="active">
+								<div class="imgRelative">
+									<img src="../../assets/images/report_icon.png" alt="Report Icon" />
+									<span class="notification_tip report_pos">20</span>
+								</div>
+								<span>Report <br class="breakWord" />Games</span>
+							</a>
+							
+						</li>
+						<li><a (click)="toggleSelectClass()" routerLink="/official/PayComponent" routerLinkActive="active"><img src="../../assets/images/paid_icon.png" alt="Paid Icon" /><span>Get <br class="breakWord" />Paid</span></a></li>
+						<li><a (click)="toggleSelectClass()" routerLink="/official/ProfileComponent" routerLinkActive="active"><img src="../../assets/images/officiating.png" alt="Officiating Icon" /><span>Officiating <br class="breakWord" />Profile</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>     
+	
+	
 </div>
 
 <router-outlet>
-  
+	
 </router-outlet>

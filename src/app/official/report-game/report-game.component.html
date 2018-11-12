@@ -92,7 +92,7 @@
                                 </th></tr>
                               </thead>
                               <tbody >
-                              <tr *ngFor= "let child of item.HomeTeamPlayerScores; let i = index" >
+                              <tr *ngFor= "let child of item.HomeTeamPlayerScores ; let i = index ; " >
                                 <td>{{child.JersyNumber}}</td>                                
                                 <td style="display:none"><input type="number" value="child.GameId" name="HGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
                                 <td style="display:none"><input type="text" value="child.PlayerName" name="HPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
@@ -164,7 +164,7 @@
                         </div>
                         <div class="marginTop10">
                             <ul class="reportlist">
-                            <li>Incident Report</li>
+                            <li>Scoresheet</li>
                             </ul>
                             <div class="bgGrey">
                               <div class="row">
@@ -179,6 +179,40 @@
                               </div>
                             </div> 
                         </div>
+                        <div class="marginTop10">
+                          <ul class="reportlist">
+                          <li>Incident Report</li>
+                          </ul>
+                          <div class="bgGrey">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p class="describe_text">Describe any incidents that were observed during the game.</p>
+                                 <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
+                                <ul class="addList" #Incidentlist>
+                                    
+                                     <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Incident</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div> 
+                      </div>
+                      <div class="marginTop10">
+                        <ul class="reportlist">
+                        <li>Shared Photos</li>
+                        </ul>
+                        <div class="bgGrey">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p class="describe_text">Describe any incidents that were observed during the game.</p>
+                               <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
+                              <ul class="addList" #Incidentlist>
+                                  
+                                   <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Incident</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div> 
+                    </div>
                         <div class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
                         <!----div class="row text-center paddingBottom20">
                           <a class="btn saveBtn marginTop30">SAVE</a>

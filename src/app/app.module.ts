@@ -15,13 +15,18 @@ import { AppRoutingModule, routingComponents} from './app-routing.module';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { OfficialComponent } from './official/official.component';
 import { NgbAccordionModule,NgbAccordionConfig,NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from './modal/modal.component';
-import { CookieComponent } from './cookie/cookie.component';
+import { ModalComponent } from './others/modal/modal.component';
+import { CookieComponent } from './others/cookie/cookie.component';
 import { CookieService } from 'ngx-cookie-service';
-import {APP_BASE_HREF} from '@angular/common';
+import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DropdownComponent } from './dropdown/dropdown.component';
-import { MultiselectComponent } from './multiselect/multiselect.component';
+import { DropdownComponent } from './others/dropdown/dropdown.component';
+import { MultiselectComponent } from './others/multiselect/multiselect.component';
+import { CoachComponent } from './coach/coach.component';
+import { PlayerComponent } from './player/player.component';
+import { HeaderComponent } from './common/header/header.component';
+import { Pipe, PipeTransform } from "@angular/core";
+import { ArraySortPipe } from './shared/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,11 @@ import { MultiselectComponent } from './multiselect/multiselect.component';
     ModalComponent,
     CookieComponent,
     DropdownComponent,
-    MultiselectComponent
+    MultiselectComponent,
+    CoachComponent,
+    PlayerComponent,
+    HeaderComponent,
+    ArraySortPipe
    
   ],
   imports: [

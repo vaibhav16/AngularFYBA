@@ -628,12 +628,12 @@
    
    .accordion .accordion .card .btn-link.collapsed:before{position: relative; 
     top: 1px;
-    display: inline-block;
+    float:left;
     font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    -webkit-font-smoothing: antialiased;content: "\e250"; float:left;}
+    -webkit-font-smoothing: antialiased; content: "\e250"; }
    
    .accordion .accordion .card .btn-link:before{content: "\e252"; float:left;}
    
@@ -641,12 +641,10 @@
    
     .accordion .card .btn-link:before{position: relative;
     top: 1px;
-    display: inline-block;
     font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;content: "\e252"; float:left;}
+    line-height: 1;;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed:before{content: "\e250"; float:left;}
     .card-body button[type="submit"]{ background: #70ad47;

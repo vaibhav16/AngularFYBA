@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-
   selectedLogin: Login;
   isLoggedIn: boolean;  
   jsonResult: JSON;
@@ -46,15 +45,13 @@ postLoginData(userVar : Login){
    
     this.isLoggedIn=true;
     this.loginFailed=false;
-
     this.userId=this.jsonResult["Value"].UserId;
-    
+    this.router.navigate(['official']);    
     this.officialSeasonId=this.jsonResult["Value"].OfficialSeasonalId;
     this.seasonId=this.jsonResult["Value"].SeasonId;
     this.roleId = this.jsonResult["Value"].RoleId;
     this.leagueId = this.jsonResult["Value"].LeagueId;
     console.log(this.officialSeasonId);
-    //console.log(this.userId);
   }
   else{
     this.isLoggedIn=false;

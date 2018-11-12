@@ -14,33 +14,21 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 //styleUrls: ['./app.component.css']
 export class AppComponent {
   title = 'app';
-  closeResult: string;
-
-  //update: boolean = false;
-  //joke: any; 
+  closeResult: string; 
   siteOfflineText:string;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal,updates: SwUpdate, private data: DataService, public loginService: LoginService){
-    //this.loginService.isLoggedIn=false;
-   
-    //updates.available.subscribe(event => {
-      //this.update = true;
-    //})
+     
     config.backdrop = 'static';
     config.keyboard = false;
 
   }
 
   ngOnInit(){
-    //this.data.gimmeJokes().subscribe(res => {
-      //this.joke = res;
-    //})   
+    
     
   }
 
-  open(content) {
-    console.log("hello");
-    this.modalService.open(content);
-  }
+   
 
 }

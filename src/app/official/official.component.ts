@@ -13,6 +13,7 @@ export class OfficialComponent implements OnInit {
   //selectedClass:string;
   selectGameJson:JSON;
   isSelectGameActive:boolean=false;
+  headerImg:string;
 
  
 
@@ -22,6 +23,7 @@ export class OfficialComponent implements OnInit {
 
   ngOnInit() {
     this.isSelectGameActive=true;
+    this.headerImg = 'official_header_img';
   }
 
   selectGameData(){

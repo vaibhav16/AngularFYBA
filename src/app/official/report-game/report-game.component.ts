@@ -8,24 +8,15 @@ import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayer
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { LoginService } from 'src/app/login/login.service';
 
+
 @Component({
   selector: 'app-report-game',
   templateUrl: './report-game.component.html',
-  styles: [`.incidentimg {
-    float: left,
-    width: 100px,
-    margin-left: 20px,
-    height: 100px,
-    background: #999999,
-    text-align: center,
-    line-height: 100px,
-    color: #ffffff,
-    position: relative,
-    border: 3px solid #3c98db;
-
-  }`]
+  styleUrls: ['./report-game.component.css']
 })
-export class ReportGameComponent {
+
+
+export class ReportGameComponent{
   @ViewChild("acchead1", {read: ElementRef}) 
   private acchead1: ElementRef; 
   @ViewChild("Incidentlist", {read: ElementRef}) 
@@ -237,9 +228,6 @@ export class ReportGameComponent {
       //this.myForm.reset();
     }
   }
-
-
-  
 
 
 }

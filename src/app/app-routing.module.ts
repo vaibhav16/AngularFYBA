@@ -5,16 +5,24 @@ import { PayComponent } from './official/pay/pay.component';
 import { ProfileComponent } from './official/profile/profile.component';
 import { SelectGameComponent } from './official/select-game/select-game.component';
 import { ReportGameComponent } from './official/report-game/report-game.component';
-import { OfficialComponent } from './official/official.component';
+import { OfficialComponent } from './official/official.component'; 
+import { CoachComponent } from './coach/coach.component';  
+import { PlayerComponent } from './player/player.component'; 
 
 const routes: Routes = [
-    {path:'', component:SelectGameComponent},
-    {path:'LoginComponent', component:LoginComponent},
-    {path:'PayComponent', component:PayComponent},
-    {path:'ProfileComponent', component:ProfileComponent},
-    {path:'SelectGameComponent', component:SelectGameComponent},
-    {path:'ReportGameComponent', component:ReportGameComponent},
-    {path:'OfficalComponent', component:OfficialComponent}
+    {path:'', component:LoginComponent},
+    {path:'login', component:LoginComponent},    
+	{ path:'official', component: OfficialComponent,
+		children: [
+			{path: '', redirectTo: 'SelectGameComponent', pathMatch: 'full' },
+			{path: 'SelectGameComponent', component: SelectGameComponent }, 
+			{path:'PayComponent', component:PayComponent},
+			{path:'ProfileComponent', component:ProfileComponent},
+			{path:'ReportGameComponent', component:ReportGameComponent},
+		]
+	}, 
+    {path:'coach', component:CoachComponent},
+	{path:'player', component:PlayerComponent}
 ];
 
 @NgModule({
@@ -24,4 +32,4 @@ const routes: Routes = [
 
 export class AppRoutingModule {}
 
-export const routingComponents = [LoginComponent,PayComponent,ProfileComponent,SelectGameComponent,ReportGameComponent,OfficialComponent];
+export const routingComponents = [LoginComponent,PayComponent,ProfileComponent,SelectGameComponent,ReportGameComponent,OfficialComponent,CoachComponent,PlayerComponent];
