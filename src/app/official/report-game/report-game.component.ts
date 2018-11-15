@@ -8,6 +8,9 @@ import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayer
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { LoginService } from 'src/app/login/login.service';
 import { ArraySortPipe } from "./../../shared/sort.pipe";
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { FinalFilter } from './../../official/select-game/finalFilter.model';
+
 
 
 @Component({
@@ -75,7 +78,7 @@ export class ReportGameComponent{
 
    constructor(public officialService: OfficialService, 
     public fb: FormBuilder, public loginService: LoginService,
-    public elRef: ElementRef
+    public elRef: ElementRef,public http: Http
     ){ 
       this.fg = this.fb.group({
       GameList: this.fb.array([])
@@ -86,6 +89,7 @@ export class ReportGameComponent{
   ngOnInit() { 
     this.officialService.requestSuccess=false;
     this.officialService.requestFailure=false;
+    //this.officialService.reportGameJson=null;
     console.log("report");
     this.asyncReport();
   }
@@ -248,7 +252,50 @@ export class ReportGameComponent{
       //console.log(JSON.stringify(this.fg.value));
       //this.myForm.reset();
     }
+
+  
   }
+  panelChange($event: NgbPanelChangeEvent){
+    console.log($event);
+    this.officialService.requestFailure=false;
+    this.officialService.requestSuccess=false;
+      
+  }
+
+  myFiles:File [] = [];
+
+  async processFile(imageInput: any) {
+
+    for (var i = 0; i < imageInput.files.length; i++) { 
+      this.myFiles.push(imageInput.files[i]);
+    }
+    
+    if (imageInput) {
+      var reader = new FileReader();
+      reader.onload = await this._handleReaderLoaded.bind(this);
+      this._handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(imageInput);
+  }
+    
+    console.log(this.myFiles);
+  }
+
+  base64textString: string;
+  finalFilter: FinalFilter={
+    UserID:'11221',
+    SessionKey:'',
+    RequestedData:''
+   }
+
+  async _handleReaderLoaded(readerEvt) {
+    var binaryString = await readerEvt.target.result;
+    this.base64textString = await btoa(binaryString);
+    this.finalFilter.RequestedData = await this.base64textString;
+    var body = await JSON.stringify(this.finalFilter);
+    console.log(body);
+    this.http.post('http://testfaafireworks.1city.us/api/ImageUp', body).subscribe(res => console.log(res));
+    //console.log(btoa(binaryString));
+   }
 
 
 }

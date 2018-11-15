@@ -92,9 +92,14 @@
                                 <h3>
                                    
                                    <div class="matchInfo"><span>{{nestedChild.Location}}</span><br>
-                                    Referee: {{nestedChild.Referee}}<br>  
-                                    Umpire: {{nestedChild.Umpire}}<br>                                      
-                                    Scorekeeper: {{nestedChild.ScoreKeeper}}
+                                    <p *ngIf="nestedChild.Referee==1">Referee: Available</p>
+                                    <p *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}</p>
+                                    
+                                    <p *ngIf="nestedChild.Umpire==2">Umpire: Available</p>
+                                    <p *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}</p>
+                                                                   
+                                    <p *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available</p>
+                                    <p *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper:{{nestedChild.ScoreKeeper}}</p>
                                    </div>
                                 </h3>
                              </ng-template>

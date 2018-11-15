@@ -17,6 +17,7 @@ export class LoginService {
   jsonResult: JSON;
   loginFailed: boolean;
   userId:number=null;
+  reportTagLabel: number = null;
   sessionKey:string=null;
   officialSeasonId:string=null;
   seasonId:string=null;
@@ -52,6 +53,8 @@ postLoginData(userVar : Login){
     this.seasonId=this.jsonResult["Value"].SeasonId;
     this.roleId = this.jsonResult["Value"].RoleId;
     this.leagueId = this.jsonResult["Value"].LeagueId;
+    this.reportTagLabel = this.jsonResult["Value"].tagsLables.ReportCount;
+    console.log(this.reportTagLabel);
     //console.log(this.officialSeasonId);
   }
   else{

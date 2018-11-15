@@ -1,6 +1,19 @@
 
-<div>
-	
+<div *ngIf="officialService.selectGameJson==null" class="block">
+	<div class="bg_loaderFYBA">
+	<div class="loaderFYBA">
+		<h1>Please wait...</h1>
+		<p class="round">
+		<span class="ouro">
+		  <span class="left"><span class="anim"></span></span>
+		  <span class="right"><span class="anim"></span></span>
+		</span>
+	  </p> 
+	</div>
+</div>
+</div>
+
+<div>	
 	<app-header [topImage]='headerImg'></app-header>
 	 
 	<div class="game_select_bg">
@@ -21,7 +34,7 @@
 							routerLink="/official/ReportGameComponent" routerLinkActive="active">
 								<div class="imgRelative">
 									<img src="../../assets/images/report_icon.png" alt="Report Icon" />
-									<span class="notification_tip report_pos">20</span>
+									<span class="notification_tip report_pos">{{loginService.reportTagLabel}}</span>
 								</div>
 								<span>Report <br class="breakWord" />Games</span>
 							</a>

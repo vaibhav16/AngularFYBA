@@ -1,4 +1,16 @@
-
+<div *ngIf="officialService.reportGameJson==null || officialService.requestStatus==1" class="block">
+    <div class="bg_loaderFYBA">
+    <div class="loaderFYBA">
+      <h1>Please wait...</h1>
+      <p class="round">
+      <span class="ouro">
+        <span class="left"><span class="anim"></span></span>
+        <span class="right"><span class="anim"></span></span>
+      </span>
+      </p> 
+    </div>
+  </div>
+  </div>
 
   <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">
     
@@ -6,7 +18,7 @@
         <div class="col-lg-12">
         <h1 class="mainDate"><strong>Games to Report</strong></h1>
           <div class="data_module">
-            <ngb-accordion #acc="ngbAccordion">
+            <ngb-accordion #acc="ngbAccordion" (panelChange)="panelChange($event)">
                 <!----ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)"-->
                
                 <ngb-panel *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
@@ -14,7 +26,8 @@
                     <ng-template ngbPanelTitle >
                       <div class="HeadCollapse">
                         <h2 #acchead1>
-                          {{item.GameName}}</h2>
+                          {{item.GameName}}
+                        <i>as Umpire</i></h2>
                       </div>
                         
                     </ng-template>
@@ -173,7 +186,14 @@
                                    <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                                   <ul class="addList" #Incidentlist>
                                       
-                                       <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Scoresheet</a></li>
+                                       <li class="Incidentclass">
+                                         <!----a> Add<br />Scoresheet
+                                          
+                                         </a-->
+                                         <input #imageInput type="file" multiple accept="image/*" (change)="processFile(imageInput)">
+                                         
+                                      </li>
+                                       
                                   </ul>
                                 </div>
                               </div>
@@ -213,10 +233,10 @@
                           </div>
                         </div> 
                     </div>
-                        <div *ngIf="officialService.requestStatus==0 && !officialService.requestSuccess && !officialService.requestSuccess" class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
-                        <div *ngIf="officialService.requestStatus==1" class="requestSent">Request has been sent!</div>
-                        <div *ngIf="officialService.requestSuccess==true" class="requestSuccess">Data Saved!</div>
-                        <div *ngIf="officialService.requestFailure==true" class="requestFail">Data could not be saved!</div>
+                        <div *ngIf="officialService.requestStatus==0 || !officialService.requestSuccess || !officialService.requestSuccess" class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
+                        <div *ngIf="officialService.requestStatus==1" class="requestSent"> <br>Request has been sent!</div>
+                        <div *ngIf="officialService.requestSuccess==true" class="requestSuccess"> <br> Data Saved!</div>
+                        <div *ngIf="officialService.requestFailure==true" class="requestFail" > <br>Data could not be saved!</div>
 
                  
                         </form>

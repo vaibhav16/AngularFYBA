@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Http, Response} from '@angular/http';
 import { map } from 'rxjs/operators';
 import { OfficialService } from './official.service';
+import { LoginService } from './../login/login.service';
+import { Router } from '@angular/router'; 
 
 
 @Component({
@@ -17,11 +19,14 @@ export class OfficialComponent implements OnInit {
 
  
 
-  constructor(private http: Http, private officialService: OfficialService) {
+  constructor(private _router: Router,private http: Http, public officialService: OfficialService, public loginService: LoginService) {
     //this.selectGameJson = this.officialService.getSelectGames();
    }
 
   ngOnInit() {
+    if(!this.loginService.sessionKey){
+			this._router.navigate(['login']);
+}
     this.isSelectGameActive=true;
     this.headerImg = 'official_header_img';
   }

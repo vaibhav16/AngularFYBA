@@ -12,7 +12,7 @@
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
    
-   
+   h3.mainDate{background: #3c98db;padding:10px;color: #ffffff;}
    .HeadCollapse{float:left; margin-left: 5px; width:calc(100% - 25px);}
    
    .floatLeftAlign {
@@ -516,8 +516,8 @@
     right: -11px;
     height: 18px;
    } 
-   h3{font-size:18px !important;}
-   ul.paymentdates li{font-size:18px;}
+   h3{font-size:16px !important;}
+   ul.paymentdates li{font-size:16px;}
    ul.teamList li h3{font-size:16px !important;}
    .amountPaid{font-size:15px;}
    .wordLimit{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
@@ -536,8 +536,8 @@
    }
    
    @media only screen and (max-width : 340px) {
-       h3{font-size:16px !important;}
-   ul.paymentdates li{font-size:16px;}
+       h3{font-size:14px !important;}
+   ul.paymentdates li{font-size:14px;}
    ul.teamList li h3{font-size:14px !important;}
        .amountPaid{font-size:14px;}
        ul.addList li{font-size:11px;}

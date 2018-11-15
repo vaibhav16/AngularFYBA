@@ -140,8 +140,8 @@ public beforeChange($event: NgbPanelChangeEvent) {
 
   //this.activeIds = this.panels.map(p => "panel-"+ p);
   this.activeIds.push($event.panelId);
-  console.log($event.panelId);
-  console.log(this.activeIds);
+  //console.log($event.panelId);
+  //console.log(this.activeIds);
 }
 
 }
