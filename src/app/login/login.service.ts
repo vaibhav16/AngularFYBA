@@ -48,10 +48,11 @@ postLoginData(userVar : Login){
     this.userId=this.jsonResult["Value"].UserId;
     this.router.navigate(['official']);    
     this.officialSeasonId=this.jsonResult["Value"].OfficialSeasonalId;
+    //console.log(this.officialSeasonId);
     this.seasonId=this.jsonResult["Value"].SeasonId;
     this.roleId = this.jsonResult["Value"].RoleId;
     this.leagueId = this.jsonResult["Value"].LeagueId;
-    console.log(this.officialSeasonId);
+    //console.log(this.officialSeasonId);
   }
   else{
     this.isLoggedIn=false;

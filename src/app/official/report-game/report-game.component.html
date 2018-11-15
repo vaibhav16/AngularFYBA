@@ -39,11 +39,11 @@
                                 <tbody>
                                 <tr>
                                   <td>{{item.HomeTeam}}</td>
-                                  <td><input type="text" value="{{item.HomeTeamScore}}"/></td>
+                                  <td><input type="text" name="HTeamScore" [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>
                                 </tr>
                                 <tr>
                                   <td>{{item.VisitingTeam}}</td>
-                                  <td><input type="text" value="{{item.VisitingTeamScore}}"/></td>
+                                  <td><input type="text" name="VTeamScore" [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td>
                                 </tr>
                                 </tbody>
                                 </table>
@@ -92,25 +92,24 @@
                                 </th></tr>
                               </thead>
                               <tbody >
-                              <tr *ngFor= "let child of item.HomeTeamPlayerScores ; let i = index ; " >
-                                <td>{{child.JersyNumber}}</td>                                
+                              <tr *ngFor= "let child of item.HomeTeamPlayerScores | sort: 'JerseyNumber' ; let i=index " >
+                                <td>{{child.JersyNumber}}</td>     
+                                <!----td style="display:none"><input type="text" name="HTeamScore" [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>                           
+                                <td style="display:none"><input type="text" name="VTeamScore" [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td-->
                                 <td style="display:none"><input type="number" value="child.GameId" name="HGameId{{i}}" [(ngModel)]="child.GameId" /></td>                                  
                                 <td style="display:none"><input type="text" value="child.PlayerName" name="HPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
                                 <td style="display:none"><input type="number" value="child.PlayerSeasonalId" name="HPlayerSeasonalId{{i}}" [(ngModel)]="child.PlayerSeasonalId" /></td>
                                 <td style="display:none"><input type="number" value="child.FoulId" name="HFoulId{{i}}" [(ngModel)]="child.FoulId" /></td>
-                                <td style="display:none"><input type="number" value="child.PlayerNote" name="HPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td>
+                                <!----td style="display:none"><input type="number" value=child.PlayerNote name="HPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td-->
                                 <td style="display:none"><input type="number" value="child.TeamId" name="HTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
-                                <td style="display:none"><input type="text" value="child.TeamName" name="HTeamName{{i}}" [(ngModel)]="child.TeamName" /></td>
+                                <!----td style="display:none"><input type="text" value="child.TeamName" name="HTeamName{{i}}" [(ngModel)]="child.TeamName" /></td-->
                                 
                                 <td><span value="child.PlayerName">{{child.PlayerName}}</span></td>
-                                <td><input type="checkbox"  /></td>
-                                <td><input type="checkbox" /></td>
-                                <!--<td><input type="number" value="child.Points" pattern="[0-9]*" name="Points" [(ngModel)]="child.Points" /></td>-->
-                                <!--<td><input type="number" value="child.Points" pattern="[0-9]*" name="Points" #Points="ngModel" [(ngModel)]="officialService.APIPlayerScorePost.Points" /></td>-->
-                                <td><input type="number" value="child.Points" pattern="[0-9]*" name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>
-                                
-                                <td><input type="number"  pattern="[0-9]*" /></td>
-                                <td><input type="number" pattern="[0-9]*" /></td>
+                                <td><input type="checkbox" [checked]=child.NotPresent name="HNotPresent{{i}}" [(ngModel)]=child.NotPresent value=child.NotPresent /></td>                                
+                                <td><input type="checkbox" [checked]=child.PlayerNote name="HPlayerNote{{i}}" [(ngModel)]=child.PlayerNote value=child.PlayerNote/></td>                                
+                                <td><input type="number" value="child.Points" pattern="[0-9]*" name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>                                
+                                <td><input type="number" value="child.FoulId" pattern="[0-9]*" name="HFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
+                                <td><input type="number" value="child.Rebound" pattern="[0-9]*" name="HRebound{{i}}" [(ngModel)]="child.Rebound" /></td>
                               </tr>
                    
                               
@@ -139,19 +138,20 @@
                                   <td style="display:none"><input type="text" value="child.PlayerName" name="VPlayerName{{i}}" [(ngModel)]="child.PlayerName" /></td>
                                   <td style="display:none"><input type="number" value="child.PlayerSeasonalId" name="VPlayerSeasonalId{{i}}" [(ngModel)]="child.PlayerSeasonalId" /></td>
                                   <td style="display:none"><input type="number" value="child.FoulId" name="VFoulId{{i}}" [(ngModel)]="child.FoulId" /></td>
-                                  <td style="display:none"><input type="number" value="child.PlayerNote" name="VPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td>
+                                  <!----td style="display:none"><input type="number" value="child.PlayerNote" name="VPlayerNote{{i}}" [(ngModel)]="child.PlayerNote" /></td-->
                                   <td style="display:none"><input type="number" value="child.TeamId" name="VTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
-                                  <td style="display:none"><input type="text" value="child.TeamName" name="VTeamName{{i}}" [(ngModel)]="child.TeamName" /></td>
+                                  <!--td style="display:none"><input type="text" value="child.TeamName" name="VTeamName{{i}}" [(ngModel)]="child.TeamName" /></td-->
                                   
                                   <td>{{child.JersyNumber}}</td>   
                                   
                                   
                                   <td>{{child.PlayerName}}</td>
-                                  <td><input type="checkbox" /></td>
-                                  <td><input type="checkbox" /></td>
+                                  <td><input type="checkbox" [(ngModel)]="child.NotPresent" name="VNotPresent{{i}}" value=child.NotPresent [checked]=child.NotPresent /></td>
+                                  <td><input type="checkbox"  [(ngModel)]="child.PlayerNote" name="VPlayerNote{{i}}" value=child.PlayerNote [checked]=child.PlayerNote  /></td>
+                                 
                                   <td><input type="number" value="child.Points" name="VPoints{{i}}" [(ngModel)]="child.Points" pattern="[0-9]*" /></td>
-                                  <td><input type="number" pattern="[0-9]*" /></td>
-                                  <td><input type="number" pattern="[0-9]*" /></td>
+                                  <td><input type="number" value="child.FoulId" pattern="[0-9]*" name="VFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
+                                  <td><input type="number"value="child.Rebound" pattern="[0-9]*" name="VRebound{{i}}" [(ngModel)]="child.Rebound" /></td>
                                 </tr>
                               </tbody>
                               </table>
@@ -169,11 +169,11 @@
                             <div class="bgGrey">
                               <div class="row">
                                 <div class="col-md-12">
-                                  <p class="describe_text">Describe any incidents that were observed during the game.</p>
+                                  <p class="describe_text">Please upload an image of the Game Scoresheet.</p>
                                    <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                                   <ul class="addList" #Incidentlist>
                                       
-                                       <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Incident</a></li>
+                                       <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Scoresheet</a></li>
                                   </ul>
                                 </div>
                               </div>
@@ -186,7 +186,7 @@
                           <div class="bgGrey">
                             <div class="row">
                               <div class="col-md-12">
-                                <p class="describe_text">Describe any incidents that were observed during the game.</p>
+                                <p class="describe_text">Describe any incidents that were observed during the Game.</p>
                                  <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                                 <ul class="addList" #Incidentlist>
                                     
@@ -203,20 +203,22 @@
                         <div class="bgGrey">
                           <div class="row">
                             <div class="col-md-12">
-                              <p class="describe_text">Describe any incidents that were observed during the game.</p>
+                              <p class="describe_text">Please upload images of the Game.</p>
                                <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                               <ul class="addList" #Incidentlist>
                                   
-                                   <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Incident</a></li>
+                                   <li class="Incidentclass"><a href="javascript:void(0);" (click)="fileInput.click()"> Add <br />Photo</a></li>
                               </ul>
                             </div>
                           </div>
                         </div> 
                     </div>
-                        <div class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
-                        <!----div class="row text-center paddingBottom20">
-                          <a class="btn saveBtn marginTop30">SAVE</a>
-                        </div-->
+                        <div *ngIf="officialService.requestStatus==0 && !officialService.requestSuccess && !officialService.requestSuccess" class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
+                        <div *ngIf="officialService.requestStatus==1" class="requestSent">Request has been sent!</div>
+                        <div *ngIf="officialService.requestSuccess==true" class="requestSuccess">Data Saved!</div>
+                        <div *ngIf="officialService.requestFailure==true" class="requestFail">Data could not be saved!</div>
+
+                 
                         </form>
                      
                     </ng-template>

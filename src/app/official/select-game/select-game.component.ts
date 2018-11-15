@@ -111,8 +111,7 @@ export class SelectGameComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       classes: "myclass custom-class"
   };
-       
-    this.officialService.postSelectGames(this.selectedFilter);  
+   this.officialService.postSelectGames(this.selectedFilter);  
     //this.officialService.getSelectGames();
     
 }

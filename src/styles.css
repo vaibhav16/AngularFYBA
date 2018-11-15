@@ -617,6 +617,14 @@
     
     .selected-item {
     background: #e9f4ff; }
+
+    .requestSent{
+        color: #ff0000; text-align: center; font-weight:bold;}
+
+    .requestFail{
+        color: #ff0000; text-align: center; font-weight:bold;}
+    .requestSuccess{
+        color: #4BB543; text-align: center; font-weight:bold;}
     
    /*----- Multiselect CSS --*/
    

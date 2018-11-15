@@ -19,6 +19,10 @@ import { APIPlayerScorePost } from '../models/official/reportgame/APIPlayerScore
 export class OfficialService {
  selectGameJson:JSON = null;
  reportGameJson:JSON = null;
+ requestStatus: number = 0;
+ requestSuccess:boolean = false;
+ requestFailure:boolean = false;
+ numberOfSelectGameClicks:number = 0;
  initialData:Filter;
  initialFilter: IntialFilter = {
    UserID:'',
@@ -69,6 +73,8 @@ export class OfficialService {
     FoulId: '',
     Points: null,
     PlayerNote: null,
+    NotPresent:null,
+    Rebound:'',
     TeamId:'',
     TeamName:''
   }],
@@ -79,6 +85,8 @@ export class OfficialService {
     FoulId: '',
     Points: null,
     PlayerNote: null,
+    NotPresent:null,
+    Rebound:'',
     TeamId:'',
     TeamName:''
     
@@ -92,8 +100,10 @@ export class OfficialService {
   FoulId : '',
   Points : null,
   PlayerNote : null,
+  NotPresent:null,
   TeamId : '',
-  TeamName:''
+  TeamName:'',
+  Rebound:''
  }
 
  selectedDivisions = [];
@@ -118,6 +128,7 @@ export class OfficialService {
   }
 
   postSelectGames(obj: Filter):any{  
+    this.numberOfSelectGameClicks++;
     //this.finalFilter.RequestedData=JSON.stringify(obj);
     this.initialFilter.SessionKey = this.loginService.sessionKey;
     this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
@@ -130,7 +141,7 @@ export class OfficialService {
     })).toPromise().then(x => {     
 
       console.log(x);
-      this.fetchPreselectedFilters(x);
+      this.fetchPreselectedFilters(x);      
       return Promise.resolve(this.selectGameJson = x);      
     });
   }
@@ -163,20 +174,28 @@ export class OfficialService {
       
         if(element.id==y[i])
         {
+          let existItem = this.selectedDivisions.filter(item => item.itemName === element.itemName);
+          if (existItem.length < 1) { 
           this.selectedDivisions.push(element);
+          }
         }  
   });
 }
 
     y = x["Value"].SelectedFilters.Location.split(",");
 
+    
 
     for(let i=0; i<(y.length); ++i){
       x["Value"].Filters.Filter_Locations.forEach(element => {   
       
         if(element.id==y[i])
-        {
+        {          
+          let existItem = this.selectedLocations.filter(item => item.itemName === element.itemName);
+          if (existItem.length < 1) {
+                       
           this.selectedLocations.push(element);
+          }
         }  
   });
 }
@@ -188,7 +207,10 @@ for(let i=0; i<(y.length); ++i){
   
     if(element.id==y[i])
     {
-      this.selectedPositions.push(element);
+      let existItem = this.selectedPositions.filter(item => item.itemName === element.itemName);
+      if (existItem.length < 1) {
+        this.selectedPositions.push(element);
+      }
     }  
 });
 }
@@ -200,7 +222,10 @@ for(let i=0; i<(y.length); ++i){
   
     if(element.id==y[i])
     {
-      this.selectedTimes.push(element);
+      let existItem = this.selectedTimes.filter(item => item.itemName === element.itemName);
+      if (existItem.length < 1) { 
+        this.selectedTimes.push(element);
+      }
     }  
 });
 }
@@ -271,10 +296,13 @@ for(let i=0; i<(y.length); ++i){
   }
 
   postReportData(gameListObj: any){
+    this.requestStatus = 1;
+    this.requestSuccess=false;
+    this.requestFailure=false;
     this.finalFilter.RequestedData= JSON.stringify(gameListObj);    
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID =this.loginService.userId.toString();
-
+    console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);   
     console.log(JSON.stringify(this.finalFilter));
     
@@ -286,6 +314,13 @@ for(let i=0; i<(y.length); ++i){
     })).toPromise().then(x => {     
       
       console.log(x);
+      this.requestStatus = 0;
+      if(x["Error"]==200){
+        this.requestSuccess=true;        
+      }
+      else{
+        this.requestFailure=true;
+      }
       return Promise.resolve();      
     });
   }

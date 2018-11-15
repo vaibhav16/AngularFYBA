@@ -6,6 +6,8 @@ export class APIPlayerScorePost{
     public FoulId : string
     public Points : number
     public PlayerNote : boolean
+    public NotPresent : boolean
+    public Rebound : string
     public TeamId : string
     public TeamName: string
 
@@ -16,6 +18,8 @@ export class APIPlayerScorePost{
         this.FoulId = '';
         this.Points = null;
         this.PlayerNote = null;
+        this.NotPresent = null;
+        this.Rebound = '';
         this.TeamId = '';
         this.TeamName = '';
      }

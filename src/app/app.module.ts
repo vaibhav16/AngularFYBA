@@ -27,6 +27,7 @@ import { PlayerComponent } from './player/player.component';
 import { HeaderComponent } from './common/header/header.component';
 import { Pipe, PipeTransform } from "@angular/core";
 import { ArraySortPipe } from './shared/sort.pipe';
+import { ImguploadComponent } from './others/imgupload/imgupload.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ArraySortPipe } from './shared/sort.pipe';
     CoachComponent,
     PlayerComponent,
     HeaderComponent,
-    ArraySortPipe
+    ArraySortPipe,
+    ImguploadComponent
    
   ],
   imports: [

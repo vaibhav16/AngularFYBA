@@ -9,10 +9,11 @@
 				<div class="col-lg-12">
 					<ul class="game_select">          
 						
-						<li><a (click)="keepSelectActive()" [ngClass]="{active:isSelectGameActive}" routerLink="/official/SelectGameComponent" routerLinkActive="active">
+				    <li><a (click)="keepSelectActive()" [ngClass]="{active:isSelectGameActive}" routerLink="/official/SelectGameComponent" routerLinkActive="active">
 							<img src="../../assets/images/game_icon.png" alt="Game Icon" />
 							<span>Select <br class="breakWord" />Games</span>
-						</a></li> 
+						</a>
+					</li> 
 						
 						<li>
 							<a [routerLinkActiveOptions]="{ exact: true }"

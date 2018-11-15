@@ -32,6 +32,7 @@ export class APIGamePost{
         this.HomeTeamScore = '',
         this.VisitingTeamScore = '',
         this.LeagueId = ''
+
     }
 
  }
@@ -43,8 +44,10 @@ export class APIGamePost{
     public FoulId : string
     public Points : number
     public PlayerNote : boolean
+    public NotPresent : boolean
     public TeamId : string
     public TeamName: string
+    public Rebound: string
 
     constructor() {
         this.GameId = '';
@@ -53,6 +56,8 @@ export class APIGamePost{
         this.FoulId = '';
         this.Points = null;
         this.PlayerNote = null;
+        this.NotPresent = null;
+        this.Rebound = '';
         this.TeamId = '';
         this.TeamName = '';
      }
@@ -65,8 +70,10 @@ export class APIGamePost{
     public FoulId : string
     public Points : number
     public PlayerNote : boolean
+    public NotPresent : boolean
     public TeamId : string
     public TeamName: string
+    public Rebound: string
 
     constructor() {
         this.GameId = '';
@@ -75,6 +82,8 @@ export class APIGamePost{
         this.FoulId = '';
         this.Points = null;
         this.PlayerNote = null;
+        this.NotPresent = null;
+        this.Rebound = '';
         this.TeamId = '';
         this.TeamName = '';
      }
