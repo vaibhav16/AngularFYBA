@@ -88,9 +88,11 @@ export class OfficialService {
     NotPresent:null,
     Rebound:'',
     TeamId:'',
-    TeamName:''
-    
-  }]
+    TeamName:''  
+  }],
+  ScoreSheetImages:[{
+    ImageURL:'',
+    NewImageByteCode:''}]
  }
 
  APIPlayerScorePost : APIPlayerScorePost ={
@@ -324,4 +326,5 @@ for(let i=0; i<(y.length); ++i){
       return Promise.resolve();      
     });
   }
+
 }

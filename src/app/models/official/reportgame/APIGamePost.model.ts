@@ -20,6 +20,7 @@ export class APIGamePost{
     
     public HomeTeamPlayerScores : HomeTeamPlayerScores[]
     public VisitingTeamPlayerScores : VisitingTeamPlayerScores[]
+    public ScoreSheetImages : ScoreSheetImages[]
 
     constructor() {
         this.SeasonId = '';
@@ -63,6 +64,9 @@ export class APIGamePost{
      }
  }
  
+ 
+
+
  export class VisitingTeamPlayerScores{
     public GameId : string
     public PlayerName ?: string
@@ -87,4 +91,18 @@ export class APIGamePost{
         this.TeamId = '';
         this.TeamName = '';
      }
+
+ }
+
+ export class ScoreSheetImages{
+
+    public ImageURL: string;
+    public NewImageByteCode: string;
+
+    constructor(){
+        this.ImageURL = '';
+        this.NewImageByteCode = '';
+        
+    }
+
  }

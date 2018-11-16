@@ -27,7 +27,9 @@
                       <div class="HeadCollapse">
                         <h2 #acchead1>
                           {{item.GameName}}
-                        <i>as Umpire</i></h2>
+                          <span class="asCoach">{{item.PositionText}}</span>
+                          <span class="earnMore">{{item.IncentiveText}}</span>
+                        </h2>
                       </div>
                         
                     </ng-template>
@@ -73,7 +75,7 @@
                             <div class="bgGrey">
                               <div class="row">
                               <div class="col-md-12">
-                              <p class="describe_text">Best viewed in landscape mode on mobile devices</p>
+                              <!----p class="describe_text">Best viewed in landscape mode on mobile devices</p-->
                               <h2><strong>{{item.Division}} {{item.HomeTeam}}</strong></h2>
                               <div class="overflowAuto" >
 
@@ -95,14 +97,14 @@
                                   <img class="info_icon" src="../../assets/images/info-icon.png" /> 
                                   <span class="tooltiptext tooltip-top">Points Scored</span></div>
                                 </th>
-                                <th width="10%">FOU <div class="tooltip_abc">
+                                <!----th width="10%">FOU <div class="tooltip_abc">
                                   <img class="info_icon" src="../../assets/images/info-icon.png" /> 
                                   <span class="tooltiptext tooltip-top">Personal Fouls</span></div>
                                 </th>
                                 <th width="10%">REB <div class="tooltip_abc">
                                  <img class="info_icon" src="../../assets/images/info-icon.png" /> 
                                  <span class="tooltiptext tooltip-top">Rebounds</span></div>
-                                </th></tr>
+                                </th--></tr>
                               </thead>
                               <tbody >
                               <tr *ngFor= "let child of item.HomeTeamPlayerScores | sort: 'JerseyNumber' ; let i=index " >
@@ -117,12 +119,12 @@
                                 <td style="display:none"><input type="number" value="child.TeamId" name="HTeamId{{i}}" [(ngModel)]="child.TeamId" /></td>
                                 <!----td style="display:none"><input type="text" value="child.TeamName" name="HTeamName{{i}}" [(ngModel)]="child.TeamName" /></td-->
                                 
-                                <td><span value="child.PlayerName">{{child.PlayerName}}</span></td>
+                                <td style="text-align:left;"><span value="child.PlayerName">{{child.PlayerName}}</span></td>
                                 <td><input type="checkbox" [checked]=child.NotPresent name="HNotPresent{{i}}" [(ngModel)]=child.NotPresent value=child.NotPresent /></td>                                
                                 <td><input type="checkbox" [checked]=child.PlayerNote name="HPlayerNote{{i}}" [(ngModel)]=child.PlayerNote value=child.PlayerNote/></td>                                
                                 <td><input type="number" value="child.Points" pattern="[0-9]*" name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>                                
-                                <td><input type="number" value="child.FoulId" pattern="[0-9]*" name="HFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
-                                <td><input type="number" value="child.Rebound" pattern="[0-9]*" name="HRebound{{i}}" [(ngModel)]="child.Rebound" /></td>
+                                <!----td><input type="number" value="child.FoulId" pattern="[0-9]*" name="HFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
+                                <td><input type="number" value="child.Rebound" pattern="[0-9]*" name="HRebound{{i}}" [(ngModel)]="child.Rebound" /></td-->
                               </tr>
                    
                               
@@ -142,8 +144,8 @@
                                 <th width="10%">NP</th>
                                 <th width="10%">PON</th>
                                 <th width="10%">PTS</th>
-                                <th width="10%">FOU</th>
-                                <th width="10%">REB</th></tr>
+                                <!--<th width="10%">FOU</th>
+                                <th width="10%">REB</th>--></tr>
                               </thead>
                               <tbody>
                                 <tr *ngFor= "let child of item.VisitingTeamPlayerScores; let i = index" >
@@ -158,14 +160,14 @@
                                   <td>{{child.JersyNumber}}</td>   
                                   
                                   
-                                  <td>{{child.PlayerName}}</td>
+                                  <td style="text-align:left;">{{child.PlayerName}}</td>
                                   <td><input type="checkbox" [(ngModel)]="child.NotPresent" name="VNotPresent{{i}}" value=child.NotPresent [checked]=child.NotPresent /></td>
                                   <td><input type="checkbox"  [(ngModel)]="child.PlayerNote" name="VPlayerNote{{i}}" value=child.PlayerNote [checked]=child.PlayerNote  /></td>
                                  
                                   <td><input type="number" value="child.Points" name="VPoints{{i}}" [(ngModel)]="child.Points" pattern="[0-9]*" /></td>
-                                  <td><input type="number" value="child.FoulId" pattern="[0-9]*" name="VFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
-                                  <td><input type="number"value="child.Rebound" pattern="[0-9]*" name="VRebound{{i}}" [(ngModel)]="child.Rebound" /></td>
-                                </tr>
+                                  <!--<td><input type="number" value="child.FoulId" pattern="[0-9]*" name="VFouls{{i}}" [(ngModel)]="child.FoulId" /></td>-->
+                                 <!--<td><input type="number"value="child.Rebound" pattern="[0-9]*" name="VRebound{{i}}" [(ngModel)]="child.Rebound" /></td>-->
+                                </tr>  
                               </tbody>
                               </table>
                               </div>
@@ -185,13 +187,18 @@
                                   <p class="describe_text">Please upload an image of the Game Scoresheet.</p>
                                    <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                                   <ul class="addList" #Incidentlist>
+                                    <li *ngFor="let child of item.ScoreSheetImages">
+                                    
+                                          <img src={{child.ImageURL}} style="width:100px;height:100px;">
+                                          <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                           
+                                    </li>
                                       
                                        <li class="Incidentclass">
                                          <!----a> Add<br />Scoresheet
                                           
                                          </a-->
                                          <input #imageInput type="file" multiple accept="image/*" (change)="processFile(imageInput)">
-                                         
+                                         <span class="addHeading">Add<br /> Scoreshot</span>
                                       </li>
                                        
                                   </ul>
@@ -216,7 +223,7 @@
                             </div>
                           </div> 
                       </div>
-                      <div class="marginTop10">
+                      <!----div class="marginTop10">
                         <ul class="reportlist">
                         <li>Shared Photos</li>
                         </ul>
@@ -232,7 +239,7 @@
                             </div>
                           </div>
                         </div> 
-                    </div>
+                    </div-->
                         <div *ngIf="officialService.requestStatus==0 || !officialService.requestSuccess || !officialService.requestSuccess" class="text-center"><button class="saveBtn" type="submit" (click)="onSubmit(reportForm,gameListIndex)">SAVE</button></div>
                         <div *ngIf="officialService.requestStatus==1" class="requestSent"> <br>Request has been sent!</div>
                         <div *ngIf="officialService.requestSuccess==true" class="requestSuccess"> <br> Data Saved!</div>

@@ -4,6 +4,7 @@ import { OfficialService } from '../official.service';
 import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { APIGamePost } from './../../models/official/reportgame/APIGamePost.model';
+import { ScoreSheetImages } from './../../models/official/reportgame/ScoreSheet.model';
 import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayerScorePost.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { LoginService } from 'src/app/login/login.service';
@@ -28,6 +29,7 @@ export class ReportGameComponent{
   
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
+  ScoreSheetImages: ScoreSheetImages[] =[];
   fg: FormGroup;
 
   APIGamePost: APIGamePost ={
@@ -73,7 +75,10 @@ export class ReportGameComponent{
       TeamId:'',
       TeamName:''
       
-    }]
+    }],
+    ScoreSheetImages:[{
+      ImageURL:'',
+      NewImageByteCode:''}]
    }
 
    constructor(public officialService: OfficialService, 
@@ -89,75 +94,17 @@ export class ReportGameComponent{
   ngOnInit() { 
     this.officialService.requestSuccess=false;
     this.officialService.requestFailure=false;
-    //this.officialService.reportGameJson=null;
-    console.log("report");
+    //this.officialService.reportGameJson=null;    
     this.asyncReport();
   }
 
   async asyncReport(){
-    await this.officialService.getReportData();
-    await this.setGameList();
+    await this.officialService.getReportData(); 
  }
-
-  setGameList(){
-    if(this.officialService.reportGameJson!=undefined){
-      let control = <FormArray>this.fg.controls.GameList;
-      this.officialService.reportGameJson["Value"].GameList.forEach(x => {
-        //console.log(x);
-        control.push(this.fb.group({ 
-          SeasonId: this.loginService.seasonId,
-          OfficialSeasonId: this.loginService.officialSeasonId,
-          RoleId:this.loginService.roleId,
-          GameId: x.GameId,
-          HomeTeamId: x.HomeTeamId,
-          VisitingTeamId: x.VisitingTeamId,
-          HomeTeamScore: x.HomeTeamScore,
-          VisitingTeamScore: x.VisitingTeamScore,      
-          HomeTeamPlayerScores: this.setHomeScores(x),
-          VisitingTeamPlayerScores: this.setVisitingScores(x) }))
-      })
-    }
-  }
-
-  setHomeScores(x) {
-    //console.log(x);
-    let arr = new FormArray([])
-    x.HomeTeamPlayerScores.forEach(y => {
-      arr.push(this.fb.group({ 
-        GameId: y.GameId,
-        PlayerName: y.PlayerName,
-        PlayerSeasonalId : y.PlayerSeasonalId,
-        FoulId : y.FoulId,
-        Points : y.Points,
-        PlayerNote : y.PlayerNote,
-        TeamId : y.TeamId
-      }))
-    })
-    return arr;
-  }
-
-  setVisitingScores(x) {
-    //console.log(x);
-    let arr = new FormArray([])
-    x.VisitingTeamPlayerScores.forEach(y => {
-      arr.push(this.fb.group({ 
-        GameId: y.GameId,
-        PlayerName: y.PlayerName,
-        PlayerSeasonalId : y.PlayerSeasonalId,
-        FoulId : y.FoulId,
-        Points : y.Points,
-        PlayerNote : y.PlayerNote,
-        TeamId : y.TeamId
-      }))
-    })
-    return arr;
-  }
-
-
 
   onSubmit(form: NgForm, gameListIndex: number) {
     console.log(form.value);   
-    console.log(form);
+    //console.log(form);
     for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
       
       let point = "HPoints"+i;
@@ -214,7 +161,7 @@ export class ReportGameComponent{
 
     }
 
-    console.log(this.VisitingTeamPlayerScores);
+    //console.log(this.VisitingTeamPlayerScores);
     
     this.APIGamePost.Roleid = this.loginService.roleId;
     this.APIGamePost.SeasonId=this.loginService.seasonId;
@@ -241,18 +188,10 @@ export class ReportGameComponent{
     //this.APIGamePost.VisitingTeamScore = this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamScore;
     this.APIGamePost.HomeTeamPlayerScores = this.HomeTeamPlayerScores;
     this.APIGamePost.VisitingTeamPlayerScores = this.VisitingTeamPlayerScores;
+    this.APIGamePost.ScoreSheetImages = this.ScoreSheetImages;
  
     console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost);
-
-    if (this.fg.valid) {
-      //console.log("Form Submitted!");
-      //console.log(this.fg.value);
-      
-      //console.log(JSON.stringify(this.fg.value));
-      //this.myForm.reset();
-    }
-
   
   }
   panelChange($event: NgbPanelChangeEvent){
@@ -263,40 +202,56 @@ export class ReportGameComponent{
   }
 
   myFiles:File [] = [];
+  base64textString;
+  tempScoreSheet: ScoreSheetImages = {
+    ImageURL:'',
+    NewImageByteCode:''
+  };
 
-  async processFile(imageInput: any) {
+   processFile(imageInput: any) {
+    this.makeImageByteArray(imageInput);       
+  }
 
-    for (var i = 0; i < imageInput.files.length; i++) { 
-      this.myFiles.push(imageInput.files[i]);
+  async makeImageByteArray(imageInput:any){
+    for(var i = 0; i < imageInput.files.length; i++) {     
+      this.tempScoreSheet.ImageURL='';   
+      this.tempScoreSheet.NewImageByteCode='';
+      this.base64textString=null;
+      if (imageInput.files[i]) {
+        console.log(imageInput.files[i]);
+        var reader = await new FileReader();         
+        await reader.readAsBinaryString(imageInput.files[i]);  
+        reader.onload = await this._handleReaderLoaded.bind(this);
+        await this.setByteValue();                               
+     
+      }
     }
-    
-    if (imageInput) {
-      var reader = new FileReader();
-      reader.onload = await this._handleReaderLoaded.bind(this);
-      this._handleReaderLoaded.bind(this);
-      reader.readAsBinaryString(imageInput);
-  }
-    
-    console.log(this.myFiles);
+    //console.log(this.ScoreSheetImages);
   }
 
-  base64textString: string;
-  finalFilter: FinalFilter={
-    UserID:'11221',
-    SessionKey:'',
-    RequestedData:''
-   }
 
   async _handleReaderLoaded(readerEvt) {
-    var binaryString = await readerEvt.target.result;
+    //console.log(readerEvt.target.result);
+    this.base64textString=null;
+    var binaryString=null;
+    binaryString = await readerEvt.target.result;
     this.base64textString = await btoa(binaryString);
-    this.finalFilter.RequestedData = await this.base64textString;
-    var body = await JSON.stringify(this.finalFilter);
-    console.log(body);
-    this.http.post('http://testfaafireworks.1city.us/api/ImageUp', body).subscribe(res => console.log(res));
-    //console.log(btoa(binaryString));
+    await this.setByteValue();
+    
+    
    }
 
+   async setByteValue(){ 
+    if(this.base64textString!=null){
+      this.tempScoreSheet.ImageURL = '';
+      this.tempScoreSheet.NewImageByteCode=this.base64textString; 
+      console.log(this.tempScoreSheet);
+      this.ScoreSheetImages.push(this.tempScoreSheet);
+      console.log(this.ScoreSheetImages);
+
+    }
+
+   }
 
 }
 
