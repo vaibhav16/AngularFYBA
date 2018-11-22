@@ -28,6 +28,7 @@ import { HeaderComponent } from './common/header/header.component';
 import { Pipe, PipeTransform } from "@angular/core";
 import { ArraySortPipe } from './shared/sort.pipe';
 import { ImguploadComponent } from './others/imgupload/imgupload.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ImguploadComponent } from './others/imgupload/imgupload.component';
     AppRoutingModule,
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
+    ModalModule.forRoot(),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     
   ],

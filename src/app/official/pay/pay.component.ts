@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OfficialService } from './../official.service';
 
 @Component({
   selector: 'app-pay',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PayComponent implements OnInit {
 
-  constructor() { }
+  constructor(public officialService: OfficialService) { 
+
+  }
 
   ngOnInit() {
+    this.officialService.fetchGetPaidData();
   }
 
 }

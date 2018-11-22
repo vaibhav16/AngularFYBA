@@ -1,138 +1,158 @@
+<!--officialService.signUpStatus"-->
+<div *ngIf="signUpRequest" class="block">
+      <div class="bg_loaderFYBA">
+      <div class="loaderFYBA">
+        <h2>Please wait...</h2>
+        <p class="round">
+        <span class="ouro">
+          <span class="left"><span class="anim"></span></span>
+          <span class="right"><span class="anim"></span></span>
+        </span>
+        </p> 
+      </div>
+   </div>
+</div>
+
 <div *ngIf="officialService.selectGameJson!=undefined" class="container paddingBottom50">
-        <!--form #form="ngForm" (ngSubmit)="logForm(form.value)">           
-           <select [(ngModel)]="selectedFilter.Division" name="Division" value="option.Division">
-               <option *ngFor='let option of officialService.selectGameJson.Value.Filters.Filter_Divisions'>
-                {{option.Abbreviation}}
-            </option>
-        </select>
-           
-        <button type="submit">Submit</button>
-          class="glyphicon glyphicon-triangle-bottom"
-          [ngClass]="{glyphicon:expandTriangle}"
-        </form-->
-      
-       
-     
-                
-        <div class="row">
-           <div class="col-lg-12">
-              <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
-                 <ngb-panel id="filter" title="Filter">
-                    
-                    <ng-template ngbPanelContent>
-                        <form (ngSubmit)="logForm(filterForm.value)" #filterForm="ngForm">
-                            <div class="form-group">
-                                <label for="name" class="marginTopBottom marginTopNone">Division</label>
-                                <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
-                                                      [(ngModel)]="officialService.selectedDivisions" 
-                                                      [settings]="settings"                                    
-                                                      (onSelect)="onItemSelect($event)"
-                                                      (onDeSelect)="OnItemDeSelect($event)" 
-                                                      (onSelectAll)="onSelectAll($event)" 
-                                                      (onDeSelectAll)="onDeSelectAll($event)"                 
-                                                      name="DivisionSelect" #DivisionSelect="ngModel" required>
-                                </angular2-multiselect>
-                
-                                <label for="name" class="marginTopBottom">Location</label>
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" 
-                                [(ngModel)]="officialService.selectedLocations" 
-                                                      [settings]="settings"                                                       
-                                                      name="LocationSelect" #LocationSelect="ngModel" required>
-                                </angular2-multiselect>
-                
-                                <label for="name" class="marginTopBottom">Position</label>
-                                <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" 
-                                [(ngModel)]="officialService.selectedPositions" 
-                                                      [settings]="settings" 
-                                                     
-                                                      name="PositionSelect" #PositionSelect="ngModel" required>
-                                </angular2-multiselect>
-
-                                <label for="name" class="marginTopBottom">Start Time</label>
-                                <angular2-multiselect id="timeMultiselect" [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
-                                [(ngModel)]="officialService.selectedTimes" 
-                                                      [settings]="settings" 
-                                                     
-                                                      name="TimeSelect" #TimeSelect="ngModel" required>
-                                </angular2-multiselect>
-                               
-                            </div>
-                            <button type="submit" class="btn btn-success btn-block">Apply Filters</button>
-                        </form> 
-                    </ng-template>
-                 </ngb-panel>
-              </ngb-accordion>
-           </div>
-        </div>
-        <div class="row">
-           <div *ngFor='let item of officialService.selectGameJson.Value.SelectGame' class="col-lg-12">
-              <h1 class="mainDate"><strong>{{item.GameDateName}}</strong></h1>
-              <ngb-accordion #acc="ngbAccordion" class="data_module" [activeIds]="activeIds" (panelChange)="beforeChange($event)">
-                 <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
-                 id="{{child.GameTimeSlots[0].GameTimeSlotName}}">
-                   <ng-template ngbPanelTitle>
-                       <div class="HeadCollapse">
-                           {{child.GameTimeSlots[0].GameTimeSlotName}}
-                       </div>                         
-                   </ng-template>
-
-                   
-                    <ng-template ngbPanelContent>
-                       <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
-                       <ngb-accordion #acc="ngbAccordion">
-                          <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" 
-                          class="teamList" id="{{nestedChild.MatchupName}}">
-                          <ng-template ngbPanelTitle>
-                              <div class="HeadCollapse">
-                                  {{nestedChild.MatchupName}}
+      <div class="row">
+         <div class="col-lg-12">
+            <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
+            <ngb-panel id="filter" title="Filter">
+               <ng-template ngbPanelContent>
+                  <form (ngSubmit)="submitFilters(filterForm.value)" #filterForm="ngForm">
+                  <div class="form-group">
+                     <label for="name" class="marginTopBottom marginTopNone">Division</label>
+                     <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
+                     <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
+                     [(ngModel)]="officialService.selectedDivisions" 
+                     [settings]="settings"                        
+                     (onSelect)="onItemSelect($event)"
+                     (onDeSelect)="OnItemDeSelect($event)" 
+                     name="DivisionSelect" #DivisionSelect="ngModel" required>
+                     </angular2-multiselect>
+                     <label for="name" class="marginTopBottom">Location</label>
+                     <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" 
+                     [(ngModel)]="officialService.selectedLocations" 
+                     [settings]="settings" 
+                     name="LocationSelect" #LocationSelect="ngModel" required>
+                     </angular2-multiselect>
+                     <label for="name" class="marginTopBottom">Position</label>
+                     <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" 
+                     [(ngModel)]="officialService.selectedPositions" 
+                     [settings]="settings" 
+                     name="PositionSelect" #PositionSelect="ngModel" required>
+                     </angular2-multiselect>
+                     <label for="name" class="marginTopBottom">Start Time</label>
+                     <angular2-multiselect id="timeMultiselect" [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
+                     [(ngModel)]="officialService.selectedTimes" 
+                     [settings]="settings" 
+                     name="TimeSelect" #TimeSelect="ngModel" required>
+                     </angular2-multiselect>
+                  </div>
+                  <button type="submit" class="btn btn-success btn-block">Apply Filters</button>
+                  </form> 
+               </ng-template>
+            </ngb-panel>
+            </ngb-accordion>
+         </div>
+      </div>
+      <div class="row">
+         <div *ngFor='let item of officialService.selectGameJson.Value.SelectGame' class="col-lg-12">
+            <h1 class="mainDate" style="color:#08219a"><strong>{{item.GameDateName}}</strong></h1>
+            <ngb-accordion #acc="ngbAccordion" class="data_module" [activeIds]="activeIds" (panelChange)="beforeChange($event)">
+            <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
+               id="{{child.GameTimeSlots[0].GameTimeSlotName}}">
+               <ng-template ngbPanelTitle>
+                  <div class="HeadCollapse">
+                     {{child.GameTimeSlots[0].GameTimeSlotName}}
+                  </div>
+               </ng-template>
+               <ng-template ngbPanelContent>
+                  <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
+                  <ngb-accordion #acc="ngbAccordion">
+                     <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" 
+                        class="teamList" id="{{nestedChild.MatchupName}}">
+                        <ng-template ngbPanelTitle>
+                           <div class="HeadCollapse">
+                              {{nestedChild.MatchupName}}
+                           </div>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                           <h3>
+                              <div class="matchInfo">
+                                 <!----iframe width="600" height="450" frameborder="0" style="border:0"
+                                    src={{nestedChild.GoogleMapAdd}}>
+                                 </iframe-->
+                                 <!----a href={{nestedChild.GoogleMapAdd}}>{{nestedChild.Location}}</a-->
+                                 <span>{{nestedChild.Location}}</span><br>
+                                 <p *ngIf="nestedChild.Referee==1">Referee: Available</p>
+                                 <p *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}</p>
+                                 <p *ngIf="nestedChild.Umpire==2">Umpire: Available</p>
+                                 <p *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}</p>
+                                 <p *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available</p>
+                                 <p *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper: {{nestedChild.ScoreKeeper}}</p>
                               </div>
-                          </ng-template>
-                             <ng-template ngbPanelContent>
-                                <h3>
-                                   
-                                   <div class="matchInfo"><span>{{nestedChild.Location}}</span><br>
-                                    <p *ngIf="nestedChild.Referee==1">Referee: Available</p>
-                                    <p *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}</p>
-                                    
-                                    <p *ngIf="nestedChild.Umpire==2">Umpire: Available</p>
-                                    <p *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}</p>
-                                                                   
-                                    <p *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available</p>
-                                    <p *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper:{{nestedChild.ScoreKeeper}}</p>
-                                   </div>
-                                </h3>
-                             </ng-template>
-                          </ngb-panel>
-                       </ngb-accordion>
-                       <div class="row signupPosition">
-                          <div class="col-md-12 col-sm-12 col-xs-12 marginBottom10"><strong>Positions </strong></div>
-                          <div class="col-md-4 col-sm-4 col-xs-4">Referee:</div>
-                          
-                          <div  *ngIf="child.GameTimeSlots[0].Positions.Referee!=1"class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Referee}}</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" id="{{child.GameTimeSlots[0].Positions.Umpire}}" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, false)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, true)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
-                       </div>
-                       <div class="row signupPosition">
-                          <div class="col-md-12 col-sm-12 col-xs-12"></div>
-                          <div class="col-md-4 col-sm-4 col-xs-4">Umpire: </div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, false)" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, true)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
-                       </div>
-                       <div class="row signupPosition">
-                          <div class="col-md-12 col-sm-12 col-xs-12"></div> 
-                          <div class="col-md-4 col-sm-4 col-xs-4">Skorekeeper: </div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, false)" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
-                          <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, true)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
-                       </div>
-                    </ng-template>
-                 </ngb-panel>
-              </ngb-accordion>
-           </div>
-        </div>
-        <div class="clearfix"></div>
-     </div>
+                           </h3>
+                        </ng-template>
+                     </ngb-panel>
+                  </ngb-accordion>
+                  <div class="row signupPosition">
+                     <div class="col-md-12 col-sm-12 col-xs-12 marginBottom10"><strong>Positions </strong></div>
+                     <div class="col-md-4 col-sm-4 col-xs-4">Referee:</div>
+                     <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.Referee==1" class="col-md-4 col-sm-4 col-xs-4" ><p style="color: red">Checking Sign Up Status</p></div-->
+                     <div  *ngIf="child.GameTimeSlots[0].Positions.Referee!=1"class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Referee}}</div>
+                     <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" id="{{child.GameTimeSlots[0].Positions.Umpire}}" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, false,template,standardTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a>
+                  </div>
+                  <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+         </div>
+      </div>
+      <div class="row signupPosition">
+      <div class="col-md-12 col-sm-12 col-xs-12"></div>
+      <div class="col-md-4 col-sm-4 col-xs-4">Umpire: </div>
+      <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.Umpire==2" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
+      <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
+      <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, false,template,standardTemplate)" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
+      <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+   </div>
+   </div>
+   <div class="row signupPosition">
+   <div class="col-md-12 col-sm-12 col-xs-12"></div> 
+   <div class="col-md-4 col-sm-4 col-xs-4">Scorekeeper: </div>
+   <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.ScoreKeeper==3" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
+   <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
+   <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, false,template,standardTemplate)" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
+   <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
+   </div>
+   </ng-template>
+   </ngb-panel>
+   </ngb-accordion>
+   </div>
+   </div>   
+   <div class="clearfix"></div>
+   </div> 
 
-     
+   <ng-template #template>
+      <div class="modal-body text-center">
+         <p class="heading-signUp">Sign Up Successful</p>
+         <p>{{officialService.signUpResponse}}</p>
+         <p>Would you like to receive a confirmation email?</p>
+         <button type="button" class="btn btn-success" (click)="confirmSignUpEmail()" >Yes</button>
+         <button type="button" class="btn btn-danger" (click)="declineSignUpEmail()" >No</button>
+      </div>
+   </ng-template>
+   
+   <ng-template #cancelTemplate>
+      <div class="modal-body text-center">
+         <p class="heading-signUp">Cancel Sign Up</p>
+         <p>{{officialService.signUpResponse}}</p>                 
+         <button type="button" class="btn btn-danger" (click)="closeCancelSignupModal()" >Ok</button>
+      </div>
+   </ng-template>
+
+   <ng-template #standardTemplate>
+      <div class="modal-body text-center">
+         <p class="heading-signUp">Error</p>
+         <p>{{officialService.signUpResponse}}</p>                 
+         <button type="button" class="btn btn-danger" (click)="closeStandardModal()" >Ok</button>
+      </div>
+   </ng-template>

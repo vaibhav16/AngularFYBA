@@ -10,6 +10,9 @@ import { IntialFilter } from './../models/initialFilter.model';
 import { ReportGameData } from '../models/official/reportgame/reportGame.model';
 import { APIGamePost } from '../models/official/reportgame/APIGamePost.model';
 import { APIPlayerScorePost } from '../models/official/reportgame/APIPlayerScorePost.model';
+import { SignUpEmail } from '../models/official/reportgame/signupEmail.model';
+import { SignUp } from '../models/signup.model';
+import { Profile } from './../models/official/profile/profile.model';
 
 
 @Injectable({
@@ -19,6 +22,7 @@ import { APIPlayerScorePost } from '../models/official/reportgame/APIPlayerScore
 export class OfficialService {
  selectGameJson:JSON = null;
  reportGameJson:JSON = null;
+ getPaidJson: JSON = null;
  requestStatus: number = 0;
  requestSuccess:boolean = false;
  requestFailure:boolean = false;
@@ -29,12 +33,22 @@ export class OfficialService {
    SessionKey:''
  }
 
+ signUpEmailModel: SignUpEmail = {
+  Email :'',
+  LeagueId :'',
+  SeasonId: '',
+  Randomkey: ''
+}
+
+
  signUpRD: SignUpRequestedData = {
      GameIds: '',
      GroupId: '',
      PositionID: '',
      OfficialSeasonId:'',
-     ForCancelSignUp:''
+     ForCancelSignUp:'',
+     SeasonId:'',
+     LeagueId:''
  }
 
  reportGameData: ReportGameData = {
@@ -106,6 +120,11 @@ export class OfficialService {
   TeamId : '',
   TeamName:'',
   Rebound:''
+ }
+
+ profileModel: Profile = {
+   LeagueId:'',
+   SeasonId:''
  }
 
  selectedDivisions = [];
@@ -253,11 +272,17 @@ for(let i=0; i<(y.length); ++i){
     });
   }
 
+  signUpStatus:boolean = false;
+  signUpResponse:string=null;
   postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
+    this.signUpStatus=true;
+    this.signUpResponse=null;
     this.signUpRD.GroupId=groupId;
     this.signUpRD.GameIds=gameId;
     this.signUpRD.PositionID=positionId;
     this.signUpRD.OfficialSeasonId=this.loginService.officialSeasonId;
+    this.signUpRD.SeasonId = this.loginService.seasonId;
+    this.signUpRD.LeagueId = this.loginService.leagueId;
     this.signUpRD.ForCancelSignUp=ForCancelSignUp;
 
     this.finalFilter.UserID=this.loginService.userId.toString();
@@ -272,6 +297,10 @@ for(let i=0; i<(y.length); ++i){
       return data.json()
     })).toPromise().then(x => {     
       console.log(x);
+      this.signUpStatus=false;
+      this.signUpResponse = x["Value"];
+      //if(this.signUpResponse=="Registered")
+      console.log(this.signUpResponse);
       return Promise.resolve(this.refershSelectGameData(this.initialData));      
     });
   }
@@ -324,6 +353,88 @@ for(let i=0; i<(y.length); ++i){
         this.requestFailure=true;
       }
       return Promise.resolve();      
+    });
+  }
+
+  sendSignUpEmail(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
+    /*this.signUpEmailModel.Email = "api@sapple.co.in";
+    this.signUpEmailModel.LeagueId = "1";
+    this.signUpEmailModel.SeasonId = "17";
+    this.signUpEmailModel.Randomkey = "ok";*/
+    this.signUpRD.GroupId=groupId;
+    this.signUpRD.GameIds=gameId;
+    this.signUpRD.PositionID=positionId;
+    this.signUpRD.OfficialSeasonId=this.loginService.officialSeasonId;
+    this.signUpRD.SeasonId = this.loginService.seasonId;
+    this.signUpRD.LeagueId = this.loginService.leagueId;
+    this.signUpRD.ForCancelSignUp=ForCancelSignUp;
+
+    this.finalFilter.RequestedData= JSON.stringify(this.signUpRD);
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID =this.loginService.userId.toString();
+
+    var body = JSON.stringify(this.finalFilter);   
+    console.log(JSON.stringify(this.finalFilter));
+   
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://testfaafireworks.1city.us/api//RequestSendMail',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {   
+      console.log(x);
+      this.paidRequest=false;
+      return Promise.resolve(this.getPaidJson = x);      
+    });
+
+  }
+
+  paidRequest:boolean = false;
+  fetchGetPaidData(){
+    this.paidRequest=true;
+    this.reportGameData.SeasonId=this.loginService.seasonId;
+    this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;    
+    this.finalFilter.RequestedData= JSON.stringify(this.reportGameData);
+
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID =this.loginService.userId.toString();
+    var body = JSON.stringify(this.finalFilter);   
+    console.log(JSON.stringify(this.finalFilter));
+   
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://testfaafireworks.1city.us/api/GetPaid',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {   
+      console.log(x);
+      this.paidRequest=false;
+      return Promise.resolve(this.getPaidJson = x);      
+    });
+  }
+
+  profileJson:JSON = null;
+  fetchProfileRequest:boolean = null;
+  fetchProfileData(){
+    this.fetchProfileRequest=true;
+    this.profileModel.SeasonId=this.loginService.seasonId;
+    this.profileModel.LeagueId = this.loginService.leagueId;    
+    this.finalFilter.RequestedData= JSON.stringify(this.profileModel);
+
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID =this.loginService.userId.toString();
+    var body = JSON.stringify(this.finalFilter);   
+    console.log(JSON.stringify(this.finalFilter));
+   
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://testfaafireworks.1city.us/api/OfficiatingProfile',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {   
+      console.log(x);
+      this.fetchProfileRequest=false;
+      return Promise.resolve(this.profileJson = x);      
     });
   }
 

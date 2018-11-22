@@ -4,4 +4,7 @@ export class SignUpRequestedData {
     public PositionID: string;
     public OfficialSeasonId:string;
     public ForCancelSignUp:string;
+    public SeasonId:string;
+    public LeagueId:string;
+    
 }

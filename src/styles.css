@@ -20,6 +20,8 @@
     float: right;
 }
 
+.dropdown-list .select-all{display:none;}
+
 .bgDarkGrey{background:#bbbbbb !important;}
 
 .asCoach {
@@ -231,7 +233,7 @@
    .saveBtn{background:#b03d26 !important; color:#ffffff !important; border-radius:0px !important; padding:4px 20px !important;}
    .saveBtn:hover, .saveBtn:focus{color:#ffffff !important;}
    .cancelBtn:hover, .cancelBtn:focus{color:#ffffff !important;}
-   .lognin_bg{background-image:url("./assets/images/login_bg2.jpg"); background-size:cover; background-repeat:no-repeat; height:100%; width:100%; position:fixed; background-position:center center;}
+   .lognin_bg{background-image:url("./assets/images/login_bg2.jpg"); background-size:cover; background-repeat:no-repeat; height:100%; width:100%; position:fixed; background-position:center center; left:0px; top:0px;}
    .lognin_box{position:absolute; width:400px; left:50%; top:50%; transform:translateX(-50%) translateY(-50%);}
    .input_field input{width:100%; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:40px; color:#cccccc; text-align:center; border-radius:0px !important; box-shadow:none !important;}
    .invalid_credintial{
@@ -529,8 +531,8 @@
    .forgot_pass{margin-right:15px;}
    .bgGrey .col-md-2{text-align:center; margin-bottom:5px;}
    .inputfull input[type="text"]{width:100%;}
-   .overflowAuto{overflow:auto;}
-   .widthTable{width:500px;}
+   .overflowAuto{overflow:hidden;}
+   .widthTable{/*width:500px;*/}
    .tooltip_abc {
        top:0px;
    }
@@ -579,8 +581,15 @@
    ul.teamList li h3{font-size:14px !important;}
        .amountPaid{font-size:14px;}
        ul.addList li{font-size:11px;}
-       
+       table.scoreTable tr th{font-size:4vw;}
+       table.scoreTable tr td{font-size:4vw;}
    }
+
+   @media only screen and (min-width : 341px) and (max-width : 480px) {
+       
+    table.scoreTable tr th{font-size:3.5vw;}
+    table.scoreTable tr td{font-size:3.5vw;}
+}
 
    
    
@@ -701,3 +710,9 @@
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
    #filter-header{background-color: #c4e0b2 !important;}
+
+ .modal-sm{margin: 0;transform: translateX(-50%) translateY(-50%) !important;left: 50%;top: 50%;}
+ .modal-sm .modal-body{padding: 0 0 15px 0;}
+ .modal-sm > .modal-content > .modal-body > .heading-signUp{background-color: #1e31ae;padding: 10px; color:#fff; text-align:left; font-weight:normal;}
+ .modal-sm > .modal-content > .modal-body > p{font-weight:bold;}
+ .modal-sm .modal-content .modal-body .btn-success{margin-right:5px;}

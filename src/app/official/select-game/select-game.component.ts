@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation,ElementRef,Renderer2,ViewChild } from '@angular/core';
+import { Component, TemplateRef, OnInit, ViewEncapsulation,ElementRef,Renderer2,ViewChild } from '@angular/core';
 import { OfficialService } from '../official.service';
-import { NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal,NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup,  FormBuilder } from '@angular/forms';
 import { Filter } from './filter.model';
 import { count } from 'rxjs/operators';
@@ -8,6 +8,10 @@ import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular
 import { map } from 'rxjs/operators';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from './../../login/login.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+ 
+
 
 @Component({
   selector: 'app-select-game',
@@ -18,27 +22,39 @@ import { LoginService } from './../../login/login.service';
 })
 
 export class SelectGameComponent implements OnInit {
-  @ViewChild("acchead1", {read: ElementRef})
-  private acchead1: ElementRef;
-  sessionKey:string;
-  //selectGameJson: JSON;
-  expandTriangle:boolean=false;
-  public shouldShow = true; 
-  
-  activeIds: string[] =[];
-  panels = [0, 1,2,3];
+  //@ViewChild("acchead1", {read: ElementRef})
+  //private acchead1: ElementRef;
+  //sessionKey:string;
+  //panels = [0,1,2,3];
+  //itemList = [];
 
-  selectedItems = [];
-  itemList = [];
-  settings = {};
-  
-  filterModel = {     
+  //onItemSelect(item: any) {
+  //console.log(item);
+  //console.log(this.selectedItems);
+//}
+//OnItemDeSelect(item: any) {
+  //console.log(item);
+  //console.log(this.selectedItems);
+//}
+//onSelectAll(items: any) {
+  //console.log(items);
+//}
+//onDeSelectAll(items: any) {
+  //console.log(items);
+//}
+
+  /*filterModel = {     
       Division: [],
       Location: [],
       StartTime: [],
       EndTime: [],
       Position:[]
-  };
+  };*/
+
+  modalRef: BsModalRef;  
+  activeIds: string[] =[];
+  selectedItems = [];
+  settings = {};
   
   selectedFilter:Filter = {      
     Division: '',
@@ -48,19 +64,33 @@ export class SelectGameComponent implements OnInit {
     Position: ''        
   } 
 
-  constructor(fb:FormBuilder, private http: Http,
-    private renderer:Renderer2,
-    public officialService: OfficialService,
-    config: NgbAccordionConfig, private modalService: NgbModal, 
+  constructor(public officialService: OfficialService,
+    config: NgbAccordionConfig,
     public loginService: LoginService,
+    private modalService: BsModalService
     ) {
-
-    config.closeOthers = false;
-    config.type = 'info';  
+      config.closeOthers = false;
+      config.type = 'info';  
    }  
 
+   ngOnInit() {
+    this.settings = {
+        text: "Select....",
+        classes: "myclass custom-class"
+    };
+     this.officialService.postSelectGames(this.selectedFilter);  
+      //this.officialService.getSelectGames();
+      
+  }
+ 
+  /* - Panel Change Event Function - */
+  public beforeChange($event: NgbPanelChangeEvent) {
+    this.activeIds.push($event.panelId);
+  }
 
-  logForm(value: any) {
+
+  /* - Code to Submit Filter Data to Service - */
+  submitFilters(value: any) {
     this.selectedFilter = {      
       Division: '',
       Location: '',
@@ -103,45 +133,72 @@ export class SelectGameComponent implements OnInit {
     
   }
 
+/* - Sends SignUp request to service - */
+tempGroupId: string;
+tempGameId: string;
+tempPositionId: string;
+tempForCancelSignUp:string;
+signUpRequest:boolean=false;
 
-  ngOnInit() {
-  this.settings = {
-      text: "Select....",
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      classes: "myclass custom-class"
-  };
-   this.officialService.postSelectGames(this.selectedFilter);  
-    //this.officialService.getSelectGames();
-    
-}
-
-onItemSelect(item: any) {
-  console.log(item);
-  console.log(this.selectedItems);
-}
-OnItemDeSelect(item: any) {
-  console.log(item);
-  console.log(this.selectedItems);
-}
-onSelectAll(items: any) {
-  console.log(items);
-}
-onDeSelectAll(items: any) {
-  console.log(items);
+postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string,template: TemplateRef<any>,standardTemplate: TemplateRef<any>){
+  this.signUpRequest=true;
+  this.tempGroupId = groupId;
+  this.tempGameId = gameId;
+  this.tempPositionId = positionId;
+  this.tempForCancelSignUp = ForCancelSignUp;
+  this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp)
+  .then(res => {
+    //console.log(res);
+    this.signUpRequest=false;
+    if(this.officialService.signUpResponse=="Registered")
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'})
+    else
+    this.modalRef = this.modalService.show(standardTemplate, {class: 'modal-sm'})
+  });  
+  
 }
 
-postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
-  this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp);
-
+/* - Sends Cancel SignUp request to service - */
+cancelSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string,cancelTemplate: TemplateRef<any>){
+  this.signUpRequest=true;
+  this.tempGroupId = groupId;
+  this.tempGameId = gameId;
+  this.tempPositionId = positionId;
+  this.tempForCancelSignUp = ForCancelSignUp;
+  this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp)
+  .then(res => {
+    this.signUpRequest=false;
+    this.modalRef = this.modalService.show(cancelTemplate, {class: 'modal-sm'})
+  });  
+  
 }
 
-public beforeChange($event: NgbPanelChangeEvent) {
+/* - Implementing ngx-modal from ngx-bootstrap - */
 
-  //this.activeIds = this.panels.map(p => "panel-"+ p);
-  this.activeIds.push($event.panelId);
-  //console.log($event.panelId);
-  //console.log(this.activeIds);
+confirmSignUpEmail(): void {
+ 
+  this.modalRef.hide();
+  this.officialService.sendSignUpEmail(this.tempGroupId, this.tempGameId, this.tempPositionId, this.tempForCancelSignUp);
+  this.officialService.signUpResponse=null;
 }
+
+declineSignUpEmail(): void {
+  
+  this.modalRef.hide();
+  //this.officialService.sendSignUpEmail();
+  this.officialService.signUpResponse=null;
+}
+
+closeCancelSignupModal(): void {
+ 
+  this.modalRef.hide();
+  //this.officialService.sendSignUpEmail();
+  this.officialService.signUpResponse=null;
+}
+
+closeStandardModal(){
+  this.modalRef.hide();
+}
+/* - ngx-modal implementation ends - */
 
 }

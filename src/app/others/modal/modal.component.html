@@ -1,5 +1,5 @@
-<!--body [ngClass]="{noscroll:shouldShow}">
-    <ng-template #content let-modal>
+<!----body [ngClass]="{noscroll:shouldShow}"-->
+    <!----ng-template #content let-modal>
         <div class="modal-header">
           <h4 class="modal-title">Modal title</h4>
           <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -13,21 +13,21 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
         </div>
-      </ng-template>
+      </ng-template-->
       
-      <button (click)="shouldShow = !shouldShow"> Show/Hide </button>
-      <label [ngClass]="{show: shouldShow, noscroll:shouldShow, hide: !shouldShow}"> abc </label>
+      <!----button (click)="shouldShow = !shouldShow"> Show/Hide </button-->
+      <!----label [ngClass]="{show: shouldShow, noscroll:shouldShow, hide: !shouldShow}"> abc </label-->
       
       
-      <button class="btn btn-outline-primary mb-2 mr-2" (click)="openWindowCustomClass(content)">Modal with window custom class</button>
+      <!----button class="btn btn-outline-primary mb-2 mr-2" (click)="openWindowCustomClass(content)">Modal with window custom class</button>
       <button class="btn btn-outline-primary mb-2 mr-2" (click)="openBackDropCustomClass(content)">Modal with backdrop custom class</button>
       <button class="btn btn-outline-primary mb-2 mr-2" (click)="openSm(content)">Small modal</button>
       <button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content)">Large modal</button>
-      <button class="btn btn-outline-primary mb-2 mr-2" (click)="openVerticallyCentered(content)">Modal vertically centered</button>
+      <button class="btn btn-outline-primary mb-2 mr-2" (click)="openVerticallyCentered(content)">Modal vertically centered</button-->
       
-      <ul>
+      <!----ul>
           <li *ngFor="let item of createRange(100); let currentElementIndex=index">
              {{currentElementIndex+1}} Something             
           </li>
-       </ul>
-</body-->
+       </ul-->
+<!----/body-->

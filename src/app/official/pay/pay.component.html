@@ -1,45 +1,44 @@
-
-<body>  
+<div *ngIf="officialService.paidRequest" class="block">
+        <div class="bg_loaderFYBA">
+        <div class="loaderFYBA">
+          <h1>Please wait...</h1>
+          <p class="round">
+          <span class="ouro">
+            <span class="left"><span class="anim"></span></span>
+            <span class="right"><span class="anim"></span></span>
+          </span>
+          </p> 
+        </div>
+      </div>
+</div>
+    
+<div *ngIf="officialService.getPaidJson!=null">  
   <div class="container paddingBottom50">
   <div class="row">
   <div class="col-lg-12">
   <h3 class="mainDate"><strong>SCHEDULED PAYMENT DATES</strong></h3>
   <ul class="paymentdates marginLeft30">
-  <li>2/1/19</li>
-  <li>3/1/19</li>
+  <li *ngFor="let item of officialService.getPaidJson.Value.SchedulePayments">{{item}}</li>
   </ul>
   </div>
   </div>
 
   <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong></h3>
-
-
       <ngb-accordion>
-          <ngb-panel title="(4B) Tigers vs. Lions">
+          <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotApproved" title={{item.GameName}} >
               <ng-template ngbPanelContent>
-                  <div class="matchInfo matchInfo2">Scorekeeper
+                  <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                       <ul>
-                      <li>- Base Pay:  $11.00</li>
-                      <li>- Scoresheet Report:  $3.00</li>
+                      <li>- Base Pay:  ${{item.BaseAmount}}</li>
+                      <li>- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
                       </ul>
-                      </div>
+                 </div>
         </ng-template>
         </ngb-panel>
-        
-        <ngb-panel title="(4B) Jazz vs. Kings">    
-          <ng-template ngbPanelContent>
-              <div class="matchInfo matchInfo2">Scorekeeper
-                  <ul>
-                  <li>- Base Pay:  $11.00</li>
-                  <li>- Scoresheet Report:  $3.00</li>
-                  </ul>
-                  </div>               
-    </ng-template>
-    </ngb-panel>
     </ngb-accordion>
     
 
-  <h3 class="mainDate"><strong>APPROVED BUT NOT PAID ($28.00)</strong></h3>
+  <h3 class="mainDate"><strong>APPROVED BUT NOT PAID (${{officialService.getPaidJson.Value.PaymentNotPaidTotalAmount}})</strong></h3>
 
   <ngb-accordion>
       <ngb-panel title="(4B) Dragons vs. Warriors">
@@ -67,7 +66,7 @@
 
 
  
-  <h3 class="mainDate"><strong>PAID  ($165.00)</strong></h3>
+  <h3 class="mainDate"><strong>PAID  (${{officialService.getPaidJson.Value.PaidPaymentsTotalAmount}})</strong></h3>
   <ngb-accordion>
       <ngb-panel title="(3B) Elves vs. Pretty Ponies">
           <ng-template ngbPanelContent>
@@ -81,4 +80,4 @@
     </ngb-panel>
 </ngb-accordion>
   </div>
-</body>
+</div>
