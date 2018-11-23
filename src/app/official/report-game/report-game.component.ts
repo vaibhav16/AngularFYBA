@@ -211,19 +211,25 @@ export class ReportGameComponent{
   /* - Function to check the number of 'Player of Note' in a particular game.
   If it exceeds 3, a validation error will be displayed. - */
   maxPON:number=0;
+  homePON:number=0;
+  visitingPON:number=0;
   checkBtnClick=0;
   modalRef: BsModalRef;  
   tempGameIndex:number;
-  checkMaxPON(e,gameIndex,template: TemplateRef<any>){
+  modalMsg: string;
+  checkMaxPON(e,gameIndex,teamType:string ,template: TemplateRef<any>){
+    console.log(e);
    if(this.tempGameIndex!=gameIndex){
      this.maxPON=0;
+     this.homePON=0;
+     this.visitingPON=0;
      this.checkBtnClick=0;
    }
     this.checkBtnClick++;
     if(this.checkBtnClick==1){
       this.tempGameIndex=gameIndex;      
       //this.checkBtnClick++;
-      if(this.maxPON<=3){
+      if(this.maxPON<=6){
         for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameIndex].HomeTeamPlayerScores.length; ++i)
         {
           if(this.officialService.reportGameJson["Value"].GameList[gameIndex].HomeTeamPlayerScores[i].PlayerNote==true){
@@ -231,11 +237,12 @@ export class ReportGameComponent{
             console.log(i);
             console.log(this.officialService.reportGameJson["Value"].GameList[gameIndex].HomeTeamPlayerScores[i].PlayerNote);
             this.maxPON++;
+            this.homePON++;
           }
         }
       }
     
-      if(this.maxPON<=3){
+      if(this.maxPON<=6){
         for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameIndex].VisitingTeamPlayerScores.length; ++i)
         {
           if(this.officialService.reportGameJson["Value"].GameList[gameIndex].VisitingTeamPlayerScores[i].PlayerNote==true){
@@ -243,24 +250,51 @@ export class ReportGameComponent{
             console.log(i);
             console.log(this.officialService.reportGameJson["Value"].GameList[gameIndex].VisitingTeamPlayerScores[i].PlayerNote)
             this.maxPON++;
+            this.visitingPON++;
           }
         }
       }
     }
     
   if(this.checkBtnClick>1){
-    if(e.target.checked && this.maxPON<3){        
+    console.log(this.checkBtnClick, this.maxPON);
+    if(e.target.checked && this.maxPON<6){        
       this.maxPON++;
+      if(teamType=="home" && this.homePON<=2)
+      this.homePON++;
+      else if(teamType=="visiting" && this.visitingPON<=2)
+      this.visitingPON++;
     }
-    else
-    this.maxPON--;
+    else{
+      this.maxPON--;   
+      if(teamType=='home')
+      this.homePON--;
+      else if(teamType=='visiting')
+      this.visitingPON--;
+   
+
+    }
+    
   }
 
-  if(this.maxPON>=3 && e.target.checked){
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  if(e.target.checked){
+    if(this.maxPON>=6){
+      this.modalMsg = "Only upto Six Players of Note are allowed in a single game.";
+      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    }    
+    else if(this.homePON>=3){
+      this.modalMsg = "Only Three Players of Note are allowed from Home Team.";
+      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    }
+    else if(this.visitingPON>=3){
+      this.modalMsg = "Only Three Players of Note are allowed from Visiting Team.";
+      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    }
+    
+
   }
  
-    console.log(this.maxPON);
+    console.log(this.maxPON,this.homePON, this.visitingPON);
   }
 
   
@@ -310,6 +344,12 @@ public inputValidator(event: any) {
     await this.tempIndex++;    
    }  
    /* - Image implementation ends - */
+
+   /* - Code to Delete Image - */
+   deleteImage(e: any){
+     console.log(e);
+     console.log("let's delete");
+   }
 
 
 }

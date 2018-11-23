@@ -349,7 +349,8 @@
    ul.addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; width:100%;}
    ul.addList li{float: left;
     width: 100px;
-    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
     height: 100px;
     background: #999999;
     text-align: center;
@@ -358,15 +359,15 @@
        
    ul.addList li:last-child{float: left;
     width: 100px;
-    margin-left: 20px;
+    /*margin-left: 20px;*/
        background: #ff0000;
     text-align: center;color: #ffffff; position:relative; border:3px solid #3c98db; line-height:auto;line-height: inherit;
     padding-top: 25px;overflow:hidden;} 
        
        
-   ul.addList li img{/*position: absolute;
+   /*ul.addList li img{position: absolute;
     top: -14px;
-    right: -14px;*/}
+    right: -14px;}*/
    
    .amountPaid{float:right; color: #fffb85;
     text-decoration: underline; display:block !important;}  
@@ -716,3 +717,5 @@
  .modal-sm > .modal-content > .modal-body > .heading-signUp{background-color: #1e31ae;padding: 10px; color:#fff; text-align:left; font-weight:normal;}
  .modal-sm > .modal-content > .modal-body > p{font-weight:bold;}
  .modal-sm .modal-content .modal-body .btn-success{margin-right:5px;}
+
+

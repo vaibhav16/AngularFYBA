@@ -148,3 +148,9 @@ h2, a { font-family: "Open Sans Light", "Open Sans", "Segoe UI", Helvetica, Aria
 .info {margin-top: 25px}
 .info a {font-size: 12px; color: #999}
 .info br + a {text-decoration:none}
+
+.matchInfo > div{text-decoration:underline;}
+.modal-body iframe{width:100%; max-width:100%;}
+.modal-sm{width: 100%;max-width: 600px;}
+.paddTopBottom10{padding:0px 10; margin-bottom:10px;}
+.modal-content{margin:0px 15px;}

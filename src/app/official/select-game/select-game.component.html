@@ -84,7 +84,8 @@
                                     src={{nestedChild.GoogleMapAdd}}>
                                  </iframe-->
                                  <!----a href={{nestedChild.GoogleMapAdd}}>{{nestedChild.Location}}</a-->
-                                 <span>{{nestedChild.Location}}</span><br>
+                                 <div (click)="openMapModal(nestedChild.GoogleMapAdd,mapTemplate)">{{nestedChild.Location}}</div>
+                                 <!---span>{{nestedChild.Location}}</span><br-->
                                  <p *ngIf="nestedChild.Referee==1">Referee: Available</p>
                                  <p *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}</p>
                                  <p *ngIf="nestedChild.Umpire==2">Umpire: Available</p>
@@ -154,5 +155,16 @@
          <p class="heading-signUp">Error</p>
          <p>{{officialService.signUpResponse}}</p>                 
          <button type="button" class="btn btn-danger" (click)="closeStandardModal()" >Ok</button>
+      </div>
+   </ng-template>
+   <ng-template  #mapTemplate>
+      <div class="modal-body text-center">
+         <p class="heading-signUp">Location</p>
+         <div class="paddTopBottom10">
+         <iframe width="600" height="450" frameborder="0" style="border:0"          
+         [src]="getGameLocation()" >
+         </iframe>     
+      </div>           
+         <button type="button" class="btn btn-danger" (click)="closeMapModal()" >Ok</button>
       </div>
    </ng-template>

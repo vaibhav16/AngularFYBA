@@ -10,7 +10,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from './../../login/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
- 
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -65,6 +65,7 @@ export class SelectGameComponent implements OnInit {
   } 
 
   constructor(public officialService: OfficialService,
+    public sanitizer: DomSanitizer,
     config: NgbAccordionConfig,
     public loginService: LoginService,
     private modalService: BsModalService
@@ -200,5 +201,21 @@ closeStandardModal(){
   this.modalRef.hide();
 }
 /* - ngx-modal implementation ends - */
+
+gameLocation:string
+openMapModal(location:string,mapTemplate: TemplateRef<any>){
+  this.gameLocation = location;
+  this.modalRef = this.modalService.show(mapTemplate, {class: 'modal-sm'});
+  console.log(this.modalRef);
+}
+
+closeMapModal(){
+  this.modalRef.hide();  
+}
+
+getGameLocation(){
+  return this.sanitizer.bypassSecurityTrustResourceUrl(this.gameLocation);
+
+}
 
 }

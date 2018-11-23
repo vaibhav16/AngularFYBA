@@ -120,7 +120,7 @@
                                 
                                 <td style="text-align:left;"><span value="child.PlayerName">{{child.PlayerName}}</span></td>
                                 <td><input type="checkbox" [checked]=child.NotPresent [disabled]="!(item.OfficiatingPositionId==3)" name="HNotPresent{{i}}" [(ngModel)]=child.NotPresent value=child.NotPresent /></td>                                
-                                <td><input type="checkbox" [checked]=child.PlayerNote [disabled]="(!child.PlayerNote && maxPON>=3)||!(item.OfficiatingPositionId==3)" (change)="checkMaxPON($event,gameListIndex,template)" name="HPlayerNote{{i}}" [(ngModel)]=child.PlayerNote value=child.PlayerNote/></td>                                
+                                <td><input type="checkbox" [checked]=child.PlayerNote [disabled]="(!child.PlayerNote && (maxPON>=6 || homePON>=3))||!(item.OfficiatingPositionId==3)" (change)="checkMaxPON($event,gameListIndex,'home',template)" name="HPlayerNote{{i}}" [(ngModel)]=child.PlayerNote value=child.PlayerNote/></td>                                
                                 <td><input type="number" (input)="inputValidator($event)" [maxlength]="3" value="child.Points" [disabled]="!(item.OfficiatingPositionId==3)" pattern="[0-9]*" min="0" max="999"  name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>                                
                                 <!----td><input type="number" value="child.FoulId" pattern="[0-9]*" name="HFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
                                 <td><input type="number" value="child.Rebound" pattern="[0-9]*" name="HRebound{{i}}" [(ngModel)]="child.Rebound" /></td-->
@@ -162,7 +162,7 @@
                                   
                                   <td style="text-align:left;">{{child.PlayerName}}</td>
                                   <td><input type="checkbox" [(ngModel)]="child.NotPresent" name="VNotPresent{{i}}"  [disabled]="!(item.OfficiatingPositionId==3)" value=child.NotPresent [checked]=child.NotPresent /></td>
-                                  <td><input type="checkbox"  [(ngModel)]="child.PlayerNote" name="VPlayerNote{{i}}" [disabled]="(!child.PlayerNote && maxPON>=3)||!(item.OfficiatingPositionId==3)" (change)="checkMaxPON($event,gameListIndex,template)"  value=child.PlayerNote [checked]=child.PlayerNote  /></td>
+                                  <td><input type="checkbox"  [(ngModel)]="child.PlayerNote" name="VPlayerNote{{i}}" [disabled]="(!child.PlayerNote && (maxPON>=6 || visitingPON>=3))||!(item.OfficiatingPositionId==3)" (change)="checkMaxPON($event,gameListIndex,'visiting',template)"  value=child.PlayerNote [checked]=child.PlayerNote  /></td>
                                   <td><input type="number" value="child.Points" (input)="inputValidator($event)" [maxlength]="3" name="VPoints{{i}}" [(ngModel)]="child.Points" [disabled]="!(item.OfficiatingPositionId==3)" min="0" max="1000" pattern="[0-9]*" /></td>
                                   <!--<td><input type="number" value="child.FoulId" pattern="[0-9]*" name="VFouls{{i}}" [(ngModel)]="child.FoulId" /></td>-->
                                  <!--<td><input type="number"value="child.Rebound" pattern="[0-9]*" name="VRebound{{i}}" [(ngModel)]="child.Rebound" /></td>-->
@@ -190,7 +190,7 @@
                                     <li *ngFor="let child of item.ScoreSheetImages">
                                     
                                           <img src={{child.ImageURL}} style="width:100px;height:100px;">
-                                          <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                           
+                                          <span url="child.ImageURL" (click)="deleteImage($event)" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                           
                                     </li>
                                       
                                        <li class="Incidentclass">
@@ -261,7 +261,7 @@
     <ng-template #template>
       <div class="modal-body text-center">
          <p class="heading-signUp">Max Limit Reached</p>        
-         <p>Only upto Three Players of Note Are Allowed</p>
+         <p>{{modalMsg}}</p>
          <button type="button" class="btn btn-danger" (click)="confirm()" >OK</button>         
       </div>
    </ng-template>
