@@ -13,8 +13,10 @@
    </div>
 </div>
 
+
+
 <div *ngIf="officialService.selectGameJson!=undefined" class="container paddingBottom50">
-      <div class="row">
+      <div class="row" >
          <div class="col-lg-12">
             <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
             <ngb-panel id="filter" title="Filter">
@@ -56,7 +58,7 @@
             </ngb-accordion>
          </div>
       </div>
-      <div class="row">
+      <div *ngIf="officialService.selectGameJson.Value.SelectGame.length>0; else noRecordDiv" class="row">
          <div *ngFor='let item of officialService.selectGameJson.Value.SelectGame' class="col-lg-12">
             <h1 class="mainDate" style="color:#08219a"><strong>{{item.GameDateName}}</strong></h1>
             <ngb-accordion #acc="ngbAccordion" class="data_module" [activeIds]="activeIds" (panelChange)="beforeChange($event)">
@@ -129,6 +131,9 @@
    </ngb-accordion>
    </div>
    </div>   
+   <ng-template #noRecordDiv>
+      <div class="noRecords">No records are available!</div>       
+   </ng-template>
    <div class="clearfix"></div>
    </div> 
 

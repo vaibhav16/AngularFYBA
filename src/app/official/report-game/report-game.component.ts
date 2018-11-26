@@ -92,6 +92,7 @@ export class ReportGameComponent{
       this.fg = this.fb.group({
       GameList: this.fb.array([])
     }); 
+    config.type = 'info';
     
   }
 

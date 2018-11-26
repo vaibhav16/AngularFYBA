@@ -35,7 +35,7 @@ postLoginData(userVar : Login){
   userVar.Email=userVar.Email.toLowerCase();
   var headerOptions =  new Headers({'Content-Type':'application/json'});
   var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-  return this.http.post('http://testfaafireworks.1city.us/api/Home',userVar,requestOptions)
+  return this.http.post('https://fybaservice.sapplesystems.com/api/Home',userVar,requestOptions)
   .pipe(map((data: Response) => {
   return data.json() as JSON;
   })).toPromise().then(x => {

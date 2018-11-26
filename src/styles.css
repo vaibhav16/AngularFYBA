@@ -238,6 +238,11 @@
    .input_field input{width:100%; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:40px; color:#cccccc; text-align:center; border-radius:0px !important; box-shadow:none !important;}
    .invalid_credintial{
     color: #ff0000; text-align: center; font-weight:bold;}
+    .noRecords{
+        color: #ff0000; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 20px; font-size: 150%;
+        
+    }
    .logo_login{text-align:center; margin-bottom:80px;}
    .forgot_pass{text-align:right; margin-top:15px;}
    .forgot_pass a{color:rgba(255,255,255,1);}

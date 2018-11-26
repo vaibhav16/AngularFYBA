@@ -11,7 +11,7 @@
     </div>
   </div>
   </div>
-
+<!--[disabled]="(item.OfficiatingPositionId!=3)"-->
   <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">
     
       <div class="row">
@@ -22,8 +22,8 @@
            
                 <ngb-panel *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
                    
-                    <ng-template ngbPanelTitle  >
-                      <div class="HeadCollapse">
+                    <ng-template ngbPanelTitle >
+                      <div style="color:red" class="HeadCollapse">
                         <h2 style="color:black" #acchead1>
                           {{item.GameName}}
                           <span class="asCoach">{{item.PositionText}}</span>
@@ -32,7 +32,7 @@
                       </div>
                         
                     </ng-template>
-                    <ng-template ngbPanelContent >
+                    <ng-template ngbPanelContent>
                         <form #reportForm="ngForm" >
                           
                           <!----input type="text" value={{gameListIndex}} name="glIndex" [(ngModel)]="{{gameListIndex}}" /-->                                  
@@ -53,11 +53,11 @@
                                 <tbody>
                                 <tr>
                                   <td>{{item.HomeTeam}}</td>
-                                  <td><input type="text" name="HTeamScore" [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>
+                                  <td><input type="text" name="HTeamScore" [disabled]="(item.OfficiatingPositionId!=3)"  [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>
                                 </tr>
                                 <tr>
                                   <td>{{item.VisitingTeam}}</td>
-                                  <td><input type="text" name="VTeamScore" [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td>
+                                  <td><input type="text" name="VTeamScore" [disabled]="(item.OfficiatingPositionId!=3)"  [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td>
                                 </tr>
                                 </tbody>
                                 </table>
@@ -106,7 +106,7 @@
                                 </th--></tr>
                               </thead>
                               <tbody >
-                              <tr *ngFor= "let child of item.HomeTeamPlayerScores | sort: 'JerseyNumber' ; let i=index " >
+                              <tr *ngFor= "let child of item.HomeTeamPlayerScores; let i=index " >
                                 <td>{{child.JersyNumber}}</td>     
                                 <!----td style="display:none"><input type="text" name="HTeamScore" [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>                           
                                 <td style="display:none"><input type="text" name="VTeamScore" [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td-->
