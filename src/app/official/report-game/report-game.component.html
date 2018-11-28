@@ -12,15 +12,14 @@
   </div>
   </div>
 <!--[disabled]="(item.OfficiatingPositionId!=3)"-->
-  <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">
-    
-      <div class="row">
+  <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">    
+      <div *ngIf="officialService.reportGameJson.Value!=null && (officialService.reportGameJson.Value.length>0) || (officialService.reportGameJson.Value.GameList.length); else noRecordDiv" class="row">
         <div class="col-lg-12">
         <h1 class="mainDate"><strong>Games to Report</strong></h1>
           <div class="data_module">
             <ngb-accordion #acc="ngbAccordion" (panelChange)="panelChange($event)">
            
-                <ngb-panel *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
+                <ngb-panel [ngClass]="{'bg-info':false}" *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
                    
                     <ng-template ngbPanelTitle >
                       <div style="color:red" class="HeadCollapse">
@@ -256,6 +255,9 @@
           </div>
         </div>
       </div>
+      <ng-template #noRecordDiv>
+        <div class="noRecords">No records are available!</div>       
+     </ng-template>
     </div>
    
     <ng-template #template>

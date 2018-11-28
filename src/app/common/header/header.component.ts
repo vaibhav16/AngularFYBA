@@ -18,9 +18,9 @@ export class HeaderComponent implements OnInit {
 	@ViewChild('officialActive') officialActive: ElementRef;
 	
 	ngOnInit() {  
-		if(!this.loginService.sessionKey){
+		/*if(!this.loginService.sessionKey){
 			this._router.navigate(['login']);
-		}
+		}*/
 		this.imageClass.nativeElement.classList.remove('player_header_img');
 		this.imageClass.nativeElement.classList.remove('official_header_img');
 		this.imageClass.nativeElement.classList.remove('coach_header_img');

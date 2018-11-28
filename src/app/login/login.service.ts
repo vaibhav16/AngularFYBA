@@ -7,6 +7,7 @@ import { OfficialService } from './../official/official.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,10 @@ export class LoginService {
   roleId: string=null;
   leagueId: string = null;
 
-  constructor(private http: Http,private router: Router) {
+  constructor(private http: Http,private router: Router,
+    public cookieService: CookieService) {
     this.isLoggedIn=false;
-    console.log(this.isLoggedIn);
+    //console.log(this.isLoggedIn);
    } 
 
 postLoginData(userVar : Login){
@@ -45,8 +47,17 @@ postLoginData(userVar : Login){
   this.requestStatus=true;
 
 
-  if(this.jsonResult["Error"]==200){    
+  if(this.jsonResult["Error"]==200){ 
+
+    this.cookieService.set('SessionKey', this.sessionKey);    
+    this.cookieService.set('UserId', this.jsonResult["Value"].UserId); 
+    this.cookieService.set('officialSeasonId', this.jsonResult["Value"].OfficialSeasonalId); 
+    this.cookieService.set('seasonId', this.jsonResult["Value"].SeasonId); 
+    this.cookieService.set('roleId', this.jsonResult["Value"].RoleId);
+    this.cookieService.set('leagueId', this.jsonResult["Value"].LeagueId);  
+    this.cookieService.set('reportTagLabel', this.jsonResult["Value"].tagsLables.ReportCount);  
    
+
     this.isLoggedIn=true;
     this.loginFailed=false;
     this.userId=this.jsonResult["Value"].UserId;
@@ -57,7 +68,8 @@ postLoginData(userVar : Login){
     this.roleId = this.jsonResult["Value"].RoleId;
     this.leagueId = this.jsonResult["Value"].LeagueId;
     this.reportTagLabel = this.jsonResult["Value"].tagsLables.ReportCount;
-    console.log(this.reportTagLabel);
+    
+    
     //console.log(this.officialSeasonId);
   }
   else{

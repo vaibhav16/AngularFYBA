@@ -17,38 +17,32 @@ export class OfficialComponent implements OnInit {
   isSelectGameActive:boolean=false;
   headerImg:string;
 
- 
-
   constructor(private _router: Router,private http: Http, public officialService: OfficialService, public loginService: LoginService) {
     //this.selectGameJson = this.officialService.getSelectGames();
+    
    }
 
   ngOnInit() {
-    if(!this.loginService.sessionKey){
-			this._router.navigate(['login']);
-}
+    /*if(!this.loginService.sessionKey){
+      this._router.navigate(['login']);
+    }*/
     this.isSelectGameActive=true;
     this.headerImg = 'official_header_img';
   }
 
   selectGameData(){
     if(this.selectGameJson===null){
-      this.selectGameJson = this.officialService.getSelectGames();
-      
+      this.selectGameJson = this.officialService.getSelectGames();      
     }  
-
   }
 
   keepSelectActive(){
     if(this.isSelectGameActive==false)
     this.isSelectGameActive=true;
-
   }
 
   toggleSelectClass(){
     if(this.isSelectGameActive==true)
     this.isSelectGameActive=!this.isSelectGameActive;
   }
-
-
 }

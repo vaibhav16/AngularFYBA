@@ -2,7 +2,7 @@ import { Component, TemplateRef, OnInit, ViewEncapsulation,ElementRef,Renderer2,
 import { OfficialService } from '../official.service';
 import { NgbActiveModal,NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup,  FormBuilder } from '@angular/forms';
-import { Filter } from './filter.model';
+import { Filter } from '../../models/official/select-game/filter.model';
 import { count } from 'rxjs/operators';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { map } from 'rxjs/operators';

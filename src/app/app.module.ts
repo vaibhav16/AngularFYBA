@@ -29,6 +29,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { ArraySortPipe } from './shared/sort.pipe';
 import { ImguploadComponent } from './others/imgupload/imgupload.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     
   ],
   providers: [HttpClientModule,CookieService,
-    NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' } ],
+    NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' },
+    {provide: LocationStrategy, useClass: HashLocationStrategy} ,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

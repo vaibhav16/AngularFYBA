@@ -10,7 +10,7 @@ import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection 
 import { LoginService } from 'src/app/login/login.service';
 import { ArraySortPipe } from "./../../shared/sort.pipe";
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { FinalFilter } from './../../official/select-game/finalFilter.model';
+import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
  

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FinalFilter } from './../../official/select-game/finalFilter.model';
+import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 //import { read } from 'fs';
 
 @Injectable({

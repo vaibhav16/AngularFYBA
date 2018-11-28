@@ -8,11 +8,14 @@ import { ReportGameComponent } from './official/report-game/report-game.componen
 import { OfficialComponent } from './official/official.component'; 
 import { CoachComponent } from './coach/coach.component';  
 import { PlayerComponent } from './player/player.component'; 
+import { AuthGuard } from './auth.guard';
+//import { PreventLoggedInAccess } from './preventLogin.guard';
+import { LoginService } from './login/login.service';
 
 const routes: Routes = [
     {path:'', component:LoginComponent},
     {path:'login', component:LoginComponent},    
-	{ path:'official', component: OfficialComponent,
+	{ path:'official', component: OfficialComponent,canActivate: [AuthGuard],
 		children: [
 			{path: '', redirectTo: 'SelectGameComponent', pathMatch: 'full' },
 			{path: 'SelectGameComponent', component: SelectGameComponent }, 
@@ -21,8 +24,8 @@ const routes: Routes = [
 			{path:'ReportGameComponent', component:ReportGameComponent},
 		]
 	}, 
-    {path:'coach', component:CoachComponent},
-	{path:'player', component:PlayerComponent}
+    {path:'coach', component:CoachComponent,canActivate: [AuthGuard]},
+	{path:'player', component:PlayerComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -24,7 +24,7 @@
   </div>
 
   <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong></h3>
-      <ngb-accordion>
+      <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaymentNotApproved.length>0; else noRecordDiv">
           <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotApproved" title={{item.GameName}} >
               <ng-template ngbPanelContent>
                   <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
@@ -40,44 +40,37 @@
 
   <h3 class="mainDate"><strong>APPROVED BUT NOT PAID (${{officialService.getPaidJson.Value.PaymentNotPaidTotalAmount}})</strong></h3>
 
-  <ngb-accordion>
-      <ngb-panel title="(4B) Dragons vs. Warriors">
-          <ng-template ngbPanelContent>
-              <div class="matchInfo matchInfo2">Scorekeeper
-                  <ul>
-                  <li>- Base Pay:  $11.00</li>
-                  <li>- Scoresheet Report:  $3.00</li>
-                  </ul>
-                  </div>
-    </ng-template>
-    </ngb-panel>
-    
-    <ngb-panel title="(4B) Elves vs. Pretty Ponies">    
-      <ng-template ngbPanelContent>
-          <div class="matchInfo matchInfo2">Scorekeeper
-              <ul>
-              <li>- Base Pay:  $11.00</li>
-              <li>- Scoresheet Report:  $3.00</li>
-              </ul>
-              </div>               
-</ng-template>
-</ngb-panel>
+  <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaymentNotPaid.length>0; else noRecordDiv">
+    <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotPaid" title={{item.GameName}} >
+        <ng-template ngbPanelContent>
+            <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
+                <ul>
+                <li>- Base Pay:  ${{item.BaseAmount}}</li>
+                <li>- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
+                </ul>
+           </div>
+  </ng-template>
+  </ngb-panel>
 </ngb-accordion>
-
 
  
   <h3 class="mainDate"><strong>PAID  (${{officialService.getPaidJson.Value.PaidPaymentsTotalAmount}})</strong></h3>
-  <ngb-accordion>
-      <ngb-panel title="(3B) Elves vs. Pretty Ponies">
-          <ng-template ngbPanelContent>
-              <div class="matchInfo matchInfo2">Scorekeeper
-                  <ul>
-                  <li>- Base Pay:  $11.00</li>
-                  <li>- Scoresheet Report:  $3.00</li>
-                  </ul>
-                  </div>
-    </ng-template>
-    </ngb-panel>
+  <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaidPayments.length>0; else noRecordDiv">
+    <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaidPayments" title={{item.GameName}} >
+        <ng-template ngbPanelContent>
+            <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
+                <ul>
+                <li>- Base Pay:  ${{item.BaseAmount}}</li>
+                <li>- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
+                </ul>
+           </div>
+  </ng-template>
+  </ngb-panel>
 </ngb-accordion>
+
+<ng-template #noRecordDiv>
+    <div class="noRecords">No records are available!</div>       
+ </ng-template>
+
   </div>
 </div>
