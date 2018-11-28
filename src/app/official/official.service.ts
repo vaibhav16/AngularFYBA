@@ -177,9 +177,7 @@ export class OfficialService {
   /* - Fetch Initial Data in Select Games - */
   postSelectGames(obj: Filter):any{  
     this.numberOfSelectGameClicks++;
-    //this.finalFilter.RequestedData=JSON.stringify(obj);
-    // this.initialFilter.SessionKey = this.cookieService.get('SessionKey');
-    // this.initialFilter.UserID = this.cookieService.get('UserId');
+    //this.finalFilter.RequestedData=JSON.stringify(obj);    
     this.initialFilter.SessionKey = this.loginService.sessionKey;
     this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
     var body = JSON.stringify(this.initialFilter);   

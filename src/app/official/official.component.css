@@ -1,3 +1,8 @@
+.active-route {
+    background: black;
+    border-bottom: 2px solid red;      
+}
+
 /* Inspirated from  http://www.alessioatzeni.com/wp-content/tutorials/html-css/CSS3-loading-animation-loop/index.html */
 .loaderFYBA{position: absolute;
     left: 50%;

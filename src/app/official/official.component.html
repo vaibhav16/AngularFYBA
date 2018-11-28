@@ -21,8 +21,8 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<ul class="game_select">          
-						
-				    <li><a (click)="keepSelectActive()" [ngClass]="{active:isSelectGameActive}" routerLink="/official/SelectGameComponent" routerLinkActive="active">
+						<!--[ngClass]="{active:isSelectGameActive}"-->
+				    <li><a (click)="keepSelectActive()" routerLinkActive="active"  routerLink="/official/SelectGameComponent">
 							<img src="../../assets/images/game_icon.png" alt="Game Icon" />
 							<span>Select <br class="breakWord" />Games</span>
 						</a>

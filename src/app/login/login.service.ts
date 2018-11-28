@@ -49,8 +49,8 @@ postLoginData(userVar : Login){
 
   if(this.jsonResult["Error"]==200){ 
 
-    this.cookieService.set('SessionKey', this.sessionKey);    
-    this.cookieService.set('UserId', this.jsonResult["Value"].UserId); 
+    this.cookieService.set('sessionKey', this.sessionKey);    
+    this.cookieService.set('userId', this.jsonResult["Value"].UserId); 
     this.cookieService.set('officialSeasonId', this.jsonResult["Value"].OfficialSeasonalId); 
     this.cookieService.set('seasonId', this.jsonResult["Value"].SeasonId); 
     this.cookieService.set('roleId', this.jsonResult["Value"].RoleId);
@@ -68,9 +68,6 @@ postLoginData(userVar : Login){
     this.roleId = this.jsonResult["Value"].RoleId;
     this.leagueId = this.jsonResult["Value"].LeagueId;
     this.reportTagLabel = this.jsonResult["Value"].tagsLables.ReportCount;
-    
-    
-    //console.log(this.officialSeasonId);
   }
   else{
     this.isLoggedIn=false;
