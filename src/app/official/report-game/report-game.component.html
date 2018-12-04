@@ -1,3 +1,4 @@
+<!--div *ngIf="officialService.reportGameJson==null || officialService.requestStatus==1" class="block">-->
 <div *ngIf="officialService.reportGameJson==null || officialService.requestStatus==1" class="block">
     <div class="bg_loaderFYBA">
     <div class="loaderFYBA">
@@ -11,6 +12,7 @@
     </div>
   </div>
   </div>
+
 <!--[disabled]="(item.OfficiatingPositionId!=3)"-->
   <div class="container paddingBottom50" *ngIf="officialService.reportGameJson!=null">    
       <div *ngIf="officialService.reportGameJson.Value!=null && (officialService.reportGameJson.Value.length>0) || (officialService.reportGameJson.Value.GameList.length); else noRecordDiv" class="row">
@@ -19,11 +21,12 @@
           <div class="data_module">
             <ngb-accordion #acc="ngbAccordion" (panelChange)="panelChange($event)">
            
-                <ngb-panel [ngClass]="{'bg-info':false}" *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
+                <ngb-panel  *ngFor="let item of officialService.reportGameJson.Value.GameList; let gameListIndex = index">               
                    
-                    <ng-template ngbPanelTitle >
-                      <div style="color:red" class="HeadCollapse">
-                        <h2 style="color:black" #acchead1>
+                    <ng-template ngbPanelTitle>
+                      <!--class={{item.GameReported}}-->
+                      <div class="{{item.GameReported}} HeadCollapse" class="HeadCollapse seemant">
+                        <h2 #acchead1>
                           {{item.GameName}}
                           <span class="asCoach">{{item.PositionText}}</span>
                           <span class="earnMore">{{item.IncentiveText}}</span>
@@ -197,7 +200,7 @@
                                           
                                          </a-->
                                          <input [disabled]="!(item.OfficiatingPositionId==3)" #imageInput type="file" multiple accept="image/*" (change)="processFile(imageInput)">
-                                         <span class="addHeading">Add<br /> Scoreshot</span>
+                                         <span class="addHeading">Add<br /> Scoresheet</span>
                                       </li>
                                        
                                   </ul>
@@ -205,7 +208,7 @@
                               </div>
                             </div> 
                         </div>
-                        <div class="marginTop10">
+                        <!----div class="marginTop10">
                           <ul class="reportlist">
                           <li>Incident Report</li>
                           </ul>
@@ -221,7 +224,7 @@
                               </div>
                             </div>
                           </div> 
-                      </div>
+                      </div-->
                       <!----div class="marginTop10">
                         <ul class="reportlist">
                         <li>Shared Photos</li>
@@ -240,7 +243,7 @@
                         </div> 
                     </div-->
                         <div [ngStyle]="{'display':item.OfficiatingPositionId == '3' ? '' : 'none' }" *ngIf="officialService.requestStatus==0 || !officialService.requestSuccess || !officialService.requestSuccess"  class="text-center">
-                          <button class="saveBtn" [disabled]="!(item.OfficiatingPositionId==3)" id={{item.OfficiatingPositionId}} type="submit" (click)="onSubmit(reportForm,gameListIndex,template)">SAVE</button>
+                          <button class="saveBtn" [disabled]="!(item.OfficiatingPositionId==3)" id={{item.OfficiatingPositionId}} type="submit" (click)="onSubmit(reportForm,gameListIndex,invalidScoreTemplate,unEqualHomeScoreTemplate,unEqualVisitingScoreTemplate)">SAVE</button>
                         </div>
                         <div *ngIf="officialService.requestStatus==1" class="requestSent"> <br>Request has been sent!</div>
                         <div *ngIf="officialService.requestSuccess==true" class="requestSuccess"> <br> Data Saved!</div>
@@ -268,3 +271,26 @@
       </div>
    </ng-template>
   
+   <ng-template #invalidScoreTemplate>
+    <div class="modal-body text-center">
+       <p class="heading-signUp">Invalid Final Score</p>        
+       <p>Final Score field can not be left blank!</p>
+       <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()" >OK</button>         
+    </div>
+ </ng-template>
+
+ <ng-template #unEqualHomeScoreTemplate>
+  <div class="modal-body text-center">
+     <p class="heading-signUp">Invalid Final Score</p>        
+     <p>The sum of the scores of the Home Team players must be equal to the final score.</p>
+     <button type="button" class="btn btn-danger" (click)="closeUnEqualHomeScoreModal()" >OK</button>         
+  </div>
+</ng-template>
+
+<ng-template #unEqualVisitingScoreTemplate>
+  <div class="modal-body text-center">
+     <p class="heading-signUp">Invalid Final Score</p>        
+     <p>The sum of the scores of the Visiting Team players must be equal to the final score.</p>
+     <button type="button" class="btn btn-danger" (click)="closeUnEqualVisitingScoreModal()" >OK</button>         
+  </div>
+</ng-template>

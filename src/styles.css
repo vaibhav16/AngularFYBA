@@ -3,6 +3,20 @@
 /* You can add global styles to this file, and also import other style files */
 /*actual design*/
 
+body{
+    /* Disables pull-to-refresh but allows overscroll glow effects. */
+    overscroll-behavior-y: contain;
+    touch-action: "pan-down";
+  }
+  html {
+    overscroll-behavior-y: contain;
+    touch-action: "pan-down";
+  }
+
+  /*@media screen and (orientation: portrait) {
+  }*/
+  
+
 @font-face {
     font-family: 'Glyphicons Halflings';
     src: url('./assets/fonts/glyphicons-halflings-regular.eot');
@@ -12,8 +26,10 @@
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
+   
+
    .earnMore {
-    color: #ff0000;
+    color: #de0000;
     font-size: 12px;
     font-style: normal;
     font-weight: normal;
@@ -55,7 +71,7 @@ div {
 
    
    h3.mainDate{background: #3c98db;padding:10px;color: #ffffff;}
-   .HeadCollapse{float:left; margin-left: 5px; width:calc(100% - 25px);}
+   .HeadCollapse{float:left; margin-left: 0px; width:100%; padding:10px;}
    
    .floatLeftAlign {
     float: left;
@@ -70,7 +86,7 @@ div {
    }
    .card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 10px; background: #ededed;}
    .card{border:0px;}
-   .card .btn-link{color:#000000; font-weight:bold; padding:10px; font-size:16px; width: 100%; text-align:left;}
+   .card .btn-link{color:#000000; font-weight:bold; padding:0px; font-size:16px; width: 100%; text-align:left;}
    .card-body{border:1px solid #bbc9da; border-top:0px; padding:10px;} 
    #filter .card-body{background: #e1efd8;}
    .btn-link.focus, .btn-link:hover, .btn-link:focus {
@@ -196,7 +212,7 @@ div {
    .filter_module{background:#ededed; border:1px solid #bbc9da; padding:10px 20px; box-shadow:0 0 10px #cccccc; margin-top:20px;}
    .data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:10px;}
    /*.data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc; padding:10px 0px; margin-top:10px;}*/
-   .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px; display: inline-block;width: 100%;line-height: 24px;}
+   .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px; display: inline-block;width: calc(100% - 30px);line-height: 24px; margin-left:5px; color:#000;}
    .filter_div label{margin-top:5px;}
    .filter_div{margin-top:0px; display:inline-block; width:100%;}
    .marginTop10{margin-top:10px;}
@@ -226,6 +242,17 @@ div {
    .matchInfo span{color:#fffb85; text-decoration:underline;}
    .paddingBottom50{padding-bottom:50px;}
    .paddingBottom20{padding-bottom:20px;}
+
+   h2.paidHead{margin-top: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 0px;
+    display: inline-block;
+    width: calc(100% - 30px);
+    line-height: 24px;
+    margin-left: 5px;
+    color: #000;}
    
    .notification_tip{background: #ff0000; padding:0px 6px 2px 5px !important; color: #ffffff;border-radius: 10px;font-size: 11px !important; cursor:pointer; opacity:1 !important;}
    .select_pos{position: absolute;margin-left: -30px; margin-top:-5px;}
@@ -247,7 +274,7 @@ div {
     color: #ff0000; text-align: center; font-weight:bold;}
     .noRecords{
         color: #ff0000; text-align: left; font-weight:bold;/*word-spacing:5px;*/
-        padding-top: 20px; font-size: 150%;
+        padding-top: 0px; font-size: 14px;
         
     }
    .logo_login{text-align:center; margin-bottom:80px;}
@@ -302,8 +329,8 @@ div {
    .bgGrey{background:#ffffff; padding:10px 0px;}  
    .bgGrey .col-md-2{font-size:16px;}
    table.scoreTable{border-collapse:collapse;}
-   table.scoreTable tr td{padding:8px; background:#ffffff; border:1px solid #cccccc; text-align:center;}
-   table.scoreTable tr th{padding:8px; background:#ededed; border:1px solid #cccccc; text-align:center; color:#333333;}
+   table.scoreTable tr td{padding:8px 4px; background:#ffffff; border:1px solid #cccccc; text-align:center;}
+   table.scoreTable tr th{padding:8px 4px; background:#ededed; border:1px solid #cccccc; text-align:center; color:#333333;}
    table.scoreTable tr td input[type="number"]{width:100%; border:1px solid #cccccc;min-width: 40px;}
    table.scoreTable tr td:nth-child(2), table.scoreTable tr th:nth-child(2){text-align:left;}
    .describe_text{font-style:italic; color:#ff0000; font-weight:normal;}
@@ -596,12 +623,15 @@ div {
        ul.addList li{font-size:11px;}
        table.scoreTable tr th{font-size:4vw;}
        table.scoreTable tr td{font-size:4vw;}
+       table.scoreTable tr td span{word-break:break-word;} 
+
    }
 
    @media only screen and (min-width : 341px) and (max-width : 480px) {
        
     table.scoreTable tr th{font-size:3.5vw;}
     table.scoreTable tr td{font-size:3.5vw;}
+    table.scoreTable tr td span{word-break:break-word;}
 }
 
    
@@ -703,31 +733,47 @@ div {
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    -webkit-font-smoothing: antialiased; content: "\e250"; }
+    -webkit-font-smoothing: antialiased; content: "\e250"; display:none;}
    
-   .accordion .accordion .card .btn-link:before{content: "\e252"; float:left;}
+   .accordion .accordion .card .btn-link:before{content: "\e252"; float:left; display:none;} 
    
     .accordion .accordion .matchInfo{margin-top:0px;}
    
-    .accordion .card .btn-link:before{position: relative;
-    top: 1px;
+    .accordion .card .btn-link .HeadCollapse:before{position: relative;
+    top: 4px;
     font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
-    line-height: 1;;content: "\e252"; float:left;}
+    line-height: 1;content: "\e252"; float:left;}
    
-    .accordion .card .btn-link.collapsed:before{content: "\e250"; float:left;}
+    .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
     .card-body button[type="submit"]{ background: #70ad47;
     padding: 5px 10px;
     border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
-   #filter-header{background-color: #c4e0b2 !important;}
+   #filter-header{background-color: #c4e0b2 !important; padding:10px;}
+   #filter-header .btn-link.collapsed::before{position: relative;
+    top: 1px;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;content: "\e250";}
 
- .modal-sm{margin: 0;transform: translateX(-50%) translateY(-50%) !important;left: 50%;top: 50%;}
+    #filter-header .btn-link::before{position: relative; 
+        top: 1px;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;content: "\e252";}
+   
+ 
  .modal-sm .modal-body{padding: 0 0 15px 0;}
  .modal-sm > .modal-content > .modal-body > .heading-signUp{background-color: #1e31ae;padding: 10px; color:#fff; text-align:left; font-weight:normal;}
  .modal-sm > .modal-content > .modal-body > p{font-weight:bold;}
  .modal-sm .modal-content .modal-body .btn-success{margin-right:5px;}
+
+ .bg-info > h5 > .btn-link > .cssGameNotReported{background-color: #bbb !important;}
+ .bg-info > h5 > .btn-link > .cssGameReported{background-color: #ededed !important;}
 
 

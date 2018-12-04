@@ -21,10 +21,11 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json"                           
+              "src/manifest.json",
+              "src/manifest.json"
             ],
             "styles": [
-              "src/styles.css"                      
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -76,15 +77,15 @@
             "styles": [
               "src/styles.css",
               "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-              
-              
             ],
-            "scripts": [ "../node_modules/bootstrap/dist/js/bootstrap.min.js"],
+            "scripts": [
+              "../node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/manifest.json",
               "src/manifest.json"
-             
             ]
           }
         },

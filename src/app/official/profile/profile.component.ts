@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OfficialService } from './../official.service';
+import { LoginService } from './../../login/login.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,12 +9,16 @@ import { OfficialService } from './../official.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(public officialService: OfficialService) {
+  constructor(public officialService: OfficialService, public loginService: LoginService) {
     //const formData: FormData = new FormData();
    }
 
   ngOnInit() {
-    this.officialService.fetchProfileData();
+    // this.loginService.newRequest=true;
+    // this.loginService.refreshRequest=false;
+    this.officialService.fetchProfileData().then(res=>{
+      // this.loginService.newRequest=false;
+    });
   }
 
   uploadedFiles: File[] = [];

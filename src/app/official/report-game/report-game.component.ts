@@ -96,7 +96,10 @@ export class ReportGameComponent{
     
   }
 
-  ngOnInit() { 
+  newRequest:boolean=null;
+  ngOnInit() {
+    // this.loginService.newRequest=true;
+    // this.loginService.refreshRequest=false;
     this.officialService.requestSuccess=false;
     this.officialService.requestFailure=false;
     //this.officialService.reportGameJson=null;    
@@ -106,12 +109,54 @@ export class ReportGameComponent{
   }
 
   async asyncReport(){
-    await this.officialService.getReportData(); 
+    await this.officialService.getReportData().then(res=>{      
+      // this.loginService.newRequest=false;
+
+    });
  }
 
   /* - When Edited Data is sent by ScoreKeeper this function is called - */
-  onSubmit(form: NgForm, gameListIndex: number) {
-    console.log(form.value);       
+  onSubmit(form: NgForm, gameListIndex: number,invalidScoreTemplate: TemplateRef<any>,unEqualHomeScoreTemplate: TemplateRef<any>,unEqualVisitingScoreTemplate: TemplateRef<any>) {
+    console.log(form.value); 
+    if(form.value.HTeamScore.length<=0 && form.value.VTeamScore.length<=0){
+      this.modalRef = this.modalService.show(invalidScoreTemplate, {class: 'modal-sm'});
+      console.log("Invalid");
+    }
+    else if(this.checkFinalScore(form,gameListIndex,unEqualHomeScoreTemplate,unEqualVisitingScoreTemplate)){
+       this.prepareDatatoUpdate(form,gameListIndex);
+    } 
+  }
+  tempSumHomePoint:number=0;
+  tempSumVisitingPoint:number=0;
+  checkFinalScore(form: NgForm, gameListIndex: number,unEqualHomeScoreTemplate: TemplateRef<any>,unEqualVisitingScoreTemplate: TemplateRef<any>){
+     this.tempSumHomePoint=0;
+     this.tempSumVisitingPoint=0;
+    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
+      
+      let hpoint = "HPoints"+i;
+      this.tempSumHomePoint+= parseInt(form.value[hpoint]);      
+    }
+    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamPlayerScores.length; ++i){
+      
+      let vpoint = "VPoints"+i;
+      this.tempSumVisitingPoint+=parseInt(form.value[vpoint]);
+    }
+    if( this.tempSumVisitingPoint!=form.value.VTeamScore){
+      console.log(this.tempSumVisitingPoint,form.value.VTeamScore)
+      this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {class: 'modal-sm'});
+      return false;
+    }
+    else if(this.tempSumHomePoint!=form.value.HTeamScore)
+    {
+      console.log(this.tempSumHomePoint,form.value.HTeamScore)
+      this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {class: 'modal-sm'});
+      return false;
+    }
+  
+    return true;
+  }
+
+  prepareDatatoUpdate(form: NgForm, gameListIndex: number){
     for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
       
       let point = "HPoints"+i;
@@ -198,7 +243,6 @@ export class ReportGameComponent{
     this.APIGamePost.ScoreSheetImages = this.ScoreSheetImages; 
     console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost);
-  
   }
 
   /* - On clicking save button, a message is shown to the user. 
@@ -281,15 +325,15 @@ export class ReportGameComponent{
   if(e.target.checked){
     if(this.maxPON>=6){
       this.modalMsg = "Only upto Six Players of Note are allowed in a single game.";
-      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     }    
     else if(this.homePON>=3){
       this.modalMsg = "Only Three Players of Note are allowed from Home Team.";
-      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     }
     else if(this.visitingPON>=3){
       this.modalMsg = "Only Three Players of Note are allowed from Visiting Team.";
-      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     }
     
 
@@ -303,10 +347,28 @@ confirm(): void {
   this.modalRef.hide();
 }
 
+  
+closeInvalidScoreModal(): void { 
+  this.modalRef.hide();
+  this.modalRef=null;
+
+}
+
+closeUnEqualHomeScoreModal():void{
+  this.modalRef.hide();
+  this.modalRef=null;
+}
+
+closeUnEqualVisitingScoreModal():void{
+  this.modalRef.hide();
+  this.modalRef=null;
+}
+
 
 public inputValidator(event: any) {
   //console.log(event.target.value);
-  const pattern = /^([1-9][0-9]{0,2}|1000)$/;   
+  //const pattern = /^([1-9][0-9]{0,2}|1000)$/;   
+  const pattern = /^([0-9][0-9]{0,2}|1000)$/;   
   //let inputChar = String.fromCharCode(event.charCode)
   if (!pattern.test(event.target.value)) {
     console.log(event.target.value);

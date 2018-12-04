@@ -3,6 +3,8 @@ import { SwUpdate } from '@angular/service-worker';
 import { DataService} from './shared/data.service';
 import { LoginService } from './login/login.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+//import { isIos } from './../assets/js/index';
+//import { isInStandaloneMode } from './../assets/js/index';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +27,8 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    
+    var iOS = ['iPad', 'iPhone', 'iPod'].indexOf(navigator.platform) >= 0;
+    console.log(iOS);
     
   }
 

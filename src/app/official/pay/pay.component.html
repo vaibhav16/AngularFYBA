@@ -1,4 +1,5 @@
-<div *ngIf="officialService.paidRequest" class="block">
+<!----div *ngIf="officialService.paidRequest" class="block"-->
+<div  *ngIf="officialService.paidRequest" class="block">
         <div class="bg_loaderFYBA">
         <div class="loaderFYBA">
           <h1>Please wait...</h1>
@@ -25,8 +26,11 @@
 
   <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong></h3>
       <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaymentNotApproved.length>0; else noRecordDiv">
-          <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotApproved" title={{item.GameName}} >
-              <ng-template ngbPanelContent>
+          <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotApproved" >
+              <ng-template ngbPanelTitle>
+                  <div class="HeadCollapse"><h2 class="paidHead">{{item.GameName}}</h2></div>
+        </ng-template>  
+            <ng-template ngbPanelContent>
                   <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                       <ul>
                       <li>- Base Pay:  ${{item.BaseAmount}}</li>
@@ -41,7 +45,10 @@
   <h3 class="mainDate"><strong>APPROVED BUT NOT PAID (${{officialService.getPaidJson.Value.PaymentNotPaidTotalAmount}})</strong></h3>
 
   <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaymentNotPaid.length>0; else noRecordDiv">
-    <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotPaid" title={{item.GameName}} >
+    <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotPaid">
+        <ng-template ngbPanelTitle>
+            <div class="HeadCollapse"><h2 class="paidHead">{{item.GameName}}</h2></div>
+  </ng-template>
         <ng-template ngbPanelContent>
             <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                 <ul>
@@ -56,7 +63,10 @@
  
   <h3 class="mainDate"><strong>PAID  (${{officialService.getPaidJson.Value.PaidPaymentsTotalAmount}})</strong></h3>
   <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaidPayments.length>0; else noRecordDiv">
-    <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaidPayments" title={{item.GameName}} >
+    <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaidPayments">
+        <ng-template ngbPanelTitle>
+            <div class="HeadCollapse"><h2 class="paidHead">{{item.GameName}}</h2></div>
+  </ng-template>
         <ng-template ngbPanelContent>
             <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                 <ul>

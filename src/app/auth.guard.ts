@@ -6,7 +6,7 @@ import { LoginService } from './login/login.service';
 export class AuthGuard implements CanActivate {
     constructor(private router: Router, private loginService: LoginService) { }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (this.loginService.cookieService.check('sessionKey')) {
+        if (this.loginService.cookieService.check('sessionKey')) {            
             this.loginService.sessionKey =  this.loginService.cookieService.get('sessionKey');    
             this.loginService.userId =  parseInt(this.loginService.cookieService.get('userId')); 
             this.loginService.officialSeasonId =  this.loginService.cookieService.get('officialSeasonId'); 

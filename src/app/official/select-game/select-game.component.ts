@@ -75,12 +75,15 @@ export class SelectGameComponent implements OnInit {
    }  
 
    ngOnInit() {
+     //this.officialService.selectGameJson=null;
+    
     this.settings = {
         text: "Select....",
         classes: "myclass custom-class"
     };
-     this.officialService.postSelectGames(this.selectedFilter);  
-      //this.officialService.getSelectGames();
+    //this.signUpRequest=true;    
+    
+    this.officialService.postSelectGames(this.selectedFilter);
       
   }
  
@@ -177,6 +180,7 @@ cancelSignUp(groupId : string, gameId: string, positionId: string, ForCancelSign
 /* - Implementing ngx-modal from ngx-bootstrap - */
 
 confirmSignUpEmail(): void {
+  //this.officialService.selectGameJson=null;
  
   this.modalRef.hide();
   this.officialService.sendSignUpEmail(this.tempGroupId, this.tempGameId, this.tempPositionId, this.tempForCancelSignUp);
@@ -184,15 +188,24 @@ confirmSignUpEmail(): void {
 }
 
 declineSignUpEmail(): void {
+  //this.officialService.selectGameJson=null;
   
   this.modalRef.hide();
+  this.officialService.postSelectGames(this.selectedFilter);
   //this.officialService.sendSignUpEmail();
   this.officialService.signUpResponse=null;
 }
 
-closeCancelSignupModal(): void {
- 
+confirmCancelSignupModal(){
+  //this.officialService.selectGameJson=null;
+  this.officialService.sendCancelSignUpEmail(this.tempGroupId, this.tempGameId, this.tempPositionId, this.tempForCancelSignUp);
   this.modalRef.hide();
+}
+
+closeCancelSignupModal(): void {
+  //this.officialService.selectGameJson=null; 
+  this.modalRef.hide();
+  this.officialService.postSelectGames(this.selectedFilter);
   //this.officialService.sendSignUpEmail();
   this.officialService.signUpResponse=null;
 }

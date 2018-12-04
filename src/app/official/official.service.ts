@@ -31,6 +31,14 @@ export class OfficialService {
  numberOfSelectGameClicks:number = 0;
  initialData:Filter;
 
+ selectedFilter:Filter = {      
+  Division: '',
+  Location: '',
+  StartTime: '',
+  EndTime: '',
+  Position: ''        
+} 
+
  initialFilter: IntialFilter = {
    UserID:'',
    SessionKey:''
@@ -175,7 +183,9 @@ export class OfficialService {
   }
 
   /* - Fetch Initial Data in Select Games - */
+  fetchSelectGames=null;
   postSelectGames(obj: Filter):any{  
+    this.fetchSelectGames=true;
     this.numberOfSelectGameClicks++;
     //this.finalFilter.RequestedData=JSON.stringify(obj);    
     this.initialFilter.SessionKey = this.loginService.sessionKey;
@@ -189,7 +199,8 @@ export class OfficialService {
     })).toPromise().then(x => {     
 
       console.log(x);
-      this.fetchPreselectedFilters(x);      
+      this.fetchPreselectedFilters(x); 
+      this.fetchSelectGames=false;     
       return Promise.resolve(this.selectGameJson = x);      
     });
   }
@@ -342,6 +353,7 @@ export class OfficialService {
    /* - If the user signup is successful, an email is sent to his email, if he chooses to receive it - */
 
   sendSignUpEmail(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
+    this.fetchSelectGames=true;
     this.signUpRD.GroupId=groupId;
     this.signUpRD.GameIds=gameId;
     this.signUpRD.PositionID=positionId;
@@ -364,8 +376,41 @@ export class OfficialService {
       return data.json()
     })).toPromise().then(x => {   
       console.log(x);
-      this.paidRequest=false;
-      return Promise.resolve(this.getPaidJson = x);      
+      //this.paidRequest=false;
+      this.postSelectGames(this.selectedFilter);
+      return Promise.resolve();      
+    });
+
+  }
+
+  
+  sendCancelSignUpEmail(groupId : string, gameId: string, positionId: string, ForCancelSignUp: string){
+    this.fetchSelectGames=true;
+    this.signUpRD.GroupId=groupId;
+    this.signUpRD.GameIds=gameId;
+    this.signUpRD.PositionID=positionId;
+    this.signUpRD.OfficialSeasonId=this.loginService.officialSeasonId;
+    this.signUpRD.SeasonId = this.loginService.seasonId;
+    this.signUpRD.LeagueId = this.loginService.leagueId;
+    this.signUpRD.ForCancelSignUp=ForCancelSignUp;
+
+    this.finalFilter.RequestedData= JSON.stringify(this.signUpRD);
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID =this.loginService.userId.toString();
+
+    var body = JSON.stringify(this.finalFilter);   
+    console.log(JSON.stringify(this.finalFilter));
+   
+    var headerOptions =  new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
+    return this.http.post('https://fybaservice.sapplesystems.com/api//RequestSendMail',body,requestOptions)
+    .pipe(map((data: Response) => {
+      return data.json()
+    })).toPromise().then(x => {   
+      console.log(x);
+      this.postSelectGames(this.selectedFilter);
+      //this.paidRequest=false;
+      return Promise.resolve();      
     });
 
   }
@@ -422,7 +467,10 @@ export class OfficialService {
       console.log(x);
       this.requestStatus = 0;
       if(x["Error"]==200){
-        this.requestSuccess=true;        
+        this.requestSuccess=true;    
+        this.loginService.reportTagLabel=x["Value"];
+        this.cookieService.set("reportTagLabel",x["Value"]);
+        console.log(this.loginService.reportTagLabel);    
       }
       else{
         this.requestFailure=true;

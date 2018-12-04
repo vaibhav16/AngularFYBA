@@ -2,7 +2,7 @@
 <title>FYBA Login</title>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-<div *ngIf="loginService.requestStatus==false && loginService.requestStatus!=null" class="block">
+<div *ngIf="loginService.requestStatus" class="block">
     <div class="bg_loaderFYBA">
     <div class="loaderFYBA">
       <h1>Please wait...</h1>

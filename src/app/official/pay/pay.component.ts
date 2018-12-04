@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OfficialService } from './../official.service';
+import { LoginService } from './../../login/login.service'
 
 @Component({
   selector: 'app-pay',
@@ -8,12 +9,14 @@ import { OfficialService } from './../official.service';
 })
 export class PayComponent implements OnInit {
 
-  constructor(public officialService: OfficialService) { 
+  constructor(public officialService: OfficialService, public loginService: LoginService) { 
 
   }
 
   ngOnInit() {
-    this.officialService.fetchGetPaidData();
+    this.officialService.fetchGetPaidData().then(res=>{
+      // this.loginService.refreshRequest=false;
+    });
   }
 
 }

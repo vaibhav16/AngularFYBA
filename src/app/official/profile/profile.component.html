@@ -1,3 +1,4 @@
+<!--<div *ngIf="officialService.fetchProfileRequest" class="block">-->
 <div *ngIf="officialService.fetchProfileRequest" class="block">
     <div class="bg_loaderFYBA">
        <div class="loaderFYBA">
@@ -17,7 +18,10 @@
           <h1 class="mainDate name_player"><strong>{{officialService.profileJson.Value[0].ProfileName}}</strong> <span class="rating_player">{{officialService.profileJson.Value[0].ProfileRating}}</span></h1>
  
  <ngb-accordion>
-    <ngb-panel title="Personal Info">
+    <ngb-panel>
+         <ng-template ngbPanelTitle>
+               <div class="HeadCollapse"><h2 class="paidHead">Personal Info</h2></div>
+     </ng-template>
        <ng-template ngbPanelContent>
           <div class="data_module bgBlue">
              <div class="fms_time marginleftNone">
@@ -58,7 +62,10 @@
           </div>
        </ng-template>
     </ngb-panel>
-    <ngb-panel title="League Settings">
+    <ngb-panel>
+         <ng-template ngbPanelTitle>
+               <div class="HeadCollapse"><h2 class="paidHead">League Settings</h2></div>
+     </ng-template>
        <ng-template ngbPanelContent>
           <div class="fms_time marginleftNone">
              <div class="row signupPosition">
@@ -72,7 +79,10 @@
           </div>
        </ng-template>
     </ngb-panel>
-    <ngb-panel title="Approved Officiating Divisions">
+    <ngb-panel>
+         <ng-template ngbPanelTitle>
+               <div class="HeadCollapse"><h2 class="paidHead">Approved Officiating Divisions</h2></div>
+     </ng-template>
        <ng-template ngbPanelContent>
           <div class="fms_time marginleftNone">
              <div class="row signupPosition">
@@ -103,7 +113,10 @@
           </div>
        </ng-template>
     </ngb-panel>
-    <ngb-panel title="Payments">
+    <ngb-panel>
+         <ng-template ngbPanelTitle>
+               <div class="HeadCollapse"><h2 class="paidHead">Payments</h2></div>
+     </ng-template>
        <ng-template ngbPanelContent>
           <div class="fms_time marginleftNone">
              <div class="row signupPosition">
@@ -131,7 +144,10 @@
           </div>
        </ng-template>
     </ngb-panel>
-    <ngb-panel title="Data Privacy">
+    <ngb-panel>
+         <ng-template ngbPanelTitle>
+               <div class="HeadCollapse"><h2 class="paidHead">Data Privacy</h2></div>
+     </ng-template>
        <ng-template ngbPanelContent>
           <div class="fms_time marginleftNone">
              <div class="row signupPosition">

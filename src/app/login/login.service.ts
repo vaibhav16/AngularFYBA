@@ -33,7 +33,7 @@ export class LoginService {
    } 
 
 postLoginData(userVar : Login){
-  this.requestStatus=false;
+  this.requestStatus=true;
   userVar.Email=userVar.Email.toLowerCase();
   var headerOptions =  new Headers({'Content-Type':'application/json'});
   var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
@@ -44,7 +44,7 @@ postLoginData(userVar : Login){
     console.log(x);
   this.jsonResult = x; 
   this.sessionKey=x["SessionKey"];
-  this.requestStatus=true;
+  this.requestStatus=false;
 
 
   if(this.jsonResult["Error"]==200){ 
