@@ -2,7 +2,7 @@
 <div  *ngIf="officialService.paidRequest" class="block">
         <div class="bg_loaderFYBA">
         <div class="loaderFYBA">
-          <h1>Please wait...</h1>
+          <h1></h1>
           <p class="round">
           <span class="ouro">
             <span class="left"><span class="anim"></span></span>
@@ -34,7 +34,7 @@
                   <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                       <ul>
                       <li>- Base Pay:  ${{item.BaseAmount}}</li>
-                      <li>- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
+                      <li *ngIf="item.OfficiatingPositionText=='Scorekeeper'">- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
                       </ul>
                  </div>
         </ng-template>
@@ -42,7 +42,7 @@
     </ngb-accordion>
     
 
-  <h3 class="mainDate"><strong>APPROVED BUT NOT PAID (${{officialService.getPaidJson.Value.PaymentNotPaidTotalAmount}})</strong></h3>
+  <h3 class="mainDate"><strong>APPROVED BUT NOT PAID</strong>  <strong style="float:right"> (${{officialService.getPaidJson.Value.PaymentNotPaidTotalAmount}})</strong></h3>
 
   <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaymentNotPaid.length>0; else noRecordDiv">
     <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaymentNotPaid">
@@ -53,7 +53,7 @@
             <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                 <ul>
                 <li>- Base Pay:  ${{item.BaseAmount}}</li>
-                <li>- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
+                <li *ngIf="item.OfficiatingPositionText=='Scorekeeper'">- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
                 </ul>
            </div>
   </ng-template>
@@ -61,7 +61,7 @@
 </ngb-accordion>
 
  
-  <h3 class="mainDate"><strong>PAID  (${{officialService.getPaidJson.Value.PaidPaymentsTotalAmount}})</strong></h3>
+  <h3 class="mainDate"><strong>PAID</strong>  <strong style="float:right">(${{officialService.getPaidJson.Value.PaidPaymentsTotalAmount}})</strong></h3>
   <ngb-accordion *ngIf="officialService.getPaidJson.Value.PaidPayments.length>0; else noRecordDiv">
     <ngb-panel  *ngFor="let item of officialService.getPaidJson.Value.PaidPayments">
         <ng-template ngbPanelTitle>
@@ -71,7 +71,7 @@
             <div class="matchInfo matchInfo2">{{item.OfficiatingPositionText}}
                 <ul>
                 <li>- Base Pay:  ${{item.BaseAmount}}</li>
-                <li>- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
+                <li *ngIf="item.OfficiatingPositionText=='Scorekeeper'">- Scoresheet Report:  ${{item.IncentiveAmount}}</li>
                 </ul>
            </div>
   </ng-template>
@@ -79,7 +79,7 @@
 </ngb-accordion>
 
 <ng-template #noRecordDiv>
-    <div class="noRecords">No records are available!</div>       
+    <div class="noRecords">No Payments Found</div>       
  </ng-template>
 
   </div>

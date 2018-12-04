@@ -2,7 +2,7 @@
 <div *ngIf="officialService.selectGameJson==null || signUpRequest || officialService.fetchSelectGames" class="block">
       <div class="bg_loaderFYBA">
       <div class="loaderFYBA">
-        <h2>Please wait...</h2>
+        <h2></h2>
         <p class="round">
         <span class="ouro">
           <span class="left"><span class="anim"></span></span>
@@ -70,6 +70,7 @@
                   </div>
                </ng-template>
                <ng-template ngbPanelContent>
+
                   <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
                   <ngb-accordion #acc="ngbAccordion">
                      <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" 
@@ -81,19 +82,19 @@
                         </ng-template>
                         <ng-template ngbPanelContent>
                            <h3>
-                              <div class="matchInfo">
+                              <div class="matchInfo_selectGame">
                                  <!----iframe width="600" height="450" frameborder="0" style="border:0"
                                     src={{nestedChild.GoogleMapAdd}}>
                                  </iframe-->
                                  <!----a href={{nestedChild.GoogleMapAdd}}>{{nestedChild.Location}}</a-->
                                  <div (click)="openMapModal(nestedChild.GoogleMapAdd,mapTemplate)">{{nestedChild.Location}}</div>
                                  <!---span>{{nestedChild.Location}}</span><br-->
-                                 <p *ngIf="nestedChild.Referee==1">Referee: Available</p>
-                                 <p *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}</p>
-                                 <p *ngIf="nestedChild.Umpire==2">Umpire: Available</p>
-                                 <p *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}</p>
-                                 <p *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available</p>
-                                 <p *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper: {{nestedChild.ScoreKeeper}}</p>
+                                 <span *ngIf="nestedChild.Referee==1">Referee: Available<br/></span>
+                                 <span *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}<br/></span>
+                                 <span *ngIf="nestedChild.Umpire==2">Umpire: Available<br/></span>
+                                 <span *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}<br/></span>
+                                 <span *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available<br/></span>
+                                 <span *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper: {{nestedChild.ScoreKeeper}}<br/></span>
                               </div>
                            </h3>
                         </ng-template>
@@ -107,6 +108,8 @@
                      <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" id="{{child.GameTimeSlots[0].Positions.Umpire}}" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, false,template,standardTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a>
                   </div>
                   <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel && child.GameTimeSlots[0].Positions.CanCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 1, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+				  </div>
+				  <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel && child.GameTimeSlots[0].Positions.CanCancel==false" class="col-md-4 col-sm-4 col-xs-4"><a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
          </div>
       </div>
       <div class="row signupPosition">
@@ -116,6 +119,8 @@
       <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.Umpire}}</div>
       <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, false,template,standardTemplate)" id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
       <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 2, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+	  </div>
+				  <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel==false" class="col-md-4 col-sm-4 col-xs-4"><a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
    </div>
    </div>
    <div class="row signupPosition">
@@ -124,9 +129,15 @@
    <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.ScoreKeeper==3" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
    <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" class="col-md-4 col-sm-4 col-xs-4">{{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
    <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, false,template,standardTemplate)" id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a></div>
-   <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel && child.GameTimeSlots[0].Positions.CanCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a></div>
+   <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel && child.GameTimeSlots[0].Positions.CanCancel" (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, child.GameTimeSlots[0].Positions.GameId, 3, true,cancelTemplate)" class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
    </div>
+				  <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel && child.GameTimeSlots[0].Positions.CanCancel==false" class="col-md-4 col-sm-4 col-xs-4"><a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
+   </div>
+   
+   </div>
+   
    </ng-template>
+   
    </ngb-panel>
    </ngb-accordion>
    </div>
@@ -140,7 +151,7 @@
    <ng-template #template>
       <div class="modal-body text-center">
          <p class="heading-signUp">Sign Up Successful</p>
-         <p>{{officialService.signUpResponse}}</p>
+         <!-- <p>{{officialService.signUpResponse}}</p> -->
          <p>Would you like to receive a confirmation email?</p>
          <button type="button" class="btn btn-success" (click)="confirmSignUpEmail()" >Yes</button>
          <button type="button" class="btn btn-danger" (click)="declineSignUpEmail()" >No</button>

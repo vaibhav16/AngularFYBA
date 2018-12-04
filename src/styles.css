@@ -6,11 +6,11 @@
 body{
     /* Disables pull-to-refresh but allows overscroll glow effects. */
     overscroll-behavior-y: contain;
-    touch-action: "pan-down";
+    /*touch-action: "pan-down";*/
   }
   html {
     overscroll-behavior-y: contain;
-    touch-action: "pan-down";
+    /*touch-action: "pan-down";*/
   }
 
   /*@media screen and (orientation: portrait) {
@@ -106,12 +106,12 @@ div {
     background-image: none !important;
     color: rgb(0, 0, 0) !important;
    }
-   .topBg{background:#f3f3f3;}
+   .topBg{background:#000000;}
    .add_to_home a{background-color:#b03d26; padding:5px 15px; margin:10px 0; display:inline-block; color:#ffffff;}
    .add_to_home a:hover, .add_to_home a:focus{color:#ffffff; text-decoration:none;}
-   .logo_text a{color:#000000; font-size:46px; font-weight:bold; letter-spacing:1px;}
-   .logo_text a:hover, .logo_text a:focus{color:#000000; text-decoration:none;}
-   .bg_logo{background-color:#d4bba0; padding:15px 0;}
+   .logo_text a{color:#ffffff; font-size:46px; font-weight:bold; letter-spacing:1px;}
+   .logo_text a:hover, .logo_text a:focus{color:#ffffff; text-decoration:none;}
+   .bg_logo{background-color:#011a9a; padding:15px 0;}
    .logo_main a{float:right;}
    ul.tab_main{list-style:none; margin:0px; padding:0px;}
    ul.tab_main li{float:left; width:33.33%; text-align:center; margin:15px 0; cursor:pointer;}
@@ -132,7 +132,7 @@ div {
    ul.tab_main li.active .coach_img{background-image:url("./assets/images/coach_icon_hover.png");}
    ul.tab_main li:hover .official_img{background-image:url("./assets/images/official_icon_hover.png");}
    ul.tab_main li.active .official_img{background-image:url("./assets/images/official_icon_hover.png");}
-   .game_select_bg{background-color:#011a9a; padding:15px 0;}
+   .game_select_bg{background-color:#5B9BD5; padding:15px 0;}
    ul.game_select{list-style:none; margin:0px; padding:0px;}
    ul.game_select li{float:left; width:25%; text-align:center; border-left:1px solid rgba(255,255,255,0.3);color:#ffffff; cursor:pointer;}
    ul.width20Game li{width:20%;}
@@ -236,10 +236,16 @@ div {
    a.signupRedBtn{background:#ff0000; padding:3px 12px; color:#ffffff; border-radius:0px; font-size:12px;}
    a.signupRedBtn:hover, a.signupRedBtn:focus{color:#ffffff; text-decoration:none;}
    a.cancelSignupBtn{background:#FFD700; padding:3px 12px; color:#000000; border-radius:0px; font-size:12px;}
+   a.canNotCancelSignupBtn{background:#bfbfbf; padding:3px 12px; color:#000000; border-radius:0px; font-size:12px;}
    .paddTop4{padding-top:4px;}
    
    .matchInfo{font-size:14px; margin-left:40px; margin-top:10px; line-height:20px; font-weight:normal;}
    .matchInfo span{color:#fffb85; text-decoration:underline;}
+   .matchInfo_selectGame{font-size:14px; margin-left:20px; margin-top:10px; line-height:20px; font-weight:normal;}
+   .matchInfo_selectGame span{color:#b1b1b1;}
+   .matchInfo_selectGame div{color:#b1b1b1;text-decoration:underline; }
+   
+   
    .paddingBottom50{padding-bottom:50px;}
    .paddingBottom20{padding-bottom:20px;}
 
@@ -738,6 +744,7 @@ div {
    .accordion .accordion .card .btn-link:before{content: "\e252"; float:left; display:none;} 
    
     .accordion .accordion .matchInfo{margin-top:0px;}
+	.accordion .accordion .matchInfo_selectGame{margin-top:0px;}
    
     .accordion .card .btn-link .HeadCollapse:before{position: relative;
     top: 4px;

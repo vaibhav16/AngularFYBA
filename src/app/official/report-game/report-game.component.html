@@ -2,7 +2,7 @@
 <div *ngIf="officialService.reportGameJson==null || officialService.requestStatus==1" class="block">
     <div class="bg_loaderFYBA">
     <div class="loaderFYBA">
-      <h1>Please wait...</h1>
+      <h1></h1>
       <p class="round">
       <span class="ouro">
         <span class="left"><span class="anim"></span></span>
@@ -55,11 +55,11 @@
                                 <tbody>
                                 <tr>
                                   <td>{{item.HomeTeam}}</td>
-                                  <td><input type="text" name="HTeamScore" [disabled]="(item.OfficiatingPositionId!=3)"  [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>
+                                  <td><input type="text" name="HTeamScore" style="width:40px" [disabled]="(item.OfficiatingPositionId!=3)"  [(ngModel)]="item.HomeTeamScore" value="{{item.HomeTeamScore}}"/></td>
                                 </tr>
                                 <tr>
                                   <td>{{item.VisitingTeam}}</td>
-                                  <td><input type="text" name="VTeamScore" [disabled]="(item.OfficiatingPositionId!=3)"  [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td>
+                                  <td><input type="text" name="VTeamScore" style="width:40px" [disabled]="(item.OfficiatingPositionId!=3)"  [(ngModel)]="item.VisitingTeamScore" value="{{item.VisitingTeamScore}}"/></td>
                                 </tr>
                                 </tbody>
                                 </table>
@@ -77,7 +77,7 @@
                               <div class="row">
                               <div class="col-md-12">
                               <!----p class="describe_text">Best viewed in landscape mode on mobile devices</p-->
-                              <h2><strong>{{item.Division}} {{item.HomeTeam}}</strong></h2>
+                              <h2><strong>({{item.Division}}) {{item.HomeTeam}}</strong></h2>
                               <div class="overflowAuto" >
 
                               <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -137,7 +137,7 @@
                               </div>
                               <div class="row marginTop20">
                               <div class="col-md-12">
-                              <h2><strong>{{item.Division}} {{item.VisitingTeam}}</strong></h2>
+                              <h2><strong>({{item.Division}}) {{item.VisitingTeam}}</strong></h2>
                               <div class="overflowAuto">
                               <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
                               <thead>
@@ -186,7 +186,7 @@
                             <div class="bgGrey">
                               <div class="row">
                                 <div class="col-md-12">
-                                  <p class="describe_text">Please upload an image of the Game Scoresheet.</p>
+                                  <p class="describe_text" style="color:#000 !important">Please upload an image of the Game Scoresheet.</p>
                                    <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                                   <ul class="addList" #Incidentlist>
                                     <li *ngFor="let child of item.ScoreSheetImages">

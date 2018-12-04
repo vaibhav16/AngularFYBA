@@ -191,7 +191,7 @@ declineSignUpEmail(): void {
   //this.officialService.selectGameJson=null;
   
   this.modalRef.hide();
-  this.officialService.postSelectGames(this.selectedFilter);
+  //this.officialService.postSelectGames(this.selectedFilter);
   //this.officialService.sendSignUpEmail();
   this.officialService.signUpResponse=null;
 }
@@ -205,7 +205,7 @@ confirmCancelSignupModal(){
 closeCancelSignupModal(): void {
   //this.officialService.selectGameJson=null; 
   this.modalRef.hide();
-  this.officialService.postSelectGames(this.selectedFilter);
+  //this.officialService.postSelectGames(this.selectedFilter);
   //this.officialService.sendSignUpEmail();
   this.officialService.signUpResponse=null;
 }
