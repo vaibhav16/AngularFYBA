@@ -26,7 +26,12 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
-   
+   .tapDiv{background:#fff; padding:10px; border-radius:4px; position:absolute; left:15px; right:15px; z-index: 1; bottom:15px;}
+   .tapDiv > div > img{position:absolute; top:50%; transform:translateY(-50%);}
+   .tapDiv p{width:calc(100% - 40px); float:left; font-size:12px; margin-bottom:0px; margin-left:35px;}
+   .tapDiv p img{height:15px;} 
+
+
    .borderTopNone{border-top:0px !important;}
   .wordBreak{word-break:break-word;} 
 
@@ -39,7 +44,10 @@ body{
     font-style: normal;
     font-weight: normal;
     float: right;
+    margin-right:20px;
 }
+
+
 
 div {
     -webkit-user-select: none; /* Safari 3.1+ */
@@ -786,7 +794,7 @@ div {
  .modal-sm > .modal-content > .modal-body > p{font-weight:bold;}
  .modal-sm .modal-content .modal-body .btn-success{margin-right:5px;}
 
- .bg-info > h5 > .btn-link > .cssGameNotReported{background-color: #bbb !important;}
+ .bg-info > h5 > .btn-link > .cssGameNotReported{background-color: #bbb !important; position:relative;}
  .bg-info > h5 > .btn-link > .cssGameReported{background-color: #ededed !important;}
 
 

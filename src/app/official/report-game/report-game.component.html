@@ -30,6 +30,7 @@
                           {{item.GameName}}
                           <span class="asCoach">{{item.PositionText}}</span>
                           <span class="earnMore">{{item.IncentiveText}}</span>
+                          <span *ngIf="item.IncentiveText.length>0" class="unreported_game">1</span> 
                         </h2>
                       </div>
                         

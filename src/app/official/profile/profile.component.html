@@ -55,7 +55,7 @@
                          </li>
                          
                          <li class="Incidentclass">                         
-                            <input #imageInput type="file" multiple accept="image/*" (change)="processFile(imageInput)">
+                            <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
                             <span class="addHeading">Upload<br /> Photo</span>
                          </li>
                          <!----li><input type="button" (click)="uploadPhoto()" value="Save"></li-->
@@ -127,7 +127,7 @@
                <div class="HeadCollapse"><h2 class="paidHead">Payments</h2></div>
      </ng-template>
        <ng-template ngbPanelContent>
-          <div class="fms_time marginleftNone">
+          <div *ngIf="officialService.profileJson.Value[0].Payments.paymentLists.length>0; else noPaymentDiv" class="fms_time marginleftNone">
              <div class="row signupPosition">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                    <div class="overflowAuto">
@@ -153,7 +153,7 @@
           </div>
        </ng-template>
     </ngb-panel>
-    <!-- <ngb-panel>
+    <!----<ngb-panel>
          <ng-template ngbPanelTitle>
                <div class="HeadCollapse"><h2 class="paidHead">Data Privacy</h2></div>
      </ng-template>
@@ -175,3 +175,7 @@
 <!--##########loader###################-->
 <app-fybaloader *ngIf="officialService.fetchProfileRequest"></app-fybaloader>
 <!--######################################-->
+
+<ng-template #noPaymentDiv>
+   <div class="noRecords">No Payment Found!</div>
+</ng-template>

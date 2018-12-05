@@ -65,7 +65,7 @@
             <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
                id="{{child.GameTimeSlots[0].GameTimeSlotName}}">
                <ng-template ngbPanelTitle>
-                  <div class="HeadCollapse">
+                  <div class="HeadCollapse {{child.GameTimeSlots[0].SelfsignupCSSclass}}">
                      <h2>{{child.GameTimeSlots[0].GameTimeSlotName}}</h2>
                   </div>
                </ng-template>
