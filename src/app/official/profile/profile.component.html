@@ -1,5 +1,5 @@
 <!--<div *ngIf="officialService.fetchProfileRequest" class="block">-->
-<div *ngIf="officialService.fetchProfileRequest" class="block">
+<!--<div *ngIf="officialService.fetchProfileRequest" class="block">
     <div class="bg_loaderFYBA">
        <div class="loaderFYBA">
           <h1></h1>
@@ -11,7 +11,7 @@
           </p>
        </div>
     </div>
- </div>
+ </div>-->
  <div *ngIf="officialService.profileJson!=null" class="container paddingBottom50">
     <div class="row">
        <div class="col-lg-12">
@@ -24,26 +24,30 @@
      </ng-template>
        <ng-template ngbPanelContent>
           <div class="data_module bgBlue">
-             <div class="fms_time marginleftNone">
-                <div class="row signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-12">Address:</div>
-                   <div class="col-md-8 col-sm-8 col-xs-12"><strong>{{officialService.profileJson.Value[0].PersonalInfo.Address}}</strong></div>
+             <div class="fms_time marginleftNone wordBreak">
+                <div class="row-fluid signupPosition borderTopNone">
+                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Address:</strong></div>
+                   <div class="col-md-8 col-sm-8 col-xs-6">{{officialService.profileJson.Value[0].PersonalInfo.Address}}</div>
+                   <div class="clearfix"></div>
                 </div>
-                <div class="row signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-12">Email:</div>
-                   <div class="col-md-8 col-sm-8 col-xs-12 paddTop4"><strong>{{officialService.profileJson.Value[0].PersonalInfo.Email}}</strong></div>
+                <div class="row-fluid signupPosition">
+                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Email:</strong></div>
+                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.Email}}</div>
+                   <div class="clearfix"></div>
                 </div>
-                <div class="row signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-12">Home Phone:</div>
-                   <div class="col-md-8 col-sm-8 col-xs-12 paddTop4"><strong>{{officialService.profileJson.Value[0].PersonalInfo.HomePhone}}</strong></div>
+                <div class="row-fluid signupPosition">
+                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Home Phone:</strong></div>
+                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.HomePhone}}</div>
+                   <div class="clearfix"></div>
                 </div>
-                <div class="row signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-12">Mobile Phone:</div>
-                   <div class="col-md-8 col-sm-8 col-xs-12 paddTop4"><strong>{{officialService.profileJson.Value[0].PersonalInfo.MobilePhone}}</strong></div>
+                <div class="row-fluid signupPosition">
+                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Mobile Phone:</strong></div>
+                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.MobilePhone}}</div>
+                   <div class="clearfix"></div>
                 </div>
-                <div class="row signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-12">Profile Photo:</div>
-                   <div class="col-md-8 col-sm-8 col-xs-12 paddTop4">
+                <div class="row-fluid signupPosition">
+                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Profile Photo:</strong></div>
+                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">
                       <ul class="addList">
                          <li *ngFor="let item of officialService.profileJson.Value[0].PersonalInfo.profilePhotos">
                             <img src={{item.Link}} style="width:100px;height:100px;">
@@ -55,9 +59,11 @@
                             <span class="addHeading">Upload<br /> Photo</span>
                          </li>
                          <!----li><input type="button" (click)="uploadPhoto()" value="Save"></li-->
-                      </ul>
+                      </ul> 
                    </div>
+                   <div class="clearfix"></div>
                 </div>
+                <div class="clearfix"></div>
              </div>
           </div>
        </ng-template>
@@ -68,14 +74,17 @@
      </ng-template>
        <ng-template ngbPanelContent>
           <div class="fms_time marginleftNone">
-             <div class="row signupPosition">
-                <div class="col-md-4 col-sm-4 col-xs-12">Max # Games/Day:</div>
-                <div class="col-md-8 col-sm-8 col-xs-12"><strong>{{officialService.profileJson.Value[0].LeagueSettings.MaxGamesPerDay}}</strong></div>
+             <div class="row-fluid signupPosition">
+                <div class="col-md-4 col-sm-4 col-xs-6"><strong>Max # Games/Day:</strong></div>
+                <div class="col-md-8 col-sm-8 col-xs-6">{{officialService.profileJson.Value[0].LeagueSettings.MaxGamesPerDay}}</div>
+                <div class="clearfix"></div>
              </div>
-             <div class="row signupPosition">
-                <div class="col-md-4 col-sm-4 col-xs-12">Max Season Earnings:</div>
-                <div class="col-md-8 col-sm-8 col-xs-12 paddTop4"><strong>$ {{officialService.profileJson.Value[0].LeagueSettings.MaxSeasonEarnings}}</strong></div>
+             <div class="row-fluid signupPosition">
+                <div class="col-md-4 col-sm-4 col-xs-6"><strong>Max Season Earnings:</strong></div>
+                <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">$ {{officialService.profileJson.Value[0].LeagueSettings.MaxSeasonEarnings}}</div>
+                <div class="clearfix"></div>
              </div>
+             <div class="clearfix"></div>
           </div>
        </ng-template>
     </ngb-panel>
@@ -162,3 +171,7 @@
 </div>
 </div>
 </div>
+
+<!--##########loader###################-->
+<app-fybaloader *ngIf="officialService.fetchProfileRequest"></app-fybaloader>
+<!--######################################-->

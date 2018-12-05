@@ -10,12 +10,10 @@ import { FybaloaderComponent } from '../common/fybaloader/fybaloader.component';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {  
-   @ViewChild(FybaloaderComponent) loader;
-
+ @ViewChild(FybaloaderComponent) loader;
   constructor(public loginService: LoginService,private router: Router) { }
 
   ngOnInit() {
-    //this.loader.showloader=true;
     this.resetForm();
     
     const cookieExists: boolean = this.loginService.cookieService.check('SessionKey');   

@@ -1,5 +1,5 @@
 <!--officialService.signUpStatus"-->
-<div *ngIf="officialService.selectGameJson==null || signUpRequest || officialService.fetchSelectGames" class="block">
+<!--<div *ngIf="officialService.selectGameJson==null || signUpRequest || officialService.fetchSelectGames" class="block">
       <div class="bg_loaderFYBA">
       <div class="loaderFYBA">
         <h2></h2>
@@ -11,7 +11,7 @@
         </p> 
       </div>
    </div>
-</div>
+</div>-->
 
 
 <body>
@@ -187,3 +187,8 @@
       </div>
    </ng-template>
 </body>
+
+
+<!--##########loader###################-->
+<app-fybaloader *ngIf="officialService.selectGameJson==null || signUpRequest || officialService.fetchSelectGames"></app-fybaloader>
+<!--######################################-->

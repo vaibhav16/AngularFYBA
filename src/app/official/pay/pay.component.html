@@ -1,5 +1,5 @@
 <!----div *ngIf="officialService.paidRequest" class="block"-->
-<div  *ngIf="officialService.paidRequest" class="block">
+<!--<div  *ngIf="officialService.paidRequest" class="block">
         <div class="bg_loaderFYBA">
         <div class="loaderFYBA">
           <h1></h1>
@@ -11,7 +11,7 @@
           </p> 
         </div>
       </div>
-</div>
+</div>-->
     
 <div *ngIf="officialService.getPaidJson!=null">  
   <div class="container paddingBottom50">
@@ -84,3 +84,7 @@
 
   </div>
 </div>
+
+<!--##########loader###################-->
+<app-fybaloader *ngIf="officialService.paidRequest"></app-fybaloader>
+<!--######################################-->

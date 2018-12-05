@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable,ViewChild } from '@angular/core';
 import { Login } from './login.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { map } from 'rxjs/operators';
@@ -9,10 +9,12 @@ import { HttpModule } from '@angular/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+ 
   requestStatus: boolean = null;
   selectedLogin: Login;
   isLoggedIn: boolean;  

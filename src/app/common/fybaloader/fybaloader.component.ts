@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./fybaloader.component.css']
 })
 export class FybaloaderComponent implements OnInit {
-  showloader:boolean;
+ 
   constructor() { }
 
   ngOnInit() {
