@@ -31,6 +31,7 @@ import { ImguploadComponent } from './others/imgupload/imgupload.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './auth.guard';
+import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { AuthGuard } from './auth.guard';
     PlayerComponent,
     HeaderComponent,
     ArraySortPipe,
-    ImguploadComponent
+    ImguploadComponent,
+    FybaloaderComponent
    
   ],
   imports: [

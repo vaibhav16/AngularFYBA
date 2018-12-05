@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Login } from './login.model';
 import { Router } from '@angular/router';
-
+import { FybaloaderComponent } from '../common/fybaloader/fybaloader.component';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {  
+   @ViewChild(FybaloaderComponent) loader;
 
   constructor(public loginService: LoginService,private router: Router) { }
 
   ngOnInit() {
+    //this.loader.showloader=true;
     this.resetForm();
     
     const cookieExists: boolean = this.loginService.cookieService.check('SessionKey');   

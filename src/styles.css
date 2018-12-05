@@ -350,10 +350,10 @@ div {
        top:-5px;
    }
    
-   .tooltip_abc .tooltiptext {
+   .tooltip_abc .tooltiptext { 
     visibility: hidden;
     position: absolute;
-    width: 150px;
+    width: 90px;
     background-color: #555;
     color: #fff;
     text-align: center;
@@ -368,7 +368,7 @@ div {
    .tooltip-top {
     bottom: 150%;
     left: 50%;
-    margin-left: -75px;
+    margin-left: -67px;
    }
    
    .tooltip-top::after {
@@ -376,7 +376,7 @@ div {
     position: absolute;
     top: 100%;
     left: 50%;
-    margin-left: -5px;
+    margin-left: 17px;
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;

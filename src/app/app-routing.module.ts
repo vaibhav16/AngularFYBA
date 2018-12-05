@@ -11,6 +11,7 @@ import { PlayerComponent } from './player/player.component';
 import { AuthGuard } from './auth.guard';
 //import { PreventLoggedInAccess } from './preventLogin.guard';
 import { LoginService } from './login/login.service';
+import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 
 const routes: Routes = [
     {path:'', component:LoginComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
 		]
 	}, 
     {path:'coach', component:CoachComponent,canActivate: [AuthGuard]},
-	{path:'player', component:PlayerComponent,canActivate: [AuthGuard]}
+	{path:'player', component:PlayerComponent,canActivate: [AuthGuard]},
+	  {path:'fybaloader', component:FybaloaderComponent}
 ];
 
 @NgModule({
