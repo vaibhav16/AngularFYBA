@@ -189,12 +189,14 @@
                                 <div class="col-md-12">
                                   <p class="describe_text" style="color:#000 !important">Please upload an image of the Game Scoresheet.</p>
                                    <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
-                                  <ul class="addList" #Incidentlist>
+                                  <ul class="addList IncidentListClass" #Incidentlist>
                                     <li *ngFor="let child of item.ScoreSheetImages">
                                     
                                           <img src={{child.ImageURL}} style="width:100px;height:100px;">
-                                          <span url="child.ImageURL" (click)="deleteImage($event)" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                           
+                                          <span url="child.ImageURL" (click)="deleteImage($event)" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                       
+                                                            
                                     </li>
+                                    
                                       
                                        <li class="Incidentclass">
                                          <!----a> Add<br />Scoresheet

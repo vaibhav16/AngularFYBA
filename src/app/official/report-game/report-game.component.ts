@@ -34,6 +34,7 @@ export class ReportGameComponent{
   ScoreSheetImages: ScoreSheetImages[] =[];
   tempIndex=0;
   fg: FormGroup;
+  tempRemoveImage=[];
 
   APIGamePost: APIGamePost ={
     Roleid:'',
@@ -85,6 +86,7 @@ export class ReportGameComponent{
    }
 
    constructor(public officialService: OfficialService, 
+    public renderer:Renderer2,
     public fb: FormBuilder, public loginService: LoginService,
     public elRef: ElementRef,public http: Http,config: NgbAccordionConfig,
     private modalService: BsModalService
@@ -383,14 +385,15 @@ public inputValidator(event: any) {
  /* - Code to send the image as a base64 string to the service. - */
   async processFile(imageInput: any) {
     await this.makeImageByteArray(imageInput);     
-    await console.log(this.ScoreSheetImages);
+    //await console.log(this.ScoreSheetImages);
 }
 
   async makeImageByteArray(imageInput:any){
     for(var i = 0; i < imageInput.files.length; i++) {     
       if (imageInput.files[i]) {
-       console.log(imageInput.files[i]);
-       var reader = await new FileReader();         
+       //console.log(imageInput.files[i]);
+       var reader = await new FileReader();
+
        reader.onload = await this._handleReaderLoaded.bind(this);
        await reader.readAsBinaryString(imageInput.files[i]);
        //this.base64Strings[i] = await this.temp64String;        
@@ -401,10 +404,41 @@ public inputValidator(event: any) {
   async _handleReaderLoaded(readerEvt) {
     var binaryString=null;
     binaryString = await readerEvt.target.result;
+  
     this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
     this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
     this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);
-    await this.tempIndex++;    
+    
+    var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode; 
+
+    var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
+    var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');
+    
+    let li= this.renderer.createElement('li');
+    this.renderer.setProperty(li, 'id','incident_li_'+this.tempIndex);
+    let img= this.renderer.createElement('img');
+
+    this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
+    this.renderer.setStyle(img, 'width','100px');
+    this.renderer.setStyle(img, 'height','100px');
+    this.renderer.setAttribute(img, 'src',source_code);
+    
+    this.renderer.appendChild(li, img);
+
+    let span= this.renderer.createElement('span');
+    this.renderer.setProperty(span, 'id',this.tempIndex);
+    this.renderer.addClass(span,'glyphicon');
+    this.renderer.addClass(span,'glyphicon-remove-circle');
+  
+    this.renderer.listen(span, 'click',this.DeleteTempImage.bind(span));
+
+    this.renderer.appendChild(li, span);
+    this.renderer.insertBefore(el, li,refchild);
+    
+
+
+    await this.tempIndex++;   
+
    }  
    /* - Image implementation ends - */
 
@@ -414,7 +448,13 @@ public inputValidator(event: any) {
      console.log("let's delete");
    }
 
+   DeleteTempImage(obj:any){ 
+    obj.target.parentNode.remove();
+    //this.tempRemoveImage.push(obj.target.id);
+    //console.log( this.tempRemoveImage);
+   }
 
+   
 }
 
 

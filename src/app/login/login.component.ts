@@ -4,6 +4,10 @@ import { LoginService } from './login.service';
 import { Login } from './login.model';
 import { Router } from '@angular/router';
 import { FybaloaderComponent } from '../common/fybaloader/fybaloader.component';
+const { detect } = require('detect-browser');
+const browser = detect();
+declare var require: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,14 +15,35 @@ import { FybaloaderComponent } from '../common/fybaloader/fybaloader.component';
 })
 export class LoginComponent implements OnInit {  
  @ViewChild(FybaloaderComponent) loader;
+ browser = require('detect-browser');
+ browserName;
+ iosStandalone;
+ 
   constructor(public loginService: LoginService,private router: Router) { }
 
   ngOnInit() {
+    let newVariable: any;
+    
+    newVariable = window.navigator;
+    
     this.resetForm();
+
+    //this.ios = ['iPad', 'iPhone', 'iPod'].indexOf(navigator.platform) >= 0;
+    //this.iosStandalone = window.navigator.standalone;
+    if(newVariable.standalone)
+    this.iosStandalone=true;
+
     
     const cookieExists: boolean = this.loginService.cookieService.check('SessionKey');   
 
     //this.loginService.isLoggedIn=false;
+
+    if (browser) {
+      this.browserName=browser.name;
+      console.log(browser.name);
+      console.log(browser.version);
+      console.log(browser.os);
+    }    
     
   }
 

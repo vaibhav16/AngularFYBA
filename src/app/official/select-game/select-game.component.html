@@ -63,7 +63,7 @@
             <h1 class="mainDate" style="color:#08219a"><strong>{{item.GameDateName}}</strong></h1>
             <ngb-accordion #acc="ngbAccordion" class="data_module" [activeIds]="activeIds" (panelChange)="beforeChange($event)">
             <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
-               id="{{child.GameTimeSlots[0].GameTimeSlotName}}">
+               id="{{child.GameTimeSlots[0].GameTimeSlotName}} {{i}}">
                <ng-template ngbPanelTitle>
                   <div class="HeadCollapse {{child.GameTimeSlots[0].SelfsignupCSSclass}}">
                      <h2>{{child.GameTimeSlots[0].GameTimeSlotName}}</h2>
