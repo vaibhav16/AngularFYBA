@@ -91,9 +91,9 @@ export class ReportGameComponent{
     public elRef: ElementRef,public http: Http,config: NgbAccordionConfig,
     private modalService: BsModalService
     ){ 
-      this.fg = this.fb.group({
-      GameList: this.fb.array([])
-    }); 
+    //   this.fg = this.fb.group({
+    //   GameList: this.fb.array([])
+    // }); 
     config.type = 'info';
     
   }
@@ -124,7 +124,7 @@ export class ReportGameComponent{
       this.modalRef = this.modalService.show(invalidScoreTemplate, {class: 'modal-sm'});
       console.log("Invalid");
     }
-    else if(this.checkFinalScore(form,gameListIndex,unEqualHomeScoreTemplate,unEqualVisitingScoreTemplate)){
+    else if(this.checkFinalScore(form,gameListIndex,unEqualHomeScoreTemplate,unEqualVisitingScoreTemplate)==true){
        this.prepareDatatoUpdate(form,gameListIndex);
     } 
   }
@@ -136,25 +136,35 @@ export class ReportGameComponent{
     for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
       
       let hpoint = "HPoints"+i;
-      this.tempSumHomePoint+= parseInt(form.value[hpoint]);      
+      if(form.value[hpoint].length>0){
+        this.tempSumHomePoint+= parseInt(form.value[hpoint]);
+        console.log(form.value[hpoint]); 
+      }
+          
     }
     for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamPlayerScores.length; ++i){
       
       let vpoint = "VPoints"+i;
-      this.tempSumVisitingPoint+=parseInt(form.value[vpoint]);
+      if(form.value[vpoint].length>0){
+        this.tempSumVisitingPoint+=parseInt(form.value[vpoint]);
+        console.log(form.value[vpoint]);
+      }
+      
     }
-    if( this.tempSumVisitingPoint!=form.value.VTeamScore){
-      console.log(this.tempSumVisitingPoint,form.value.VTeamScore)
+    if(this.tempSumVisitingPoint!=form.value.VTeamScore){
+      this.modalRef =null;
+      console.log(this.tempSumVisitingPoint,form.value.VTeamScore);
       this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {class: 'modal-sm'});
       return false;
     }
     else if(this.tempSumHomePoint!=form.value.HTeamScore)
     {
-      console.log(this.tempSumHomePoint,form.value.HTeamScore)
+      this.modalRef = null;
+      console.log(this.tempSumHomePoint,form.value.HTeamScore);
       this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {class: 'modal-sm'});
       return false;
     }
-  
+  //change to true
     return true;
   }
 
@@ -250,7 +260,7 @@ export class ReportGameComponent{
   /* - On clicking save button, a message is shown to the user. 
   We hide the message if the user clicks on a new panel - */
   panelChange($event: NgbPanelChangeEvent){
-    console.log($event);
+   //console.log($event);
     this.officialService.requestFailure=false;
     this.officialService.requestSuccess=false;    
   }
@@ -448,10 +458,19 @@ public inputValidator(event: any) {
      console.log("let's delete");
    }
 
+
    DeleteTempImage(obj:any){ 
     obj.target.parentNode.remove();
     //this.tempRemoveImage.push(obj.target.id);
     //console.log( this.tempRemoveImage);
+   }
+   /* - Code to check if Player no Not Present. If the user says the Player is not present, then
+   his score will be changed to zero.*/
+   checkNP(teamType:string,id:string){    
+    
+    console.log(teamType+id);
+    var tempId = this.elRef.nativeElement.querySelector('#'+teamType+id);
+    this.renderer.setProperty(tempId,'value',0);
    }
 
    
