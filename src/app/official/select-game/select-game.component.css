@@ -1,13 +1,13 @@
 .modal-dialog{
-    top:50%;
-    left:50%;
-    transform: translateY(-50%) translateX(-50%) !important;
-    -ms-transform: translateY(-50%) translateX(-50%)  !important;
-    -webkit-transform: translateY(-50%) translateX(-50%)  !important;
-    -moz-transform: translateY(-50%) translateX(-50%)  !important;
-    -o-transform: translateY(-50%) translateX(-50%)  !important;
+   top:50% !important;
+     left:50%;
+    transform:translateX(-50%) translateY(-50%) !important;
+    -ms-transform: translateX(-50%) translateY(-50%)  !important;
+    -webkit-transform: translateX(-50%) translateY(-50%)  !important;
+    -moz-transform: translateX(-50%) translateY(-50%)  !important;
+    -o-transform: translateX(-50%) translateY(-50%)  !important; 
     margin:0px;
-
+    position: absolute;
 
 }
 

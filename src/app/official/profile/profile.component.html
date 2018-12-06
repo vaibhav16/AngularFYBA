@@ -13,11 +13,11 @@
     </div>
  </div>-->
  <div *ngIf="officialService.profileJson!=null" class="container paddingBottom50">
-    <div class="row">
+    <div class="row" *ngIf="officialService.profileJson.Value!=null; else noRecordDiv">
        <div class="col-lg-12">
           <h1 class="mainDate name_player"><strong>{{officialService.profileJson.Value[0].ProfileName}}</strong> <span class="rating_player">{{officialService.profileJson.Value[0].ProfileRating}}</span></h1>
  
- <ngb-accordion>
+ <ngb-accordion >
     <ngb-panel>
          <ng-template ngbPanelTitle>
                <div class="HeadCollapse"><h2 class="paidHead">Personal Info</h2></div>
@@ -178,4 +178,9 @@
 
 <ng-template #noPaymentDiv>
    <div class="noRecords">No Payment Found!</div>
+</ng-template>
+
+<ng-template #noRecordDiv>
+   <br/>  
+   <div class="noRecords">No Record Found!</div>
 </ng-template>
