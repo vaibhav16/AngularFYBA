@@ -8,13 +8,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { Constants } from './../models/constants';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
- 
+  
+  //const APIUrl = "https://mobile.folsomyouthbasketball.com";
+  // static APIUrl:string = "https://mobile.folsomyouthbasketball.com";
+  // static testAPIUrl:string = "https://fybaservice.sapplesystems.com"; 
   requestStatus: boolean = null;
   selectedLogin: Login;
   isLoggedIn: boolean;  
@@ -39,7 +44,7 @@ postLoginData(userVar : Login){
   userVar.Email=userVar.Email.toLowerCase();
   var headerOptions =  new Headers({'Content-Type':'application/json'});
   var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-  return this.http.post('https://fybaservice.sapplesystems.com/api/Home',userVar,requestOptions)
+  return this.http.post( Constants.apiURL +'/api/Home',userVar,requestOptions)
   .pipe(map((data: Response) => {
   return data.json() as JSON;
   })).toPromise().then(x => {

@@ -122,9 +122,22 @@
                                 <!----td style="display:none"><input type="text" value="child.TeamName" name="HTeamName{{i}}" [(ngModel)]="child.TeamName" /></td-->
                                 
                                 <td style="text-align:left;"><span value="child.PlayerName">{{child.PlayerName}}</span></td>
-                                <td><input type="checkbox" [checked]=child.NotPresent [disabled]="!(item.OfficiatingPositionId==3)" name="HNotPresent{{i}}" [(ngModel)]=child.NotPresent (change)="checkNP('HPoints',i)" value=child.NotPresent /></td>                                
-                                <td><input type="checkbox" [checked]=child.PlayerNote [disabled]="(!child.PlayerNote && (maxPON>=6 || homePON>=3))||!(item.OfficiatingPositionId==3)" (change)="checkMaxPON($event,gameListIndex,'home',template)" name="HPlayerNote{{i}}" [(ngModel)]=child.PlayerNote value=child.PlayerNote/></td>                                
-                                <td><input type="number" id=HPoints{{i}} (input)="inputValidator($event)" [maxlength]="3" value="child.Points" [disabled]="!(item.OfficiatingPositionId==3)||child.NotPresent" pattern="[0-9]*" min="0" max="999"  name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>                                
+
+                                <td><input type="checkbox" [checked]=child.NotPresent 
+                                  [disabled]="!(item.OfficiatingPositionId==3)" name="HNotPresent{{i}}" 
+                                  [(ngModel)]=child.NotPresent (change)="checkNP('HPoints','HPlayerofNote',i)" value=child.NotPresent /></td>  
+
+                                <td><input type="checkbox" [checked]="child.PlayerNote" id=HPlayerofNote{{i}}
+                                  [disabled]="(!child.PlayerNote && (maxPON>=6 || homePON>=3))||!(item.OfficiatingPositionId==3)||child.NotPresent"
+                                   (change)="checkMaxPON($event,gameListIndex,'home',template)"
+                                    name="HPlayerNote{{i}}" [(ngModel)]=child.PlayerNote
+                                    value="child.PlayerNote"/></td>     
+
+                                <td><input type="number" id=HPoints{{i}} (input)="inputValidator($event)" 
+                                  [maxlength]="3" value="child.Points" 
+                                  [disabled]="!(item.OfficiatingPositionId==3)||child.NotPresent"
+                                   pattern="[0-9]*" min="0" max="999"  name="HPoints{{i}}" [(ngModel)]="child.Points" /></td>    
+
                                 <!----td><input type="number" value="child.FoulId" pattern="[0-9]*" name="HFouls{{i}}" [(ngModel)]="child.FoulId" /></td>
                                 <td><input type="number" value="child.Rebound" pattern="[0-9]*" name="HRebound{{i}}" [(ngModel)]="child.Rebound" /></td-->
                               </tr>
@@ -164,9 +177,23 @@
                                   
                                   
                                   <td style="text-align:left;">{{child.PlayerName}}</td>
-                                  <td><input type="checkbox" [(ngModel)]="child.NotPresent" name="VNotPresent{{i}}"  [disabled]="!(item.OfficiatingPositionId==3)" value=child.NotPresent (change)="checkNP('VPoints',i)" [checked]=child.NotPresent /></td>
-                                  <td><input type="checkbox"  [(ngModel)]="child.PlayerNote" name="VPlayerNote{{i}}" [disabled]="(!child.PlayerNote && (maxPON>=6 || visitingPON>=3))||!(item.OfficiatingPositionId==3)" (change)="checkMaxPON($event,gameListIndex,'visiting',template)"  value=child.PlayerNote [checked]=child.PlayerNote  /></td>
-                                  <td><input type="number" id=VPoints{{i}} value="child.Points" (input)="inputValidator($event)" [maxlength]="3" name="VPoints{{i}}" [(ngModel)]="child.Points" [disabled]="!(item.OfficiatingPositionId==3)||child.NotPresent" min="0" max="1000" pattern="[0-9]*" /></td>
+
+                                  <td><input type="checkbox" 
+                                    [(ngModel)]="child.NotPresent" name="VNotPresent{{i}}"  
+                                    [disabled]="!(item.OfficiatingPositionId==3)" value=child.NotPresent 
+                                    (change)="checkNP('VPoints','VPlayerofNote',i)" [checked]=child.NotPresent /></td>
+                                  
+                                  <td><input type="checkbox" id=VPlayerofNote{{i}}  
+                                    [(ngModel)]="child.PlayerNote" name="VPlayerNote{{i}}" 
+                                    [disabled]="(!child.PlayerNote && (maxPON>=6 || visitingPON>=3))||!(item.OfficiatingPositionId==3)||child.NotPresent" 
+                                    (change)="checkMaxPON($event,gameListIndex,'visiting',template)" 
+                                     value="child.PlayerNote" 
+                                     [checked]=child.PlayerNote  /></td>
+
+                                  <td><input type="number" id=VPoints{{i}} value="child.Points" (input)="inputValidator($event)" 
+                                    [maxlength]="3" name="VPoints{{i}}" [(ngModel)]="child.Points" 
+                                    [disabled]="!(item.OfficiatingPositionId==3)||child.NotPresent" 
+                                    min="0" max="1000" pattern="[0-9]*" /></td>
                                   <!--<td><input type="number" value="child.FoulId" pattern="[0-9]*" name="VFouls{{i}}" [(ngModel)]="child.FoulId" /></td>-->
                                  <!--<td><input type="number"value="child.Rebound" pattern="[0-9]*" name="VRebound{{i}}" [(ngModel)]="child.Rebound" /></td>-->
                                 </tr>  
@@ -187,21 +214,19 @@
                             <div class="bgGrey">
                               <div class="row">
                                 <div class="col-md-12">
-                                  <p class="describe_text" style="color:#000 !important">Please upload an image of the Game Scoresheet.</p>
+                                  <p *ngIf="item.OfficiatingPositionId==3" class="describe_text" style="color:#000 !important">Please upload an image of the Game Scoresheet.</p>
                                    <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
-                                  <ul class="addList IncidentListClass" #Incidentlist>
-                                    <li *ngFor="let child of item.ScoreSheetImages">
-                                    
-                                          <img src={{child.ImageURL}} style="width:100px;height:100px;">
-                                          <span url="child.ImageURL" (click)="deleteImage($event)" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                       
-                                                            
-                                    </li>
-                                    
-                                      
-                                       <li class="Incidentclass">
-                                         <!----a> Add<br />Scoresheet
-                                          
-                                         </a-->
+                                  
+
+                                  <ul *ngIf="item.ScoreSheetImages.length>0; else noScoreSheet" class="addList" #Incidentlist>
+                                      <li *ngFor="let child of item.ScoreSheetImages; let ssIndex = index" id=scoresheet{{ssIndex}}>
+                                                  <img src={{child.ImageURL}} style="width:100px;height:100px;">
+                                                  <span url="child.ImageURL" (click)="deleteImage($event,child.ImageURL,'scoresheet'+ssIndex)" 
+                                                  class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                                                                                   
+                                        </li>
+                                  </ul>
+                                  <ul class="addList IncidentListClass" *ngIf="item.OfficiatingPositionId==3">
+                                       <li  class="Incidentclass uploadDiv">                                        
                                          <input [disabled]="!(item.OfficiatingPositionId==3)" #imageInput type="file" multiple accept="image/*" (change)="processFile(imageInput)">
                                          <span class="addHeading">Add<br /> Scoresheet</span>
                                       </li>
@@ -265,6 +290,11 @@
         <div class="noRecords">No records are available!</div>       
      </ng-template>
     </div>
+
+    <ng-template  #noScoreSheet>
+        <div class="noRecords">No ScoreSheet uploaded!</div>  
+        <br/>
+      </ng-template>
    
     <ng-template #template>
       <div class="modal-body text-center">
@@ -283,21 +313,20 @@
  </ng-template>
 
  <ng-template #unEqualHomeScoreTemplate>
-  <div class="modal-body text-center">
-     <p class="heading-signUp">Invalid Final Score</p>        
-     <p>The sum of the scores of the Home Team players must be equal to the final score.</p>
-     <button type="button" class="btn btn-danger" (click)="closeUnEqualHomeScoreModal()" >OK</button>         
-  </div>
-</ng-template>
-
-<ng-template #unEqualVisitingScoreTemplate>
-  <div class="modal-body text-center">
-     <p class="heading-signUp">Invalid Final Score</p>        
-     <p>The sum of the scores of the Visiting Team players must be equal to the final score.</p>
-     <button type="button" class="btn btn-danger" (click)="closeUnEqualVisitingScoreModal()" >OK</button>         
-  </div>
-</ng-template>
-
+    <div class="modal-body text-center">
+       <p class="heading-signUp">Invalid Final Score</p>        
+       <p>The sum of the scores of the players in <b>{{tempHomeTeamName}}</b> must be equal to the final score.</p>
+       <button type="button" class="btn btn-danger" (click)="closeUnEqualHomeScoreModal()" >OK</button>         
+    </div>
+  </ng-template>
+  
+  <ng-template #unEqualVisitingScoreTemplate>
+    <div class="modal-body text-center">
+       <p class="heading-signUp">Invalid Final Score</p>        
+       <p>The sum of the scores of the players in <b>{{tempVisitingTeamName}}</b> must be equal to the final score.</p>
+       <button type="button" class="btn btn-danger" (click)="closeUnEqualVisitingScoreModal()" >OK</button>         
+    </div>
+  </ng-template>
 
 <!--##########loader###################-->
 <app-fybaloader *ngIf="officialService.reportGameJson==null || officialService.requestStatus==1"></app-fybaloader>

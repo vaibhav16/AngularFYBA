@@ -32,11 +32,11 @@ export class OfficialComponent implements OnInit {
     this.headerImg = 'official_header_img';
   }
 
-  selectGameData(){
-    if(this.selectGameJson===null){
-      this.selectGameJson = this.officialService.getSelectGames();      
-    }  
-  }
+  // selectGameData(){
+  //   if(this.selectGameJson===null){
+  //     this.selectGameJson = this.officialService.getSelectGames();      
+  //   }  
+  // }
 
   keepSelectActive(){
     if(this.isSelectGameActive==false)

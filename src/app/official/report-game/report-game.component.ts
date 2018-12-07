@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { APIGamePost } from './../../models/official/reportgame/APIGamePost.model';
 import { ScoreSheetImages } from './../../models/official/reportgame/ScoreSheet.model';
+import { DeletedScoreSheetImages } from './../../models/official/reportgame/DeletedScoreSheetImages';
 import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayerScorePost.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { LoginService } from 'src/app/login/login.service';
@@ -32,6 +33,7 @@ export class ReportGameComponent{
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
   ScoreSheetImages: ScoreSheetImages[] =[];
+  DeletedScoreSheetImages: DeletedScoreSheetImages[] =[];
   tempIndex=0;
   fg: FormGroup;
   tempRemoveImage=[];
@@ -82,7 +84,11 @@ export class ReportGameComponent{
     }],
     ScoreSheetImages:[{
       ImageURL:'',
-      NewImageByteCode:''}]
+      NewImageByteCode:''}],
+    DeletedScoreSheetImages:[{
+        ImageURL:'',
+        NewImageByteCode:''}]
+     
    }
 
    constructor(public officialService: OfficialService, 
@@ -130,34 +136,51 @@ export class ReportGameComponent{
   }
   tempSumHomePoint:number=0;
   tempSumVisitingPoint:number=0;
+  tempHomeTeamName:string;
+  tempVisitingTeamName:string;
   checkFinalScore(form: NgForm, gameListIndex: number,unEqualHomeScoreTemplate: TemplateRef<any>,unEqualVisitingScoreTemplate: TemplateRef<any>){
      this.tempSumHomePoint=0;
      this.tempSumVisitingPoint=0;
-    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
+    if(this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores!=null){
+      this.tempHomeTeamName = this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeam;
+      for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamPlayerScores.length; ++i){
       
-      let hpoint = "HPoints"+i;
-      if(form.value[hpoint].length>0){
-        this.tempSumHomePoint+= parseInt(form.value[hpoint]);
-        console.log(form.value[hpoint]); 
-      }
+        let hpoint = "HPoints"+i;
+        if(form.value[hpoint]!=null && parseInt(form.value[hpoint])>0){          
+            this.tempSumHomePoint+= parseInt(form.value[hpoint]);
+            console.log(form.value[hpoint]); 
           
-    }
-    for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamPlayerScores.length; ++i){
-      
-      let vpoint = "VPoints"+i;
-      if(form.value[vpoint].length>0){
-        this.tempSumVisitingPoint+=parseInt(form.value[vpoint]);
-        console.log(form.value[vpoint]);
+        }       
+            
       }
-      
     }
-    if(this.tempSumVisitingPoint!=form.value.VTeamScore){
+
+    if(this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamPlayerScores!=null){
+      this.tempVisitingTeamName = this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeam;
+      for(let i=0;i<this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamPlayerScores.length; ++i){
+      
+        let vpoint = "VPoints"+i;
+        if(form.value[vpoint]!=null && parseInt(form.value[vpoint])>0){
+          //console.log("!null",vpoint,form.value[vpoint]);
+          
+            //console.log("len>0",vpoint,form.value[vpoint]);
+            this.tempSumVisitingPoint+=parseInt(form.value[vpoint]);
+            console.log(vpoint,form.value[vpoint]);
+         
+          
+        }
+        
+      }
+    }
+     
+    
+    if(this.tempSumVisitingPoint!=parseInt(form.value.VTeamScore)){
       this.modalRef =null;
       console.log(this.tempSumVisitingPoint,form.value.VTeamScore);
       this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {class: 'modal-sm'});
       return false;
     }
-    else if(this.tempSumHomePoint!=form.value.HTeamScore)
+    else if(this.tempSumHomePoint!=parseInt(form.value.HTeamScore))
     {
       this.modalRef = null;
       console.log(this.tempSumHomePoint,form.value.HTeamScore);
@@ -253,6 +276,7 @@ export class ReportGameComponent{
     this.APIGamePost.HomeTeamPlayerScores = this.HomeTeamPlayerScores;
     this.APIGamePost.VisitingTeamPlayerScores = this.VisitingTeamPlayerScores;
     this.APIGamePost.ScoreSheetImages = this.ScoreSheetImages; 
+    this.APIGamePost.DeletedScoreSheetImages = this.DeletedScoreSheetImages;
     console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost);
   }
@@ -445,17 +469,26 @@ public inputValidator(event: any) {
     this.renderer.appendChild(li, span);
     this.renderer.insertBefore(el, li,refchild);
     
-
-
     await this.tempIndex++;   
 
    }  
    /* - Image implementation ends - */
 
    /* - Code to Delete Image - */
-   deleteImage(e: any){
-     console.log(e);
-     console.log("let's delete");
+   deletedIndex=0;
+   deleteImage(e: any, url:string,ssIndex:string){
+    console.log("delete server image"); 
+    var tempId = this.elRef.nativeElement.querySelector('#'+ssIndex);
+    this.renderer.setProperty(tempId,'style','display:none');
+    
+    console.log(url);
+    console.log(ssIndex);
+    //this.DeletedScoreSheetImages
+    this.DeletedScoreSheetImages[this.deletedIndex]= new DeletedScoreSheetImages();
+    this.DeletedScoreSheetImages[this.deletedIndex].ImageURL = url;
+    this.DeletedScoreSheetImages[this.deletedIndex].NewImageByteCode = '';
+    console.log(this.DeletedScoreSheetImages);
+    this.deletedIndex++;     
    }
 
 
@@ -466,11 +499,14 @@ public inputValidator(event: any) {
    }
    /* - Code to check if Player no Not Present. If the user says the Player is not present, then
    his score will be changed to zero.*/
-   checkNP(teamType:string,id:string){    
+   checkNP(teamType:string,playerofNote:string,id:string){        
     
-    console.log(teamType+id);
     var tempId = this.elRef.nativeElement.querySelector('#'+teamType+id);
     this.renderer.setProperty(tempId,'value',0);
+    
+    var tempId2 = this.elRef.nativeElement.querySelector('#'+playerofNote+id);    
+    this.renderer.setProperty(tempId2,'value',false);
+    this.renderer.setProperty(tempId2,'checked',false);
    }
 
    

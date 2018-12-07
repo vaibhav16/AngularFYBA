@@ -21,6 +21,7 @@ export class APIGamePost{
     public HomeTeamPlayerScores : HomeTeamPlayerScores[]
     public VisitingTeamPlayerScores : VisitingTeamPlayerScores[]
     public ScoreSheetImages : ScoreSheetImages[]
+    public DeletedScoreSheetImages : DeletedScoreSheetImages[]
 
     constructor() {
         this.SeasonId = '';
@@ -95,6 +96,19 @@ export class APIGamePost{
  }
 
  export class ScoreSheetImages{
+
+    public ImageURL: string;
+    public NewImageByteCode: string;
+
+    constructor(){
+        this.ImageURL = '';
+        this.NewImageByteCode = '';
+        
+    }
+
+ }
+
+ export class DeletedScoreSheetImages{
 
     public ImageURL: string;
     public NewImageByteCode: string;

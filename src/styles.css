@@ -3,6 +3,7 @@
 /* You can add global styles to this file, and also import other style files */
 /*actual design*/
 
+
 body{
     /* Disables pull-to-refresh but allows overscroll glow effects. */
     overscroll-behavior-y: contain;
@@ -404,7 +405,7 @@ div {
    ul.paymentdates li{display:block; font-size:20px; color:#999999; font-weight:bold; padding:2px 0;}
    .breakWord{display:none;}
    .leftAlign tr td, .leftAlign tr th{text-align:left !important;}
-   ul.addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; width:100%;}
+   ul.addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; /*width:100%;*/}
    ul.addList li{float: left;
     width: 100px;
     margin-right: 20px;
@@ -415,7 +416,7 @@ div {
     line-height: 100px;
     color: #ffffff; position:relative; /*border:3px solid #3c98db;*/}
        
-   ul.addList li:last-child{float: left;
+   ul.addList li.uploadDiv{float: left;
     width: 100px;
     /*margin-left: 20px;*/
     margin-right:0px;
@@ -592,7 +593,7 @@ div {
    .bgGrey .col-md-2{text-align:center; margin-bottom:5px;}
    .inputfull input[type="text"]{width:100%;}
    .overflowAuto{overflow:hidden;}
-   .widthTable{/*width:500px;*/}
+   /*.widthTable{width:500px;}*/
    .tooltip_abc {
        top:0px;
    }

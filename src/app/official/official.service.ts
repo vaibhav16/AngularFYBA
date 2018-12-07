@@ -16,6 +16,7 @@ import { Profile } from './../models/official/profile/profile.model';
 import { UploadProfileImage } from '../models/official/profile/uploadProfileImg.model';
 import { DeleteProfileImage } from '../models/official/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
+import { Constants } from './../models/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,9 @@ export class OfficialService {
  requestFailure:boolean = false;
  numberOfSelectGameClicks:number = 0;
  initialData:Filter;
+
+//static APIUrl:string = "https://mobile.folsomyouthbasketball.com";
+//static testAPIUrl:string = "https://fybaservice.sapplesystems.com";
 
  selectedFilter:Filter = {      
   Division: '',
@@ -125,7 +129,10 @@ export class OfficialService {
   }],
   ScoreSheetImages:[{
     ImageURL:'',
-    NewImageByteCode:''}]
+    NewImageByteCode:''}],
+    DeletedScoreSheetImages:[{
+      ImageURL:'',
+      NewImageByteCode:''}]
  }
 
  APIPlayerScorePost : APIPlayerScorePost ={
@@ -171,16 +178,16 @@ export class OfficialService {
   /* - Select Games - */
   /**************************/
 
-  getSelectGames():any{    
-    this.http.get("./assets/raw.json")
-    .pipe(map((data: Response) => {
-      return data.json()
-    })).toPromise().then(x => {
-      console.log(x);
-      this.fetchPreselectedFilters(x);
-      return Promise.resolve(this.selectGameJson = x);      
-    });
-  }
+  // getSelectGames():any{    
+  //   this.http.get("./assets/raw.json")
+  //   .pipe(map((data: Response) => {
+  //     return data.json()
+  //   })).toPromise().then(x => {
+  //     console.log(x);
+  //     this.fetchPreselectedFilters(x);
+  //     return Promise.resolve(this.selectGameJson = x);      
+  //   });
+  // }
 
   /* - Fetch Initial Data in Select Games - */
   fetchSelectGames=null;
@@ -193,7 +200,7 @@ export class OfficialService {
     var body = JSON.stringify(this.initialFilter);   
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/officialgames',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/officialgames',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
@@ -213,7 +220,7 @@ export class OfficialService {
     var body = JSON.stringify(this.initialFilter);   
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/officialgames',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/officialgames',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
@@ -306,7 +313,7 @@ export class OfficialService {
 
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/officialgames',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/officialgames',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
@@ -337,7 +344,7 @@ export class OfficialService {
     console.log(JSON.stringify(this.finalFilter));
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/SignOfficial/  ',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/SignOfficial/  ',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
@@ -371,7 +378,7 @@ export class OfficialService {
    
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api//RequestSendMail',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api//RequestSendMail',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
@@ -403,7 +410,7 @@ export class OfficialService {
    
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api//RequestSendMail',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api//RequestSendMail',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
@@ -433,7 +440,7 @@ export class OfficialService {
    
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/loadreportgames',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/loadreportgames',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
@@ -459,7 +466,7 @@ export class OfficialService {
     
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/savereportgames',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/savereportgames',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
@@ -498,7 +505,7 @@ export class OfficialService {
    
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/GetPaid',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/GetPaid',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
@@ -528,7 +535,7 @@ export class OfficialService {
    
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/OfficiatingProfile',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/OfficiatingProfile',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
@@ -573,7 +580,7 @@ export class OfficialService {
    
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post('https://fybaservice.sapplesystems.com/api/ftp',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/ftp',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
