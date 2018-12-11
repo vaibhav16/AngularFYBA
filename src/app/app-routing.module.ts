@@ -18,7 +18,7 @@ const routes: Routes = [
     {path:'login', component:LoginComponent},    
 	{ path:'official', component: OfficialComponent,canActivate: [AuthGuard],
 		children: [
-			{path: '', redirectTo: 'SelectGameComponent', pathMatch: 'full' },
+			{path: '', redirectTo: 'ReportGameComponent', pathMatch: 'full' },
 			{path: 'SelectGameComponent', component: SelectGameComponent }, 
 			{path:'PayComponent', component:PayComponent},
 			{path:'ProfileComponent', component:ProfileComponent},

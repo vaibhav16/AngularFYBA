@@ -14,6 +14,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import FileUploadWithPreview from 'file-upload-with-preview';
  
 
 
@@ -435,15 +436,19 @@ public inputValidator(event: any) {
     }
   }
 
+  addedImages:string[] = [];
+  deletedImages: string[] = [];
   async _handleReaderLoaded(readerEvt) {
     var binaryString=null;
     binaryString = await readerEvt.target.result;
+    // this.addedImages.push(btoa(binaryString));
+    // console.log(this.addedImages);
   
     this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
     this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
     this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);
     
-    var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode; 
+    var source_code='data:image/jpeg;base64,' + btoa(binaryString); 
 
     var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
     var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');
@@ -455,22 +460,16 @@ public inputValidator(event: any) {
     this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
     this.renderer.setStyle(img, 'width','100px');
     this.renderer.setStyle(img, 'height','100px');
-    this.renderer.setAttribute(img, 'src',source_code);
-    
+    this.renderer.setAttribute(img, 'src',source_code);    
     this.renderer.appendChild(li, img);
-
     let span= this.renderer.createElement('span');
     this.renderer.setProperty(span, 'id',this.tempIndex);
     this.renderer.addClass(span,'glyphicon');
-    this.renderer.addClass(span,'glyphicon-remove-circle');
-  
+    this.renderer.addClass(span,'glyphicon-remove-circle');   
     this.renderer.listen(span, 'click',this.DeleteTempImage.bind(span));
-
     this.renderer.appendChild(li, span);
-    this.renderer.insertBefore(el, li,refchild);
-    
+    this.renderer.insertBefore(el, li,refchild);    
     await this.tempIndex++;   
-
    }  
    /* - Image implementation ends - */
 
@@ -492,11 +491,14 @@ public inputValidator(event: any) {
    }
 
 
-   DeleteTempImage(obj:any){ 
+   DeleteTempImage(obj:any):any{ 
+    console.log(obj.target.parentNode);    
     obj.target.parentNode.remove();
-    //this.tempRemoveImage.push(obj.target.id);
-    //console.log( this.tempRemoveImage);
-   }
+    
+   //this.tempRemoveImage.push(obj.target.id);
+   //console.log( this.tempRemoveImage);
+  }
+
    /* - Code to check if Player no Not Present. If the user says the Player is not present, then
    his score will be changed to zero.*/
    checkNP(teamType:string,playerofNote:string,id:string){        

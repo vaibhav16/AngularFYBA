@@ -44,7 +44,7 @@ postLoginData(userVar : Login){
   userVar.Email=userVar.Email.toLowerCase();
   var headerOptions =  new Headers({'Content-Type':'application/json'});
   var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-  return this.http.post( Constants.apiURL +'/api/Home',userVar,requestOptions)
+  return this.http.post(Constants.apiURL +'/api/Home',userVar,requestOptions)
   .pipe(map((data: Response) => {
   return data.json() as JSON;
   })).toPromise().then(x => {
@@ -56,13 +56,13 @@ postLoginData(userVar : Login){
 
   if(this.jsonResult["Error"]==200){ 
 
-    this.cookieService.set('sessionKey', this.sessionKey);    
-    this.cookieService.set('userId', this.jsonResult["Value"].UserId); 
-    this.cookieService.set('officialSeasonId', this.jsonResult["Value"].OfficialSeasonalId); 
-    this.cookieService.set('seasonId', this.jsonResult["Value"].SeasonId); 
-    this.cookieService.set('roleId', this.jsonResult["Value"].RoleId);
-    this.cookieService.set('leagueId', this.jsonResult["Value"].LeagueId);  
-    this.cookieService.set('reportTagLabel', this.jsonResult["Value"].tagsLables.ReportCount);  
+    this.cookieService.set('sessionKey', this.sessionKey,365);    
+    this.cookieService.set('userId', this.jsonResult["Value"].UserId,365); 
+    this.cookieService.set('officialSeasonId', this.jsonResult["Value"].OfficialSeasonalId,365); 
+    this.cookieService.set('seasonId', this.jsonResult["Value"].SeasonId,365); 
+    this.cookieService.set('roleId', this.jsonResult["Value"].RoleId,365);
+    this.cookieService.set('leagueId', this.jsonResult["Value"].LeagueId,365);  
+    this.cookieService.set('reportTagLabel', this.jsonResult["Value"].tagsLables.ReportCount,365);  
    
 
     this.isLoggedIn=true;

@@ -223,14 +223,13 @@
                                                   <img src={{child.ImageURL}} style="width:100px;height:100px;">
                                                   <span url="child.ImageURL" (click)="deleteImage($event,child.ImageURL,'scoresheet'+ssIndex)" 
                                                   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                                                                                   
-                                        </li>
+                                      </li>
                                   </ul>
                                   <ul class="addList IncidentListClass" *ngIf="item.OfficiatingPositionId==3">
                                        <li  class="Incidentclass uploadDiv">                                        
                                          <input [disabled]="!(item.OfficiatingPositionId==3)" #imageInput type="file" multiple accept="image/*" (change)="processFile(imageInput)">
                                          <span class="addHeading">Add<br /> Scoresheet</span>
-                                      </li>
-                                       
+                                      </li>                                       
                                   </ul>
                                 </div>
                               </div>
