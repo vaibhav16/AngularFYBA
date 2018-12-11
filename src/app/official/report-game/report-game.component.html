@@ -220,7 +220,7 @@
 
                                   <ul *ngIf="item.ScoreSheetImages.length>0; else noScoreSheet" class="addList" #Incidentlist>
                                       <li *ngFor="let child of item.ScoreSheetImages; let ssIndex = index" id=scoresheet{{ssIndex}}>
-                                                  <img src={{child.ImageURL}} style="width:100px;height:100px;">
+                                                  <img src={{child.ImageURL}} style="width:100px;height:100px;" class="IncidentImgClass">
                                                   <span url="child.ImageURL" (click)="deleteImage($event,child.ImageURL,'scoresheet'+ssIndex)" 
                                                   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                                                                                   
                                         </li>
@@ -328,6 +328,17 @@
     </div>
   </ng-template>
 
+  <ng-template  #imgTemplate>
+    <div class="modal-body text-center">
+       <p class="heading-signUp">Image</p>
+       <div class="paddTopBottom10">
+        <img  style="width:100%; padding:10px" src="{{this.imgsrc}}"  />    
+    </div>           
+       <button type="button" class="btn btn-danger" (click)="closeMapModal()" >Ok</button>
+    </div>
+  </ng-template>
+
 <!--##########loader###################-->
 <app-fybaloader *ngIf="officialService.reportGameJson==null || officialService.requestStatus==1"></app-fybaloader>
 <!--######################################-->
+

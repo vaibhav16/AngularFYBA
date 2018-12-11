@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ElementRef,Renderer2,ViewChild, Injectable } from '@angular/core';
+import { Component, TemplateRef, ElementRef,Renderer2,ViewChild, Injectable,AfterViewInit,HostListener } from '@angular/core';
 import { NgbAccordionConfig} from '@ng-bootstrap/ng-bootstrap';
 import { OfficialService } from '../official.service';
 import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
@@ -14,7 +14,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
- 
+declare var $: any; 
 
 
 @Component({
@@ -29,14 +29,18 @@ export class ReportGameComponent{
   //private acchead1: ElementRef; 
   //@ViewChild("Incidentlist", {read: ElementRef}) 
   //private Incidentlist: ElementRef;
-  
+  @ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
+
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
   ScoreSheetImages: ScoreSheetImages[] =[];
   DeletedScoreSheetImages: DeletedScoreSheetImages[] =[];
   tempIndex=0;
   fg: FormGroup;
-  tempRemoveImage=[];
+  tempRemoveImage=["shashank","vishnu","vaibhav","seemant"];
+
+
+  imgsrc:any;
 
   APIGamePost: APIGamePost ={
     Roleid:'',
@@ -116,6 +120,22 @@ export class ReportGameComponent{
     
   }
 
+  ngAfterViewInit() {
+    $(document).on('click','.IncidentImgClass',(e)=>{
+     var imagesrc=e.target.src;
+     this.openTempImageModal(imagesrc);  
+    });
+    
+    $(document).on('click','.glyphicon',(e)=>{
+      var targetid=e.target.id;
+      e.target.parentNode.remove();
+      this.ScoreSheetImages.splice(targetid,1);
+     
+     });
+
+  }
+  
+  
   async asyncReport(){
     await this.officialService.getReportData().then(res=>{      
       // this.loginService.newRequest=false;
@@ -455,20 +475,23 @@ public inputValidator(event: any) {
     this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
     this.renderer.setStyle(img, 'width','100px');
     this.renderer.setStyle(img, 'height','100px');
+    this.renderer.addClass(img,'IncidentImgClass');
+
     this.renderer.setAttribute(img, 'src',source_code);
-    
     this.renderer.appendChild(li, img);
 
+   
     let span= this.renderer.createElement('span');
     this.renderer.setProperty(span, 'id',this.tempIndex);
     this.renderer.addClass(span,'glyphicon');
     this.renderer.addClass(span,'glyphicon-remove-circle');
-  
-    this.renderer.listen(span, 'click',this.DeleteTempImage.bind(span));
-
     this.renderer.appendChild(li, span);
+   
+
     this.renderer.insertBefore(el, li,refchild);
     
+
+
     await this.tempIndex++;   
 
    }  
@@ -497,6 +520,8 @@ public inputValidator(event: any) {
     //this.tempRemoveImage.push(obj.target.id);
     //console.log( this.tempRemoveImage);
    }
+
+
    /* - Code to check if Player no Not Present. If the user says the Player is not present, then
    his score will be changed to zero.*/
    checkNP(teamType:string,playerofNote:string,id:string){        
@@ -508,8 +533,17 @@ public inputValidator(event: any) {
     this.renderer.setProperty(tempId2,'value',false);
     this.renderer.setProperty(tempId2,'checked',false);
    }
+    openTempImageModal(Imagesrc:string){
+      this.imgsrc=null;
+      this.imgsrc = Imagesrc;
+       if(this.imgsrc!=null){
+        this.modalRef = this.modalService.show(this.imgTemplate, {class: 'modal-sm'});
+      }
+    }
 
-   
+    closeMapModal(){
+      this.modalRef.hide();  
+      }
 }
 
 
