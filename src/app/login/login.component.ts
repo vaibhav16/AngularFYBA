@@ -33,6 +33,10 @@ export class LoginComponent implements OnInit {
     if(newVariable.standalone)
     this.iosStandalone=true;
 
+    if (this.loginService.cookieService.check('sessionKey')) {         
+      
+      this.router.navigate(['official']);
+    }
     
     const cookieExists: boolean = this.loginService.cookieService.check('SessionKey');   
 
