@@ -418,8 +418,7 @@ public inputValidator(event: any) {
   
  /* - Code to send the image as a base64 string to the service. - */
   async processFile(imageInput: any) {
-    await this.makeImageByteArray(imageInput);     
-    //await console.log(this.ScoreSheetImages);
+    await this.makeImageByteArray(imageInput);         
 }
 
   async makeImageByteArray(imageInput:any){
@@ -494,9 +493,8 @@ public inputValidator(event: any) {
 
    DeleteTempImage(obj:any){ 
     obj.target.parentNode.remove();
-    //this.tempRemoveImage.push(obj.target.id);
-    //console.log( this.tempRemoveImage);
    }
+
    /* - Code to check if Player no Not Present. If the user says the Player is not present, then
    his score will be changed to zero.*/
    checkNP(teamType:string,playerofNote:string,id:string){        
