@@ -460,7 +460,7 @@ export class OfficialService {
     this.finalFilter.RequestedData= JSON.stringify(gameListObj);    
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID =this.loginService.userId.toString();
-    //console.log(this.finalFilter);
+    console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);   
     console.log(JSON.stringify(this.finalFilter));
     

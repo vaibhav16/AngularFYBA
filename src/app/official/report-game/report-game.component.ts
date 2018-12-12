@@ -36,9 +36,8 @@ export class ReportGameComponent{
   ScoreSheetImages: ScoreSheetImages[] =[];
   DeletedScoreSheetImages: DeletedScoreSheetImages[] =[];
   tempIndex=0;
-  fg: FormGroup;
+  //fg: FormGroup;
   tempRemoveImage=["shashank","vishnu","vaibhav","seemant"];
-
 
   imgsrc:any;
 
@@ -104,8 +103,7 @@ export class ReportGameComponent{
     //   this.fg = this.fb.group({
     //   GameList: this.fb.array([])
     // }); 
-    config.type = 'info';
-    
+    config.type = 'info';    
   }
 
   newRequest:boolean=null;
@@ -116,8 +114,6 @@ export class ReportGameComponent{
     this.officialService.requestFailure=false;
     //this.officialService.reportGameJson=null;    
     this.asyncReport();
-    
-    
   }
 
   ngAfterViewInit() {
@@ -129,16 +125,16 @@ export class ReportGameComponent{
     $(document).on('click','.glyphicon',(e)=>{
       var targetid=e.target.id;
       e.target.parentNode.remove();
-      this.ScoreSheetImages.splice(targetid,1);
-     
+      this.ScoreSheetImages.splice(targetid,1);           
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+        return el != null;
+      });
+      console.log(this.ScoreSheetImages);
      });
-
-  }
-  
+  }  
   
   async asyncReport(){
     await this.officialService.getReportData().then(res=>{      
-      // this.loginService.newRequest=false;
 
     });
  }
@@ -154,6 +150,8 @@ export class ReportGameComponent{
        this.prepareDatatoUpdate(form,gameListIndex);
     } 
   }
+
+  
   tempSumHomePoint:number=0;
   tempSumVisitingPoint:number=0;
   tempHomeTeamName:string;
@@ -168,10 +166,8 @@ export class ReportGameComponent{
         let hpoint = "HPoints"+i;
         if(form.value[hpoint]!=null && parseInt(form.value[hpoint])>0){          
             this.tempSumHomePoint+= parseInt(form.value[hpoint]);
-            console.log(form.value[hpoint]); 
-          
-        }       
-            
+            console.log(form.value[hpoint]);           
+        }                 
       }
     }
 
@@ -431,7 +427,6 @@ public inputValidator(event: any) {
     event.target.value = "";
     //event.target.value = event.target.value.replace(/^([1-9][0-9]{0,2}|1000)$/g, "");
     // invalid character, prevent input
-
   }
 }
 
@@ -447,7 +442,6 @@ public inputValidator(event: any) {
       if (imageInput.files[i]) {
        //console.log(imageInput.files[i]);
        var reader = await new FileReader();
-
        reader.onload = await this._handleReaderLoaded.bind(this);
        await reader.readAsBinaryString(imageInput.files[i]);
        //this.base64Strings[i] = await this.temp64String;        
@@ -458,42 +452,28 @@ public inputValidator(event: any) {
   async _handleReaderLoaded(readerEvt) {
     var binaryString=null;
     binaryString = await readerEvt.target.result;
-  
     this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
     this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
     this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);
-    
     var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode; 
-
     var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
     var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');
-    
     let li= this.renderer.createElement('li');
     this.renderer.setProperty(li, 'id','incident_li_'+this.tempIndex);
     let img= this.renderer.createElement('img');
-
     this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
     this.renderer.setStyle(img, 'width','100px');
     this.renderer.setStyle(img, 'height','100px');
     this.renderer.addClass(img,'IncidentImgClass');
-
     this.renderer.setAttribute(img, 'src',source_code);
     this.renderer.appendChild(li, img);
-
-   
     let span= this.renderer.createElement('span');
     this.renderer.setProperty(span, 'id',this.tempIndex);
     this.renderer.addClass(span,'glyphicon');
     this.renderer.addClass(span,'glyphicon-remove-circle');
     this.renderer.appendChild(li, span);
-   
-
-    this.renderer.insertBefore(el, li,refchild);
-    
-
-
+    this.renderer.insertBefore(el, li,refchild); 
     await this.tempIndex++;   
-
    }  
    /* - Image implementation ends - */
 
