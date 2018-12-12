@@ -117,9 +117,8 @@ export class ReportGameComponent{
   }
 
   ngAfterViewInit() {
-    $(document).on('click','.IncidentImgClass',(e)=>{
-     var imagesrc=e.target.src;
-     this.openTempImageModal(imagesrc);  
+    $(document).on('click','.IncidentImgClass',(e)=>{    
+     this.openTempImageModal(e.target.src);  
     });
     
     $(document).on('click','.glyphicon',(e)=>{
@@ -513,10 +512,11 @@ public inputValidator(event: any) {
     this.renderer.setProperty(tempId2,'value',false);
     this.renderer.setProperty(tempId2,'checked',false);
    }
-    openTempImageModal(Imagesrc:string){
-      this.imgsrc=null;
-      this.imgsrc = Imagesrc;
+    async openTempImageModal(Imagesrc:string){
+      //this.imgsrc=null;
+      this.imgsrc = await Imagesrc;
        if(this.imgsrc!=null){
+         console.log(this.imgsrc);
         this.modalRef = this.modalService.show(this.imgTemplate, {class: 'modal-sm'});
       }
     }
