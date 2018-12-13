@@ -2,20 +2,6 @@
 <title>FYBA Login</title>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
- <!--<div *ngIf="loginService.requestStatus" class="block">
-    <div class="bg_loaderFYBA">
-    <div class="loaderFYBA">
-      <h1></h1>
-      <p class="round">
-      <span class="ouro">
-        <span class="left"><span class="anim"></span></span>
-        <span class="right"><span class="anim"></span></span>
-      </span>
-      </p> 
-    </div>
-  </div>
-  </div>-->
-
   <div *ngIf="browserName=='ios'&&!iosStandalone" class="tapDiv"><div><img src="assets/images/add_home_icon.png" alt="Add to Home" /></div>
   <p>Install this webapp on your iPhone; tap &nbsp;<img src="assets/images/share_icon.png" alt="Share Icon" />&nbsp; and then Add to Homescreen</p></div>
 
@@ -39,6 +25,7 @@
   <div class="forgot_pass"><a href="#">Forgot Password?</a></div>
   <div class="text-center"><button type="submit" class="signIn_btn">Sign In</button></div>
   <div class="invalid_credintial" *ngIf="loginService.loginFailed">Invalid Login Credentials</div> 
+  <div class="invalid_credintial" *ngIf="loginService.serviceError">Server Error. Please Try Again!</div> 
   <div class="clearfix"></div>
   </div>
   <div class="clearfix"></div>

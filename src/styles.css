@@ -82,6 +82,7 @@ div {
     position: absolute;
     top: 0;
     left: 0;opacity:0;}
+    .Incidentclass{overflow:hidden;}
 
    
    h3.mainDate{background: #3c98db;padding:10px;color: #ffffff;}
@@ -769,9 +770,8 @@ div {
     line-height: 1;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
-    .card-body button[type="submit"]{ background: #70ad47;
-    padding: 5px 10px;
-    border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
+    .card-body .btn-success{ background: #70ad47; margin-left:10px; padding:15px 20px;width:47.5%; font-size:16px;}
+    .card-body .btn-danger{width:47.5%; font-size:16px; padding:10px 20px;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
    #filter-header{background-color: #c4e0b2 !important; padding:10px;}
@@ -797,4 +797,74 @@ div {
 
  .bg-info > h5 > .btn-link > .cssGameNotReported{background-color: #bbb !important; position:relative;}
  .bg-info > h5 > .btn-link > .cssGameReported{background-color: #ededed !important;}
+
+
+ .containerCheckbox {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: normal;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .containerCheckbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #ffffff;
+    border: 1px solid #2196F3;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .containerCheckbox:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .containerCheckbox input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .containerCheckbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .containerCheckbox .checkmark:after {
+    left: 7px;
+    top: 1px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 

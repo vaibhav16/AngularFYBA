@@ -23,35 +23,67 @@
                <ng-template ngbPanelContent>
                   <form (ngSubmit)="submitFilters(filterForm.value)" #filterForm="ngForm">
                   <div class="form-group">
+                     
                      <label for="name" class="marginTopBottom marginTopNone">Division</label>
                      <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
-                     <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
+                     <!--(onSelect)="onItemSelect($event)"
+                     (onDeSelect)="OnItemDeSelect($event)" -->
+                     <angular2-multiselect 
+                     [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
                      [(ngModel)]="officialService.selectedDivisions" 
-                     [settings]="settings"                        
-                     (onSelect)="onItemSelect($event)"
-                     (onDeSelect)="OnItemDeSelect($event)" 
+                     [settings]="settings"                                             
                      name="DivisionSelect" #DivisionSelect="ngModel" required>
                      </angular2-multiselect>
+
                      <label for="name" class="marginTopBottom">Location</label>
                      <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" 
                      [(ngModel)]="officialService.selectedLocations" 
                      [settings]="settings" 
                      name="LocationSelect" #LocationSelect="ngModel" required>
                      </angular2-multiselect>
+
                      <label for="name" class="marginTopBottom">Position</label>
                      <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" 
                      [(ngModel)]="officialService.selectedPositions" 
                      [settings]="settings" 
                      name="PositionSelect" #PositionSelect="ngModel" required>
                      </angular2-multiselect>
+
                      <label for="name" class="marginTopBottom">Start Time</label>
-                     <angular2-multiselect id="timeMultiselect" [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
+                     <angular2-multiselect id="timeMultiselect" 
+                     [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
                      [(ngModel)]="officialService.selectedTimes" 
                      [settings]="settings" 
                      name="TimeSelect" #TimeSelect="ngModel" required>
                      </angular2-multiselect>
+
                   </div>
-                  <button type="submit" class="btn btn-success btn-block">Apply Filters</button>
+
+                  <label class="containerCheckbox">Show Signed Games
+                     <input type="checkbox" name="signedGames" 
+                     [(ngModel)]="officialService.selectGameJson.Value.SelectedFilters.ShowSignedGames"
+                      value="officialService.selectGameJson.Value.SelectedFilters.ShowSignedGames" />
+                     <span class="checkmark"></span>
+                   </label>
+
+                   <label class="containerCheckbox">Show Past Games
+                     <input type="checkbox" name="pastGames"
+                     [(ngModel)]="officialService.selectGameJson.Value.SelectedFilters.ShowPastGames"
+                      value="officialService.selectGameJson.Value.SelectedFilters.ShowPastGames" />
+                     <span class="checkmark"></span>
+                   </label>
+                  
+                  <!--<input type="checkbox" name="signedGames" 
+                  [(ngModel)]="officialService.selectGameJson.Value.Filters.ShowSignedGames"
+                   value="officialService.selectGameJson.Value.Filters.ShowSignedGames" />
+                  
+                  <input type="checkbox" name="pastGames"
+                  [(ngModel)]="officialService.selectGameJson.Value.Filters.ShowPastGames"
+                   value="officialService.selectGameJson.Value.Filters.ShowPastGames" />-->
+                  
+                   <button type="reset" class="btn btn-danger">Clear All</button>
+                  <button type="submit" class="btn btn-success">Apply Filters</button>
+               
                   </form> 
                </ng-template>
             </ngb-panel>
@@ -186,9 +218,18 @@
          <button type="button" class="btn btn-danger" (click)="closeMapModal()" >Ok</button>
       </div>
    </ng-template>
+
+   
+<div *ngIf="officialService.serviceError" #serverError>
+   <div class="noRecords">Server Error. Please try again later!</div> 
+</div>
+
+
+
 </body>
 
 
+
 <!--##########loader###################-->
-<app-fybaloader *ngIf="officialService.selectGameJson==null || signUpRequest || officialService.fetchSelectGames || filterRequest"></app-fybaloader>
+<app-fybaloader *ngIf="signUpRequest || officialService.fetchSelectGames || filterRequest"></app-fybaloader>
 <!--######################################-->

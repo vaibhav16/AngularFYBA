@@ -88,3 +88,8 @@
 <!--##########loader###################-->
 <app-fybaloader *ngIf="officialService.paidRequest"></app-fybaloader>
 <!--######################################-->
+
+
+<div *ngIf="officialService.serviceError" #serverError>
+    <div class="noRecords">Server Error. Please try again later!</div> 
+  </div>

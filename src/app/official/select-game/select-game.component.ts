@@ -11,6 +11,7 @@ import { LoginService } from './../../login/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { isBoolean } from 'util';
 
 
 @Component({
@@ -61,7 +62,9 @@ export class SelectGameComponent implements OnInit {
     Location: '',
     StartTime: '',
     EndTime: '',
-    Position: ''        
+    Position: '',
+    ShowSignedGames:null,
+    ShowPastGames:null        
   } 
 
   constructor(public officialService: OfficialService,
@@ -93,16 +96,24 @@ export class SelectGameComponent implements OnInit {
   }
 
 
+  // clearFilters(form: NgForm){
+  //   form.reset();
+
+  // }
+
   /* - Code to Submit Filter Data to Service - */
   filterRequest:boolean;
   submitFilters(value: any) {
+    console.log(value);
     this.filterRequest=true;
     this.selectedFilter = {      
       Division: '',
       Location: '',
       StartTime: '',
       EndTime: '',
-      Position: ''        
+      Position: '',
+      ShowSignedGames:null,
+      ShowPastGames:null        
     } 
     
    
@@ -132,8 +143,10 @@ export class SelectGameComponent implements OnInit {
         this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
       }         
     }
-  
-    this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
+
+    this.selectedFilter.ShowPastGames = (value.pastGames);
+
+    this.selectedFilter.ShowSignedGames = (value.signedGames);
 
     this.officialService.postFilterData(this.selectedFilter).then(res=>{this.filterRequest=false;});
     

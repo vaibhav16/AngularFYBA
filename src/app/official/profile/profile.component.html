@@ -202,3 +202,8 @@
       <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()" >OK</button>         
    </div>
 </ng-template>
+
+
+<div *ngIf="officialService.serviceError" #serverError>
+   <div class="noRecords">Server Error. Please try again later!</div> 
+ </div>
