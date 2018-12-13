@@ -159,7 +159,7 @@ export class OfficialService {
   LeagueId:'',
   SeasonId:'', 
   Page:'',
-  Files:[]
+  FileName:''
  };
 
  deleteProfileImg:DeleteProfileImage = {
@@ -554,39 +554,65 @@ export class OfficialService {
     Page:''
   }
 
-  uploadProfileImage(uploadedImages:File[]){
+  newImage:string;
+  uploadProfileImage(newImgByteCode: string){
+    //console.log(newImgByteCode);
     this.fetchProfileRequest=true;
     this.uploadProfileImg.SeasonId=this.loginService.seasonId;
     this.uploadProfileImg.LeagueId = this.loginService.leagueId;    
-    this.uploadProfileImg.Files = uploadedImages;
-    this.uploadProfileImg.Page = 'Profile'
-    ///////
+    this.uploadProfileImg.FileName = newImgByteCode;
+    this.uploadProfileImg.Page = 'Profile';
 
-    this.tempModel.SeasonId=this.loginService.seasonId;
-    this.tempModel.LeagueId = this.loginService.leagueId;    
-    this.tempModel.Files = uploadedImages;
-    this.tempModel.Page = 'Profile'
-    this.tempModel.SessionKey = this.loginService.sessionKey;
-    this.tempModel.UserID =this.loginService.userId.toString();
-    
-
-    //////
-    this.finalFilter.RequestedData= JSON.stringify(this.uploadProfileImg);
-    console.log(this.finalFilter);
+    this.finalFilter.RequestedData= JSON.stringify(this.uploadProfileImg);    
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID =this.loginService.userId.toString();
-    var body = JSON.stringify(this.tempModel);   
-    console.log(JSON.stringify(this.tempModel));
-   
+
+    console.log(this.finalFilter);
+    var body = JSON.stringify(this.finalFilter);   
+    //console.log(JSON.stringify(this.finalFilter));
+ 
+    var headerOptions =  new Headers();
     var headerOptions =  new Headers({'Content-Type':'application/json'});
+    //headerOptions.append('Accept', 'application/json');
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
     return this.http.post(Constants.apiURL+'/api/ftp',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
       console.log(x);
+      this.newImage=x.Value;
       this.fetchProfileRequest=false;
       return Promise.resolve();      
     });
+  }
+
+  deleteProfileImage(fileName: string){
+     //console.log(newImgByteCode);
+     this.fetchProfileRequest=true;
+     this.uploadProfileImg.SeasonId=this.loginService.seasonId;
+     this.uploadProfileImg.LeagueId = this.loginService.leagueId;    
+     this.uploadProfileImg.FileName = fileName;
+     this.uploadProfileImg.Page = 'Profile';
+ 
+     this.finalFilter.RequestedData= JSON.stringify(this.uploadProfileImg);    
+     this.finalFilter.SessionKey = this.loginService.sessionKey;
+     this.finalFilter.UserID =this.loginService.userId.toString();
+ 
+     console.log(this.finalFilter);
+     var body = JSON.stringify(this.finalFilter);   
+     //console.log(JSON.stringify(this.finalFilter));
+  
+     var headerOptions =  new Headers();
+     var headerOptions =  new Headers({'Content-Type':'application/json'});
+     //headerOptions.append('Accept', 'application/json');
+     var requestOptions = new RequestOptions({method: RequestMethod.Delete, headers: headerOptions});
+     return this.http.post(Constants.apiURL+'/api/ftp',body,requestOptions)
+     .pipe(map((data: Response) => {
+       return data.json()
+     })).toPromise().then(x => {   
+       console.log(x);
+       this.fetchProfileRequest=false;
+       return Promise.resolve();      
+     });
   }
 }

@@ -94,7 +94,9 @@ export class SelectGameComponent implements OnInit {
 
 
   /* - Code to Submit Filter Data to Service - */
+  filterRequest:boolean;
   submitFilters(value: any) {
+    this.filterRequest=true;
     this.selectedFilter = {      
       Division: '',
       Location: '',
@@ -133,7 +135,7 @@ export class SelectGameComponent implements OnInit {
   
     this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
 
-    this.officialService.postFilterData(this.selectedFilter);
+    this.officialService.postFilterData(this.selectedFilter).then(res=>{this.filterRequest=false;});
     
   }
 

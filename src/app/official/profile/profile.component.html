@@ -49,13 +49,23 @@
                    <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Profile Photo:</strong></div>
                    <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">
                       <ul class="addList">
-                         <li *ngFor="let item of officialService.profileJson.Value[0].PersonalInfo.profilePhotos">
-                            <img src={{item.Link}} style="width:100px;height:100px;">
-                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> 
-                         </li>
+                         <!----li id="serverLi" *ngFor="let item of officialService.profileJson.Value[0].PersonalInfo.profilePhotos">
+                            <img id="serverImg" src={{item.Link}} style="width:100px;height:100px;">
+                            <span (click)="deleteProfileImage(item.Link)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
+                         </li-->
+
+                         <li id="serverLi" *ngIf="imgUrl.length>0">
+                           <img id="serverImg" src={{imgUrl}} style="width:100px;height:100px;">
+                           <span (click)="deleteProfileImage(imgUrl)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
+                        </li>
+
+                         <!-- <li *ngIf="showTempImage">
+                            <img  id="temporaryImage"  style="width:100px;height:100px;">
+                            <span (click)="deleteProfileImage(item.Link)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
+                         </li> -->
                          
-                         <li class="Incidentclass">                         
-                            <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+                         <li class="Incidentclass" style="background-color: red">                         
+                            <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput,imgNotUploaded)">
                             <span class="addHeading">Upload<br /> Photo</span>
                          </li>
                          <!----li><input type="button" (click)="uploadPhoto()" value="Save"></li-->
@@ -183,4 +193,12 @@
 <ng-template #noRecordDiv>
    <br/>  
    <div class="noRecords">No Record Found!</div>
+</ng-template>
+
+<ng-template #imgNotUploaded>
+   <div class="modal-body text-center">
+      <p class="heading-signUp">Upload Failed!</p>        
+      <p>Image Could not be uploaded!</p>
+      <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()" >OK</button>         
+   </div>
 </ng-template>
