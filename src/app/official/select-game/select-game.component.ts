@@ -116,33 +116,43 @@ export class SelectGameComponent implements OnInit {
       ShowPastGames:null        
     } 
     
-   
-    for(let i=0; i<value.DivisionSelect.length; ++i){
-      { 
-        this.selectedFilter.Division+=value.DivisionSelect[i].id+',';    
-      }         
-    }  
-    //this.selectedFilter.Division = this.selectedFilter.Division.slice(0,-1);
-
-    for(let i=0; i<value.LocationSelect.length; ++i){
-      { 
-        this.selectedFilter.Location+=value.LocationSelect[i].id+',';    
-      }         
-    }
-
-
-    for(let i=0; i<(value.PositionSelect.length); ++i){
-      {        
-        this.selectedFilter.Position+=value.PositionSelect[i].id+',';         
-      }         
-    }
-
+    if(value!=null){
+      
+      if(value.DivisionSelect!=null){
+        for(let i=0; i<value.DivisionSelect.length; ++i){
+          { 
+            this.selectedFilter.Division+=value.DivisionSelect[i].id+',';    
+          }         
+        } 
+      }
+     
+      if(value.LocationSelect!=null){
+        for(let i=0; i<value.LocationSelect.length; ++i){
+          { 
+            this.selectedFilter.Location+=value.LocationSelect[i].id+',';    
+          }         
+        }    
+      }
+  
+      if(value.PositionSelect!=null){
+        for(let i=0; i<(value.PositionSelect.length); ++i){
+          {        
+            this.selectedFilter.Position+=value.PositionSelect[i].id+',';         
+          }         
+        }
     
-    for(let i=0; i<(value.TimeSelect.length); ++i){
-      {        
-        this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
-      }         
+      }
+   
+      if(value.TimeSelect!=null){
+        for(let i=0; i<(value.TimeSelect.length); ++i){
+          {        
+            this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
+          }         
+        }
+      }
+    
     }
+   
 
     this.selectedFilter.ShowPastGames = (value.pastGames);
 
