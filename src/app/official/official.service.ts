@@ -239,7 +239,7 @@ export class OfficialService {
       return data.json()
     })).toPromise().then(x => {     
       return Promise.resolve(this.selectGameJson = x);      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
 
     /* - It prepares a JSON that can be used to populate the multi-select filters, in-case the 
@@ -350,7 +350,7 @@ export class OfficialService {
     })).toPromise().then(x => {     
       console.log(x);
       return Promise.resolve(this.selectGameJson = x);      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
 
   /* - This functin sends a signup request - */
@@ -375,7 +375,7 @@ export class OfficialService {
     console.log(JSON.stringify(this.finalFilter));
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-    return this.http.post(Constants.apiURL+'/api/SignOfficial/  ',body,requestOptions)
+    return this.http.post(Constants.apiURL+'/api/SignOfficial',body,requestOptions)
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
@@ -385,7 +385,7 @@ export class OfficialService {
       //if(this.signUpResponse=="Registered")
       //console.log(this.signUpResponse);
       return Promise.resolve(this.refershSelectGameData(this.initialData));      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
 
    /* - If the user signup is successful, an email is sent to his email, if he chooses to receive it - */
@@ -417,7 +417,7 @@ export class OfficialService {
       //this.paidRequest=false;
       this.postSelectGames(this.selectedFilter);
       return Promise.resolve();      
-    });
+    }).catch(err=>{this.handleError(err)});
 
   }
 
@@ -449,7 +449,7 @@ export class OfficialService {
       this.postSelectGames(this.selectedFilter);
       //this.paidRequest=false;
       return Promise.resolve();      
-    });
+    }).catch(err=>{this.handleError(err)});
 
   }
 
@@ -518,7 +518,7 @@ export class OfficialService {
         this.requestFailure=true;
       }
       return Promise.resolve();      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
 
   /**************************/
@@ -620,7 +620,7 @@ export class OfficialService {
       this.newImage=x.Value;
       this.fetchProfileRequest=false;
       return Promise.resolve();      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
 
   deleteProfileImage(fileName: string){
@@ -650,6 +650,6 @@ export class OfficialService {
        console.log(x);
        this.fetchProfileRequest=false;
        return Promise.resolve();      
-     });
+     }).catch(err=>{this.handleError(err)});
   }
 }

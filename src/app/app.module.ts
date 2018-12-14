@@ -32,6 +32,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './auth.guard';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
+import { LogoutComponent } from './common/logout/logout.component';
+import { PopupErrorModalComponent } from './common/popup-error-modal/popup-error-modal.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
     HeaderComponent,
     ArraySortPipe,
     ImguploadComponent,
-    FybaloaderComponent
+    FybaloaderComponent,
+    LogoutComponent,   
+    PopupErrorModalComponent
    
   ],
   imports: [

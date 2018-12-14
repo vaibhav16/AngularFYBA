@@ -12,6 +12,7 @@ import { AuthGuard } from './auth.guard';
 //import { PreventLoggedInAccess } from './preventLogin.guard';
 import { LoginService } from './login/login.service';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
+import { LogoutComponent } from './common/logout/logout.component';
 
 const routes: Routes = [
     {path:'', component:LoginComponent},
@@ -27,7 +28,8 @@ const routes: Routes = [
 	}, 
     {path:'coach', component:CoachComponent,canActivate: [AuthGuard]},
 	{path:'player', component:PlayerComponent,canActivate: [AuthGuard]},
-	  {path:'fybaloader', component:FybaloaderComponent}
+	{path:'fybaloader', component:FybaloaderComponent},
+	{path:'logout', component:LogoutComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({

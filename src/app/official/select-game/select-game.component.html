@@ -224,6 +224,13 @@
    <div class="noRecords">Server Error. Please try again later!</div> 
 </div>
 
+<ng-template #errorTemplate>
+   <div class="modal-body text-center">
+      <p class="heading-signUp">Error</p>
+      <p>Server Error! Please try again later.</p>                 
+      <button type="button" class="btn btn-danger" (click)="closeErrorModal()" >Ok</button>
+   </div>
+ </ng-template>
 
 
 </body>

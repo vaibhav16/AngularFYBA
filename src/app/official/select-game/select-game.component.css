@@ -16,7 +16,7 @@
 }
 
 /* Inspirated from  http://www.alessioatzeni.com/wp-content/tutorials/html-css/CSS3-loading-animation-loop/index.html */
-.loaderFYBA{position: absolute;
+/* .loaderFYBA{position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -81,10 +81,10 @@
     left: -100%;
     -webkit-transform-origin: 100% 50% 0;
     transform-origin: 100% 50% 0;
-}
+} */
 
 /* v2 */
-.ouro2 .anim {
+/* .ouro2 .anim {
    -webkit-animation-delay:0;
    animation-delay:0;
 }
@@ -94,7 +94,7 @@
 }
 
 /* v3 */
-.ouro3 .anim {
+/* .ouro3 .anim {
    -webkit-animation-delay: 0s;
    -webkit-animation-duration:3s;
    -webkit-animation-timing-function: linear;
@@ -109,13 +109,13 @@
    animation-name: ui-spinner-rotate-right;
    animation-delay:0;
    animation-delay: 1.5s;
-}
+} */ 
 
 /* round variation */
-.round .ouro:after {display:none }
+/* .round .ouro:after {display:none } */
 
 /* double variation */
-.double .ouro:after {
+/* .double .ouro:after {
   height: 13px; width: 13px;
   left: 7px; top: 7px;
   border: 10px solid #ddd;
@@ -151,7 +151,7 @@
   50%{-webkit-transform:rotate(180deg)}
   75%{-webkit-transform:rotate(180deg)}
   100%{-webkit-transform:rotate(360deg)}
-}
+} */
 
 /*
  * Some bugs with Chrome (Android), Safari and Opera, I'll try to see how http://atomeye.com/projects/sass-css-spinner.html made his code.
