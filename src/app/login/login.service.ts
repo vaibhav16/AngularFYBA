@@ -40,6 +40,7 @@ export class LoginService {
    } 
 
 postLoginData(userVar : Login){
+  this.serviceError=false;
   this.requestStatus=true;
   userVar.Email=userVar.Email.toLowerCase();
   var headerOptions =  new Headers({'Content-Type':'application/json'});
@@ -80,8 +81,15 @@ postLoginData(userVar : Login){
     this.isLoggedIn=false;
     this.loginFailed=true;
   }   
-  });
+  }).catch(err=>{this.handleError(err)});;
 }
+
+serviceError:boolean;
+private handleError(error: any) {    
+  this.serviceError=true;
+  this.requestStatus=false;
+  console.log('A Server Error has occured!', error);    
+  }
 
 }
 

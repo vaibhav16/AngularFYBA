@@ -40,7 +40,9 @@ export class OfficialService {
   Location: '',
   StartTime: '',
   EndTime: '',
-  Position: ''        
+  Position: '',
+  ShowSignedGames:null,   
+  ShowPastGames:null     
 } 
 
  initialFilter: IntialFilter = {
@@ -192,12 +194,14 @@ export class OfficialService {
   /* - Fetch Initial Data in Select Games - */
   fetchSelectGames=null;
   postSelectGames(obj: Filter):any{  
+    this.serviceError=false;
     this.fetchSelectGames=true;
     this.numberOfSelectGameClicks++;
     //this.finalFilter.RequestedData=JSON.stringify(obj);    
     this.initialFilter.SessionKey = this.loginService.sessionKey;
     this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
     var body = JSON.stringify(this.initialFilter);   
+    console.log(JSON.stringify(this.initialFilter));
     var headerOptions =  new Headers({'Content-Type':'application/json'});
     var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
     return this.http.post(Constants.apiURL+'/api/officialgames',body,requestOptions)
@@ -209,8 +213,18 @@ export class OfficialService {
       this.fetchPreselectedFilters(x); 
       this.fetchSelectGames=false;     
       return Promise.resolve(this.selectGameJson = x);      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
+  
+  serviceError:boolean;
+  private handleError(error: any) {    
+    this.serviceError=true;
+    this.fetchSelectGames=false;
+    this.reportRequest=false;
+    this.fetchProfileRequest=false;
+    this.paidRequest=false;
+    console.log('A Server Error has occured!', error);    
+    }
 
     /* - Used to refresh the Data in Select Games after some change - */
   refershSelectGameData(obj: Filter):any{  
@@ -231,26 +245,51 @@ export class OfficialService {
     /* - It prepares a JSON that can be used to populate the multi-select filters, in-case the 
     user had selected any in his previous session. If the user didn't it will be empty - */
   fetchPreselectedFilters(x:any){
+    let y;
     this.loginService.sessionKey=x["SessionKey"];
 
     if(x["Value"].SelectedFilters!=null){
+      
+      if(x["Value"].SelectedFilters.Division!=null){
+        y = x["Value"].SelectedFilters.Division.split(",");
 
-      let y = x["Value"].SelectedFilters.Division.split(",");
+        for(let i=0; i<(y.length); ++i){
+          x["Value"].Filters.Filter_Divisions.forEach(element => {   
+          
+            if(element.id==y[i])
+            {
+              let existItem = this.selectedDivisions.filter(item => item.itemName === element.itemName);
+              if (existItem.length < 1) { 
+              this.selectedDivisions.push(element);
+              }
+            }  
+      });
+    }
+      }
 
-      for(let i=0; i<(y.length); ++i){
-        x["Value"].Filters.Filter_Divisions.forEach(element => {   
-        
-          if(element.id==y[i])
-          {
-            let existItem = this.selectedDivisions.filter(item => item.itemName === element.itemName);
-            if (existItem.length < 1) { 
-            this.selectedDivisions.push(element);
-            }
-          }  
-    });
-  }
+
+      if(x["Value"].SelectedFilters.StartTime!=null){
+
+        y = x["Value"].SelectedFilters.StartTime.split(",");
   
-      y = x["Value"].SelectedFilters.Location.split(","); 
+  for(let i=0; i<(y.length); ++i){
+    x["Value"].Filters.Filter_StartTimes.forEach(element => {   
+    
+      if(element.id==y[i])
+      {
+        let existItem = this.selectedTimes.filter(item => item.itemName === element.itemName);
+        if (existItem.length < 1) { 
+          this.selectedTimes.push(element);
+        }
+      }  
+  });
+  }
+
+      }
+
+      if(x["Value"].SelectedFilters.Location!=null){
+
+        y = x["Value"].SelectedFilters.Location.split(","); 
       
   
       for(let i=0; i<(y.length); ++i){
@@ -266,8 +305,12 @@ export class OfficialService {
           }  
     });
   }
-  
-  y = x["Value"].SelectedFilters.Position.split(",");
+
+      }
+
+      if(x["Value"].SelectedFilters.Position!=null){
+
+        y = x["Value"].SelectedFilters.Position.split(",");
   
   for(let i=0; i<(y.length); ++i){
     x["Value"].Filters.Filter_Positions.forEach(element => {   
@@ -281,21 +324,9 @@ export class OfficialService {
       }  
   });
   }
-  
-  y = x["Value"].SelectedFilters.StartTime.split(",");
-  
-  for(let i=0; i<(y.length); ++i){
-    x["Value"].Filters.Filter_StartTimes.forEach(element => {   
-    
-      if(element.id==y[i])
-      {
-        let existItem = this.selectedTimes.filter(item => item.itemName === element.itemName);
-        if (existItem.length < 1) { 
-          this.selectedTimes.push(element);
-        }
+
       }  
-  });
-  }
+  
     }  
    
   }
@@ -428,7 +459,10 @@ export class OfficialService {
 
    /* - Used to get initial data to populate the Report Games section. - */
 
-  getReportData(){    
+   reportRequest:boolean;
+  getReportData(){
+    this.serviceError=false;
+    this.reportRequest=true;
     this.reportGameData.SeasonId = this.loginService.seasonId;
     this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;    
     this.finalFilter.RequestedData= JSON.stringify(this.reportGameData);
@@ -444,9 +478,10 @@ export class OfficialService {
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {   
+      this.reportRequest=false;      
       console.log(x);
       return Promise.resolve(this.reportGameJson = x);      
-    });
+    }).catch(err=>{this.handleError(err)});;
   }
 
    /* - This function is used to post the entire gameList model to the API.
@@ -493,6 +528,7 @@ export class OfficialService {
    /* - This function is used to fetch the initial data to populate the Get Paid section. - */
   paidRequest:boolean = false;
   fetchGetPaidData(){
+    this.serviceError=false;
     this.paidRequest=true;
     this.reportGameData.SeasonId=this.loginService.seasonId;
     this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;    
@@ -512,7 +548,7 @@ export class OfficialService {
       console.log(x);
       this.paidRequest=false;
       return Promise.resolve(this.getPaidJson = x);      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
   
   /**************************/
@@ -523,6 +559,7 @@ export class OfficialService {
   profileJson:JSON = null;
   fetchProfileRequest:boolean = null;
   fetchProfileData(){
+    this.serviceError=false;
     this.fetchProfileRequest=true;
     this.profileModel.SeasonId=this.loginService.seasonId;
     this.profileModel.LeagueId = this.loginService.leagueId;    
@@ -542,7 +579,7 @@ export class OfficialService {
       console.log(x);
       this.fetchProfileRequest=false;
       return Promise.resolve(this.profileJson = x);      
-    });
+    }).catch(err=>{this.handleError(err)});
   }
 
   tempModel={

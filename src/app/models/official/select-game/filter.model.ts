@@ -4,4 +4,6 @@ export class Filter{
     StartTime: string;
     EndTime:string;
     Position: string;
+    ShowSignedGames:boolean;
+    ShowPastGames:boolean;
 }
