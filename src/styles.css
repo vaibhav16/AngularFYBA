@@ -298,6 +298,20 @@ div {
         padding-top: 0px; font-size: 14px;
         
     }
+
+    .noRecords2{
+        color: #ff0000; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 15px; font-size: 18px;
+        
+    }
+
+    .noRecordsProfile{
+        color: black; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 0px; font-size: 14px;
+        
+    }
+
+
    .logo_login{text-align:center; margin-bottom:80px;}
    .forgot_pass{text-align:right; margin-top:15px;}
    .forgot_pass a{color:rgba(255,255,255,1);}
@@ -770,8 +784,8 @@ div {
     line-height: 1;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
-    .card-body .btn-success{ background: #70ad47; margin-left:10px; padding:15px 20px;width:47.5%; font-size:16px;}
-    .card-body .btn-danger{width:47.5%; font-size:16px; padding:10px 20px;}
+    .card-body .btn-success{ background: #70ad47; margin-left:10px;  margin-right:5px; padding:15px 20px;width:47.5%; font-size:22px;}
+    .card-body .btn-danger{width:47.5%; font-size:21px; margin-left:5px;  margin-right:10px; padding:15px 20px ;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
    #filter-header{background-color: #c4e0b2 !important; padding:10px;}

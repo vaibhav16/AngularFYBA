@@ -1,209 +1,170 @@
-<!--<div *ngIf="officialService.fetchProfileRequest" class="block">-->
-<!--<div *ngIf="officialService.fetchProfileRequest" class="block">
-    <div class="bg_loaderFYBA">
-       <div class="loaderFYBA">
-          <h1></h1>
-          <p class="round">
-             <span class="ouro">
-             <span class="left"><span class="anim"></span></span>
-             <span class="right"><span class="anim"></span></span>
-             </span>
-          </p>
-       </div>
-    </div>
- </div>-->
- <div *ngIf="officialService.profileJson!=null" class="container paddingBottom50">
-    <div class="row" *ngIf="officialService.profileJson.Value!=null; else noRecordDiv">
-       <div class="col-lg-12">
-          <h1 class="mainDate name_player"><strong>{{officialService.profileJson.Value[0].ProfileName}}</strong> <span class="rating_player">{{officialService.profileJson.Value[0].ProfileRating}}</span></h1>
- 
- <ngb-accordion >
-    <ngb-panel>
-         <ng-template ngbPanelTitle>
-               <div class="HeadCollapse"><h2 class="paidHead">Personal Info</h2></div>
-     </ng-template>
-       <ng-template ngbPanelContent>
-          <div class="data_module bgBlue">
-             <div class="fms_time marginleftNone wordBreak">
-                <div class="row-fluid signupPosition borderTopNone">
-                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Address:</strong></div>
-                   <div class="col-md-8 col-sm-8 col-xs-6">{{officialService.profileJson.Value[0].PersonalInfo.Address}}</div>
-                   <div class="clearfix"></div>
-                </div>
-                <div class="row-fluid signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Email:</strong></div>
-                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.Email}}</div>
-                   <div class="clearfix"></div>
-                </div>
-                <div class="row-fluid signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Home Phone:</strong></div>
-                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.HomePhone}}</div>
-                   <div class="clearfix"></div>
-                </div>
-                <div class="row-fluid signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Mobile Phone:</strong></div>
-                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.MobilePhone}}</div>
-                   <div class="clearfix"></div>
-                </div>
-                <div class="row-fluid signupPosition">
-                   <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Profile Photo:</strong></div>
-                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">
-                      <ul class="addList">
-                         <!----li id="serverLi" *ngFor="let item of officialService.profileJson.Value[0].PersonalInfo.profilePhotos">
-                            <img id="serverImg" src={{item.Link}} style="width:100px;height:100px;">
-                            <span (click)="deleteProfileImage(item.Link)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
-                         </li-->
-
-                         <li id="serverLi" *ngIf="imgUrl.length>0">
-                           <img id="serverImg" src={{imgUrl}} style="width:100px;height:100px;">
-                           <span (click)="deleteProfileImage(imgUrl)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
-                        </li>
-
-                         <!-- <li *ngIf="showTempImage">
-                            <img  id="temporaryImage"  style="width:100px;height:100px;">
-                            <span (click)="deleteProfileImage(item.Link)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
-                         </li> -->
-                         
-                         <li class="Incidentclass" style="background-color: red">                         
-                            <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput,imgNotUploaded)">
-                            <span class="addHeading">Upload<br /> Photo</span>
-                         </li>
-                         <!----li><input type="button" (click)="uploadPhoto()" value="Save"></li-->
-                      </ul> 
-                   </div>
-                   <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-             </div>
-          </div>
-       </ng-template>
-    </ngb-panel>
-    <ngb-panel>
-         <ng-template ngbPanelTitle>
-               <div class="HeadCollapse"><h2 class="paidHead">League Settings</h2></div>
-     </ng-template>
-       <ng-template ngbPanelContent>
-          <div class="fms_time marginleftNone">
-             <div class="row-fluid signupPosition">
-                <div class="col-md-4 col-sm-4 col-xs-6"><strong>Max # Games/Day:</strong></div>
-                <div class="col-md-8 col-sm-8 col-xs-6">{{officialService.profileJson.Value[0].LeagueSettings.MaxGamesPerDay}}</div>
-                <div class="clearfix"></div>
-             </div>
-             <div class="row-fluid signupPosition">
-                <div class="col-md-4 col-sm-4 col-xs-6"><strong>Max Season Earnings:</strong></div>
-                <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">$ {{officialService.profileJson.Value[0].LeagueSettings.MaxSeasonEarnings}}</div>
-                <div class="clearfix"></div>
-             </div>
-             <div class="clearfix"></div>
-          </div>
-       </ng-template>
-    </ngb-panel>
-    <ngb-panel>
-         <ng-template ngbPanelTitle>
-               <div class="HeadCollapse"><h2 class="paidHead">Approved Officiating Divisions</h2></div>
-     </ng-template>
-       <ng-template ngbPanelContent>
-          <div class="fms_time marginleftNone">
-             <div class="row signupPosition">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                   <div class="overflowAuto">
-                      <table class="scoreTable marginTop10 widthTable approved_style" cellspacing="0" cellpadding="0" border="0" width="100%">
-                         <thead>
-                            <tr>
-                               <th>Division</th>
-                               <th>Referee</th>
-                               <th>Umpire</th>
-                               <th>Scorekeeper</th>
-                            </tr>
-                         </thead>
-                         <tbody>
-                            <tr *ngFor="let item of officialService.profileJson.Value[0].ApprovedOfficiatingDivisions.approvedOfficiatingDivisionsLists">
-                                <td>{{item.Division}}</td>
-                                <td><span [ngClass]="{'glyphicon':item.Referee,'glyphicon-ok':item.Referee}" aria-hidden="true"></span></td>
-                                <td><span [ngClass]="{'glyphicon':item.Umpire,'glyphicon-ok':item.Umpire}" aria-hidden="true"></span></td>
-                                <td><span [ngClass]="{'glyphicon':item.Scorekeeper,'glyphicon-ok':item.Scorekeeper}" aria-hidden="true"></span></td>
-                              
-                             </tr>
-                         </tbody>
-                      </table>
-                   </div>
-                </div>
-             </div>
-          </div>
-       </ng-template>
-    </ngb-panel>
-    <ngb-panel>
-         <ng-template ngbPanelTitle>
-               <div class="HeadCollapse"><h2 class="paidHead">Payments</h2></div>
-     </ng-template>
-       <ng-template ngbPanelContent>
-          <div *ngIf="officialService.profileJson.Value[0].Payments.paymentLists.length>0; else noPaymentDiv" class="fms_time marginleftNone">
-             <div class="row signupPosition">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                   <div class="overflowAuto">
-                      <table class="scoreTable marginTop10 widthTable approved_style" cellspacing="0" cellpadding="0" border="0" width="100%">
-                         <thead>
-                            <tr>
-                               <th>Check #</th>
-                               <th>Issue Date</th>
-                               <th>Amount</th>
-                            </tr>
-                         </thead>
-                         <tbody>
-                            <tr *ngFor="let item of officialService.profileJson.Value[0].Payments.paymentLists">
-                               <td>{{item.Check}}</td>
-                               <td>{{item.IssueDate}}</td>
-                               <td>$ {{item.Amount}}</td>
-                            </tr>
-                         </tbody>
-                      </table>
-                   </div>
-                </div>
-             </div>
-          </div>
-       </ng-template>
-    </ngb-panel>
-    <!----<ngb-panel>
-         <ng-template ngbPanelTitle>
-               <div class="HeadCollapse"><h2 class="paidHead">Data Privacy</h2></div>
-     </ng-template>
-       <ng-template ngbPanelContent>
-          <div class="fms_time marginleftNone">
-             <div class="row signupPosition">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                   <p class="marginleftNone"><strong>Text here to explain the privacy policy with actions to be able to download and/or delete personal info.</strong></p>
-                </div>
-             </div>
-          </div>
-       </ng-template>
-    </ngb-panel> -->
- </ngb-accordion>
-</div>
-</div>
-</div>
-
-<!--##########loader###################-->
-<app-fybaloader *ngIf="officialService.fetchProfileRequest"></app-fybaloader>
-<!--######################################-->
-
-<ng-template #noPaymentDiv>
-   <div class="noRecords">No Payment Found!</div>
-</ng-template>
-
-<ng-template #noRecordDiv>
-   <br/>  
-   <div class="noRecords">No Record Found!</div>
-</ng-template>
-
-<ng-template #imgNotUploaded>
-   <div class="modal-body text-center">
-      <p class="heading-signUp">Upload Failed!</p>        
-      <p>Image Could not be uploaded!</p>
-      <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()" >OK</button>         
+<div *ngIf="officialService.profileJson!=null" class="container paddingBottom50">
+      <div class="row" *ngIf="officialService.profileJson.Value!=null; else noRecordDiv">
+         <div class="col-lg-12">
+            <h1 class="mainDate name_player"><strong>{{officialService.profileJson.Value[0].ProfileName}}</strong> <span class="rating_player">{{officialService.profileJson.Value[0].ProfileRating}}</span></h1>
+            <ngb-accordion>
+               <ngb-panel>
+                  <ng-template ngbPanelTitle>
+                     <div class="HeadCollapse">
+                        <h2 class="paidHead">Personal Info</h2>
+                     </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                     <div class="data_module bgBlue">
+                        <div class="fms_time marginleftNone wordBreak">
+                           <div class="row-fluid signupPosition borderTopNone">
+                              <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Address:</strong></div>
+                              <div class="col-md-8 col-sm-8 col-xs-6">{{officialService.profileJson.Value[0].PersonalInfo.Address}}</div>
+                              <div class="clearfix"></div>
+                           </div>
+                           <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Email:</strong></div>
+                              <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.Email}}</div>
+                              <div class="clearfix"></div>
+                           </div>
+                           <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Home Phone:</strong></div>
+                              <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.HomePhone}}</div>
+                              <div class="clearfix"></div>
+                           </div>
+                           <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Mobile Phone:</strong></div>
+                              <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">{{officialService.profileJson.Value[0].PersonalInfo.MobilePhone}}</div>
+                              <div class="clearfix"></div>
+                           </div>
+                           <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-6 text-right"><strong>Profile Photo:</strong></div>
+                              <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">
+                                 <ul class="addList">
+                                    <li id="serverLi" *ngIf="imgUrl.length>0">
+                                       <img id="serverImg" src={{imgUrl}} style="width:100px;height:100px;">
+                                       <span (click)="deleteProfileImage(imgUrl)"   class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
+                                    </li>
+                                    <li class="Incidentclass" style="background-color: red">                         
+                                       <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput,imgNotUploaded)">
+                                       <span class="addHeading">Upload<br /> Photo</span>
+                                    </li>
+                                    <!----li><input type="button" (click)="uploadPhoto()" value="Save"></li-->
+                                 </ul>
+                              </div>
+                              <div class="clearfix"></div>
+                           </div>
+                           <div class="clearfix"></div>
+                        </div>
+                     </div>
+                  </ng-template>
+               </ngb-panel>
+               <ngb-panel>
+                  <ng-template ngbPanelTitle>
+                     <div class="HeadCollapse">
+                        <h2 class="paidHead">League Settings</h2>
+                     </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                     <div class="fms_time marginleftNone">
+                        <div class="row-fluid signupPosition">
+                           <div class="col-md-4 col-sm-4 col-xs-6"><strong>Max # Games/Day:</strong></div>
+                           <div class="col-md-8 col-sm-8 col-xs-6">{{officialService.profileJson.Value[0].LeagueSettings.MaxGamesPerDay}}</div>
+                           <div class="clearfix"></div>
+                        </div>
+                        <div class="row-fluid signupPosition">
+                           <div class="col-md-4 col-sm-4 col-xs-6"><strong>Max Season Earnings:</strong></div>
+                           <div class="col-md-8 col-sm-8 col-xs-6 paddTop4">$ {{officialService.profileJson.Value[0].LeagueSettings.MaxSeasonEarnings}}</div>
+                           <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                     </div>
+                  </ng-template>
+               </ngb-panel>
+               <ngb-panel>
+                  <ng-template ngbPanelTitle>
+                     <div class="HeadCollapse">
+                        <h2 class="paidHead">Approved Officiating Divisions</h2>
+                     </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                     <div class="fms_time marginleftNone">
+                        <div class="row signupPosition">
+                           <div class="col-md-12 col-sm-12 col-xs-12">
+                              <div class="overflowAuto">
+                                 <table class="scoreTable marginTop10 widthTable approved_style" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <thead>
+                                       <tr>
+                                          <th>Division</th>
+                                          <th>Referee</th>
+                                          <th>Umpire</th>
+                                          <th>Scorekeeper</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr *ngFor="let item of officialService.profileJson.Value[0].ApprovedOfficiatingDivisions.approvedOfficiatingDivisionsLists">
+                                          <td>{{item.Division}}</td>
+                                          <td><span [ngClass]="{'glyphicon':item.Referee,'glyphicon-ok':item.Referee}" aria-hidden="true"></span></td>
+                                          <td><span [ngClass]="{'glyphicon':item.Umpire,'glyphicon-ok':item.Umpire}" aria-hidden="true"></span></td>
+                                          <td><span [ngClass]="{'glyphicon':item.Scorekeeper,'glyphicon-ok':item.Scorekeeper}" aria-hidden="true"></span></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </ng-template>
+               </ngb-panel>
+               <ngb-panel>
+                  <ng-template ngbPanelTitle>
+                     <div class="HeadCollapse">
+                        <h2 class="paidHead">Payments</h2>
+                     </div>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                     <div *ngIf="officialService.profileJson.Value[0].Payments.paymentLists.length>0; else noPaymentDiv" class="fms_time marginleftNone">
+                        <div class="row signupPosition">
+                           <div class="col-md-12 col-sm-12 col-xs-12">
+                              <div class="overflowAuto">
+                                 <table class="scoreTable marginTop10 widthTable approved_style" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <thead>
+                                       <tr>
+                                          <th>Check #</th>
+                                          <th>Issue Date</th>
+                                          <th>Amount</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr *ngFor="let item of officialService.profileJson.Value[0].Payments.paymentLists">
+                                          <td>{{item.Check}}</td>
+                                          <td>{{item.IssueDate}}</td>
+                                          <td>$ {{item.Amount}}</td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </ng-template>
+               </ngb-panel>
+            </ngb-accordion>
+         </div>
+      </div>
    </div>
-</ng-template>
-
-
-<div *ngIf="officialService.serviceError" #serverError>
-   <div class="noRecords">Server Error. Please try again later!</div> 
- </div>
+   <!--##########loader###################-->
+   <app-fybaloader *ngIf="officialService.fetchProfileRequest"></app-fybaloader>
+   <!--######################################-->
+   <ng-template #noPaymentDiv>
+      <div class="noRecordsProfile">No Payments Found!</div>
+   </ng-template>
+   <ng-template #noRecordDiv>
+      <br/>  
+      <div class="noRecords">No Record Found!</div>
+   </ng-template>
+   <ng-template #imgNotUploaded>
+      <div class="modal-body text-center">
+         <p class="heading-signUp">Upload Failed!</p>
+         <p>Image Could not be uploaded!</p>
+         <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()" >OK</button>         
+      </div>
+   </ng-template>
+   <div *ngIf="officialService.serviceError" #serverError>
+      <div style="padding:10px" class="noRecords2">Server Error. Please try again later!</div>
+   </div>
