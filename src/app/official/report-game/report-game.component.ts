@@ -15,7 +15,7 @@ import { FinalFilter } from '../../models/official/select-game/finalFilter.model
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Lightbox } from 'ngx-lightbox';
- 
+import * as $ from "jquery";
 
 
 @Component({
@@ -38,6 +38,8 @@ export class ReportGameComponent{
   tempIndex=0;
   fg: FormGroup;
   tempRemoveImage=[];
+
+  
 
   APIGamePost: APIGamePost ={
     Roleid:'',
@@ -125,6 +127,22 @@ export class ReportGameComponent{
     
     
   }
+
+  ngAfterViewInit() {
+    // $(document).on('click','.IncidentImgClass',(e)=>{    
+    //  this.openTempImageModal(e.target.src);  
+    // });
+    
+    $(document).on('click','.glyphicon',(e)=>{
+      var targetid=e.target.id;
+      e.target.parentNode.remove();
+      this.ScoreSheetImages.splice(targetid,1);           
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+        return el != null;
+      });
+      console.log(this.ScoreSheetImages);
+     });
+  }  
 
   //private _album: Array<any> = [];
   async asyncReport(){

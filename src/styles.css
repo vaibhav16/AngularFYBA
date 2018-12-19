@@ -225,7 +225,7 @@ div {
    }
    
    .filter_module{background:#ededed; border:1px solid #bbc9da; padding:10px 20px; box-shadow:0 0 10px #cccccc; margin-top:20px;}
-   .data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:10px;}
+   .data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:0px;}
    /*.data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc; padding:10px 0px; margin-top:10px;}*/
    .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px; display: inline-block;width: calc(100% - 30px);line-height: 24px; margin-left:5px; color:#000;}
    .filter_div label{margin-top:5px;}
@@ -623,7 +623,7 @@ div {
    line-height: 60px;
    font-size: 12px;}
    
-   ul.addList li:last-child{float:left; width:60px; margin-left:10px;height: 60px;font-size: 12px; padding-top:10px;}   
+   ul.addList li:last-child{float:left; width:60px; margin-left:0px;height: 60px;font-size: 12px; padding-top:0px;}   
    ul.addList li img {
     /*position: absolute;
     top: -11px;
@@ -882,3 +882,18 @@ div {
     transform: rotate(45deg);
   }
 
+  .paddLeft5{padding-left:5px;}
+  .paddRight5{padding-right:5px;}
+
+  .header_img_text{font-size:28px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute;}
+  .topheaderFixed{background-color:#000; padding:8px 0;}
+
+  .img_profile img{height:30px; width:30px; border:0px; border-radius:50%; cursor:pointer;}
+  .mobile_menu span{background-color:#fff; height:3px; margin-top:5px; display:block;}
+  .mobile_menu{width:25px; display:inline-block; cursor: pointer; position: relative;}
+  .mobile_menu_div{display:none;background-color: #5B9BD5;padding:3px 10px; position: absolute; top:26px; left:-125px; z-index: 1; width:150px;}
+  .mobile_menu_div ul{list-style:none; padding:0px; margin:0px;}
+  .mobile_menu_div ul li{display:block; color:#fff; padding:5px 0; border-top:1px solid rgba(255, 255, 255, 0.2); font-size:14px; text-align:left;}
+  .mobile_menu_div ul li:first-child{border-top:0px;}
+
+  .fms_time .signupPosition:first-child{margin-top:0px;}

@@ -617,7 +617,7 @@ export class OfficialService {
       return data.json()
     })).toPromise().then(x => {   
       console.log(x);
-      this.newImage=x.Value;
+      this.newImage=x.Value.Thumbnail;
       this.fetchProfileRequest=false;
       return Promise.resolve();      
     }).catch(err=>{this.handleError(err)});

@@ -36,6 +36,7 @@ import { LogoutComponent } from './common/logout/logout.component';
 import { PopupErrorModalComponent } from './common/popup-error-modal/popup-error-modal.component';
 import { LightboxModule } from 'ngx-lightbox';
 
+
 @NgModule({
   declarations: [
     AppComponent,
