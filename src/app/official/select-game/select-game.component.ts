@@ -11,6 +11,8 @@ import { LoginService } from './../../login/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PopupErrorModalComponent } from './../../common/popup-error-modal/popup-error-modal.component';
+import { isBoolean } from 'util';
 
 
 @Component({
@@ -51,6 +53,7 @@ export class SelectGameComponent implements OnInit {
       Position:[]
   };*/
 
+  //@ViewChild('myModal') modal: HelloHomeModalComponent;
   modalRef: BsModalRef;  
   activeIds: string[] =[];
   selectedItems = [];
@@ -61,7 +64,9 @@ export class SelectGameComponent implements OnInit {
     Location: '',
     StartTime: '',
     EndTime: '',
-    Position: ''        
+    Position: '',
+    ShowSignedGames:null,
+    ShowPastGames:null        
   } 
 
   constructor(public officialService: OfficialService,
@@ -74,6 +79,8 @@ export class SelectGameComponent implements OnInit {
       config.type = 'info';  
    }  
 
+   template: TemplateRef<any>;
+
    ngOnInit() {
      //this.officialService.selectGameJson=null;
     
@@ -83,7 +90,13 @@ export class SelectGameComponent implements OnInit {
     };
     //this.signUpRequest=true;    
     
-    this.officialService.postSelectGames(this.selectedFilter);
+    this.officialService.postSelectGames(this.selectedFilter).then(res =>{
+      // if(this.officialService.serviceError){
+      //   //this.modalRef = this.modalService.show(this.template, {class: 'modal-sm'})
+      //   let bsModalRef = this.modalService.show(PopupErrorModalComponent);
+      //  console.log("bsModalRef: ", bsModalRef);
+      // }
+    });
       
   }
  
@@ -92,48 +105,64 @@ export class SelectGameComponent implements OnInit {
     this.activeIds.push($event.panelId);
   }
 
-
   /* - Code to Submit Filter Data to Service - */
+  filterRequest:boolean;
   submitFilters(value: any) {
+    console.log(value);
+    this.filterRequest=true;
     this.selectedFilter = {      
       Division: '',
       Location: '',
       StartTime: '',
       EndTime: '',
-      Position: ''        
+      Position: '',
+      ShowSignedGames:null,
+      ShowPastGames:null        
     } 
     
-   
-    for(let i=0; i<value.DivisionSelect.length; ++i){
-      { 
-        this.selectedFilter.Division+=value.DivisionSelect[i].id+',';    
-      }         
-    }  
-    //this.selectedFilter.Division = this.selectedFilter.Division.slice(0,-1);
-
-    for(let i=0; i<value.LocationSelect.length; ++i){
-      { 
-        this.selectedFilter.Location+=value.LocationSelect[i].id+',';    
-      }         
-    }
-
-
-    for(let i=0; i<(value.PositionSelect.length); ++i){
-      {        
-        this.selectedFilter.Position+=value.PositionSelect[i].id+',';         
-      }         
-    }
-
-    
-    for(let i=0; i<(value.TimeSelect.length); ++i){
-      {        
-        this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
-      }         
-    }
+    if(value!=null){
+      
+      if(value.DivisionSelect!=null){
+        for(let i=0; i<value.DivisionSelect.length; ++i){
+          { 
+            this.selectedFilter.Division+=value.DivisionSelect[i].id+',';    
+          }         
+        } 
+      }
+     
+      if(value.LocationSelect!=null){
+        for(let i=0; i<value.LocationSelect.length; ++i){
+          { 
+            this.selectedFilter.Location+=value.LocationSelect[i].id+',';    
+          }         
+        }    
+      }
   
-    this.loginService.sessionKey = this.officialService.selectGameJson["SessionKey"];
+      if(value.PositionSelect!=null){
+        for(let i=0; i<(value.PositionSelect.length); ++i){
+          {        
+            this.selectedFilter.Position+=value.PositionSelect[i].id+',';         
+          }         
+        }
+    
+      }
+   
+      if(value.TimeSelect!=null){
+        for(let i=0; i<(value.TimeSelect.length); ++i){
+          {        
+            this.selectedFilter.StartTime+=value.TimeSelect[i].id+',';         
+          }         
+        }
+      }
+    
+    }
+   
 
-    this.officialService.postFilterData(this.selectedFilter);
+    this.selectedFilter.ShowPastGames = (value.pastGames);
+
+    this.selectedFilter.ShowSignedGames = (value.signedGames);
+
+    this.officialService.postFilterData(this.selectedFilter).then(res=>{this.filterRequest=false;});
     
   }
 
@@ -151,8 +180,7 @@ postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp
   this.tempPositionId = positionId;
   this.tempForCancelSignUp = ForCancelSignUp;
   this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp)
-  .then(res => {
-    //console.log(res);
+  .then(res => {    
     this.signUpRequest=false;
     if(this.officialService.signUpResponse=="Registered")
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'})

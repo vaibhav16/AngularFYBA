@@ -14,8 +14,8 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import FileUploadWithPreview from 'file-upload-with-preview';
- 
+import { Lightbox } from 'ngx-lightbox';
+import * as $ from "jquery";
 
 
 @Component({
@@ -38,6 +38,8 @@ export class ReportGameComponent{
   tempIndex=0;
   fg: FormGroup;
   tempRemoveImage=[];
+
+  
 
   APIGamePost: APIGamePost ={
     Roleid:'',
@@ -93,33 +95,58 @@ export class ReportGameComponent{
    }
 
    constructor(public officialService: OfficialService, 
-    public renderer:Renderer2,
+    public renderer:Renderer2,private _lightbox: Lightbox,
     public fb: FormBuilder, public loginService: LoginService,
     public elRef: ElementRef,public http: Http,config: NgbAccordionConfig,
     private modalService: BsModalService
     ){ 
-    //   this.fg = this.fb.group({
-    //   GameList: this.fb.array([])
-    // }); 
-    config.type = 'info';
-    
+    config.type = 'info';    
   }
 
   newRequest:boolean=null;
   ngOnInit() {
-    // this.loginService.newRequest=true;
-    // this.loginService.refreshRequest=false;
+
     this.officialService.requestSuccess=false;
     this.officialService.requestFailure=false;
-    //this.officialService.reportGameJson=null;    
+     
     this.asyncReport();
+
+    // for (let i = 1; i <= 4; i++) {
+    //   const src = 'demo/img/image' + i + '.jpg';
+    //   const caption = 'Image ' + i + ' caption here';
+    //   const thumb = 'demo/img/image' + i + '-thumb.jpg';
+    //   const album = {
+    //      src: src,
+    //      caption: caption,
+    //      thumb: thumb
+    //   };
+ 
+    //   this._album.push(album);
+    // }
+
     
     
   }
 
+  ngAfterViewInit() {
+    // $(document).on('click','.IncidentImgClass',(e)=>{    
+    //  this.openTempImageModal(e.target.src);  
+    // });
+    
+    $(document).on('click','.glyphicon',(e)=>{
+      var targetid=e.target.id;
+      e.target.parentNode.remove();
+      this.ScoreSheetImages.splice(targetid,1);           
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+        return el != null;
+      });
+      console.log(this.ScoreSheetImages);
+     });
+  }  
+
+  //private _album: Array<any> = [];
   async asyncReport(){
-    await this.officialService.getReportData().then(res=>{      
-      // this.loginService.newRequest=false;
+    await this.officialService.getReportData().then(res=>{         
 
     });
  }
@@ -162,15 +189,10 @@ export class ReportGameComponent{
       
         let vpoint = "VPoints"+i;
         if(form.value[vpoint]!=null && parseInt(form.value[vpoint])>0){
-          //console.log("!null",vpoint,form.value[vpoint]);
-          
-            //console.log("len>0",vpoint,form.value[vpoint]);
+       
             this.tempSumVisitingPoint+=parseInt(form.value[vpoint]);
-            console.log(vpoint,form.value[vpoint]);
-         
-          
+            console.log(vpoint,form.value[vpoint]);         
         }
-        
       }
     }
      
@@ -403,35 +425,24 @@ closeUnEqualVisitingScoreModal():void{
 
 
 public inputValidator(event: any) {
-  //console.log(event.target.value);
-  //const pattern = /^([1-9][0-9]{0,2}|1000)$/;   
-  const pattern = /^([0-9][0-9]{0,2}|1000)$/;   
-  //let inputChar = String.fromCharCode(event.charCode)
+  const pattern = /^([0-9][0-9]{0,2}|1000)$/;     
   if (!pattern.test(event.target.value)) {
     console.log(event.target.value);
     event.target.value = "";
-    //event.target.value = event.target.value.replace(/^([1-9][0-9]{0,2}|1000)$/g, "");
-    // invalid character, prevent input
-
   }
 }
-
   
  /* - Code to send the image as a base64 string to the service. - */
   async processFile(imageInput: any) {
-    await this.makeImageByteArray(imageInput);     
-    //await console.log(this.ScoreSheetImages);
+    await this.makeImageByteArray(imageInput);         
 }
 
   async makeImageByteArray(imageInput:any){
     for(var i = 0; i < imageInput.files.length; i++) {     
-      if (imageInput.files[i]) {
-       //console.log(imageInput.files[i]);
+      if (imageInput.files[i]) {    
        var reader = await new FileReader();
-
        reader.onload = await this._handleReaderLoaded.bind(this);
-       await reader.readAsBinaryString(imageInput.files[i]);
-       //this.base64Strings[i] = await this.temp64String;        
+       await reader.readAsBinaryString(imageInput.files[i]);       
       }
     }
   }
@@ -440,32 +451,26 @@ public inputValidator(event: any) {
   deletedImages: string[] = [];
   async _handleReaderLoaded(readerEvt) {
     var binaryString=null;
-    binaryString = await readerEvt.target.result;
-    // this.addedImages.push(btoa(binaryString));
-    // console.log(this.addedImages);
-  
+    binaryString = await readerEvt.target.result;  
     this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
     this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
-    this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);
-    
-    var source_code='data:image/jpeg;base64,' + btoa(binaryString); 
+    this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);    
+    var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode; 
 
     var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
-    var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');
-    
+    var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');    
     let li= this.renderer.createElement('li');
     this.renderer.setProperty(li, 'id','incident_li_'+this.tempIndex);
     let img= this.renderer.createElement('img');
-
     this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
     this.renderer.setStyle(img, 'width','100px');
     this.renderer.setStyle(img, 'height','100px');
-    this.renderer.setAttribute(img, 'src',source_code);    
+    this.renderer.setAttribute(img, 'src',source_code);   
     this.renderer.appendChild(li, img);
     let span= this.renderer.createElement('span');
     this.renderer.setProperty(span, 'id',this.tempIndex);
     this.renderer.addClass(span,'glyphicon');
-    this.renderer.addClass(span,'glyphicon-remove-circle');   
+    this.renderer.addClass(span,'glyphicon-remove-circle');  
     this.renderer.listen(span, 'click',this.DeleteTempImage.bind(span));
     this.renderer.appendChild(li, span);
     this.renderer.insertBefore(el, li,refchild);    
@@ -494,10 +499,7 @@ public inputValidator(event: any) {
    DeleteTempImage(obj:any):any{ 
     console.log(obj.target.parentNode);    
     obj.target.parentNode.remove();
-    
-   //this.tempRemoveImage.push(obj.target.id);
-   //console.log( this.tempRemoveImage);
-  }
+   }
 
    /* - Code to check if Player no Not Present. If the user says the Player is not present, then
    his score will be changed to zero.*/
@@ -511,6 +513,29 @@ public inputValidator(event: any) {
     this.renderer.setProperty(tempId2,'checked',false);
    }
 
+   
+
+   //_album: string[] = ["https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"];
+   public _album: Array<any> = [
+     {
+      src: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+      caption:"github",
+      thumb:"https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678110-sign-info-128.png"
+     }
+   ];
+
+   open(index: number): void {
+    console.log(index);
+    // open lightbox
+    console.log(this._album);
+    this._lightbox.open(this._album, index);
+    
+  }
+ 
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
+  }
    
 }
 

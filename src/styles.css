@@ -82,6 +82,7 @@ div {
     position: absolute;
     top: 0;
     left: 0;opacity:0;}
+    .Incidentclass{overflow:hidden;}
 
    
    h3.mainDate{background: #3c98db;padding:10px;color: #ffffff;}
@@ -224,7 +225,7 @@ div {
    }
    
    .filter_module{background:#ededed; border:1px solid #bbc9da; padding:10px 20px; box-shadow:0 0 10px #cccccc; margin-top:20px;}
-   .data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:10px;}
+   .data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:0px;}
    /*.data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc; padding:10px 0px; margin-top:10px;}*/
    .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px; display: inline-block;width: calc(100% - 30px);line-height: 24px; margin-left:5px; color:#000;}
    .filter_div label{margin-top:5px;}
@@ -297,6 +298,20 @@ div {
         padding-top: 0px; font-size: 14px;
         
     }
+
+    .noRecords2{
+        color: #ff0000; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 15px; font-size: 18px;
+        
+    }
+
+    .noRecordsProfile{
+        color: black; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 0px; font-size: 14px;
+        
+    }
+
+
    .logo_login{text-align:center; margin-bottom:80px;}
    .forgot_pass{text-align:right; margin-top:15px;}
    .forgot_pass a{color:rgba(255,255,255,1);}
@@ -608,7 +623,7 @@ div {
    line-height: 60px;
    font-size: 12px;}
    
-   ul.addList li:last-child{float:left; width:60px; margin-left:10px;height: 60px;font-size: 12px; padding-top:10px;}   
+   ul.addList li:last-child{float:left; width:60px; margin-left:0px;height: 60px;font-size: 12px; padding-top:0px;}   
    ul.addList li img {
     /*position: absolute;
     top: -11px;
@@ -769,9 +784,8 @@ div {
     line-height: 1;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
-    .card-body button[type="submit"]{ background: #70ad47;
-    padding: 5px 10px;
-    border-radius: 5px; border:0px; color:#fff; font-size:14px; margin-top:10px; cursor:pointer;}
+    .card-body .btn-success{ background: #70ad47; margin-left:10px;  margin-right:5px; padding:15px 20px;width:47.5%; font-size:22px;}
+    .card-body .btn-danger{width:47.5%; font-size:21px; margin-left:5px;  margin-right:10px; padding:15px 20px ;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
    #filter-header{background-color: #c4e0b2 !important; padding:10px;}
@@ -798,3 +812,88 @@ div {
  .bg-info > h5 > .btn-link > .cssGameNotReported{background-color: #bbb !important; position:relative;}
  .bg-info > h5 > .btn-link > .cssGameReported{background-color: #ededed !important;}
 
+
+ .containerCheckbox {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: normal;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .containerCheckbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #ffffff;
+    border: 1px solid #2196F3;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .containerCheckbox:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .containerCheckbox input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .containerCheckbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .containerCheckbox .checkmark:after {
+    left: 7px;
+    top: 1px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .paddLeft5{padding-left:5px;}
+  .paddRight5{padding-right:5px;}
+
+  .header_img_text{font-size:28px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute;}
+  .topheaderFixed{background-color:#000; padding:8px 0;}
+
+  .img_profile img{height:30px; width:30px; border:0px; border-radius:50%; cursor:pointer;}
+  .mobile_menu span{background-color:#fff; height:3px; margin-top:5px; display:block;}
+  .mobile_menu{width:25px; display:inline-block; cursor: pointer; position: relative;}
+  .mobile_menu_div{display:none;background-color: #5B9BD5;padding:3px 10px; position: absolute; top:26px; left:-125px; z-index: 1; width:150px;}
+  .mobile_menu_div ul{list-style:none; padding:0px; margin:0px;}
+  .mobile_menu_div ul li{display:block; color:#fff; padding:5px 0; border-top:1px solid rgba(255, 255, 255, 0.2); font-size:14px; text-align:left;}
+  .mobile_menu_div ul li:first-child{border-top:0px;}
+
+  .fms_time .signupPosition:first-child{margin-top:0px;}

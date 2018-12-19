@@ -36,5 +36,13 @@ export class HeaderComponent implements OnInit {
 		}
 		
 	}
+	toggle:boolean=false
+	toggleMenu(){
+		this.toggle=!this.toggle;
+	}
+
+	logout(){
+		this._router.navigate(['logout']);
+	}
 	
 }

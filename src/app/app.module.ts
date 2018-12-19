@@ -32,6 +32,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './auth.guard';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
+import { LogoutComponent } from './common/logout/logout.component';
+import { PopupErrorModalComponent } from './common/popup-error-modal/popup-error-modal.component';
+import { LightboxModule } from 'ngx-lightbox';
+
 
 @NgModule({
   declarations: [
@@ -52,8 +56,10 @@ import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
     HeaderComponent,
     ArraySortPipe,
     ImguploadComponent,
-    FybaloaderComponent
-   
+    FybaloaderComponent,
+    LogoutComponent,   
+    PopupErrorModalComponent
+    
   ],
   imports: [
     HttpModule,
@@ -66,8 +72,8 @@ import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
     ModalModule.forRoot(),
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
-    
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    LightboxModule
   ],
   providers: [HttpClientModule,CookieService,
     NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' },

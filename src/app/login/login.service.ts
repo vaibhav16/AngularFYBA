@@ -40,6 +40,8 @@ export class LoginService {
    } 
 
 postLoginData(userVar : Login){
+  this.loginFailed=false;
+  this.serviceError=false;
   this.requestStatus=true;
   userVar.Email=userVar.Email.toLowerCase();
   var headerOptions =  new Headers({'Content-Type':'application/json'});
@@ -79,9 +81,19 @@ postLoginData(userVar : Login){
   else{
     this.isLoggedIn=false;
     this.loginFailed=true;
+    this.errorMsg = "Invalid Login Credentials! Please try again.";
   }   
-  });
+  }).catch(err=>{this.handleError(err)});;
 }
+
+serviceError:boolean;
+errorMsg:string;
+private handleError(error: any) {    
+  this.serviceError=true;
+  this.requestStatus=false;
+  this.errorMsg = "A Server Error has Occured! Please try again later."
+  console.log('A Server Error has occured!', error);    
+  }
 
 }
 
