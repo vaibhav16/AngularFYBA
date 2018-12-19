@@ -1,39 +1,44 @@
-
 <title>FYBA Login</title>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
-  <div *ngIf="browserName=='ios'&&!iosStandalone" class="tapDiv"><div><img src="assets/images/add_home_icon.png" alt="Add to Home" /></div>
-  <p>Install this webapp on your iPhone; tap &nbsp;<img src="assets/images/share_icon.png" alt="Share Icon" />&nbsp; and then Add to Homescreen</p></div>
-
-<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-  <div class="lognin_bg">
-  <div class="lognin_box">
-  <div class="logo_login"><img src="../../assets/images/fyba_logo.png" /></div>
-  
-  <div class="input_field">
-    <div class="form-group">
-      <input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" placeholder="Email" required>    
-      <!----input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Email" required-->    
-      <!--div class="validation-error" *ngIf="Email.invalid && (Email.dirty || Email.touched)">Invalid Email</div-->
-    </div>
-  
-    <div class="form-group">
-      <input type="password" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="loginService.selectedLogin.Password" placeholder="Password" required>
-      <!----div class="validation-error" *ngIf="Password.invalid && (Password.dirty || Password.touched)">Invalid Password</div-->
-    </div> 
-
-  <div class="forgot_pass"><a href="#">Forgot Password?</a></div>
-  <div class="text-center"><button type="submit" class="signIn_btn">Sign In</button></div>
-  <div class="invalid_credintial" *ngIf="loginService.loginFailed">Invalid Login Credentials</div> 
-  <div class="invalid_credintial" *ngIf="loginService.serviceError">Server Error. Please Try Again!</div> 
-  <div class="clearfix"></div>
-  </div>
-  <div class="clearfix"></div>
-  </div>  
-  </div>
-  
-</form>
-
+<body>
+   <div *ngIf="browserName=='ios'&&!iosStandalone" class="tapDiv">
+      <div><img src="assets/images/add_home_icon.png" alt="Add to Home" /></div>
+      <p>Install this webapp on your iPhone; tap &nbsp;<img src="assets/images/share_icon.png" alt="Share Icon" />&nbsp; and then Add to Homescreen</p>
+   </div>
+   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm,loginErrorTemplate)">
+   <div class="lognin_bg">
+      <div class="lognin_box">
+         <div class="logo_login"><img src="../../assets/images/fyba_logo.png" /></div>
+         <div class="input_field">
+            <div class="form-group">
+               <input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" placeholder="Email" required>    
+               <!----input class="form-control" name="Email" #Email="ngModel" [(ngModel)]="loginService.selectedLogin.Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Email" required-->    
+               <div class="validation-error" *ngIf="Email.invalid && (Email.dirty || Email.touched)">Email Required</div>
+            </div>
+            <div class="form-group">
+               <input type="password" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="loginService.selectedLogin.Password" placeholder="Password" required>
+               <div class="validation-error" *ngIf="Password.invalid && (Password.dirty || Password.touched)">Password Required</div>
+            </div>
+            <div class="forgot_pass"><a href="#">Forgot Password?</a></div>
+            <div class="text-center"><button type="submit" 
+               [disabled]="!loginService.selectedLogin.Password || !loginService.selectedLogin.Email" 
+               class="signIn_btn">Sign In</button></div>
+            <div class="invalid_credintial" *ngIf="loginService.loginFailed">Invalid Login Credentials</div>
+            <div class="invalid_credintial" *ngIf="loginService.serviceError">Server Error. Please Try Again!</div>
+            <div class="clearfix"></div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+   </div>
+   </form>
+   <ng-template #loginErrorTemplate>
+      <div class="modal-body text-center">
+         <p class="heading-signUp">Error</p>
+         <p>{{loginService.errorMsg}}</p>
+         <button type="button" class="btn btn-danger" (click)="closeErrorModal()" >Ok</button>
+      </div>
+   </ng-template>
+</body>
 <!--##########loader###################-->
 <app-fybaloader *ngIf="loginService.requestStatus"></app-fybaloader>
 <!--######################################-->

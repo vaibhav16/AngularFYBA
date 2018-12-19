@@ -29,9 +29,14 @@
     "bootstrap": "^4.1.3",
     "core-js": "^2.5.4",
     "detect-browser": "^3.0.1",
+<<<<<<< HEAD
     "file-upload-with-preview": "^3.0.4",
+=======
+    "jquery": "^3.3.1",
+>>>>>>> a024d0ce6d1a1781794433a17f45d26f1bc37047
     "ngx-bootstrap": "^3.1.1",
     "ngx-cookie-service": "^1.0.10",
+    "ngx-lightbox": "^1.2.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

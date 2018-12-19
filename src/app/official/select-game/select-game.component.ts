@@ -11,6 +11,7 @@ import { LoginService } from './../../login/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PopupErrorModalComponent } from './../../common/popup-error-modal/popup-error-modal.component';
 import { isBoolean } from 'util';
 
 
@@ -52,6 +53,7 @@ export class SelectGameComponent implements OnInit {
       Position:[]
   };*/
 
+  //@ViewChild('myModal') modal: HelloHomeModalComponent;
   modalRef: BsModalRef;  
   activeIds: string[] =[];
   selectedItems = [];
@@ -77,6 +79,8 @@ export class SelectGameComponent implements OnInit {
       config.type = 'info';  
    }  
 
+   template: TemplateRef<any>;
+
    ngOnInit() {
      //this.officialService.selectGameJson=null;
     
@@ -86,7 +90,13 @@ export class SelectGameComponent implements OnInit {
     };
     //this.signUpRequest=true;    
     
-    this.officialService.postSelectGames(this.selectedFilter);
+    this.officialService.postSelectGames(this.selectedFilter).then(res =>{
+      // if(this.officialService.serviceError){
+      //   //this.modalRef = this.modalService.show(this.template, {class: 'modal-sm'})
+      //   let bsModalRef = this.modalService.show(PopupErrorModalComponent);
+      //  console.log("bsModalRef: ", bsModalRef);
+      // }
+    });
       
   }
  
@@ -94,12 +104,6 @@ export class SelectGameComponent implements OnInit {
   public beforeChange($event: NgbPanelChangeEvent) {
     this.activeIds.push($event.panelId);
   }
-
-
-  // clearFilters(form: NgForm){
-  //   form.reset();
-
-  // }
 
   /* - Code to Submit Filter Data to Service - */
   filterRequest:boolean;
@@ -176,8 +180,7 @@ postSignUp(groupId : string, gameId: string, positionId: string, ForCancelSignUp
   this.tempPositionId = positionId;
   this.tempForCancelSignUp = ForCancelSignUp;
   this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp)
-  .then(res => {
-    //console.log(res);
+  .then(res => {    
     this.signUpRequest=false;
     if(this.officialService.signUpResponse=="Registered")
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'})
