@@ -495,7 +495,7 @@ export class OfficialService {
     this.finalFilter.RequestedData= JSON.stringify(gameListObj);    
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID =this.loginService.userId.toString();
-    //console.log(this.finalFilter);
+    console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);   
     console.log(JSON.stringify(this.finalFilter));
     
@@ -592,6 +592,7 @@ export class OfficialService {
   }
 
   newImage:string;
+  newThumbnail:string;
   uploadProfileImage(newImgByteCode: string){
     //console.log(newImgByteCode);
     this.fetchProfileRequest=true;
@@ -617,7 +618,13 @@ export class OfficialService {
       return data.json()
     })).toPromise().then(x => {   
       console.log(x);
-      this.newImage=x.Value.Thumbnail;
+      this.newImage=x.Value.Link;
+      if(x["Message"]=="Successful"){
+        this.loginService.cookieService.set('roundThumbnail',x["Value"].RoundThumbnail);
+        this.loginService.roundThumbnail=x["Value"].RoundThumbnail; 
+        this.newThumbnail = x["Value"].Thumbnail; 
+        console.log(x["Value"].RoundThumbnail);
+      }
       this.fetchProfileRequest=false;
       return Promise.resolve();      
     }).catch(err=>{this.handleError(err)});
@@ -637,7 +644,7 @@ export class OfficialService {
  
      console.log(this.finalFilter);
      var body = JSON.stringify(this.finalFilter);   
-     //console.log(JSON.stringify(this.finalFilter));
+     console.log(JSON.stringify(this.finalFilter));
   
      var headerOptions =  new Headers();
      var headerOptions =  new Headers({'Content-Type':'application/json'});
@@ -648,6 +655,15 @@ export class OfficialService {
        return data.json()
      })).toPromise().then(x => {   
        console.log(x);
+       if(x["Value"].Error=="404"|| x["Message"]=="Session Error"){
+         this.serviceError=true;
+        //this.loginService.roundThumbnail=x["Value"].RoundThumbnail;  
+        //console.log(x["Value"].RoundThumbnail);
+      }
+      else{
+        this.loginService.roundThumbnail="https://res.cloudinary.com/dkb0muxbz/image/upload/c_fill,h_50,r_max,w_50/DefaultProfileImage.jpg";
+        this.loginService.cookieService.set('roundThumbnail',"https://res.cloudinary.com/dkb0muxbz/image/upload/c_fill,h_50,r_max,w_50/DefaultProfileImage.jpg");
+      }
        this.fetchProfileRequest=false;
        return Promise.resolve();      
      }).catch(err=>{this.handleError(err)});

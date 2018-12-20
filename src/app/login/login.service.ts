@@ -20,6 +20,7 @@ export class LoginService {
   //const APIUrl = "https://mobile.folsomyouthbasketball.com";
   // static APIUrl:string = "https://mobile.folsomyouthbasketball.com";
   // static testAPIUrl:string = "https://fybaservice.sapplesystems.com"; 
+  email:string = null;
   requestStatus: boolean = null;
   selectedLogin: Login;
   isLoggedIn: boolean;  
@@ -32,6 +33,8 @@ export class LoginService {
   seasonId:string=null;
   roleId: string=null;
   leagueId: string = null;
+  roundThumbnail: string  = null;
+  textSize:string = null;
 
   constructor(private http: Http,private router: Router,
     public cookieService: CookieService) {
@@ -65,8 +68,11 @@ postLoginData(userVar : Login){
     this.cookieService.set('roleId', this.jsonResult["Value"].RoleId,365);
     this.cookieService.set('leagueId', this.jsonResult["Value"].LeagueId,365);  
     this.cookieService.set('reportTagLabel', this.jsonResult["Value"].tagsLables.ReportCount,365);  
+    this.cookieService.set('textSize', this.jsonResult["Value"].Text_Size,365);  
+    if(this.jsonResult["Value"].RoundThumbnail!=null && this.jsonResult["Value"].RoundThumbnail.length>0){
+      this.cookieService.set('roundThumbnail', this.jsonResult["Value"].RoundThumbnail,365);
+    }     
    
-
     this.isLoggedIn=true;
     this.loginFailed=false;
     this.userId=this.jsonResult["Value"].UserId;
@@ -77,6 +83,8 @@ postLoginData(userVar : Login){
     this.roleId = this.jsonResult["Value"].RoleId;
     this.leagueId = this.jsonResult["Value"].LeagueId;
     this.reportTagLabel = this.jsonResult["Value"].tagsLables.ReportCount;
+    this.email = this.jsonResult["Value"].Email;
+    this.textSize = this.jsonResult["Value"].Text_Size;
   }
   else{
     this.isLoggedIn=false;
@@ -96,4 +104,3 @@ private handleError(error: any) {
   }
 
 }
-
