@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
       
       if(this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos.length>0){
         this.imgUrl = this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos[0].Link;
+        this.imgThumbnail = this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos[0].Thumbnail;
       }
     });
   }
@@ -44,6 +45,7 @@ export class ProfileComponent implements OnInit {
 
   newImgByteCode;
   source_code;
+  imgThumbnail:string = '';
  
   async _handleReaderLoaded(readerEvt) {
     var binaryString=null;
@@ -58,13 +60,17 @@ export class ProfileComponent implements OnInit {
      
     await this.officialService.uploadProfileImage(this.newImgByteCode).then(res=>{
       this.imgUrl=this.officialService.newImage;
+      this.imgThumbnail=this.officialService.newThumbnail;
+      console.log(this.imgUrl);
     });   
 
    }  
 
    deleteProfileImage(fileName){
+    console.log(this.imgUrl);
     this.officialService.deleteProfileImage(this.imgUrl).then(res=>{
        this.imgUrl='';
+       this.imgThumbnail='';
       });
    }
 }

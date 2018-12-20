@@ -37,7 +37,7 @@
                               <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
                                  <ul class="addList">
                                     <li id="serverLi" *ngIf="imgUrl.length>0">
-                                       <img id="serverImg" src={{imgUrl}} style="width:100px;height:100px;">
+                                       <img id="serverImg" src={{imgThumbnail}} style="width:100px;height:100px;">
                                        <span (click)="deleteProfileImage(imgUrl)" 
                                        class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>                             
                                     </li>
@@ -169,5 +169,5 @@
       </div>
    </ng-template>
    <div *ngIf="officialService.serviceError" #serverError>
-      <div style="padding:10px" class="noRecords2">Server Error. Please try again later!</div>
+      <div style="padding:5px" class="noRecords2">Server Error. Please try again later!</div>
    </div>

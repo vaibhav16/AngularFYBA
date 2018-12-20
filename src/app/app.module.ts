@@ -34,7 +34,9 @@ import { AuthGuard } from './auth.guard';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 import { LogoutComponent } from './common/logout/logout.component';
 import { PopupErrorModalComponent } from './common/popup-error-modal/popup-error-modal.component';
-import { LightboxModule } from 'ngx-lightbox';
+//import { LightboxModule } from 'ngx-lightbox';
+import { ChangepasswordComponent } from './common/changepassword/changepassword.component';
+//import { DataSharingService } from './datasharing.service';
 
 
 @NgModule({
@@ -58,7 +60,7 @@ import { LightboxModule } from 'ngx-lightbox';
     ImguploadComponent,
     FybaloaderComponent,
     LogoutComponent,   
-    PopupErrorModalComponent
+    PopupErrorModalComponent, ChangepasswordComponent
     
   ],
   imports: [
@@ -72,8 +74,8 @@ import { LightboxModule } from 'ngx-lightbox';
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
     ModalModule.forRoot(),
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    LightboxModule
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    //LightboxModule
   ],
   providers: [HttpClientModule,CookieService,
     NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' },

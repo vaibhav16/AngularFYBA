@@ -14,7 +14,7 @@ import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { Lightbox } from 'ngx-lightbox';
+//import { Lightbox } from 'ngx-lightbox';
 import * as $ from "jquery";
 
 
@@ -98,7 +98,8 @@ export class ReportGameComponent{
    }
 
    constructor(public officialService: OfficialService, 
-    public renderer:Renderer2,private _lightbox: Lightbox,
+    public renderer:Renderer2,
+    // private _lightbox: Lightbox,
     public fb: FormBuilder, public loginService: LoginService,
     public elRef: ElementRef,public http: Http,config: NgbAccordionConfig,
     private modalService: BsModalService
@@ -531,18 +532,18 @@ public inputValidator(event: any) {
      }
    ];
 
-   open(index: number): void {
-    console.log(index);
-    // open lightbox
-    console.log(this._album);
-    this._lightbox.open(this._album, index);
+  //  open(index: number): void {
+  //   console.log(index);
+  //   // open lightbox
+  //   console.log(this._album);
+  //   this._lightbox.open(this._album, index);
     
-  }
+  // }
  
-  close(): void {
-    // close lightbox programmatically
-    this._lightbox.close();
-  }
+  // close(): void {
+  //   // close lightbox programmatically
+  //   this._lightbox.close();
+  // }
    
 }
 

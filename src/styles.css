@@ -154,9 +154,9 @@ div {
    ul.game_select li a{text-decoration:none; color:#ffffff;}
    ul.game_select li:first-child{border-left:0px;}
    ul.game_select li.active{color:#ffffff; text-decoration:none;}
-   ul.game_select li a.active img, ul.game_select li a.active > span{opacity:1;}
+   ul.game_select li a.active img, ul.game_select li a.active > span{opacity:1; font-weight: bold;}
    ul.game_select li span{display:block; font-size:18px; font-weight:normal; padding-top:5px;opacity: 0.5;}
-   .official_header_img{background-image:url("./assets/images/official_header_img.jpg");height:365px; background-position:center 20%;background-repeat: no-repeat;background-size: cover;}
+   .official_header_img{background-image:url("./assets/images/official_header_img.jpg");height:365px; background-position:center 20%;background-repeat: no-repeat;background-size: cover; position:relative;}
    .coach_header_img{background-image:url("./assets/images/coach_header_img.jpg");height:365px; background-position:center 20%;background-repeat: no-repeat;background-size: cover;}
    .player_header_img{background-image:url("./assets/images/player_header_img.jpg");height:365px; background-position:center 20%;background-repeat: no-repeat;background-size: cover;}
    ul.game_select li img{opacity:0.5;}
@@ -417,7 +417,7 @@ div {
    }
    
    ul.paymentdates{list-style:none; padding:0px; margin:0px;}
-   ul.paymentdates li{display:block; font-size:20px; color:#999999; font-weight:bold; padding:2px 0;}
+   ul.paymentdates li{display:block; font-size:20px; color:black; font-weight:bold; padding:2px 0;}
    .breakWord{display:none;}
    .leftAlign tr td, .leftAlign tr th{text-align:left !important;}
    ul.addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; /*width:100%;*/}
@@ -622,8 +622,9 @@ div {
    ul.addList li{float:left; width:60px; margin-left:10px;height: 60px;
    line-height: 60px;
    font-size: 12px;}
+   .addHeading{display:block; padding-top:9px;}
    
-   ul.addList li:last-child{float:left; width:60px; margin-left:0px;height: 60px;font-size: 12px; padding-top:0px;}   
+   ul.addList li:last-child{float:left; width:60px; margin-left:10px;height: 60px;font-size: 12px; padding-top:0px;}   
    ul.addList li img {
     /*position: absolute;
     top: -11px;
@@ -784,8 +785,8 @@ div {
     line-height: 1;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
-    .card-body .btn-success{ background: #70ad47; margin-left:10px;  margin-right:5px; padding:15px 20px;width:47.5%; font-size:22px;}
-    .card-body .btn-danger{width:47.5%; font-size:21px; margin-left:5px;  margin-right:10px; padding:15px 20px ;}
+    .card-body .btn-success{ background: #70ad47; margin-left:0px;  margin-right:1%; padding:15px 20px;width:49%; font-size:22px;}
+    .card-body .btn-danger{width:49%; font-size:21px; margin-left:1%;  margin-right:0px; padding:15px 20px;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
    #filter-header{background-color: #c4e0b2 !important; padding:10px;}
@@ -849,7 +850,7 @@ div {
   
   /* On mouse-over, add a grey background color */
   .containerCheckbox:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: #fff;
   }
   
   /* When the checkbox is checked, add a blue background */
@@ -891,9 +892,107 @@ div {
   .img_profile img{height:30px; width:30px; border:0px; border-radius:50%; cursor:pointer;}
   .mobile_menu span{background-color:#fff; height:3px; margin-top:5px; display:block;}
   .mobile_menu{width:25px; display:inline-block; cursor: pointer; position: relative;}
-  .mobile_menu_div{display:none;background-color: #5B9BD5;padding:3px 10px; position: absolute; top:26px; left:-125px; z-index: 1; width:150px;}
+  .mobile_menu_div{display:none;background-color: #5B9BD5;padding:0px 10px; position: absolute; top:26px; left:-125px; z-index: 1; width:150px;}
   .mobile_menu_div ul{list-style:none; padding:0px; margin:0px;}
-  .mobile_menu_div ul li{display:block; color:#fff; padding:5px 0; border-top:1px solid rgba(255, 255, 255, 0.2); font-size:14px; text-align:left;}
+  .mobile_menu_div ul li{display:block; color:#fff; padding:8px 0; border-top:1px solid rgba(255, 255, 255, 0.2); font-size:15px; text-align:left;}
   .mobile_menu_div ul li:first-child{border-top:0px;}
 
   .fms_time .signupPosition:first-child{margin-top:0px;}
+
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 34px;
+    margin-bottom:0px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #011a9a;
+    -webkit-transition: .4s;
+    transition: .4s;
+     border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #011a9a;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(55px);
+    left: initial;
+    right: 58px;
+  }
+  
+  /*------ ADDED CSS ---------*/
+  .slider:after
+  {
+   content:'Small';
+   color: white;
+   display: block;
+   position: absolute;
+   transform: translate(-50%,-50%);
+   top: 50%;
+   left: 50%;
+   font-size: 15px;
+   font-family: Verdana, sans-serif;
+   font-weight:normal;
+  }
+  
+  input:checked + .slider:after
+  {  
+    content:'Large';
+  }
+  
+  /*--------- END --------*/
+
+
+   /* ---- Start Small Font Css --- */
+
+  @media only screen and (max-width : 991px) {
+    
+    .small_font .header_img_text{font-size:26px;}
+    .small_font .card .btn-link{font-size:14px;}
+    .small_font .card-body .btn-success{font-size:14px;padding: 10px 15px; margin-left:0px;}
+    .small_font .card-body .btn-danger{font-size:14px;padding: 10px 15px; margin-right:0px;}
+    .small_font h1.mainDate{font-size:16px;}
+    .small_font .filter_module h2, .small_font .data_module h2{font-size: 14px;}
+    .small_font ul.reportlist li{font-size:14px;}
+    .small_font h3 {font-size: 14px !important;}
+    .small_font h2.paidHead{font-size: 14px;}
+    .small_font .matchInfo2{font-size: 14px !important;}
+    .small_font .matchInfo{margin-top:0px;}
+    .small_font .wordBreak .row-fluid .paddTop4 {word-wrap:break-word;}
+    .small_font table.scoreTable tr th{font-size: 14px;}
+    .small_font table.scoreTable tr td{font-size: 14px;}
+    }
+
+  /* ---- End Small Font Css --- */

@@ -25,8 +25,8 @@
               "src/manifest.json"
             ],
             "styles": [
-              "src/styles.css",
-              "./node_modules/ngx-lightbox/lightbox.css"
+              "src/styles.css"
+            
             ],
             "scripts": ["src/assets/js/jquery-1.12.4.js"]
           },

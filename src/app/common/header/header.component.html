@@ -30,8 +30,11 @@
 			<div class="container">
 					<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
-								<div class="img_profile">
+								<div *ngIf="loginService.roundThumbnail==null" class="img_profile">
 									<img src="https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200524/68824656-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6" alt="" />
+								</div>
+								<div *ngIf="loginService.roundThumbnail!=null" class="img_profile">
+										<img src="{{loginService.roundThumbnail}}" alt="" />
 								</div>
 							</div>
 
@@ -42,8 +45,11 @@
 									<span></span>
 									<div  [ngStyle]="{'display':toggle ? 'block' : 'none' }"  class="mobile_menu_div">
 										<ul>
-											<li>Text Size: Large</li>
-											<li>Change Password</li>
+											<li><label class="switch">
+												<input type="checkbox" id="togBtn" (change) = "toggleText()">
+												<div class="slider round"></div></label>
+											</li>
+											<!----li (click)="changePassword()">Change Password</li-->
 											<li (click)="logout()">Log Out</li>
 										</ul>
 									</div>
