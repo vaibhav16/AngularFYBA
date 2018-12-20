@@ -14,7 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
   encapsulation: ViewEncapsulation.None
 })
 
-//styleUrls: ['./app.component.css']
+
 export class AppComponent {
   title = 'app';
   closeResult: string; 
@@ -30,18 +30,16 @@ export class AppComponent {
     config.backdrop = 'static';
     config.keyboard = false;
 
-  //   this.dataSharingService.textSize.subscribe( value => {
-  //     this.textSize = value;
-  // });
+
 
   }
 
-  textSize:string = null;
+  
   ngOnInit(){
     console.log(this.dataSharingService.textSize);
     
     var iOS = ['iPad', 'iPhone', 'iPod'].indexOf(navigator.platform) >= 0;
-    console.log(iOS);
+    //console.log(iOS);
     
   }
 

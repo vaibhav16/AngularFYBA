@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
 		// else
 		// this.TextSizeModel.TextSize = "Small";
 		 //= txtSize.toString();
-		//this.commonService.toggleTextSize();
+		this.commonService.toggleTextSize();
 		//this.commonService.toggleTextSize(JSON.stringify(this.TextSizeModel));
 	
 	}
