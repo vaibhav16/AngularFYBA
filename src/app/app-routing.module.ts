@@ -1,6 +1,6 @@
 import { NgModule} from '@angular/core';
 import { Routes, RouterModule} from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './common/login/login.component';
 import { PayComponent } from './official/pay/pay.component';
 import { ProfileComponent } from './official/profile/profile.component';
 import { SelectGameComponent } from './official/select-game/select-game.component';
@@ -10,7 +10,7 @@ import { CoachComponent } from './coach/coach.component';
 import { PlayerComponent } from './player/player.component'; 
 import { AuthGuard } from './auth.guard';
 //import { PreventLoggedInAccess } from './preventLogin.guard';
-import { LoginService } from './login/login.service';
+import { LoginService } from './common/services/login.service';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 import { LogoutComponent } from './common/logout/logout.component';
 import { ChangepasswordComponent } from './common/changepassword/changepassword.component';

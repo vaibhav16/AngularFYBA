@@ -1,17 +1,13 @@
 import { Component, TemplateRef, OnInit, ViewEncapsulation,ElementRef,Renderer2,ViewChild } from '@angular/core';
 import { OfficialService } from '../official.service';
 import { NgbActiveModal,NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgForm, FormGroup,  FormBuilder } from '@angular/forms';
 import { Filter } from '../../models/official/select-game/filter.model';
-import { count } from 'rxjs/operators';
-import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
-import { map } from 'rxjs/operators';
+
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { LoginService } from './../../login/login.service';
+import { LoginService } from './../../common/services/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { PopupErrorModalComponent } from './../../common/popup-error-modal/popup-error-modal.component';
 import { isBoolean } from 'util';
 
 

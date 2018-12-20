@@ -1,12 +1,12 @@
 import { Component, OnInit,Directive, Input } from '@angular/core';
-import { ChangePw } from './../../models/changepw.model';
+import { ChangePw } from '../models/changepw.model';
 //import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 //import { NgForm } from '@angular/forms';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PasswordValidation  } from './confirm-password.validator';
 import { FinalFilter } from '../..//models/official/select-game/finalFilter.model';
-import { LoginService } from './../../login/login.service';
-import { ChangepwService } from './changepw.service';
+import { LoginService } from './../services/login.service';
+import { ChangepwService } from '../models/changepw.service';
 
 @Component({
   selector: 'app-changepassword',
@@ -14,6 +14,7 @@ import { ChangepwService } from './changepw.service';
   styleUrls: ['./changepassword.component.css']
 })
 export class ChangepasswordComponent implements OnInit {
+  headerImg:string;
 
   apiModel: FinalFilter={
     UserID:'',
@@ -47,6 +48,7 @@ export class ChangepasswordComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.headerImg = 'official_header_img';
   }
   
   onSubmit() {

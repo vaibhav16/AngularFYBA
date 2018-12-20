@@ -1,8 +1,8 @@
 import { Component, VERSION, OnInit, ViewChild,ViewEncapsulation  } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
-import { DataService} from './shared/data.service';
-import { LoginService } from './login/login.service';
+import { LoginService } from './common/services/login.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DataSharingService } from './data-sharing.service';
+import { CookieService } from 'ngx-cookie-service';
 //import { DataSharingService } from './datasharing.service';
 //import { isIos } from './../assets/js/index';
 //import { isInStandaloneMode } from './../assets/js/index';
@@ -20,9 +20,12 @@ export class AppComponent {
   closeResult: string; 
   siteOfflineText:string;
 
-  constructor(config: NgbModalConfig, public loginService: LoginService
+  constructor(config: NgbModalConfig, 
+    public loginService: LoginService,
+    public dataSharingService: DataSharingService,
+    public cookieService: CookieService
    ){
-    //this.textSize = this.loginService.cookieService.get('textSize') ;
+    this.dataSharingService.textSize = this.loginService.cookieService.get('textSize');
 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -35,7 +38,7 @@ export class AppComponent {
 
   textSize:string = null;
   ngOnInit(){
-    console.log(this.textSize);
+    console.log(this.dataSharingService.textSize);
     
     var iOS = ['iPad', 'iPhone', 'iPod'].indexOf(navigator.platform) >= 0;
     console.log(iOS);

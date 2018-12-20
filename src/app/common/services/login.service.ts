@@ -1,9 +1,9 @@
 import { Injectable,ViewChild } from '@angular/core';
-import { Login } from './login.model';
+import { Login } from './../models/login.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { OfficialService } from './../official/official.service';
+import { OfficialService } from './../../official/official.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { Observable } from 'rxjs';

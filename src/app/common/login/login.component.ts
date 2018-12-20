@@ -1,9 +1,9 @@
 import { Component,TemplateRef, OnInit,ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LoginService } from './login.service';
-import { Login } from './login.model';
+import { LoginService } from '../services/login.service';
+import { Login } from './../models/login.model';
 import { Router } from '@angular/router';
-import { FybaloaderComponent } from '../common/fybaloader/fybaloader.component';
+import { FybaloaderComponent } from './../fybaloader/fybaloader.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 

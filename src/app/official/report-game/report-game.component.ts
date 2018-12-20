@@ -8,8 +8,7 @@ import { ScoreSheetImages } from './../../models/official/reportgame/ScoreSheet.
 import { DeletedScoreSheetImages } from './../../models/official/reportgame/DeletedScoreSheetImages';
 import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayerScorePost.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
-import { LoginService } from 'src/app/login/login.service';
-import { ArraySortPipe } from "./../../shared/sort.pipe";
+import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';

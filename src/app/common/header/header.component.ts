@@ -1,7 +1,7 @@
 import { Component, OnInit,Input, ViewChild, ElementRef } from '@angular/core';
-import { LoginService} from '../../login/login.service';
+import { LoginService} from './../services/login.service';
 import { Router } from   '@angular/router'; 
-import { CommonService } from './../common.service';
+import { CommonService } from '../services/common.service';
 import { FinalFilter } from '../..//models/official/select-game/finalFilter.model';
 
 @Component({
@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
 		// else
 		// this.TextSizeModel.TextSize = "Small";
 		 //= txtSize.toString();
-		this.commonService.toggleTextSize();
+		//this.commonService.toggleTextSize();
 		//this.commonService.toggleTextSize(JSON.stringify(this.TextSizeModel));
 	
 	}

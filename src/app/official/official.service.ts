@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Filter } from '../models/official/select-game/filter.model';
-import { LoginService} from './../login/login.service';
+import { LoginService} from './../common/services/login.service';
 import { FinalFilter } from '../models/official/select-game/finalFilter.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
@@ -16,7 +16,7 @@ import { Profile } from './../models/official/profile/profile.model';
 import { UploadProfileImage } from '../models/official/profile/uploadProfileImg.model';
 import { DeleteProfileImage } from '../models/official/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
-import { Constants } from './../models/constants';
+import { Constants } from '../common/models/constants';
 
 @Injectable({
   providedIn: 'root'

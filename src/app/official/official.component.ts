@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http, Response} from '@angular/http';
 import { map } from 'rxjs/operators';
 import { OfficialService } from './official.service';
-import { LoginService } from './../login/login.service';
+import { LoginService } from './../common/services/login.service';
 import { Router,} from '@angular/router'; 
 
 
