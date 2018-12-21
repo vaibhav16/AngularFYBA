@@ -3,6 +3,7 @@ import { Login } from './../models/login.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { DataSharingService } from './../../data-sharing.service';
 import { OfficialService } from './../../official/official.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -37,7 +38,8 @@ export class LoginService {
   textSize:string = null;
 
   constructor(private http: Http,private router: Router,
-    public cookieService: CookieService) {
+    public cookieService: CookieService,
+    public dataSharingService: DataSharingService) {
     this.isLoggedIn=false;
     //console.log(this.isLoggedIn);
    } 
@@ -69,6 +71,8 @@ postLoginData(userVar : Login){
     this.cookieService.set('leagueId', this.jsonResult["Value"].LeagueId,365);  
     this.cookieService.set('reportTagLabel', this.jsonResult["Value"].tagsLables.ReportCount,365);  
     this.cookieService.set('textSize', this.jsonResult["Value"].Text_Size,365);  
+    this.dataSharingService.textSize=this.jsonResult["Value"].Text_Size;  
+    //console.log
     if(this.jsonResult["Value"].RoundThumbnail!=null && this.jsonResult["Value"].RoundThumbnail.length>0){
       this.cookieService.set('roundThumbnail', this.jsonResult["Value"].RoundThumbnail,365);
     }     

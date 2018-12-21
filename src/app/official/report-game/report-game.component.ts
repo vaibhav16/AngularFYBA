@@ -2,15 +2,14 @@ import { Component, TemplateRef, ElementRef,Renderer2,ViewChild, Injectable,Afte
 import { NgbAccordionConfig} from '@ng-bootstrap/ng-bootstrap';
 import { OfficialService } from '../official.service';
 import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { APIGamePost } from './../../models/official/reportgame/APIGamePost.model';
 import { ScoreSheetImages } from './../../models/official/reportgame/ScoreSheet.model';
 import { DeletedScoreSheetImages } from './../../models/official/reportgame/DeletedScoreSheetImages';
 import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayerScorePost.model';
-import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
+import { Http } from '@angular/http';
 import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
+//import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 //import { Lightbox } from 'ngx-lightbox';

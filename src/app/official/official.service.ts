@@ -607,7 +607,7 @@ export class OfficialService {
 
     console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);   
-    //console.log(JSON.stringify(this.finalFilter));
+    console.log(JSON.stringify(this.finalFilter));
  
     var headerOptions =  new Headers();
     var headerOptions =  new Headers({'Content-Type':'application/json'});
@@ -661,8 +661,8 @@ export class OfficialService {
         //console.log(x["Value"].RoundThumbnail);
       }
       else{
-        this.loginService.roundThumbnail="https://res.cloudinary.com/dkb0muxbz/image/upload/c_fill,h_50,r_max,w_50/DefaultProfileImage.jpg";
-        this.loginService.cookieService.set('roundThumbnail',"https://res.cloudinary.com/dkb0muxbz/image/upload/c_fill,h_50,r_max,w_50/DefaultProfileImage.jpg");
+        this.loginService.roundThumbnail=x["Value"];
+        this.loginService.cookieService.set('roundThumbnail',x["Value"]);
       }
        this.fetchProfileRequest=false;
        return Promise.resolve();      

@@ -54,8 +54,8 @@ export class CommonService {
       console.log(x);      
       if(x["Error"]=="200"){
         this.dataSharingService.textSize = this.TextSizeModel.TextSize;
-        this.loginService.textSize = this.TextSizeModel.TextSize;
-        this.cookieService.set('textSize',this.dataSharingService.textSize) ;
+        //this.loginService.textSize = this.TextSizeModel.TextSize;
+        this.cookieService.set('textSize',this.TextSizeModel.TextSize) ;
       }
       this.request=false;  
 

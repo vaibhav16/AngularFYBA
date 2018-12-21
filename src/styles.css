@@ -305,6 +305,12 @@ div {
         
     }
 
+    
+    .noRecordsBlack{
+        color: black; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 15px; font-size: 18px;
+        
+    }
     .noRecordsProfile{
         color: black; text-align: left; font-weight:bold;/*word-spacing:5px;*/
         padding-top: 0px; font-size: 14px;
