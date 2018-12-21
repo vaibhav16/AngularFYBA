@@ -4,7 +4,7 @@ import { ChangePw } from '../models/changepw.model';
 //import { NgForm } from '@angular/forms';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PasswordValidation  } from './confirm-password.validator';
-import { FinalFilter } from '../..//models/official/select-game/finalFilter.model';
+import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { LoginService } from './../services/login.service';
 import { ChangepwService } from '../models/changepw.service';
 

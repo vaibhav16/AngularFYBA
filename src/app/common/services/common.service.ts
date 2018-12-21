@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular
 import { Constants } from '../models/constants';
 import { map } from 'rxjs/operators';
 import { DataSharingService } from './../../data-sharing.service';
-import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
+import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { LoginService } from './login.service';   
 import { CookieService } from 'ngx-cookie-service';
 //import { DataSharingService } from './../datasharing.service';

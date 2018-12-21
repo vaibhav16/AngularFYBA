@@ -2,7 +2,7 @@ import { Component, OnInit,Input, ViewChild, ElementRef } from '@angular/core';
 import { LoginService} from './../services/login.service';
 import { Router } from   '@angular/router'; 
 import { CommonService } from '../services/common.service';
-import { FinalFilter } from '../..//models/official/select-game/finalFilter.model';
+import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { DataSharingService } from './../../data-sharing.service';
 
 @Component({

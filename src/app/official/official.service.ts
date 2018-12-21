@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Filter } from '../models/official/select-game/filter.model';
+import { Filter } from './classes/selectgame/filter.model';
 import { LoginService} from './../common/services/login.service';
-import { FinalFilter } from '../models/official/select-game/finalFilter.model';
+import { FinalFilter } from './classes/selectgame/finalFilter.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-import { SignUpRequestedData } from '../models/official/select-game/signUp_rd.model';
-import { IntialFilter } from '../models/official/select-game/initialFilter.model';
-import { ReportGameData } from '../models/official/reportgame/reportGame.model';
-import { APIGamePost } from '../models/official/reportgame/APIGamePost.model';
-import { APIPlayerScorePost } from '../models/official/reportgame/APIPlayerScorePost.model';
-import { SignUpEmail } from '../models/official/reportgame/signupEmail.model';
-import { SignUp } from '../models/official/select-game/signup.model';
-import { Profile } from './../models/official/profile/profile.model';
-import { UploadProfileImage } from '../models/official/profile/uploadProfileImg.model';
-import { DeleteProfileImage } from '../models/official/profile/deleteProfileImg.model';
+import { SignUpRequestedData } from './classes/selectgame/signUp_rd.model';
+import { IntialFilter } from './classes/selectgame/initialFilter.model';
+import { ReportGameData } from './classes/reportgame/reportGame.model';
+import { APIGamePost } from './classes/reportgame/APIGamePost.model';
+import { APIPlayerScorePost } from './classes/reportgame/APIPlayerScorePost.model';
+import { SignUpEmail } from './classes/reportgame/signupEmail.model';
+import { SignUp } from './classes/selectgame/signup.model';
+import { Profile } from './classes/profile/profile.model';
+import { UploadProfileImage } from './classes/profile/uploadProfileImg.model';
+import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
 import { Constants } from '../common/models/constants';
 
@@ -512,7 +512,8 @@ export class OfficialService {
         this.requestSuccess=true;    
         this.loginService.reportTagLabel=x["Value"];
         this.cookieService.set("reportTagLabel",x["Value"]);
-        console.log(this.loginService.reportTagLabel);    
+        console.log(this.loginService.reportTagLabel);  
+        this.getReportData();
       }
       else{
         this.requestFailure=true;

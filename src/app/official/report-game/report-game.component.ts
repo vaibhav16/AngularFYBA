@@ -2,13 +2,14 @@ import { Component, TemplateRef, ElementRef,Renderer2,ViewChild, Injectable,Afte
 import { NgbAccordionConfig} from '@ng-bootstrap/ng-bootstrap';
 import { OfficialService } from '../official.service';
 import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
-import { APIGamePost } from './../../models/official/reportgame/APIGamePost.model';
-import { ScoreSheetImages } from './../../models/official/reportgame/ScoreSheet.model';
-import { DeletedScoreSheetImages } from './../../models/official/reportgame/DeletedScoreSheetImages';
-import { APIPlayerScorePost } from './../../models/official/reportgame/APIPlayerScorePost.model';
+import { APIGamePost } from '../classes/reportgame/APIGamePost.model';
+import { ScoreSheetImages } from '../classes/reportgame/ScoreSheet.model';
+import { DeletedScoreSheetImages } from '../classes/reportgame/DeletedScoreSheetImages';
+import { APIPlayerScorePost } from '../classes/reportgame/APIPlayerScorePost.model';
 import { Http } from '@angular/http';
 import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ScoreSheetImages2 } from './../classes/reportgame/ScoreSheet2.model';
 //import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -33,6 +34,7 @@ export class ReportGameComponent{
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
   ScoreSheetImages: ScoreSheetImages[] =[];
+  ScoreSheetImages2: ScoreSheetImages2[] =[];
   DeletedScoreSheetImages: DeletedScoreSheetImages[] =[];
   tempIndex=0;
   //fg: FormGroup;
@@ -95,6 +97,12 @@ export class ReportGameComponent{
      
    }
 
+  //  ScoreSheetImages2: ScoreSheetImages2 = {
+  //   ImageURL:'',
+  //   NewImageByteCode:'',
+  //   GameIndex:''
+  //  }
+
    constructor(public officialService: OfficialService, 
     public renderer:Renderer2,
     // private _lightbox: Lightbox,
@@ -153,14 +161,39 @@ export class ReportGameComponent{
     });
  }
 
+ async makeScoreSheetArray(){
+   for(var i=0; i<this.tempIndex;++i){
+     console.log(i);
+     if(this.ScoreSheetImages2[i].GameIndex==this.panelId.toString()){
+      this.ScoreSheetImages[i]= await new ScoreSheetImages();
+      this.ScoreSheetImages[i].ImageURL = await '';
+      this.ScoreSheetImages[i].NewImageByteCode = await this.ScoreSheetImages2[i].NewImageByteCode;
+      //await console.log(this.ScoreSheetImages); 
+     } 
+    //this.ScoreSheetImages[this.tempIndex].GameIndex = this.panelId;
+   }
+   //await console.log(this.ScoreSheetImages);
+  
+ }
+
   /* - When Edited Data is sent by ScoreKeeper this function is called - */
-  onSubmit(form: NgForm, gameListIndex: number,invalidScoreTemplate: TemplateRef<any>,unEqualHomeScoreTemplate: TemplateRef<any>,unEqualVisitingScoreTemplate: TemplateRef<any>) {
+  async onSubmit(form: NgForm, gameListIndex: number,invalidScoreTemplate: TemplateRef<any>,
+    unEqualHomeScoreTemplate: TemplateRef<any>,unEqualVisitingScoreTemplate: TemplateRef<any>) {
     console.log(form.value); 
+
+    await this.makeScoreSheetArray().then(res=>{
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+        return el != null;
+      });
+      console.log(this.ScoreSheetImages);
+    });
+
     if(form.value.HTeamScore.length<=0 && form.value.VTeamScore.length<=0){
       this.modalRef = this.modalService.show(invalidScoreTemplate, {class: 'modal-sm'});
       console.log("Invalid");
     }
-    else if(this.checkFinalScore(form,gameListIndex,unEqualHomeScoreTemplate,unEqualVisitingScoreTemplate)==true){
+    else if(this.checkFinalScore(form,gameListIndex,unEqualHomeScoreTemplate,
+      unEqualVisitingScoreTemplate)==true){
        this.prepareDatatoUpdate(form,gameListIndex);
     } 
   }
@@ -303,7 +336,12 @@ export class ReportGameComponent{
     this.APIGamePost.ScoreSheetImages = this.ScoreSheetImages; 
     this.APIGamePost.DeletedScoreSheetImages = this.DeletedScoreSheetImages;
     console.log(this.APIGamePost);
-    this.officialService.postReportData(this.APIGamePost);
+    this.officialService.postReportData(this.APIGamePost).then(res=> {
+      this.tempIndex=0;
+      this.ScoreSheetImages = [];
+      this.ScoreSheetImages2 = [];
+      //this.ScoreSheetImages
+    });
   }
 
   /* - On clicking save button, a message is shown to the user. 
@@ -435,37 +473,65 @@ public inputValidator(event: any) {
 }
   
  /* - Code to send the image as a base64 string to the service. - */
-  async processFile(imageInput: any) {
-    await this.makeImageByteArray(imageInput);         
+//   async processFile(imageInput: any) {
+//     await this.makeImageByteArray(imageInput);         
+// }
+
+
+public panelId:number;
+async processFile(imageInput: any,id:any) { 
+  this.panelId=id;
+  console.log(this.panelId);
+  await this.makeImageByteArray(imageInput,id);         
 }
 
-  async makeImageByteArray(imageInput:any){
+  async makeImageByteArray(imageInput:any,id:number){
     for(var i = 0; i < imageInput.files.length; i++) {     
       if (imageInput.files[i]) {    
        var reader = await new FileReader();
        reader.onload = await this._handleReaderLoaded.bind(this);
-       await reader.readAsBinaryString(imageInput.files[i]);       
+       await reader.readAsBinaryString(imageInput.files[i]); 
+       await console.log(this.ScoreSheetImages2);
+       //await this.improviseArray(id);      
       }
     }
+    
   }
+
+  // async improviseArray(id:number){
+  //   for(var i = 0; i < this.tempIndex; i++) {     
+  //     console.log(this.panelId);
+  //     this.ScoreSheetImages2[i].GameIndex = id; 
+  //   }
+  //   await console.log(this.ScoreSheetImages2);
+  // }
 
   async _handleReaderLoaded(readerEvt) {
     var binaryString=null;
-    binaryString = await readerEvt.target.result;  
-    this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
-    this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
-    this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);    
-    var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode; 
-    var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
-    var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');    
+    binaryString = await readerEvt.target.result; 
+    //console.log(this.ScoreSheetImages); 
+    console.log(this.tempIndex); 
+    this.ScoreSheetImages2[this.tempIndex]= await new ScoreSheetImages2();
+    this.ScoreSheetImages2[this.tempIndex].ImageURL = await '';
+    this.ScoreSheetImages2[this.tempIndex].NewImageByteCode = await btoa(binaryString);
+    this.ScoreSheetImages2[this.tempIndex].GameIndex = this.panelId.toString();
+        
+    var source_code='data:image/jpeg;base64,' + 
+    this.ScoreSheetImages2[this.tempIndex].NewImageByteCode; 
+ 
+    var el=this.elRef.nativeElement.querySelector("#IncidentListClass_"+this.panelId);
+    var refchild=this.elRef.nativeElement.querySelector("#Incidentclass_"+this.panelId);  
+ 
     let li= this.renderer.createElement('li');
     this.renderer.setProperty(li, 'id','incident_li_'+this.tempIndex);
+ 
     let img= this.renderer.createElement('img');
     this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
     this.renderer.setStyle(img, 'width','100px');
     this.renderer.setStyle(img, 'height','100px');
     this.renderer.setAttribute(img, 'src',source_code);   
     this.renderer.appendChild(li, img);
+ 
     let span= this.renderer.createElement('span');
     this.renderer.setProperty(span, 'id',this.tempIndex);
     this.renderer.addClass(span,'glyphicon');
@@ -475,6 +541,33 @@ public inputValidator(event: any) {
     this.renderer.insertBefore(el, li,refchild);    
     await this.tempIndex++;   
    }  
+
+  // async _handleReaderLoaded(readerEvt) {
+  //   var binaryString=null;
+  //   binaryString = await readerEvt.target.result;  
+  //   this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
+  //   this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
+  //   this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);    
+  //   var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode; 
+  //   var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
+  //   var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');    
+  //   let li= this.renderer.createElement('li');
+  //   this.renderer.setProperty(li, 'id','incident_li_'+this.tempIndex);
+  //   let img= this.renderer.createElement('img');
+  //   this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
+  //   this.renderer.setStyle(img, 'width','100px');
+  //   this.renderer.setStyle(img, 'height','100px');
+  //   this.renderer.setAttribute(img, 'src',source_code);   
+  //   this.renderer.appendChild(li, img);
+  //   let span= this.renderer.createElement('span');
+  //   this.renderer.setProperty(span, 'id',this.tempIndex);
+  //   this.renderer.addClass(span,'glyphicon');
+  //   this.renderer.addClass(span,'glyphicon-remove-circle');  
+  //   this.renderer.listen(span, 'click',this.DeleteTempImage.bind(span));
+  //   this.renderer.appendChild(li, span);
+  //   this.renderer.insertBefore(el, li,refchild);    
+  //   await this.tempIndex++;   
+  //  }  
    /* - Image implementation ends - */
 
    /* - Code to Delete Image - */

@@ -1,7 +1,7 @@
 import { Component, TemplateRef, OnInit, ViewEncapsulation,ElementRef,Renderer2,ViewChild } from '@angular/core';
 import { OfficialService } from '../official.service';
 import { NgbActiveModal,NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Filter } from '../../models/official/select-game/filter.model';
+import { Filter } from '../classes/selectgame/filter.model';
 
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from './../../common/services/login.service';
