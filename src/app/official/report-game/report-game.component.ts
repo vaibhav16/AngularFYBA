@@ -10,6 +10,7 @@ import { Http } from '@angular/http';
 import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ScoreSheetImages2 } from './../classes/reportgame/ScoreSheet2.model';
+import { DeletedScoreSheet2 } from './../classes/reportgame/DeletedScoreSheet2.model';
 //import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -24,11 +25,7 @@ import * as $ from "jquery";
 })
 
 
-export class ReportGameComponent{
-  //@ViewChild("acchead1", {read: ElementRef}) 
-  //private acchead1: ElementRef; 
-  //@ViewChild("Incidentlist", {read: ElementRef}) 
-  //private Incidentlist: ElementRef;
+export class ReportGameComponent{ 
   @ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
 
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
@@ -36,10 +33,12 @@ export class ReportGameComponent{
   ScoreSheetImages: ScoreSheetImages[] =[];
   ScoreSheetImages2: ScoreSheetImages2[] =[];
   DeletedScoreSheetImages: DeletedScoreSheetImages[] =[];
+  DeletedScoreSheet2: DeletedScoreSheet2[] = [];
   tempIndex=0;
-  //fg: FormGroup;
+  modalHeading:string;
+  modalMsg:string;
   tempRemoveImage=["shashank","vishnu","vaibhav","seemant"];
-
+  uploadTemplate: TemplateRef<any>;
   imgsrc:any;
 
   
@@ -177,9 +176,13 @@ export class ReportGameComponent{
  }
 
   /* - When Edited Data is sent by ScoreKeeper this function is called - */
-  async onSubmit(form: NgForm, gameListIndex: number,invalidScoreTemplate: TemplateRef<any>,
-    unEqualHomeScoreTemplate: TemplateRef<any>,unEqualVisitingScoreTemplate: TemplateRef<any>) {
+  async onSubmit(form: NgForm, gameListIndex: number,
+    invalidScoreTemplate: TemplateRef<any>,
+    unEqualHomeScoreTemplate: TemplateRef<any>, 
+    unEqualVisitingScoreTemplate: TemplateRef<any>,
+    uploadTemplate:TemplateRef<any>) {
     console.log(form.value); 
+    this.uploadTemplate=uploadTemplate;
 
     await this.makeScoreSheetArray().then(res=>{
       this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
@@ -337,9 +340,13 @@ export class ReportGameComponent{
     this.APIGamePost.DeletedScoreSheetImages = this.DeletedScoreSheetImages;
     console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost).then(res=> {
+      if(this.officialService.reportErrorMsg){
+        console.log(this.officialService.reportErrorMsg);
+        this.showModal();
+      }
       this.tempIndex=0;
       this.ScoreSheetImages = [];
-      this.ScoreSheetImages2 = [];
+      this.ScoreSheetImages2 = [];    
       //this.ScoreSheetImages
     });
   }
@@ -359,8 +366,7 @@ export class ReportGameComponent{
   visitingPON:number=0;
   checkBtnClick=0;
   modalRef: BsModalRef;  
-  tempGameIndex:number;
-  modalMsg: string;
+  tempGameIndex:number;  
   checkMaxPON(e,gameIndex,teamType:string ,template: TemplateRef<any>){
     console.log(e);
    if(this.tempGameIndex!=gameIndex){
@@ -471,7 +477,20 @@ public inputValidator(event: any) {
     event.target.value = "";
   }
 }
-  
+
+showModal(){        
+  if(this.officialService.reportErrorMsg){
+    console.log(this.officialService.reportErrorMsg);
+    console.log(this.modalRef);
+    this.modalRef = this.modalService.show(this.uploadTemplate, {class: 'modal-sm'});
+  } 
+}
+
+hideModal(){        
+  this.modalRef.hide();
+  this.officialService.getReportData();
+}
+
  /* - Code to send the image as a base64 string to the service. - */
 //   async processFile(imageInput: any) {
 //     await this.makeImageByteArray(imageInput);         
@@ -479,10 +498,13 @@ public inputValidator(event: any) {
 
 
 public panelId:number;
-async processFile(imageInput: any,id:any) { 
+//uploadRequest:boolean;
+async processFile(imageInput: any,id:any) {
+  //this.uploadRequest = true;
   this.panelId=id;
   console.log(this.panelId);
   await this.makeImageByteArray(imageInput,id);         
+  //this.uploadRequest = await false;
 }
 
   async makeImageByteArray(imageInput:any,id:number){

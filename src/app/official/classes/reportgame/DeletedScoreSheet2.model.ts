@@ -1,4 +1,4 @@
-export class DeletedScoreSheetImages{
+export class DeletedScoreSheet2{
 
     public ImageURL: string;
     public NewImageByteCode: string;

@@ -164,8 +164,8 @@
    <ng-template #imgNotUploaded>
       <div class="modal-body text-center">
          <p class="heading-signUp">Upload Failed!</p>
-         <p>Image Could not be uploaded!</p>
-         <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()" >OK</button>         
+         <p *ngIf="officialService.uploadErrorMsg">{{officialService.uploadErrorMsg}}</p>
+         <button type="button" class="btn btn-danger" (click)="closeModal()" >OK</button>         
       </div>
    </ng-template>
    <div *ngIf="officialService.serviceError" #serverError>

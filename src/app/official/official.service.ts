@@ -487,8 +487,9 @@ export class OfficialService {
    /* - This function is used to post the entire gameList model to the API.
    It comes into play when the ScoreKeeper make any changes to the player scores in a specific game. 
    An updated model with all the scores is sent to the database and the records are updated. - */
-
+  reportErrorMsg:string;
   postReportData(gameListObj: any){
+    this.reportErrorMsg=null;
     this.requestStatus = 1;
     this.requestSuccess=false;
     this.requestFailure=false;
@@ -508,12 +509,19 @@ export class OfficialService {
       
       console.log(x);
       this.requestStatus = 0;
-      if(x["Error"]==200){
-        this.requestSuccess=true;    
-        this.loginService.reportTagLabel=x["Value"];
-        this.cookieService.set("reportTagLabel",x["Value"]);
-        console.log(this.loginService.reportTagLabel);  
-        this.getReportData();
+      if(x["Error"]==200){   
+        if (x["Message"].includes('Fail')||(x["Message"].includes('not'))) { 
+          this.reportErrorMsg=x["Message"];
+          console.log(this.reportErrorMsg);
+        }
+        else{
+          this.requestSuccess=true;    
+          this.loginService.reportTagLabel=x["Value"];
+          this.cookieService.set("reportTagLabel",x["Value"]);
+          console.log(this.loginService.reportTagLabel);  
+          this.getReportData();
+        }
+     
       }
       else{
         this.requestFailure=true;
@@ -594,7 +602,11 @@ export class OfficialService {
 
   newImage:string;
   newThumbnail:string;
+  uploadError:boolean;
+  uploadErrorMsg:string;
+  
   uploadProfileImage(newImgByteCode: string){
+    this.uploadError=false;
     //console.log(newImgByteCode);
     this.fetchProfileRequest=true;
     this.uploadProfileImg.SeasonId=this.loginService.seasonId;
@@ -621,10 +633,23 @@ export class OfficialService {
       console.log(x);
       this.newImage=x.Value.Link;
       if(x["Message"]=="Successful"){
-        this.loginService.cookieService.set('roundThumbnail',x["Value"].RoundThumbnail);
-        this.loginService.roundThumbnail=x["Value"].RoundThumbnail; 
-        this.newThumbnail = x["Value"].Thumbnail; 
-        console.log(x["Value"].RoundThumbnail);
+       
+        if (x["Value"].Thumbnail==undefined) { 
+          this.uploadError=true;
+          this.uploadErrorMsg = x["Value"];
+        }
+        else{
+          this.loginService.cookieService.set('roundThumbnail',x["Value"].RoundThumbnail);
+          this.loginService.roundThumbnail=x["Value"].RoundThumbnail; 
+          this.newThumbnail = x["Value"].Thumbnail; 
+          console.log(x["Value"].RoundThumbnail);
+        }
+
+
+      }
+      else{
+        this.uploadError=true;
+       
       }
       this.fetchProfileRequest=false;
       return Promise.resolve();      
