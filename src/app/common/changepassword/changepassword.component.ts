@@ -1,4 +1,4 @@
-import { Component, OnInit,Directive, Input } from '@angular/core';
+import { Component, OnInit,TemplateRef,Directive, Input } from '@angular/core';
 import { ChangePw } from '../models/changepw.model';
 //import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 //import { NgForm } from '@angular/forms';
@@ -7,6 +7,11 @@ import { PasswordValidation  } from './confirm-password.validator';
 import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { LoginService } from './../services/login.service';
 import { ChangepwService } from '../services/changepw.service';
+import { RxwebValidators,RxFormBuilder } from "@rxweb/reactive-form-validators";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Router,} from '@angular/router'; 
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-changepassword',
@@ -29,41 +34,62 @@ export class ChangepasswordComponent implements OnInit {
     ConfirmPassword:null
   }
 
-  submitted:boolean=false;
+ 
+  submitted:boolean = false;
 
-  form: FormGroup;
-  constructor(public fb: FormBuilder, 
-    public loginService: LoginService,
-    public changePwService: ChangepwService)
-    // public http: Http)
-  {
-    this.form = fb.group({
-      oldPassword:['',Validators.required, Validators.minLength(1),Validators.maxLength(30)],
-      password: ['', Validators.required,Validators.minLength(1),Validators.maxLength(30)],
-      confirmPassword: ['', Validators.required,Validators.minLength(1),Validators.maxLength(30)]
-    }, {
-      validators: [PasswordValidation.MatchPassword,
-      PasswordValidation.LengthError]
-      
-    });
-  }
+  pwFormGroup: FormGroup
 
-  ngOnInit() {
-    this.headerImg = 'official_header_img';
-  }
-  
-  onSubmit() {
+    constructor(
+        private formBuilder: RxFormBuilder,
+        public loginService: LoginService,
+        public changePwService: ChangepwService,
+        private modalService: BsModalService,
+        public router: Router,
+        public cookieService: CookieService
+    ) { }   
+
+    ngOnInit() {
+      this.headerImg = 'official_header_img';
+        this.pwFormGroup = this.formBuilder.group({
+                currentPassword:['', RxwebValidators.minLength({value:1 })], 
+                  newPassword:['',
+                  RxwebValidators.password({validation:{maxLength: 10,minLength: 1} })], 
+        confirmPassword:['', RxwebValidators.compare({fieldName:'newPassword' })], 
+                                });
+    }
+
+  modalRef:BsModalRef;
+  onSubmit(template: TemplateRef<any>) {
     this.submitted=true;
-    console.log(this.form.value);
-    this.changePwModel.Email = this.loginService.email;
-    this.changePwModel.OldPassword = this.form.value.oldPassword;
-    this.changePwModel.NewPassword= this.form.value.password;
-    this.changePwModel.ConfirmPassword = this.form.value.confirmPassword;
+
+    console.log(this.pwFormGroup.value);
+    this.changePwModel.Email = this.cookieService.get('email').toString();
+    this.changePwModel.OldPassword = this.pwFormGroup.value.currentPassword;
+    this.changePwModel.NewPassword= this.pwFormGroup.value.newPassword;
+    this.changePwModel.ConfirmPassword = this.pwFormGroup.value.confirmPassword;
     this.apiModel.RequestedData = JSON.stringify(this.changePwModel);
     this.apiModel.SessionKey = this.loginService.sessionKey;
     this.apiModel.UserID =  this.loginService.userId.toString();
-    this.changePwService.changePassword(JSON.stringify(this.apiModel));
+    this.changePwService.changePassword(JSON.stringify(this.apiModel)).then(res=>{
+      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    });
    }
 
+   hideModal(){        
+    this.modalRef.hide();
+    this.pwFormGroup.reset();
+    
+  }
+  //, RxwebValidators.different({fieldName:'currentPassword' })
   
+  confirm(){        
+    this.modalRef.hide();
+    this.router.navigate(['official']);    
+  }
+
+  goBack(){
+    this.router.navigate(['official']);    
+  }
+  
+
 }

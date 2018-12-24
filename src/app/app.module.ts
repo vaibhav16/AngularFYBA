@@ -21,7 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoachComponent } from './coach/coach.component';
 import { PlayerComponent } from './player/player.component';
 import { HeaderComponent } from './common/header/header.component';
-
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators'; 
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -58,6 +58,7 @@ import { ChangepasswordComponent } from './common/changepassword/changepassword.
     FormsModule,
     AngularMultiSelectModule,
     ReactiveFormsModule,
+    RxReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

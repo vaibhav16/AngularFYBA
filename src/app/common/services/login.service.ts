@@ -71,6 +71,7 @@ postLoginData(userVar : Login){
     this.cookieService.set('leagueId', this.jsonResult["Value"].LeagueId,365);  
     this.cookieService.set('reportTagLabel', this.jsonResult["Value"].tagsLables.ReportCount,365);  
     this.cookieService.set('textSize', this.jsonResult["Value"].Text_Size,365);  
+    this.cookieService.set('email', this.jsonResult["Value"].Email,365); 
     this.dataSharingService.textSize=this.jsonResult["Value"].Text_Size;  
     //console.log
     if(this.jsonResult["Value"].RoundThumbnail!=null && this.jsonResult["Value"].RoundThumbnail.length>0){

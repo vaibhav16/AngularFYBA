@@ -10,6 +10,8 @@ export class ChangepwService {
 
   constructor(private http: Http) { }
 
+  result:string;
+  resultMsg:string;
   changePassword(apiModel: string){
     this.request=true;
     console.log(apiModel);
@@ -21,6 +23,13 @@ export class ChangepwService {
     })).toPromise().then(x => {     
       console.log(x);
       this.request=false;  
+      this.resultMsg=x["Value"];
+     
+      if(x["Value"].includes('mismatch')){
+        this.result="UnSuccessful";
+      }
+      else
+      this.result="Successful";
       return Promise.resolve();          
     }).catch(err=>{this.handleError(err)});
 
