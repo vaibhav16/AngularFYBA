@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PasswordValidation  } from './confirm-password.validator';
 import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { LoginService } from './../services/login.service';
-import { ChangepwService } from '../models/changepw.service';
+import { ChangepwService } from '../services/changepw.service';
 
 @Component({
   selector: 'app-changepassword',

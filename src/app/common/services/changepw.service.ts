@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
-import { Constants } from './constants';
+import { Constants } from '../models/constants';
 import { map } from 'rxjs/operators';
 
 @Injectable({
