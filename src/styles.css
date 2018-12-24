@@ -247,11 +247,11 @@ div {
    ul.teamList li{background:#3c98db; border-radius:10px; margin:10px 0; cursor:pointer;}
    ul.teamList li:first-child{margin-top:20px;}
    ul.teamList li h3{color:#ffffff; font-size:18px; padding:10px; margin:0px; font-weight:bold;}
-   .signupPosition{font-size:14px; margin-top:10px;}
-   a.signupRedBtn{background:#ff0000; padding:3px 12px; color:#ffffff; border-radius:0px; font-size:12px;}
+   .signupPosition{font-size:16px; margin-top:10px;}
+   a.signupRedBtn{background:#ff0000; padding:3px 12px; color:#ffffff; border-radius:0px; font-size:14px;}
    a.signupRedBtn:hover, a.signupRedBtn:focus{color:#ffffff; text-decoration:none;}
-   a.cancelSignupBtn{background:#FFD700; padding:3px 12px; color:#000000; border-radius:0px; font-size:12px;}
-   a.canNotCancelSignupBtn{background:#bfbfbf; padding:3px 12px; color:#000000; border-radius:0px; font-size:12px;}
+   a.cancelSignupBtn{background:#FFD700; padding:3px 12px; color:#000000; border-radius:0px; font-size:14px;}
+   a.canNotCancelSignupBtn{background:#bfbfbf; padding:3px 12px; color:#000000; border-radius:0px; font-size:14px;}
    .paddTop4{padding-top:4px;}
    
    .matchInfo{font-size:14px; margin-left:40px; margin-top:10px; line-height:20px; font-weight:normal;}
@@ -313,7 +313,7 @@ div {
     }
     .noRecordsProfile{
         color: black; text-align: left; font-weight:bold;/*word-spacing:5px;*/
-        padding-top: 0px; font-size: 14px;
+        padding-top: 0px; font-size: 16px;
         
     }
 
@@ -999,6 +999,13 @@ div {
     .small_font .wordBreak .row-fluid .paddTop4 {word-wrap:break-word;}
     .small_font table.scoreTable tr th{font-size: 14px;}
     .small_font table.scoreTable tr td{font-size: 14px;}
+    .small_font .signupPosition{font-size:14px;}
+    .small_font a.signupRedBtn{font-size:12px;}
+    .small_font a.cancelSignupBtn{font-size:12px;}
+    .small_font a.canNotCancelSignupBtn{font-size:12px;}
+    .small_font ul.paymentdates li {font-size: 14px;}
+    .small_font .noRecordsProfile{font-size: 14px;}
+
     }
 
   /* ---- End Small Font Css --- */

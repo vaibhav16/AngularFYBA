@@ -38,11 +38,12 @@ export class ChangepasswordComponent implements OnInit {
     // public http: Http)
   {
     this.form = fb.group({
-      oldPassword:['',Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
+      oldPassword:['',Validators.required, Validators.minLength(1),Validators.maxLength(30)],
+      password: ['', Validators.required,Validators.minLength(1),Validators.maxLength(30)],
+      confirmPassword: ['', Validators.required,Validators.minLength(1),Validators.maxLength(30)]
     }, {
-      validator: PasswordValidation.MatchPassword // your validation method,
+      validators: [PasswordValidation.MatchPassword,
+      PasswordValidation.LengthError]
       
     });
   }
