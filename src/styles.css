@@ -316,6 +316,11 @@ div {
         padding-top: 0px; font-size: 16px;
         
     }
+    h2.changePw{
+        font-size: 24px !important; 
+        font-weight: bold;
+        color:#333;
+    }
 
 
    .logo_login{text-align:center; margin-bottom:80px;}
@@ -977,7 +982,10 @@ div {
   {  
     content:'Large';
   }
-  
+  .pwForm{
+      font-size: 14px;
+  }
+
   /*--------- END --------*/
 
 
@@ -1005,6 +1013,8 @@ div {
     .small_font a.canNotCancelSignupBtn{font-size:12px;}
     .small_font ul.paymentdates li {font-size: 14px;}
     .small_font .noRecordsProfile{font-size: 14px;}
+    .small_font h2.changePw{font-size: 20px !important;}
+    .small_font .pwForm{font-size: 13px;}
 
     }
 

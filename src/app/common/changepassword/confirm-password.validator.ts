@@ -1,16 +1,22 @@
 import { AbstractControl } from '@angular/forms';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class PasswordValidation {
-  checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
-        return (group: FormGroup) => {
-          let passwordInput = group.controls[passwordKey],
-              passwordConfirmationInput = group.controls[passwordConfirmationKey];
-          if (passwordInput.value !== passwordConfirmationInput.value) {
-            return passwordConfirmationInput.setErrors({notEquivalent: true})
-          }
-          else {
-              return passwordConfirmationInput.setErrors(null);
-          }
-        }
-      }
+    static MatchPassword(AC: AbstractControl) {
+        let password = AC.get('currentPassword').value; // to get value in input tag
+        let newPassword = AC.get('newPassword').value; // to get value in input tag
+        let confirmPassword = AC.get('confirmPassword').value; // to get value in input tag       
+        
+ 
+        if(newPassword != confirmPassword) {
+             //console.log('false');
+             AC.get('confirmPassword').setErrors( {MatchPassword: true} )
+         } 
+         else{
+             return null
+         }
+         
+         
+        
+         
+     }
 }

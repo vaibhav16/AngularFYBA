@@ -37,73 +37,57 @@ export class ChangepasswordComponent implements OnInit {
 
  
   submitted:boolean = false;
-
-  pwFormGroup: FormGroup
+  form: FormGroup
 
     constructor(
-        private formBuilder: RxFormBuilder,
+        public fb: FormBuilder,
         public loginService: LoginService,
         public changePwService: ChangepwService,
         private modalService: BsModalService,
         public router: Router,
         public cookieService: CookieService
-    ) { }   
+    ) { 
+      this.form = fb.group({
+        currentPassword:['',Validators.required],
+        newPassword: ['', Validators.required],
+        confirmPassword: ['', Validators.required]
+      }, {
+        validator: PasswordValidation.MatchPassword // your validation method,
+        
+      });
+     
 
+    }
+
+    email: string;
     ngOnInit() {
       this.headerImg = 'official_header_img';
-      this.pwFormGroup = new FormGroup({
-        currentPassword: new FormControl('', [Validators.required, Validators.minLength(1), 
-          this.checkPassword]),
-        newPassword: new FormControl('', [Validators.required, Validators.minLength(2)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(2)])
-      },
-      this.passwordsShouldMatch
-    );
-  }
+      this.email = this.cookieService.get('email').toString();
 
-  get currentPassword() { return this.pwFormGroup.get('currentPassword'); }
-
-  get newPassword() { return this.pwFormGroup.get('newPassword'); }
-
-  get confirmPassword() { return this.pwFormGroup.get('confirmPassword'); }
-
-  private checkPassword(control: FormControl) {
-    return control.value.toString().length >= 1 && control.value.toString().length <= 10
-      ? null
-      : {'outOfRange': true};
-  }
-
-  private passwordsShouldMatch(fGroup: FormGroup) {
-    return fGroup.get('newPassword').value === fGroup.get('confirmPassword').value
-      ? null : {'mismatch': true};
-  }
-  // this.pwFormGroup = this.formBuilder.group({
-  //               currentPassword:['', RxwebValidators.minLength({value:1 })], 
-  //                 newPassword:['',
-  //                 RxwebValidators.password({validation:{maxLength: 10,minLength: 1} })], 
-  //       confirmPassword:['', RxwebValidators.compare({fieldName:'newPassword' })], 
-  //                               });
+     
+    }               
   
   modalRef:BsModalRef;
   onSubmit(template: TemplateRef<any>) {
     this.submitted=true;
 
-     console.log(this.pwFormGroup.value);
-    // this.changePwModel.Email = this.cookieService.get('email').toString();
-    // this.changePwModel.OldPassword = this.pwFormGroup.value.currentPassword;
-    // this.changePwModel.NewPassword= this.pwFormGroup.value.newPassword;
-    // this.changePwModel.ConfirmPassword = this.pwFormGroup.value.confirmPassword;
-    // this.apiModel.RequestedData = JSON.stringify(this.changePwModel);
-    // this.apiModel.SessionKey = this.loginService.sessionKey;
-    // this.apiModel.UserID =  this.loginService.userId.toString();
-    // this.changePwService.changePassword(JSON.stringify(this.apiModel)).then(res=>{
-    //   this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-    // });
+     console.log(this.form.value);
+    this.changePwModel.Email = this.email;
+    this.changePwModel.OldPassword = this.form.value.currentPassword;
+    this.changePwModel.NewPassword= this.form.value.newPassword;
+    this.changePwModel.ConfirmPassword = this.form.value.confirmPassword;
+    this.apiModel.RequestedData = JSON.stringify(this.changePwModel);
+    this.apiModel.SessionKey = this.loginService.sessionKey;
+    this.apiModel.UserID =  this.loginService.userId.toString();
+    this.changePwService.changePassword(JSON.stringify(this.apiModel)).then(res=>{
+      this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      console.log(this.modalRef);
+    });
    }
 
    hideModal(){        
     this.modalRef.hide();
-    this.pwFormGroup.reset();
+    this.form.reset();
     
   }
   //, RxwebValidators.different({fieldName:'currentPassword' })
