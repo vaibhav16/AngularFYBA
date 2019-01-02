@@ -1,8 +1,9 @@
 import { Component, OnInit,Input, ViewChild, ElementRef } from '@angular/core';
-import { LoginService} from '../../login/login.service';
+import { LoginService} from './../services/login.service';
 import { Router } from   '@angular/router'; 
-import { CommonService } from './../common.service';
-import { FinalFilter } from '../..//models/official/select-game/finalFilter.model';
+import { CommonService } from '../services/common.service';
+import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
 	selector: 'app-header',
@@ -19,7 +20,16 @@ export class HeaderComponent implements OnInit {
 	
 	constructor(private _router: Router,
 		public loginService: LoginService,
-		public commonService: CommonService) { }
+		public commonService: CommonService,
+		public dataSharingService: DataSharingService) { 
+			if(dataSharingService.textSize=="Small")
+				this.textType=false;			
+				else
+				this.textType=true;
+				
+			
+		}
+		textType:boolean;
 	@Input('topImage') topImage: string;
 	@ViewChild('imageClass') imageClass: ElementRef;
 	

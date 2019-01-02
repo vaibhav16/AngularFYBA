@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { LoginService } from './login/login.service';
+import { LoginService } from './common/services/login.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,6 +14,8 @@ export class AuthGuard implements CanActivate {
             this.loginService.roleId = this.loginService.cookieService.get('roleId');
             this.loginService.leagueId = this.loginService.cookieService.get('leagueId');  
             this.loginService.reportTagLabel = parseInt(this.loginService.cookieService.get('reportTagLabel'));
+            this.loginService.roundThumbnail = this.loginService.cookieService.get('roundThumbnail');
+            this.loginService.textSize = this.loginService.cookieService.get('textSize');
             // logged in so return true            
             return true;
         }
