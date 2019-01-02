@@ -94,7 +94,7 @@ postLoginData(userVar : Login){
   else{
     this.isLoggedIn=false;
     this.loginFailed=true;
-    this.errorMsg = "Invalid Login Credentials! Please try again.";
+    this.errorMsg = "Username/Password do not match. \nPlease try again.";
   }   
   }).catch(err=>{this.handleError(err)});;
 }

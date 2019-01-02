@@ -45,9 +45,13 @@
 									<span></span>
 									<div  [ngStyle]="{'display':toggle ? 'block' : 'none' }"  class="mobile_menu_div">
 										<ul>
-											<li><label class="switch">
+											<!-- <li><label class="switch">
 												<input [checked]="textType" type="checkbox" id="togBtn" (change) = "toggleText()">
 												<div class="slider round"></div></label>
+											</li> -->
+											<li style="padding-bottom:0%" >												
+												<p (click) = "toggleText()" *ngIf="dataSharingService.textSize=='Small'">Classic Layout</p>
+												<p (click) = "toggleText()" *ngIf="dataSharingService.textSize=='Large'">Compact Layout</p>
 											</li>
 											<li (click)="changePassword()">Change Password</li>
 											<li (click)="logout()">Log Out</li>
@@ -99,3 +103,7 @@
 	</div> 
 	
 </div>
+
+<!--##########loader###################-->
+<app-fybaloader *ngIf="toggleRequest"></app-fybaloader>
+<!--######################################-->

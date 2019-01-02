@@ -73,15 +73,19 @@ export class HeaderComponent implements OnInit {
 	TextSizeModel = {
 		TextSize:''
 	};
-	
+
+	toggleRequest:boolean;
 	toggleText(){	
+		this.toggleRequest=true;
 		// var currentTxtSize = this.loginService.cookieService.get('textSize');
 		// if(currentTxtSize=="Small")
 		// this.TextSizeModel.TextSize = "Large";
 		// else
 		// this.TextSizeModel.TextSize = "Small";
 		 //= txtSize.toString();
-		this.commonService.toggleTextSize();
+		this.commonService.toggleTextSize().then(res=>{
+			this.toggleRequest=false;
+		});
 		//this.commonService.toggleTextSize(JSON.stringify(this.TextSizeModel));
 	
 	}

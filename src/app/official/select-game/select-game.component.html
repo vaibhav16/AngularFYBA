@@ -70,8 +70,8 @@
                         <input type="checkbox" name="pastGames"
                         [(ngModel)]="officialService.selectGameJson.Value.Filters.ShowPastGames"
                          value="officialService.selectGameJson.Value.Filters.ShowPastGames" />-->
-                     <button type="submit" class="btn btn-success">Apply Filters</button>
-                     <button type="reset" class="btn btn-danger">Clear All</button>
+                     <button type="submit" class="btn btn-success">Apply<br class="btnWordBreak" /> Filters</button>
+                     <button type="reset" class="btn btn-danger">Clear<br class="btnWordBreak" /> All</button>
                      </form> 
                   </ng-template>
                </ngb-panel>
@@ -84,8 +84,11 @@
                   <strong>{{item.GameDateName}}
                      
                   </strong>
-                  <span class="pull-right">{{item.GameAvailable}}</span>
+                  <span class="pull-right rightGameAvailable">{{item.GameAvailable}}</span>
                </h1>
+               <div class="clearfix"></div> 
+               <p class="subGroupHead"><span>{{item.IfFilterAppliedText}}</span></p>
+               <div class="clearfix"></div> 
                <ngb-accordion #acc="ngbAccordion" class="data_module" 
                [activeIds]="activeIds" (panelChange)="beforeChange($event)">
                <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
@@ -151,9 +154,12 @@
                      (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, 
                      child.GameTimeSlots[0].Positions.GameId, 1, true,cancelTemplate)" 
                      class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
-            </div>
-            <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel 
-            && child.GameTimeSlots[0].Positions.CanCancel==false" 
+            </div>            
+            <!-- (child.GameTimeSlots[0].Positions.RefreeCancel 
+            && child.GameTimeSlots[0].Positions.CanCancel==false) -->
+            <div *ngIf="!child.GameTimeSlots[0].Positions.IsGamePast && 
+            (child.GameTimeSlots[0].Positions.RefreeCancel 
+            && child.GameTimeSlots[0].Positions.CanCancel==false)" 
             style="padding-left:0px !important" class="col-md-4 col-sm-4 col-xs-4">
             <a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
             </div>
@@ -185,7 +191,10 @@
          class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
       </div>
 
-      <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel==false" 
+<!-- (child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel==false) -->
+      <div *ngIf="!child.GameTimeSlots[0].Positions.IsGamePast 
+      && (child.GameTimeSlots[0].Positions.UmpireCancel && 
+      child.GameTimeSlots[0].Positions.CanCancel==false)" 
       style="padding-left:0px !important" class="col-md-4 col-sm-4 col-xs-4">
       <a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
 
@@ -207,7 +216,8 @@
       <!-- class="col-md-4 col-sm-4 col-xs-4" -->
       {{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
 
-      <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" style="padding-left:0px !important" 
+      <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" 
+      style="padding-left:0px !important" 
       (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, 
       child.GameTimeSlots[0].Positions.GameId, 3, false,template,standardTemplate)" 
       id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-4 col-sm-4 col-xs-4">
@@ -219,13 +229,16 @@
       child.GameTimeSlots[0].Positions.GameId, 3, true,cancelTemplate)" 
       class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
       </div>
-
-      <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
-      child.GameTimeSlots[0].Positions.CanCancel==false" style="padding-left:0px !important" 
+      <!-- && (child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
+      child.GameTimeSlots[0].Positions.CanCancel==false) -->
+      <div *ngIf="!child.GameTimeSlots[0].Positions.IsGamePast 
+      && (child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
+      child.GameTimeSlots[0].Positions.CanCancel==false)"       
+      style="padding-left:0px !important" 
       class="col-md-4 col-sm-4 col-xs-4">
       <a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
-
       </div>
+
       </div>
       </ng-template>
       </ngb-panel>

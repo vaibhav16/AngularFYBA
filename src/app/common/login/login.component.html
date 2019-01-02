@@ -34,8 +34,10 @@
    <ng-template #loginErrorTemplate>
       <div class="modal-body text-center">
          <p class="heading-signUp">Error</p>
-         <p>{{loginService.errorMsg}}</p>
-         <button type="button" class="btn btn-danger" (click)="closeErrorModal()" >Ok</button>
+         <!-- <p>{{loginService.errorMsg}}</p> -->
+         <p>{{loginService.errorMsg.split('\n')[0]}}</p>
+         <p>{{loginService.errorMsg.split('\n')[1]}}</p>
+         <button type="button" class="btn btn-danger" (click)="closeErrorModal()" >OK</button>
       </div>
    </ng-template>
 </body>
