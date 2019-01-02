@@ -206,7 +206,7 @@
                          <div class="bgGrey">
                             <div class="row">
                                <div class="col-md-12">
-                                  <p *ngIf="item.OfficiatingPositionId==3" class="describe_text" style="color:#000 !important">Please upload an image of the Game Scoresheet.</p>
+                                  <!-- <p *ngIf="item.OfficiatingPositionId==3" class="describe_text" style="color:#000 !important">Please upload an image of the Game Scoresheet.</p> -->
                                   <input style="display: none" type="file" (change)="onFileChanged($event,'Incident_')" #fileInput>
                                   <ul *ngIf="item.ScoreSheetImages.length>0; else noScoreSheet" class="addList" #Incidentlist>
                                      <li *ngFor="let child of item.ScoreSheetImages; let ssIndex = index" id=scoresheet{{ssIndex}}>
@@ -280,7 +280,7 @@
                        id={{item.OfficiatingPositionId}} type="submit" 
                        (click)="onSubmit(reportForm,gameListIndex,
                        invalidScoreTemplate,unEqualHomeScoreTemplate,
-                       unEqualVisitingScoreTemplate,uploadTemplate)">SAVE</button>
+                       unEqualVisitingScoreTemplate,uploadTemplate)">SAVE REPORT</button>
           </div>
           <div *ngIf="officialService.requestStatus==1" class="requestSent"> <br>Request has been sent!</div>
           <div *ngIf="officialService.requestSuccess==true" class="requestSuccess"> <br> Data Saved!</div>
@@ -297,7 +297,7 @@
  </ng-template>
  </div>
  <ng-template  #noScoreSheet>
-    <div class="noRecordsProfile">No ScoreSheet uploaded</div>
+    <div class="noRecordsProfile">No Scoresheet uploaded</div>
     <br/>
  </ng-template>
  <ng-template #template>
