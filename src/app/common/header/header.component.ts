@@ -1,6 +1,9 @@
 import { Component, OnInit,Input, ViewChild, ElementRef } from '@angular/core';
-import { LoginService} from '../../login/login.service';
+import { LoginService} from './../services/login.service';
 import { Router } from   '@angular/router'; 
+import { CommonService } from '../services/common.service';
+import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
 	selector: 'app-header',
@@ -8,8 +11,25 @@ import { Router } from   '@angular/router';
 	styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+
+	apiModel: FinalFilter={
+		UserID:'',
+		SessionKey:'',
+		RequestedData:''
+	   }
 	
-	constructor(private _router: Router,public loginService: LoginService) { }
+	constructor(private _router: Router,
+		public loginService: LoginService,
+		public commonService: CommonService,
+		public dataSharingService: DataSharingService) { 
+			if(dataSharingService.textSize=="Small")
+				this.textType=false;			
+				else
+				this.textType=true;
+				
+			
+		}
+		textType:boolean;
 	@Input('topImage') topImage: string;
 	@ViewChild('imageClass') imageClass: ElementRef;
 	
@@ -43,6 +63,27 @@ export class HeaderComponent implements OnInit {
 
 	logout(){
 		this._router.navigate(['logout']);
+	}
+
+	changePassword(){
+		this._router.navigate(['changepassword']);
+	}
+	
+	//toggle:boolean=false
+	TextSizeModel = {
+		TextSize:''
+	};
+	
+	toggleText(){	
+		// var currentTxtSize = this.loginService.cookieService.get('textSize');
+		// if(currentTxtSize=="Small")
+		// this.TextSizeModel.TextSize = "Large";
+		// else
+		// this.TextSizeModel.TextSize = "Small";
+		 //= txtSize.toString();
+		this.commonService.toggleTextSize();
+		//this.commonService.toggleTextSize(JSON.stringify(this.TextSizeModel));
+	
 	}
 	
 }

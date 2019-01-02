@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Filter } from '../models/official/select-game/filter.model';
-import { LoginService} from './../login/login.service';
-import { FinalFilter } from '../models/official/select-game/finalFilter.model';
+import { Filter } from './classes/selectgame/filter.model';
+import { LoginService} from './../common/services/login.service';
+import { FinalFilter } from './classes/selectgame/finalFilter.model';
 import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-import { SignUpRequestedData } from '../models/official/select-game/signUp_rd.model';
-import { IntialFilter } from '../models/official/select-game/initialFilter.model';
-import { ReportGameData } from '../models/official/reportgame/reportGame.model';
-import { APIGamePost } from '../models/official/reportgame/APIGamePost.model';
-import { APIPlayerScorePost } from '../models/official/reportgame/APIPlayerScorePost.model';
-import { SignUpEmail } from '../models/official/reportgame/signupEmail.model';
-import { SignUp } from '../models/official/select-game/signup.model';
-import { Profile } from './../models/official/profile/profile.model';
-import { UploadProfileImage } from '../models/official/profile/uploadProfileImg.model';
-import { DeleteProfileImage } from '../models/official/profile/deleteProfileImg.model';
+import { SignUpRequestedData } from './classes/selectgame/signUp_rd.model';
+import { IntialFilter } from './classes/selectgame/initialFilter.model';
+import { ReportGameData } from './classes/reportgame/reportGame.model';
+import { APIGamePost } from './classes/reportgame/APIGamePost.model';
+import { APIPlayerScorePost } from './classes/reportgame/APIPlayerScorePost.model';
+import { SignUpEmail } from './classes/reportgame/signupEmail.model';
+import { SignUp } from './classes/selectgame/signup.model';
+import { Profile } from './classes/profile/profile.model';
+import { UploadProfileImage } from './classes/profile/uploadProfileImg.model';
+import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
-import { Constants } from './../models/constants';
+import { Constants } from '../common/models/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -487,15 +487,16 @@ export class OfficialService {
    /* - This function is used to post the entire gameList model to the API.
    It comes into play when the ScoreKeeper make any changes to the player scores in a specific game. 
    An updated model with all the scores is sent to the database and the records are updated. - */
-
+  reportErrorMsg:string;
   postReportData(gameListObj: any){
+    this.reportErrorMsg=null;
     this.requestStatus = 1;
     this.requestSuccess=false;
     this.requestFailure=false;
     this.finalFilter.RequestedData= JSON.stringify(gameListObj);    
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID =this.loginService.userId.toString();
-    //console.log(this.finalFilter);
+    console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);   
     console.log(JSON.stringify(this.finalFilter));
     
@@ -508,11 +509,19 @@ export class OfficialService {
       
       console.log(x);
       this.requestStatus = 0;
-      if(x["Error"]==200){
-        this.requestSuccess=true;    
-        this.loginService.reportTagLabel=x["Value"];
-        this.cookieService.set("reportTagLabel",x["Value"]);
-        console.log(this.loginService.reportTagLabel);    
+      if(x["Error"]==200){   
+        if (x["Message"].includes('Fail')||(x["Message"].includes('not'))) { 
+          this.reportErrorMsg=x["Message"];
+          console.log(this.reportErrorMsg);
+        }
+        else{
+          this.requestSuccess=true;    
+          this.loginService.reportTagLabel=x["Value"];
+          this.cookieService.set("reportTagLabel",x["Value"]);
+          console.log(this.loginService.reportTagLabel);  
+          this.getReportData();
+        }
+     
       }
       else{
         this.requestFailure=true;
@@ -592,7 +601,12 @@ export class OfficialService {
   }
 
   newImage:string;
+  newThumbnail:string;
+  uploadError:boolean;
+  uploadErrorMsg:string;
+  
   uploadProfileImage(newImgByteCode: string){
+    this.uploadError=false;
     //console.log(newImgByteCode);
     this.fetchProfileRequest=true;
     this.uploadProfileImg.SeasonId=this.loginService.seasonId;
@@ -606,7 +620,7 @@ export class OfficialService {
 
     console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);   
-    //console.log(JSON.stringify(this.finalFilter));
+    console.log(JSON.stringify(this.finalFilter));
  
     var headerOptions =  new Headers();
     var headerOptions =  new Headers({'Content-Type':'application/json'});
@@ -617,7 +631,26 @@ export class OfficialService {
       return data.json()
     })).toPromise().then(x => {   
       console.log(x);
-      this.newImage=x.Value.Thumbnail;
+      this.newImage=x.Value.Link;
+      if(x["Message"]=="Successful"){
+       
+        if (x["Value"].Thumbnail==undefined) { 
+          this.uploadError=true;
+          this.uploadErrorMsg = x["Value"];
+        }
+        else{
+          this.loginService.cookieService.set('roundThumbnail',x["Value"].RoundThumbnail);
+          this.loginService.roundThumbnail=x["Value"].RoundThumbnail; 
+          this.newThumbnail = x["Value"].Thumbnail; 
+          console.log(x["Value"].RoundThumbnail);
+        }
+
+
+      }
+      else{
+        this.uploadError=true;
+       
+      }
       this.fetchProfileRequest=false;
       return Promise.resolve();      
     }).catch(err=>{this.handleError(err)});
@@ -637,7 +670,7 @@ export class OfficialService {
  
      console.log(this.finalFilter);
      var body = JSON.stringify(this.finalFilter);   
-     //console.log(JSON.stringify(this.finalFilter));
+     console.log(JSON.stringify(this.finalFilter));
   
      var headerOptions =  new Headers();
      var headerOptions =  new Headers({'Content-Type':'application/json'});
@@ -648,6 +681,15 @@ export class OfficialService {
        return data.json()
      })).toPromise().then(x => {   
        console.log(x);
+       if(x["Value"].Error=="404"|| x["Message"]=="Session Error"){
+         this.serviceError=true;
+        //this.loginService.roundThumbnail=x["Value"].RoundThumbnail;  
+        //console.log(x["Value"].RoundThumbnail);
+      }
+      else{
+        this.loginService.roundThumbnail=x["Value"];
+        this.loginService.cookieService.set('roundThumbnail',x["Value"]);
+      }
        this.fetchProfileRequest=false;
        return Promise.resolve();      
      }).catch(err=>{this.handleError(err)});

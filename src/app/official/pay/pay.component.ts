@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OfficialService } from './../official.service';
-import { LoginService } from './../../login/login.service'
+import { LoginService } from './../../common/services/login.service';
 
 @Component({
   selector: 'app-pay',
