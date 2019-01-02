@@ -327,6 +327,11 @@ div {
         font-size: 24px !important; 
         font-weight: bold;
         color:#333;
+        margin-top:5px; 
+        background-color:#fff; 
+        padding-bottom:10px;
+        margin-bottom: 10px;
+        border-bottom:1px solid #ccc;
     }
 
 

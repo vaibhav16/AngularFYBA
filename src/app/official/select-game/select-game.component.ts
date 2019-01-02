@@ -2,14 +2,17 @@ import { Component, TemplateRef, OnInit, ViewEncapsulation,ElementRef,Renderer2,
 import { OfficialService } from '../official.service';
 import { NgbActiveModal,NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Filter } from '../classes/selectgame/filter.model';
-
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from './../../common/services/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { isBoolean } from 'util';
-
+import { saveAs } from 'file-saver';
+import { map,switchMap,tap,mergeMap,catchError} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+//import 'rxjs/observable/throw';
+import { concat } from 'rxjs/operators';
+//declare var saveAs:any
 
 @Component({
   selector: 'app-select-game',
@@ -254,5 +257,66 @@ getGameLocation(){
   return this.sanitizer.bypassSecurityTrustResourceUrl(this.gameLocation);
 
 }
+
+pdfUrl:string;
+// downloadPdf(url){
+//   this.officialService.downloadPdf(url).subscribe(
+//     (res) => {      
+//       console.log(res);
+//         saveAs(res,'Scoresheet.pdf')
+//     });
+//     //this.officialService.getPdfUrl.concat(this.officialService.downloadPdf1).subscribe(res => {console.log(res)});
+  
+//   }
+
+  //downLoadUrl:string;
+  //fileName:string;
+  downloadRequest:boolean;
+  downloadPdf(url){
+    this.downloadRequest=true;
+  var downLoadUrl;
+  var fileName;
+    this.officialService.getPdfUrl(url)
+.pipe(map(res => {
+  //res as JSON;
+  console.log(res);
+  console.log(res["_body"]);
+  var x = JSON.parse(res["_body"]) ;
+  downLoadUrl = x["RelativeUrl"];
+  fileName = x["FileName"];
+  //console.log(x["RelativeUrl"]);  
+}))
+.pipe(mergeMap(_body => this.officialService.downloadPdf(downLoadUrl)))
+.pipe(catchError(e => { console.log(e); 
+  this.downloadRequest=false;
+  return Observable.throw(e);
+}))
+.subscribe(res => {
+  console.log(res);
+  saveAs(res,fileName);
+  this.downloadRequest=false;
+})
+  }
+  // this.officialService.downloadPdf(url).subscribe((data:any)=> {
+  //   console.log(data["_body"]);
+  //   // if(data["_body"]!=null || data["_body"].length>0){
+  //   //   this.pdfUrl=data["_body"];
+  //     //window.location.href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+  //     //this.downloadFile(this.pdfUrl);
+  //   //}
+  // });
+  // this.officialService.downloadPdf(url)
+  // .subscribe(data => {this.downloadFile(data);
+  //   console.log(data)}),
+  //                error => console.log('Error downloading the file.'),
+  //                () => console.info('OK');
+
+
+// downloadFile(data: Response) {
+//   const blob = new Blob([data], { type: 'application/pdf' });
+//   console.log(blob);
+//   const url= window.URL.createObjectURL(blob);
+//   window.open(url);
+// }
 
 }

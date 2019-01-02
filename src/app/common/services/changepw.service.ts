@@ -26,10 +26,10 @@ export class ChangepwService {
       this.resultMsg=x["Value"];
      
       if(x["Value"].includes('mismatch')){
-        this.result="UnSuccessful";
+        this.result="Action Unsuccessful";
       }
       else
-      this.result="Successful";
+      this.result="Action Successful";
       return Promise.resolve();          
     }).catch(err=>{this.handleError(err)});
 

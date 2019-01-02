@@ -84,7 +84,7 @@
                   <strong>{{item.GameDateName}}
                      
                   </strong>
-                  <span class="pull-right rightGameAvailable">{{item.GameAvailable}}</span>
+                  <span class="pull-right">{{item.GameAvailable}}</span>
                </h1>
                <ngb-accordion #acc="ngbAccordion" class="data_module" 
                [activeIds]="activeIds" (panelChange)="beforeChange($event)">
@@ -120,6 +120,8 @@
                                     <span *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}<br/></span>
                                     <span *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available<br/></span>
                                     <span *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper: {{nestedChild.ScoreKeeper}}<br/></span>
+                                    <!-- <span *ngIf="nestedChild.Scoresheet!=null || nestedChild.Scoresheet.length>0">Scoresheet: scoresheet.pdf<br/></span> -->
+                                    <div (click)="downloadPdf(nestedChild.Scoresheet)" *ngIf="nestedChild.Scoresheet!=null || nestedChild.Scoresheet.length>0">Scoresheet: {{nestedChild.ScoresheetName}}</div>
                                  </div>
                               </h3>
                            </ng-template>
@@ -231,7 +233,7 @@
       </div>
       </div>   
       <ng-template #noRecordDiv>
-         <div class="noRecordsBlack">No games to report</div>
+         <div class="noRecordsBlack">No games available.</div>
       </ng-template>
       <div class="clearfix"></div>
       </div> 
@@ -283,5 +285,5 @@
       </ng-template>
    </body>
    <!--##########loader###################-->
-   <app-fybaloader *ngIf="signUpRequest || officialService.fetchSelectGames || filterRequest"></app-fybaloader>
+   <app-fybaloader *ngIf="downloadRequest || signUpRequest || officialService.fetchSelectGames || filterRequest"></app-fybaloader>
    <!--######################################-->

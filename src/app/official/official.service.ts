@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map,switchMap,tap } from 'rxjs/operators';
 import { Filter } from './classes/selectgame/filter.model';
 import { LoginService} from './../common/services/login.service';
 import { FinalFilter } from './classes/selectgame/finalFilter.model';
-import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection } from '@angular/http';
+import {catchError } from 'rxjs/operators';
+import { Http, Response, Headers, RequestOptions, RequestMethod,JSONPConnection, ResponseContentType } from '@angular/http';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { Observable } from 'rxjs';
 import { SignUpRequestedData } from './classes/selectgame/signUp_rd.model';
 import { IntialFilter } from './classes/selectgame/initialFilter.model';
 import { ReportGameData } from './classes/reportgame/reportGame.model';
@@ -17,6 +19,7 @@ import { UploadProfileImage } from './classes/profile/uploadProfileImg.model';
 import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
 import { Constants } from '../common/models/constants';
+
 
 @Injectable({
   providedIn: 'root'
@@ -694,4 +697,45 @@ export class OfficialService {
        return Promise.resolve();      
      }).catch(err=>{this.handleError(err)});
   }
+
+
+  //////////////////////////////////////////
+
+//  public getPdfUrl(url: string):any{
+//   console.log(url);    
+//   const headers = new Headers();
+//   return this.http.get(url,{  
+//     headers: headers,
+//     responseType: ResponseContentType.Json })
+//   .pipe(
+//    map(
+//       (res) => {
+//         console.log(res);
+//           return res["_body"]
+//       }))
+//  }
+
+ 
+ public getPdfUrl(url: string):any{ 
+  return this.http.get(url)
+ }
+
+  public downloadPdf(url: string): any {
+    
+    let newUrl = url;
+    console.log(newUrl);    
+    const headers = new Headers({
+      'Content-Type': 'application/pdf'
+  });
+  
+    return this.http.get(newUrl,{  
+      headers: headers,
+      responseType: ResponseContentType.Blob })
+    .pipe(
+     map(
+        (res) => {
+          console.log(res);
+            return new Blob([res.blob()], { type: 'application/pdf' })
+        }))
+      }
 }
