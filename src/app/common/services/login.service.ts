@@ -36,6 +36,7 @@ export class LoginService {
   leagueId: string = null;
   roundThumbnail: string  = null;
   textSize:string = null;
+  
 
   constructor(private http: Http,private router: Router,
     public cookieService: CookieService,
