@@ -1,5 +1,5 @@
-export class FinalFilter{
-    UserID:string;
-    SessionKey:string;
-    RequestedData:string;
+export class FinalFilter {
+  UserID: string;
+  SessionKey: string;
+  RequestedData: string;
 }

@@ -1,289 +1,564 @@
-
-   <body>
-      <div *ngIf="officialService.selectGameJson!=undefined" class="container paddingBottom50">
-         <div class="row" >
-            <div class="col-lg-12">
-               <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
-               <ngb-panel id="filter" title="Filter">
-                  <ng-template ngbPanelContent>
-                     <form (ngSubmit)="submitFilters(filterForm.value)" #filterForm="ngForm">
-                     <div class="form-group">
-                        <label for="name" class="marginTopBottom marginTopNone">Division</label>
-                        <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
-                        <!--(onSelect)="onItemSelect($event)"
+<body>
+  <div
+    *ngIf="officialService.selectGameJson != undefined"
+    class="container paddingBottom50"
+  >
+    <div class="row">
+      <div class="col-lg-12">
+        <ngb-accordion #acc="ngbAccordion" (panelChange)="beforeChange($event)">
+          <ngb-panel id="filter" title="Filter">
+            <ng-template ngbPanelContent>
+              <form
+                (ngSubmit)="submitFilters(filterForm.value)"
+                #filterForm="ngForm"
+              >
+                <div class="form-group">
+                  <label for="name" class="marginTopBottom marginTopNone"
+                    >Division</label
+                  >
+                  <!--[data]="officialService.selectGameJson.Value.Filters.Filter_Divisions"-->
+                  <!--(onSelect)="onItemSelect($event)"
                            (onDeSelect)="OnItemDeSelect($event)" -->
-                        <angular2-multiselect 
-                        [data]="officialService.selectGameJson.Value.Filters.Filter_Divisions" 
-                        [(ngModel)]="officialService.selectedDivisions" 
-                        [settings]="settings"                                             
-                        name="DivisionSelect" #DivisionSelect="ngModel" required>
-                        </angular2-multiselect>
-                        <label for="name" class="marginTopBottom">Location</label>
-                        <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Locations" 
-                        [(ngModel)]="officialService.selectedLocations" 
-                        [settings]="settings" 
-                        name="LocationSelect" #LocationSelect="ngModel" required>
-                        </angular2-multiselect>
-                        <label for="name" class="marginTopBottom">Position</label>
-                        <angular2-multiselect [data]="officialService.selectGameJson.Value.Filters.Filter_Positions" 
-                        [(ngModel)]="officialService.selectedPositions" 
-                        [settings]="settings" 
-                        name="PositionSelect" #PositionSelect="ngModel" required>
-                        </angular2-multiselect>
-                        <label for="name" class="marginTopBottom">Start Time</label>
-                        <angular2-multiselect id="timeMultiselect" 
-                        [data]="officialService.selectGameJson.Value.Filters.Filter_StartTimes" 
-                        [(ngModel)]="officialService.selectedTimes" 
-                        [settings]="settings" 
-                        name="TimeSelect" #TimeSelect="ngModel" required>
-                        </angular2-multiselect>
-                     </div>
-                     <label class="containerCheckbox">Show Only Signed Games
-                     <input type="checkbox" name="signedGames" 
-                     [(ngModel)]="officialService.selectGameJson.Value.SelectedFilters.ShowSignedGames"
-                     value="officialService.selectGameJson.Value.SelectedFilters.ShowSignedGames" />
-                     <span class="checkmark"></span>
-                     </label>
-                     <label class="containerCheckbox">Show Past Games
-                     <input type="checkbox" name="pastGames"
-                     [(ngModel)]="officialService.selectGameJson.Value.SelectedFilters.ShowPastGames"
-                     value="officialService.selectGameJson.Value.SelectedFilters.ShowPastGames" />
-                     <span class="checkmark"></span>
-                     </label>
-                     <!--<input type="checkbox" name="signedGames" 
+                  <angular2-multiselect
+                    [data]="
+                      officialService.selectGameJson.Value.Filters
+                        .Filter_Divisions
+                    "
+                    [(ngModel)]="officialService.selectedDivisions"
+                    [settings]="settings"
+                    name="DivisionSelect"
+                    #DivisionSelect="ngModel"
+                    required
+                  >
+                  </angular2-multiselect>
+                  <label for="name" class="marginTopBottom">Location</label>
+                  <angular2-multiselect
+                    [data]="
+                      officialService.selectGameJson.Value.Filters
+                        .Filter_Locations
+                    "
+                    [(ngModel)]="officialService.selectedLocations"
+                    [settings]="settings"
+                    name="LocationSelect"
+                    #LocationSelect="ngModel"
+                    required
+                  >
+                  </angular2-multiselect>
+                  <label for="name" class="marginTopBottom">Position</label>
+                  <angular2-multiselect
+                    [data]="
+                      officialService.selectGameJson.Value.Filters
+                        .Filter_Positions
+                    "
+                    [(ngModel)]="officialService.selectedPositions"
+                    [settings]="settings"
+                    name="PositionSelect"
+                    #PositionSelect="ngModel"
+                    required
+                  >
+                  </angular2-multiselect>
+                  <label for="name" class="marginTopBottom">Start Time</label>
+                  <angular2-multiselect
+                    id="timeMultiselect"
+                    [data]="
+                      officialService.selectGameJson.Value.Filters
+                        .Filter_StartTimes
+                    "
+                    [(ngModel)]="officialService.selectedTimes"
+                    [settings]="settings"
+                    name="TimeSelect"
+                    #TimeSelect="ngModel"
+                    required
+                  >
+                  </angular2-multiselect>
+                </div>
+                <label class="containerCheckbox"
+                  >Show Only Signed Games
+                  <input
+                    type="checkbox"
+                    name="signedGames"
+                    [(ngModel)]="
+                      officialService.selectGameJson.Value.SelectedFilters
+                        .ShowSignedGames
+                    "
+                    value="officialService.selectGameJson.Value.SelectedFilters.ShowSignedGames"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="containerCheckbox"
+                  >Show Past Games
+                  <input
+                    type="checkbox"
+                    name="pastGames"
+                    [(ngModel)]="
+                      officialService.selectGameJson.Value.SelectedFilters
+                        .ShowPastGames
+                    "
+                    value="officialService.selectGameJson.Value.SelectedFilters.ShowPastGames"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <!--<input type="checkbox" name="signedGames" 
                         [(ngModel)]="officialService.selectGameJson.Value.Filters.ShowSignedGames"
                          value="officialService.selectGameJson.Value.Filters.ShowSignedGames" />
                         
                         <input type="checkbox" name="pastGames"
                         [(ngModel)]="officialService.selectGameJson.Value.Filters.ShowPastGames"
                          value="officialService.selectGameJson.Value.Filters.ShowPastGames" />-->
-                     <button type="submit" class="btn btn-success">Apply<br class="btnWordBreak" /> Filters</button>
-                     <button type="reset" class="btn btn-danger">Clear<br class="btnWordBreak" /> All</button>
-                     </form> 
-                  </ng-template>
-               </ngb-panel>
-               </ngb-accordion>
-            </div>
-         </div>
-         <div *ngIf="officialService.selectGameJson.Value.SelectGame.length>0; else noRecordDiv" class="row">
-            <div *ngFor='let item of officialService.selectGameJson.Value.SelectGame' class="col-lg-12">
-               <h1 class="mainDate" style="color:#08219a">
-                  <strong>{{item.GameDateName}}
-                     
-                  </strong>
-                  <span class="pull-right rightGameAvailable">{{item.GameAvailable}}</span>
-               </h1>
-               <div class="clearfix"></div> 
-               <p class="subGroupHead"><span>{{item.IfFilterAppliedText}}</span></p>
-               <div class="clearfix"></div> 
-               <ngb-accordion #acc="ngbAccordion" class="data_module" 
-               [activeIds]="activeIds" (panelChange)="beforeChange($event)">
-               <ngb-panel *ngFor='let child of item.GameDateSlots; let i= index' class="teamList" 
-                  id="{{child.GameTimeSlots[0].GameTimeSlotName}} {{i}}">
+                <button type="submit" class="btn btn-success">
+                  Apply<br class="btnWordBreak" />
+                  Filters
+                </button>
+                <button type="reset" class="btn btn-danger">
+                  Clear<br class="btnWordBreak" />
+                  All
+                </button>
+              </form>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        officialService.selectGameJson.Value.SelectGame.length > 0;
+        else noRecordDiv
+      "
+      class="row"
+    >
+      <div
+        *ngFor="let item of officialService.selectGameJson.Value.SelectGame"
+        class="col-lg-12"
+      >
+        <h1 class="mainDate" style="color:#08219a">
+          <strong>{{ item.GameDateName }} </strong>
+          <span class="pull-right rightGameAvailable">{{
+            item.GameAvailable
+          }}</span>
+        </h1>
+        <div class="clearfix"></div>
+        <p class="subGroupHead">
+          <span>{{ item.IfFilterAppliedText }}</span>
+        </p>
+        <div class="clearfix"></div>
+        <ngb-accordion
+          #acc="ngbAccordion"
+          class="data_module"
+          [activeIds]="activeIds"
+          (panelChange)="beforeChange($event)"
+        >
+          <ngb-panel
+            *ngFor="let child of item.GameDateSlots; let i = index"
+            class="teamList"
+            id="{{ child.GameTimeSlots[0].GameTimeSlotName }} {{ i }}"
+          >
+            <ng-template ngbPanelTitle>
+              <div
+                class="HeadCollapse {{
+                  child.GameTimeSlots[0].SelfsignupCSSclass
+                }}"
+              >
+                <h2>{{ child.GameTimeSlots[0].GameTimeSlotName }}</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
+              <ngb-accordion #acc="ngbAccordion">
+                <ngb-panel
+                  *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups"
+                  class="teamList"
+                  id="{{ nestedChild.MatchupName }}"
+                >
                   <ng-template ngbPanelTitle>
-                     <div class="HeadCollapse {{child.GameTimeSlots[0].SelfsignupCSSclass}}">
-                        <h2>{{child.GameTimeSlots[0].GameTimeSlotName}}</h2>
-                     </div>
+                    <div class="HeadCollapse">
+                      {{ nestedChild.MatchupName }}
+                    </div>
                   </ng-template>
                   <ng-template ngbPanelContent>
-                     <!--h2>{{item.GameTimeSlots[0].GameTimeSlotName}}</h2-->
-                     <ngb-accordion #acc="ngbAccordion">
-                        <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" 
-                           class="teamList" id="{{nestedChild.MatchupName}}">
-                           <ng-template ngbPanelTitle>
-                              <div class="HeadCollapse">
-                                 {{nestedChild.MatchupName}}
-                              </div>
-                           </ng-template>
-                           <ng-template ngbPanelContent>
-                              <h3>
-                                 <div class="matchInfo_selectGame">
-                                    <!----iframe width="600" height="450" frameborder="0" style="border:0"
+                    <h3>
+                      <div class="matchInfo_selectGame">
+                        <!----iframe width="600" height="450" frameborder="0" style="border:0"
                                        src={{nestedChild.GoogleMapAdd}}>
                                        </iframe-->
-                                    <!----a href={{nestedChild.GoogleMapAdd}}>{{nestedChild.Location}}</a-->
-                                    <div (click)="openMapModal(nestedChild.GoogleMapAdd,mapTemplate)">{{nestedChild.Location}}</div>
-                                    <!---span>{{nestedChild.Location}}</span><br-->
-                                    <span *ngIf="nestedChild.Referee==1">Referee: Available<br/></span>
-                                    <span *ngIf="nestedChild.Referee!=1">Referee: {{nestedChild.Referee}}<br/></span>
-                                    <span *ngIf="nestedChild.Umpire==2">Umpire: Available<br/></span>
-                                    <span *ngIf="nestedChild.Umpire!=2">Umpire: {{nestedChild.Umpire}}<br/></span>
-                                    <span *ngIf="nestedChild.ScoreKeeper==3">Scorekeeper: Available<br/></span>
-                                    <span *ngIf="nestedChild.ScoreKeeper!=3">Scorekeeper: {{nestedChild.ScoreKeeper}}<br/></span>
-                                    <!-- <span *ngIf="nestedChild.Scoresheet!=null || nestedChild.Scoresheet.length>0">Scoresheet: scoresheet.pdf<br/></span> -->
-                                    <div (click)="downloadPdf(nestedChild.Scoresheet)" *ngIf="nestedChild.Scoresheet!=null || nestedChild.Scoresheet.length>0">Scoresheet: {{nestedChild.ScoresheetName}}</div>
-                                 </div>
-                              </h3>
-                           </ng-template>
-                        </ngb-panel>
-                     </ngb-accordion>
+                        <!----a href={{nestedChild.GoogleMapAdd}}>{{nestedChild.Location}}</a-->
+                        <div
+                          (click)="
+                            openMapModal(nestedChild.GoogleMapAdd, mapTemplate)
+                          "
+                        >
+                          {{ nestedChild.Location }}
+                        </div>
+                        <!---span>{{nestedChild.Location}}</span><br-->
+                        <span *ngIf="nestedChild.Referee == 1"
+                          >Referee: Available<br
+                        /></span>
+                        <span *ngIf="nestedChild.Referee != 1"
+                          >Referee: {{ nestedChild.Referee }}<br
+                        /></span>
+                        <span *ngIf="nestedChild.Umpire == 2"
+                          >Umpire: Available<br
+                        /></span>
+                        <span *ngIf="nestedChild.Umpire != 2"
+                          >Umpire: {{ nestedChild.Umpire }}<br
+                        /></span>
+                        <span *ngIf="nestedChild.ScoreKeeper == 3"
+                          >Scorekeeper: Available<br
+                        /></span>
+                        <span *ngIf="nestedChild.ScoreKeeper != 3"
+                          >Scorekeeper: {{ nestedChild.ScoreKeeper }}<br
+                        /></span>
+                        <!-- <span *ngIf="nestedChild.Scoresheet!=null || nestedChild.Scoresheet.length>0">Scoresheet: scoresheet.pdf<br/></span> -->
+                        <div
+                          (click)="downloadPdf(nestedChild.Scoresheet)"
+                          *ngIf="
+                            nestedChild.Scoresheet != null ||
+                            nestedChild.Scoresheet.length > 0
+                          "
+                        >
+                          Scoresheet: {{ nestedChild.ScoresheetName }}
+                        </div>
+                      </div>
+                    </h3>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
 
-                     <div class="row signupPosition">
-                        <div class="col-md-12 col-sm-12 col-xs-12 marginBottom10"><strong>Positions </strong></div>
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right">Referee:</div>                           
-                        <div *ngIf="child.GameTimeSlots[0].Positions.Referee!=1" style="padding-left:0px !important" 
+              <div class="row signupPosition">
+                <div class="col-md-12 col-sm-12 col-xs-12 marginBottom10">
+                  <strong>Positions </strong>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                  Referee:
+                </div>
+                <div
+                  *ngIf="child.GameTimeSlots[0].Positions.Referee != 1"
+                  style="padding-left:0px !important"
+                  [ngClass]="
+                    (child.GameTimeSlots[0].Positions.RefreeCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel) ||
+                    (child.GameTimeSlots[0].Positions.RefreeCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel == false)
+                      ? 'col-md-4 col-sm-4 col-xs-4'
+                      : 'col-md-8 col-sm-8 col-xs-8'
+                  "
+                >
+                  {{ child.GameTimeSlots[0].Positions.Referee }}
+                </div>
 
-                        [ngClass]="(child.GameTimeSlots[0].Positions.RefreeCancel && child.GameTimeSlots[0].Positions.CanCancel) 
-                        || (child.GameTimeSlots[0].Positions.RefreeCancel && child.GameTimeSlots[0].Positions.CanCancel==false)
-                        ? 'col-md-4 col-sm-4 col-xs-4' : 'col-md-8 col-sm-8 col-xs-8' ">
-                        {{child.GameTimeSlots[0].Positions.Referee}}</div>
+                <div
+                  *ngIf="child.GameTimeSlots[0].Positions.Referee == 1"
+                  style="padding-left:0px !important"
+                  id="{{ child.GameTimeSlots[0].Positions.Umpire }}"
+                  (click)="
+                    postSignUp(
+                      child.GameTimeSlots[0].Positions.GroupId,
+                      child.GameTimeSlots[0].Positions.GameId,
+                      1,
+                      false,
+                      template,
+                      standardTemplate
+                    )
+                  "
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn signupRedBtn">SIGNUP</a>
+                </div>
 
-                        <div *ngIf="child.GameTimeSlots[0].Positions.Referee==1" style="padding-left:0px !important" 
-                        id="{{child.GameTimeSlots[0].Positions.Umpire}}" 
-                        (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, 
-                        child.GameTimeSlots[0].Positions.GameId, 1, false,template,standardTemplate)" 
-                        class="col-md-4 col-sm-4 col-xs-4"><a class="btn signupRedBtn">SIGNUP</a>
-                     </div>
-
-                     <div *ngIf="child.GameTimeSlots[0].Positions.RefreeCancel 
-                     && child.GameTimeSlots[0].Positions.CanCancel" 
-                     style="padding-left:0px !important" 
-                     (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, 
-                     child.GameTimeSlots[0].Positions.GameId, 1, true,cancelTemplate)" 
-                     class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
-            </div>            
-            <!-- (child.GameTimeSlots[0].Positions.RefreeCancel 
+                <div
+                  *ngIf="
+                    child.GameTimeSlots[0].Positions.RefreeCancel &&
+                    child.GameTimeSlots[0].Positions.CanCancel
+                  "
+                  style="padding-left:0px !important"
+                  (click)="
+                    cancelSignUp(
+                      child.GameTimeSlots[0].Positions.GroupId,
+                      child.GameTimeSlots[0].Positions.GameId,
+                      1,
+                      true,
+                      cancelTemplate
+                    )
+                  "
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+                </div>
+                <!-- (child.GameTimeSlots[0].Positions.RefreeCancel 
             && child.GameTimeSlots[0].Positions.CanCancel==false) -->
-            <div *ngIf="!child.GameTimeSlots[0].Positions.IsGamePast && 
-            (child.GameTimeSlots[0].Positions.RefreeCancel 
-            && child.GameTimeSlots[0].Positions.CanCancel==false)" 
-            style="padding-left:0px !important" class="col-md-4 col-sm-4 col-xs-4">
-            <a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
-            </div>
-         </div>
+                <div
+                  *ngIf="
+                    !child.GameTimeSlots[0].Positions.IsGamePast &&
+                    (child.GameTimeSlots[0].Positions.RefreeCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel == false)
+                  "
+                  style="padding-left:0px !important"
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn canNotCancelSignupBtn"
+                    >Contact Ref Coord to Cancel</a
+                  >
+                </div>
+              </div>
 
-         <div class="row signupPosition">
-         <div class="col-md-12 col-sm-12 col-xs-12"></div>
-         <div class="col-md-4 col-sm-4 col-xs-4 text-right">Umpire: </div>
-         <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.Umpire==2" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
-         <div *ngIf="child.GameTimeSlots[0].Positions.Umpire!=2" 
-         id="{{child.GameTimeSlots[0].Positions.Umpire}}" style="padding-left:0px !important" 
+              <div class="row signupPosition">
+                <div class="col-md-12 col-sm-12 col-xs-12"></div>
+                <div class="col-md-4 col-sm-4 col-xs-4 text-right">Umpire:</div>
+                <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.Umpire==2" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
+                <div
+                  *ngIf="child.GameTimeSlots[0].Positions.Umpire != 2"
+                  id="{{ child.GameTimeSlots[0].Positions.Umpire }}"
+                  style="padding-left:0px !important"
+                  [ngClass]="
+                    (child.GameTimeSlots[0].Positions.UmpireCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel) ||
+                    (child.GameTimeSlots[0].Positions.UmpireCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel == false)
+                      ? 'col-md-4 col-sm-4 col-xs-4'
+                      : 'col-md-8 col-sm-8 col-xs-8'
+                  "
+                >
+                  {{ child.GameTimeSlots[0].Positions.Umpire }}
+                </div>
+                <!-- class="col-md-4 col-sm-4 col-xs-4" -->
 
-         [ngClass]="(child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel) 
-         || (child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel==false)
-         ? 'col-md-4 col-sm-4 col-xs-4' : 'col-md-8 col-sm-8 col-xs-8' ">
-         {{child.GameTimeSlots[0].Positions.Umpire}}</div>
-         <!-- class="col-md-4 col-sm-4 col-xs-4" -->
+                <div
+                  *ngIf="child.GameTimeSlots[0].Positions.Umpire == 2"
+                  style="padding-left:0px !important"
+                  (click)="
+                    postSignUp(
+                      child.GameTimeSlots[0].Positions.GroupId,
+                      child.GameTimeSlots[0].Positions.GameId,
+                      2,
+                      false,
+                      template,
+                      standardTemplate
+                    )
+                  "
+                  id="{{ child.GameTimeSlots[0].Positions.Umpire }}"
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn signupRedBtn">SIGNUP</a>
+                </div>
 
-         <div *ngIf="child.GameTimeSlots[0].Positions.Umpire==2" style="padding-left:0px !important" 
-         (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, 
-         child.GameTimeSlots[0].Positions.GameId, 2, false,template,standardTemplate)" 
-         id="{{child.GameTimeSlots[0].Positions.Umpire}}" class="col-md-4 col-sm-4 col-xs-4">
-         <a class="btn signupRedBtn">SIGNUP</a></div>
+                <div
+                  *ngIf="
+                    child.GameTimeSlots[0].Positions.UmpireCancel &&
+                    child.GameTimeSlots[0].Positions.CanCancel
+                  "
+                  style="padding-left:0px !important"
+                  (click)="
+                    cancelSignUp(
+                      child.GameTimeSlots[0].Positions.GroupId,
+                      child.GameTimeSlots[0].Positions.GameId,
+                      2,
+                      true,
+                      cancelTemplate
+                    )
+                  "
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+                </div>
 
-         <div *ngIf="child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel" 
-         style="padding-left:0px !important" 
-         (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, 
-         child.GameTimeSlots[0].Positions.GameId, 2, true,cancelTemplate)" 
-         class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
-      </div>
+                <!-- (child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel==false) -->
+                <div
+                  *ngIf="
+                    !child.GameTimeSlots[0].Positions.IsGamePast &&
+                    (child.GameTimeSlots[0].Positions.UmpireCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel == false)
+                  "
+                  style="padding-left:0px !important"
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn canNotCancelSignupBtn"
+                    >Contact Ref Coord to Cancel</a
+                  >
+                </div>
+              </div>
 
-<!-- (child.GameTimeSlots[0].Positions.UmpireCancel && child.GameTimeSlots[0].Positions.CanCancel==false) -->
-      <div *ngIf="!child.GameTimeSlots[0].Positions.IsGamePast 
-      && (child.GameTimeSlots[0].Positions.UmpireCancel && 
-      child.GameTimeSlots[0].Positions.CanCancel==false)" 
-      style="padding-left:0px !important" class="col-md-4 col-sm-4 col-xs-4">
-      <a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
+              <div class="row signupPosition">
+                <div class="col-md-12 col-sm-12 col-xs-12 "></div>
+                <div class="col-md-4 col-sm-4 col-xs-4 text-right">
+                  Scorekeeper:
+                </div>
 
-      </div>
-      </div>
+                <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.ScoreKeeper==3" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
+                <div
+                  *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper != 3"
+                  id="{{ child.GameTimeSlots[0].Positions.Scorekeeper }}"
+                  style="padding-left:0px !important"
+                  [ngClass]="
+                    (child.GameTimeSlots[0].Positions.ScoreKeeperCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel) ||
+                    (child.GameTimeSlots[0].Positions.ScoreKeeperCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel == false)
+                      ? 'col-md-4 col-sm-4 col-xs-4'
+                      : 'col-md-8 col-sm-8 col-xs-8'
+                  "
+                >
+                  <!-- class="col-md-4 col-sm-4 col-xs-4" -->
+                  {{ child.GameTimeSlots[0].Positions.ScoreKeeper }}
+                </div>
 
-      <div class="row signupPosition">
-      <div class="col-md-12 col-sm-12 col-xs-12 "></div> 
-      <div class="col-md-4 col-sm-4 col-xs-4 text-right">Scorekeeper: </div>
+                <div
+                  *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper == 3"
+                  style="padding-left:0px !important"
+                  (click)="
+                    postSignUp(
+                      child.GameTimeSlots[0].Positions.GroupId,
+                      child.GameTimeSlots[0].Positions.GameId,
+                      3,
+                      false,
+                      template,
+                      standardTemplate
+                    )
+                  "
+                  id="{{ child.GameTimeSlots[0].Positions.ScoreKeeper }}"
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn signupRedBtn">SIGNUP</a>
+                </div>
 
-      <!----div *ngIf="officialService.signUpStatus && child.GameTimeSlots[0].Positions.ScoreKeeper==3" class="col-md-4 col-sm-4 col-xs-4"><p style="color: red">Checking Sign Up Status</p></div-->
-      <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper!=3" 
-      id="{{child.GameTimeSlots[0].Positions.Scorekeeper}}" 
-      style="padding-left:0px !important"
-      [ngClass]="(child.GameTimeSlots[0].Positions.ScoreKeeperCancel && child.GameTimeSlots[0].Positions.CanCancel) 
-      || (child.GameTimeSlots[0].Positions.ScoreKeeperCancel && child.GameTimeSlots[0].Positions.CanCancel==false)
-      ? 'col-md-4 col-sm-4 col-xs-4' : 'col-md-8 col-sm-8 col-xs-8' "
-      >
-      <!-- class="col-md-4 col-sm-4 col-xs-4" -->
-      {{child.GameTimeSlots[0].Positions.ScoreKeeper}}</div>
-
-      <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeper==3" 
-      style="padding-left:0px !important" 
-      (click)="postSignUp(child.GameTimeSlots[0].Positions.GroupId, 
-      child.GameTimeSlots[0].Positions.GameId, 3, false,template,standardTemplate)" 
-      id="{{child.GameTimeSlots[0].Positions.ScoreKeeper}}" class="col-md-4 col-sm-4 col-xs-4">
-      <a class="btn signupRedBtn">SIGNUP</a></div>
-
-      <div *ngIf="child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
-      child.GameTimeSlots[0].Positions.CanCancel" style="padding-left:0px !important" 
-      (click)="cancelSignUp(child.GameTimeSlots[0].Positions.GroupId, 
-      child.GameTimeSlots[0].Positions.GameId, 3, true,cancelTemplate)" 
-      class="col-md-4 col-sm-4 col-xs-4"><a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
-      </div>
-      <!-- && (child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
+                <div
+                  *ngIf="
+                    child.GameTimeSlots[0].Positions.ScoreKeeperCancel &&
+                    child.GameTimeSlots[0].Positions.CanCancel
+                  "
+                  style="padding-left:0px !important"
+                  (click)="
+                    cancelSignUp(
+                      child.GameTimeSlots[0].Positions.GroupId,
+                      child.GameTimeSlots[0].Positions.GameId,
+                      3,
+                      true,
+                      cancelTemplate
+                    )
+                  "
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
+                </div>
+                <!-- && (child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
       child.GameTimeSlots[0].Positions.CanCancel==false) -->
-      <div *ngIf="!child.GameTimeSlots[0].Positions.IsGamePast 
-      && (child.GameTimeSlots[0].Positions.ScoreKeeperCancel && 
-      child.GameTimeSlots[0].Positions.CanCancel==false)"       
-      style="padding-left:0px !important" 
-      class="col-md-4 col-sm-4 col-xs-4">
-      <a class="btn canNotCancelSignupBtn">Contact Ref Coord to Cancel</a>
+                <div
+                  *ngIf="
+                    !child.GameTimeSlots[0].Positions.IsGamePast &&
+                    (child.GameTimeSlots[0].Positions.ScoreKeeperCancel &&
+                      child.GameTimeSlots[0].Positions.CanCancel == false)
+                  "
+                  style="padding-left:0px !important"
+                  class="col-md-4 col-sm-4 col-xs-4"
+                >
+                  <a class="btn canNotCancelSignupBtn"
+                    >Contact Ref Coord to Cancel</a
+                  >
+                </div>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </div>
-
+    </div>
+    <ng-template #noRecordDiv>
+      <div class="noRecordsBlack">No games available.</div>
+    </ng-template>
+    <div class="clearfix"></div>
+  </div>
+  <ng-template #template>
+    <div class="modal-body text-center">
+      <p class="heading-signUp">Sign Up Successful</p>
+      <!-- <p>{{officialService.signUpResponse}}</p> -->
+      <p>Would you like to receive a confirmation email?</p>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="confirmSignUpEmail()"
+      >
+        Yes
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="declineSignUpEmail()"
+      >
+        No
+      </button>
+    </div>
+  </ng-template>
+  <ng-template #cancelTemplate>
+    <div class="modal-body text-center">
+      <p class="heading-signUp">Cancel Sign Up</p>
+      <p>{{ officialService.signUpResponse }}</p>
+      <p>Would you like to receive a confirmation email?</p>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="confirmCancelSignupModal()"
+      >
+        Yes
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="closeCancelSignupModal()"
+      >
+        No
+      </button>
+    </div>
+  </ng-template>
+  <ng-template #standardTemplate>
+    <div class="modal-body text-center">
+      <p class="heading-signUp">Error</p>
+      <p>{{ officialService.signUpResponse }}</p>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="closeStandardModal()"
+      >
+        Ok
+      </button>
+    </div>
+  </ng-template>
+  <ng-template #mapTemplate>
+    <div class="modal-body text-center">
+      <p class="heading-signUp">Location</p>
+      <div class="paddTopBottom10">
+        <iframe
+          width="600"
+          height="450"
+          frameborder="0"
+          style="border:0"
+          [src]="getGameLocation()"
+        >
+        </iframe>
       </div>
-      </ng-template>
-      </ngb-panel>
-      </ngb-accordion>
-      </div>
-      </div>   
-      <ng-template #noRecordDiv>
-         <div class="noRecordsBlack">No games available.</div>
-      </ng-template>
-      <div class="clearfix"></div>
-      </div> 
-      <ng-template #template>
-         <div class="modal-body text-center">
-            <p class="heading-signUp">Sign Up Successful</p>
-            <!-- <p>{{officialService.signUpResponse}}</p> -->
-            <p>Would you like to receive a confirmation email?</p>
-            <button type="button" class="btn btn-success" (click)="confirmSignUpEmail()" >Yes</button>
-            <button type="button" class="btn btn-danger" (click)="declineSignUpEmail()" >No</button>
-         </div>
-      </ng-template>
-      <ng-template #cancelTemplate>
-         <div class="modal-body text-center">
-            <p class="heading-signUp">Cancel Sign Up</p>
-            <p>{{officialService.signUpResponse}}</p>
-            <p>Would you like to receive a confirmation email?</p>
-            <button type="button" class="btn btn-success" (click)="confirmCancelSignupModal()" >Yes</button>
-            <button type="button" class="btn btn-danger" (click)="closeCancelSignupModal()" >No</button>
-         </div>
-      </ng-template>
-      <ng-template #standardTemplate>
-         <div class="modal-body text-center">
-            <p class="heading-signUp">Error</p>
-            <p>{{officialService.signUpResponse}}</p>
-            <button type="button" class="btn btn-danger" (click)="closeStandardModal()" >Ok</button>
-         </div>
-      </ng-template>
-      <ng-template  #mapTemplate>
-         <div class="modal-body text-center">
-            <p class="heading-signUp">Location</p>
-            <div class="paddTopBottom10">
-               <iframe width="600" height="450" frameborder="0" style="border:0"          
-                  [src]="getGameLocation()" >
-               </iframe>     
-            </div>
-            <button type="button" class="btn btn-danger" (click)="closeMapModal()" >Ok</button>
-         </div>
-      </ng-template>
-      <div *ngIf="officialService.serviceError" #serverError>
-         <div style="padding:10px2" class="noRecords">Server Error. Please try again later!</div>
-      </div>
-      <ng-template #errorTemplate>
-         <div class="modal-body text-center">
-            <p class="heading-signUp">Error</p>
-            <p>Server Error! Please try again later.</p>
-            <button type="button" class="btn btn-danger" (click)="closeErrorModal()" >Ok</button>
-         </div>
-      </ng-template>
-   </body>
-   <!--##########loader###################-->
-   <app-fybaloader *ngIf="downloadRequest || signUpRequest || officialService.fetchSelectGames || filterRequest"></app-fybaloader>
-   <!--######################################-->
+      <button type="button" class="btn btn-danger" (click)="closeMapModal()">
+        Ok
+      </button>
+    </div>
+  </ng-template>
+  <div *ngIf="officialService.serviceError" #serverError>
+    <div style="padding:10px2" class="noRecords">
+      Server Error. Please try again later!
+    </div>
+  </div>
+  <ng-template #errorTemplate>
+    <div class="modal-body text-center">
+      <p class="heading-signUp">Error</p>
+      <p>Server Error! Please try again later.</p>
+      <button type="button" class="btn btn-danger" (click)="closeErrorModal()">
+        Ok
+      </button>
+    </div>
+  </ng-template>
+</body>
+<!--##########loader###################-->
+<app-fybaloader
+  *ngIf="
+    downloadRequest ||
+    signUpRequest ||
+    officialService.fetchSelectGames ||
+    filterRequest
+  "
+></app-fybaloader>
+<!--######################################-->

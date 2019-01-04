@@ -1,12 +1,9 @@
-export class DeletedScoreSheetImages{
+export class DeletedScoreSheetImages {
+  public ImageURL: string;
+  public NewImageByteCode: string;
 
-    public ImageURL: string;
-    public NewImageByteCode: string;
-
-    constructor(){
-        this.ImageURL = '';
-        this.NewImageByteCode = '';
-        
-    }
-
- }
+  constructor() {
+    this.ImageURL = "";
+    this.NewImageByteCode = "";
+  }
+}

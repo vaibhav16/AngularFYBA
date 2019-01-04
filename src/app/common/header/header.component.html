@@ -1,22 +1,39 @@
 <div>
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel"></h4>
-				</div>
-				<div class="modal-body">
-					<p>Selecting OK will add an icon to your app screen which can be used to launch the application directly in the future</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-success">OK</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!----div class="topBg">
+  <div
+    class="modal fade bs-example-modal-sm"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="mySmallModalLabel"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel"></h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            Selecting OK will add an icon to your app screen which can be used
+            to launch the application directly in the future
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-success">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!----div class="topBg">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -26,61 +43,77 @@
 		</div>
 	</div>-->
 
-	<div class="topheaderFixed">
-			<div class="container">
-					<div class="row">
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
-								<div *ngIf="loginService.roundThumbnail==null" class="img_profile">
-									<img src="https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200524/68824656-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6" alt="" />
-								</div>
-								<div *ngIf="loginService.roundThumbnail!=null" class="img_profile">
-										<img src="{{loginService.roundThumbnail}}" alt="" />
-								</div>
-							</div>
+  <div class="topheaderFixed">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
+          <div *ngIf="loginService.roundThumbnail == null" class="img_profile">
+            <img
+              src="https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200524/68824656-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6"
+              alt=""
+            />
+          </div>
+          <div *ngIf="loginService.roundThumbnail != null" class="img_profile">
+            <img src="{{ loginService.roundThumbnail }}" alt="" />
+          </div>
+        </div>
 
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-								<div (click)="toggleMenu()" class="mobile_menu">
-									<span></span>
-									<span></span>
-									<span></span>
-									<div  [ngStyle]="{'display':toggle ? 'block' : 'none' }"  class="mobile_menu_div">
-										<ul>
-											<!-- <li><label class="switch">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+          <div (click)="toggleMenu()" class="mobile_menu">
+            <span></span> <span></span> <span></span>
+            <div
+              [ngStyle]="{ display: toggle ? 'block' : 'none' }"
+              class="mobile_menu_div"
+            >
+              <ul>
+                <!-- <li><label class="switch">
 												<input [checked]="textType" type="checkbox" id="togBtn" (change) = "toggleText()">
 												<div class="slider round"></div></label>
 											</li> -->
-											<li style="padding-bottom:0%" >												
-												<p (click) = "toggleText()" *ngIf="dataSharingService.textSize=='Small'">Classic Layout</p>
-												<p (click) = "toggleText()" *ngIf="dataSharingService.textSize=='Large'">Compact Layout</p>
-											</li>
-											<li (click)="changePassword()">Change Password</li>
-											<li (click)="logout()">Log Out</li>
-										</ul>
-									</div>
-								</div>
-								
-								</div>
+                <li style="padding-bottom:0%">
+                  <p
+                    (click)="toggleText()"
+                    *ngIf="dataSharingService.textSize == 'Small'"
+                  >
+                    Classic Layout
+                  </p>
+                  <p
+                    (click)="toggleText()"
+                    *ngIf="dataSharingService.textSize == 'Large'"
+                  >
+                    Compact Layout
+                  </p>
+                </li>
+                <li (click)="changePassword()">Change Password</li>
+                <li (click)="logout()">Log Out</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-							</div>
-						</div>
-				</div>
-	
-	<div class="bg_logo">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="logo_text"><a href="javascript:void(0);" alt="Logo Text">FYBA</a></div>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="logo_main"><a href="javascript:void(0);"><img src="../../assets/images/fyba_logo_old.png" alt="FYBA Logo" /></a>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!--<div class="container">
+  <div class="bg_logo">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <div class="logo_text">
+            <a href="javascript:void(0);" alt="Logo Text">FYBA</a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <div class="logo_main">
+            <a href="javascript:void(0);"
+              ><img src="../../assets/images/fyba_logo_old.png" alt="FYBA Logo"
+            /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
 				<ul class="tab_main">
@@ -91,17 +124,14 @@
 			</div>
 		</div>
 	</div>-->
-	
-	<div class="container official_header_img_paddNone">
-		<div class="row">
-			<div class="col-md-12 text-center"> 
-				<div #imageClass>
-				    <span class="header_img_text">Officials</span>
-				</div>
-			</div>
-		</div>
-	</div> 
-	
+
+  <div class="container official_header_img_paddNone">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div #imageClass><span class="header_img_text">Officials</span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!--##########loader###################-->
