@@ -70,6 +70,9 @@ export class LoginComponent implements OnInit {
       if(this.loginService.serviceError||this.loginService.loginFailed){
         this.modalRef = this.modalService.show(template, {class: 'modal-sm'})
       }
+      else if(this.loginService.promptChangePassword.length>1){
+        
+      }
      
     });         
   }

@@ -9,6 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { saveAs } from 'file-saver';
 import { map,switchMap,tap,mergeMap,catchError} from 'rxjs/operators';
+import { ModalContentComponent } from './../official.component';
 import { Observable } from 'rxjs';
 //import 'rxjs/observable/throw';
 import { concat } from 'rxjs/operators';
@@ -23,36 +24,6 @@ import { concat } from 'rxjs/operators';
 })
 
 export class SelectGameComponent implements OnInit {
-  //@ViewChild("acchead1", {read: ElementRef})
-  //private acchead1: ElementRef;
-  //sessionKey:string;
-  //panels = [0,1,2,3];
-  //itemList = [];
-
-  //onItemSelect(item: any) {
-  //console.log(item);
-  //console.log(this.selectedItems);
-//}
-//OnItemDeSelect(item: any) {
-  //console.log(item);
-  //console.log(this.selectedItems);
-//}
-//onSelectAll(items: any) {
-  //console.log(items);
-//}
-//onDeSelectAll(items: any) {
-  //console.log(items);
-//}
-
-  /*filterModel = {     
-      Division: [],
-      Location: [],
-      StartTime: [],
-      EndTime: [],
-      Position:[]
-  };*/
-
-  //@ViewChild('myModal') modal: HelloHomeModalComponent;
   modalRef: BsModalRef;  
   activeIds: string[] =[];
   selectedItems = [];
@@ -90,11 +61,12 @@ export class SelectGameComponent implements OnInit {
     //this.signUpRequest=true;    
     
     this.officialService.postSelectGames(this.selectedFilter).then(res =>{
-      // if(this.officialService.serviceError){
-      //   //this.modalRef = this.modalService.show(this.template, {class: 'modal-sm'})
-      //   let bsModalRef = this.modalService.show(PopupErrorModalComponent);
-      //  console.log("bsModalRef: ", bsModalRef);
-      // }
+      if(this.loginService.promptChangePassword!=null){
+        if(this.loginService.promptChangePassword.length>1){
+          this.modalRef = this.modalService.show(ModalContentComponent);
+          this.modalRef.content.closeBtnName = 'Close';
+        }
+      }
     });
       
   }

@@ -66,9 +66,10 @@ export class ChangepasswordComponent implements OnInit {
 
      
     }               
-  
+  changeRequest:boolean;
   modalRef:BsModalRef;
   onSubmit(template: TemplateRef<any>) {
+    this.changeRequest=true;
     this.submitted=true;
 
      console.log(this.form.value);
@@ -80,6 +81,7 @@ export class ChangepasswordComponent implements OnInit {
     this.apiModel.SessionKey = this.loginService.sessionKey;
     this.apiModel.UserID =  this.loginService.userId.toString();
     this.changePwService.changePassword(JSON.stringify(this.apiModel)).then(res=>{
+      this.changeRequest=false;
       this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
       console.log(this.modalRef);
     });

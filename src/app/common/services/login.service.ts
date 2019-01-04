@@ -36,6 +36,7 @@ export class LoginService {
   leagueId: string = null;
   roundThumbnail: string  = null;
   textSize:string = null;
+  promptChangePassword:string = null;
 
   constructor(private http: Http,private router: Router,
     public cookieService: CookieService,
@@ -90,6 +91,7 @@ postLoginData(userVar : Login){
     this.reportTagLabel = this.jsonResult["Value"].tagsLables.ReportCount;
     this.email = this.jsonResult["Value"].Email;
     this.textSize = this.jsonResult["Value"].Text_Size;
+    this.promptChangePassword = this.jsonResult["Value"].PromptChangePassword;
   }
   else{
     this.isLoggedIn=false;

@@ -211,8 +211,11 @@ export class OfficialService {
     .pipe(map((data: Response) => {
       return data.json()
     })).toPromise().then(x => {     
-
       console.log(x);
+      console.log(x["Message"]);
+      if(x["Message"].includes('reset')||x["Message"].includes('Reset')){
+        this.loginService.promptChangePassword = x["Message"];
+      }
       this.fetchPreselectedFilters(x); 
       this.fetchSelectGames=false;     
       return Promise.resolve(this.selectGameJson = x);      

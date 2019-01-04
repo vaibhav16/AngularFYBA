@@ -28,6 +28,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AuthGuard } from './auth.guard';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 import { LogoutComponent } from './common/logout/logout.component';
+import { ModalContentComponent } from './official/official.component';
 //import { LightboxModule } from 'ngx-lightbox';
 import { ChangepasswordComponent } from './common/changepassword/changepassword.component';
 //import { DataSharingService } from './datasharing.service';
@@ -43,7 +44,7 @@ import { ChangepasswordComponent } from './common/changepassword/changepassword.
     ProfileComponent,
     routingComponents,
     OfficialComponent,
-  
+    ModalContentComponent,
     CoachComponent,
     PlayerComponent,
     HeaderComponent,
@@ -68,6 +69,9 @@ import { ChangepasswordComponent } from './common/changepassword/changepassword.
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     //LightboxModule
   ],
+  entryComponents: [
+   ModalContentComponent
+],
   providers: [HttpClientModule,CookieService,
     NgbAccordionConfig, { provide: APP_BASE_HREF, useValue : '/' },
     {provide: LocationStrategy, useClass: HashLocationStrategy} ,
