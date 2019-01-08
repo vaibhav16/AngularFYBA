@@ -23,6 +23,7 @@ import { saveAs } from "file-saver";
 import { map, switchMap, tap, mergeMap, catchError } from "rxjs/operators";
 import { ModalContentComponent } from "./../official.component";
 import { Observable } from "rxjs";
+import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 
 @Component({
   selector: "app-select-game",
@@ -67,11 +68,15 @@ export class SelectGameComponent implements OnInit {
     };
 
     this.officialService.postSelectGames(this.selectedFilter).then(res => {
+      if(this.officialService.serviceError){
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = "Close";        
+      }
       if (this.loginService.promptChangePassword != null) {
         if (this.loginService.promptChangePassword.length > 1) {
           this.modalRef = this.modalService.show(ModalContentComponent);
-          this.modalRef.content.closeBtnName = "Close";
-        }
+          this.modalRef.content.closeBtnName = "Close";    
+        }       
       }
     });
   }

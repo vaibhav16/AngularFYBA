@@ -24,6 +24,7 @@ import { DeletedScoreSheet2 } from "./../classes/reportgame/DeletedScoreSheet2.m
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 //import { Lightbox } from 'ngx-lightbox';
+import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import * as $ from "jquery";
 
 @Component({
@@ -149,7 +150,12 @@ export class ReportGameComponent {
   }
 
   async asyncReport() {
-    await this.officialService.getReportData().then(res => {});
+    await this.officialService.getReportData().then(res => {
+      if(this.officialService.serviceError){
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = "Close";        
+      }
+    });
   }
 
   async makeScoreSheetArray() {
@@ -183,10 +189,7 @@ export class ReportGameComponent {
       console.log(this.ScoreSheetImages);
     });
 
-    if (
-      form.value.HTeamScore.length <= 0 &&
-      form.value.VTeamScore.length <= 0
-    ) {
+    if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
       this.modalRef = this.modalService.show(invalidScoreTemplate, {
         class: "modal-sm"
       });
@@ -301,8 +304,7 @@ export class ReportGameComponent {
       this.HomeTeamPlayerScores[i].PlayerName = form.value[playername];
       this.HomeTeamPlayerScores[i].Points = form.value[point];
       this.HomeTeamPlayerScores[i].GameId = form.value[gameid];
-      this.HomeTeamPlayerScores[i].PlayerSeasonalId =
-        form.value[playerseasonalId];
+      this.HomeTeamPlayerScores[i].PlayerSeasonalId = form.value[playerseasonalId];
       this.HomeTeamPlayerScores[i].FoulId = form.value[fouldId];
       this.HomeTeamPlayerScores[i].PlayerNote = form.value[playernote];
       this.HomeTeamPlayerScores[i].NotPresent = form.value[notpresent];
@@ -408,6 +410,10 @@ export class ReportGameComponent {
       if (this.officialService.reportErrorMsg) {
         console.log(this.officialService.reportErrorMsg);
         this.showModal();
+      }
+      if(this.officialService.serviceError){
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = "Close";        
       }
       this.tempIndex = 0;
       this.ScoreSheetImages = [];
@@ -577,6 +583,22 @@ export class ReportGameComponent {
     await this.makeImageByteArray(imageInput, id);
     //this.uploadRequest = await false;
   }
+
+//   checkExtension(photoName){
+//     var allowedExtensions = ["jpg","jpeg","png","JPG","JPEG","JFIF","BMP","SVG"];
+//     var fileExtension = photoName.split('.').pop();
+//     if(this.isInArray(allowedExtensions, fileExtension)) {
+//       return true;
+//   } else {
+//       return false;
+//   }
+
+//   }
+
+//   /*- checks if word exists in array -*/
+//  isInArray(array, word) {
+//   return array.indexOf(word.toLowerCase()) > -1;
+// }
 
   async makeImageByteArray(imageInput: any, id: number) {
     for (var i = 0; i < imageInput.files.length; i++) {

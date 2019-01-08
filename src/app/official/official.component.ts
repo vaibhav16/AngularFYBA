@@ -61,19 +61,22 @@ export class OfficialComponent implements OnInit {
 @Component({
   selector: "modal-content",
   template: `
-    <div class="modal-header" style="background-color:red">
-      <h4 style="color:white" class="modal-title pull-left">{{ title }}</h4>
-         <!--button type="button" class="close pull-right" 
-      aria-label="Close" (click)="bsModalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </but
-    </div>
-    <div class="modal-body">Please change your password!</div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="changePw()">
-        OK
-      </button>
-    </div>
+  <div class="modal-header" style="background-color:red">
+  <h4 style="color:white" class="modal-title pull-left">{{ title }}</h4>
+     <button type="button" class="close pull-right" 
+
+  aria-label="Close" (click)="bsModalRef.hide()">
+
+    <span aria-hidden="true">&times;</span>
+
+  </button>
+</div>
+<div class="modal-body">Please change your password!</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="changePw()">
+    OK
+  </button>
+</div>
   `
 })
 export class ModalContentComponent implements OnInit {

@@ -125,8 +125,15 @@
 <!--##########loader###################-->
 <app-fybaloader *ngIf="officialService.paidRequest"></app-fybaloader>
 <!--######################################-->
+
 <div *ngIf="officialService.serviceError" #serverError>
+    <div class="noRecords">
+      <span class="spanError">Server Error.</span> Please try again later!
+    </div>
+  </div>
+
+<!-- <div *ngIf="officialService.serviceError" #serverError>
   <div style="padding:10px" class="noRecords2">
     Server Error. Please try again later!
   </div>
-</div>
+</div> -->

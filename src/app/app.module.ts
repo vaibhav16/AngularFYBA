@@ -35,6 +35,7 @@ import { LogoutComponent } from "./common/logout/logout.component";
 import { ModalContentComponent } from "./official/official.component";
 //import { LightboxModule } from 'ngx-lightbox';
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
+import { ErrorModalComponent } from './common/error-modal/error-modal.component';
 //import { DataSharingService } from './datasharing.service';
 
 @NgModule({
@@ -54,7 +55,8 @@ import { ChangepasswordComponent } from "./common/changepassword/changepassword.
 
     FybaloaderComponent,
     LogoutComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    ErrorModalComponent
   ],
   imports: [
     HttpModule,
@@ -73,7 +75,9 @@ import { ChangepasswordComponent } from "./common/changepassword/changepassword.
     })
     //LightboxModule
   ],
-  entryComponents: [ModalContentComponent],
+  entryComponents: [ModalContentComponent,
+    ErrorModalComponent
+  ],
   providers: [
     HttpClientModule,
     CookieService,

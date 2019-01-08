@@ -238,9 +238,12 @@ export class OfficialService {
       .then(x => {
         console.log(x);
         console.log(x["Message"]);
-        if (x["Message"].includes("reset") || x["Message"].includes("Reset")) {
-          this.loginService.promptChangePassword = x["Message"];
+        if (x["Message"]!=null){
+          if (x["Message"].includes("reset") || x["Message"].includes("Reset")) {
+            this.loginService.promptChangePassword = x["Message"];
+          }
         }
+       
         this.fetchPreselectedFilters(x);
         this.fetchSelectGames = false;
         return Promise.resolve((this.selectGameJson = x));
@@ -587,7 +590,9 @@ export class OfficialService {
   It comes into play when the ScoreKeeper make any changes to the player scores in a specific game. 
   An updated model with all the scores is sent to the database and the records are updated. - */
   reportErrorMsg: string;
+  postReportError:boolean;
   postReportData(gameListObj: any) {
+    this.postReportError=null;
     this.reportErrorMsg = null;
     this.requestStatus = 1;
     this.requestSuccess = false;
@@ -615,11 +620,16 @@ export class OfficialService {
       .then(x => {
         console.log(x);
         this.requestStatus = 0;
+        this.reportErrorMsg = x["Message"];
         if (x["Error"] == 200) {
-          if (x["Message"].includes("Fail") || x["Message"].includes("not")) {
-            this.reportErrorMsg = x["Message"];
-            console.log(this.reportErrorMsg);
-          } else {
+          if (x["Message"]!=null) {
+            if (x["Message"].includes("Fail") ||x["Message"].includes("Invalid") || x["Message"].includes("not")) {
+              this.postReportError=true;
+              this.reportErrorMsg = x["Message"];
+              console.log(this.reportErrorMsg);
+            }
+          }
+           else {
             this.requestSuccess = true;
             this.loginService.reportTagLabel = x["Value"];
             this.cookieService.set("reportTagLabel", x["Value"]);

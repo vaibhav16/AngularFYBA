@@ -39,7 +39,7 @@ export class ChangepwService {
         this.request = false;
         this.resultMsg = x["Value"];
 
-        if (x["Value"].includes("mismatch")) {
+        if (x["Value"].includes("mismatch")||x["Value"].includes("not")) {
           this.result = "Action Unsuccessful";
         } else this.result = "Action Successful";
         return Promise.resolve();

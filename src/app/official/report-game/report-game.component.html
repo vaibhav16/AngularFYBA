@@ -27,25 +27,27 @@
                 class="HeadCollapse seemant"
               >
                 <h2 #acchead1>
+                    <div class="leftReportDate">
                   {{ item.GameName }}
+                  <span class="">
+                      {{ item.GameDate }} @{{ item.Location }} @
+                      {{ item.GameStartTime }}
+                  </span>
                   <span class="asCoach">{{ item.PositionText }}</span>
-                  <span class="earnMore">{{ item.IncentiveText }}</span>
-                  <span
-                    *ngIf="item.IncentiveText.length > 0"
-                    class="unreported_game"
-                    >1</span
-                  >
-                </h2>
+                  </div>
+                  <div class="rightReportDate">
+                      <span
+                      *ngIf="item.IncentiveText.length > 0"
+                      class="unreported_game"
+                      >1</span>
+                    <span class="earnMore">{{ item.IncentiveText }}</span></div>
+                  </h2>
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
               <form #reportForm="ngForm">
                 <!----input type="text" value={{gameListIndex}} name="glIndex" [(ngModel)]="{{gameListIndex}}" /-->
                 <div class="fms_time">
-                  <h3 class="">
-                    {{ item.GameDate }} @{{ item.Location }} @
-                    {{ item.GameStartTime }}
-                  </h3>
                   <div>
                     <ul class="reportlist">
                       <li>Final Team Scores</li>
@@ -568,7 +570,7 @@
                   class="text-center"
                 >
                   <button
-                    class="saveBtn"
+                    class="btn btn-success"
                     [disabled]="!(item.OfficiatingPositionId == 3)"
                     id="{{ item.OfficiatingPositionId }}"
                     type="submit"
@@ -586,12 +588,12 @@
                     SAVE REPORT
                   </button>
                 </div>
-                <div
+                <!-- <div
                   *ngIf="officialService.requestStatus == 1"
                   class="requestSent"
                 >
                   <br />Request has been sent!
-                </div>
+                </div> -->
                 <div
                   *ngIf="officialService.requestSuccess == true"
                   class="requestSuccess"
@@ -599,12 +601,12 @@
                   <br />
                   Data Saved!
                 </div>
-                <div
+                <!-- <div
                   *ngIf="officialService.requestFailure == true"
                   class="requestFail"
                 >
                   <br />Data could not be saved!
-                </div>
+                </div> -->
               </form>
             </ng-template>
           </ngb-panel>
@@ -617,7 +619,7 @@
   </ng-template>
 </div>
 <ng-template #noScoreSheet>
-  <div class="noRecordsProfile">No ScoreSheet uploaded</div>
+  <!-- <div class="noRecordsProfile">No ScoreSheet uploaded</div> -->
 </ng-template>
 <ng-template #template>
   <div class="modal-body text-center">
@@ -642,6 +644,23 @@
     </button>
   </div>
 </ng-template>
+
+<ng-template #invalidScoreTemplate>
+    <div class="modal-body text-center">
+      <p class="heading-signUp">Invalid Final Scores</p>
+      <p>
+       Final Scores can not be Zero.
+      </p>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="closeInvalidScoreModal()"
+      >
+        OK
+      </button>
+    </div>
+  </ng-template>
+
 <ng-template #unEqualVisitingScoreTemplate>
   <div class="modal-body text-center">
     <p class="heading-signUp">Invalid Final Score</p>
@@ -660,8 +679,18 @@
 </ng-template>
 
 <ng-template #uploadTemplate>
+    <!--  -->
   <div class="modal-body text-center">
-    <p class="heading-signUp">Error</p>
+      <!-- <p *ngIf="officialService.postReportError" [ngClass]="officialService.postReportError===true?'heading-success':'heading-fail'">
+          Status
+        </p> -->
+  <p *ngIf="officialService.postReportError" class="heading-fail">
+    Status
+  </p>
+  <p *ngIf="!officialService.postReportError || officialService.postReportError==null" class="heading-success">
+      Status
+    </p>
+    <!-- <p class="heading-signUp"></p-->
     <p>{{ officialService.reportErrorMsg }}</p>
     <button
       type="button"
@@ -678,11 +707,19 @@
   *ngIf="officialService.reportRequest || officialService.requestStatus == 1"
 ></app-fybaloader>
 <!--######################################-->
-<div *ngIf="officialService.serviceError" #serverError>
+
+<!-- <div  *ngIf="officialService.serviceError" #serverError>
+    <div class="noRecords">
+      <span class="spanError">Server Error.</span> Please try again later!
+    </div>
+  </div> -->
+
+
+<!-- <div *ngIf="officialService.serviceError" #serverError>
   <div style="padding:10px" class="noRecords2">
     Server Error. Please try again later!
   </div>
-</div>
+</div> -->
 <!-- <body>
    <div *ngFor="let image of _album; let i=index">
    <img [src]="image.thumb" (click)="open(i)"/>

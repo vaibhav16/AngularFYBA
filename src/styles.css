@@ -27,6 +27,15 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
+
+   .leftReportDate span{display:block; font-weight:normal;}
+    .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
+    .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
+    .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
+    .leftGameDate strong{position: absolute;bottom: 0;left: 0;width: 45%;}
+    .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
+   .spanError{display: block;font-size: 38px; color: #999;font-weight: bold;text-shadow: 0 1px 2px #fff;}
+
    .modal-dialog{position: absolute;margin: 0px; transform: translateX(-50%) translateY(-50%) !important;-ms-transform: translateX(-50%) translateY(-50%) !important;
     -webkit-transform: translateX(-50%) translateY(-50%) !important;
     -moz-transform: translateX(-50%) translateY(-50%) !important;
@@ -51,8 +60,11 @@ body{
     font-size: 12px;
     font-style: normal;
     font-weight: normal;
-    float: right;
-    margin-right:20px;
+    line-height:16px;
+    position: absolute;
+    bottom: 12px;
+    right: 10px;
+    width: 25%;
 }
 
 
@@ -69,11 +81,11 @@ div {
 .bgDarkGrey{background:#bbbbbb !important;}
 
 .asCoach {
-    color: #666;
-    font-size: 16px;
-    font-style: italic;
-    font-weight: normal;
-    padding-left: 3px;
+    color: #5B9BD5;
+    font-size: 14px;
+    /*font-style: italic;
+    font-weight: normal;*/
+    padding-left: 2px;
 }
 
    ul.addList li .glyphicon-remove-circle{position: absolute;
@@ -240,7 +252,7 @@ div {
    .marginTop10{margin-top:10px;}
    a.btnFilter{background:#3c98db; padding:5px 10px; border-radius:5px; color:#ffffff; text-decoration:underline;}
    a.btnFilter:hover, a.btnFilter:focus{ color:#ffffff;}
-   h1.mainDate{font-size:30px;margin-bottom: 0;margin-top: 30px;}
+   h1.mainDate{font-size:30px;margin-bottom: 0;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
    
    .marginBottom10{margin-bottom:10px;}
    .data_module h3{font-size:18px; color:#000000; margin-top:10px; font-weight:normal; font-style: italic;}
@@ -301,8 +313,8 @@ div {
    .invalid_credintial{
     color: #ff0000; text-align: center; font-weight:bold;}
     .noRecords{
-        color: #ff0000; text-align: left; font-weight:bold;/*word-spacing:5px;*/
-        padding-top: 0px; font-size: 14px;
+        color: #333; text-align: left; font-weight:bold;/*word-spacing:5px;*/
+        padding-top: 0px; font-size: 14px;text-align: center;margin-top: 50px;
         
     }
 
@@ -609,7 +621,13 @@ div {
    
    @media only screen and (max-width : 767px) {
 
-    
+
+    .leftReportDate span{display:block; font-weight:normal;}
+    .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
+    .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
+    .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
+    .leftGameDate strong{position: absolute;bottom: 0;left: 0;width: 45%;}
+    .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
     .breakAll{word-wrap:break-word; display:block;}
        .spaceBorder{display:block !important;}
        
@@ -640,7 +658,7 @@ div {
    .coach_header_img{height:200px; background-position:center center;}
    .official_header_img_paddNone .col-md-12{padding-left:0px !important; padding-right:0px !important;}
    .breakWord{display:block;}
-   h1.mainDate{font-size:20px;margin-top: 20px;}
+   h1.mainDate{font-size:20px;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
    .data_module h3{font-size:15px;}
    ul.addList li{float:left; width:60px; margin-left:10px;height: 60px;
    line-height: 60px;
@@ -808,8 +826,8 @@ div {
     line-height: 1;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
-    .card-body .btn-success{ background: #70ad47; margin-left:0px;  margin-right:1%; padding:15px 20px;width:49%; font-size:22px;}
-    .card-body .btn-danger{width:49%; font-size:21px; margin-left:1%;  margin-right:0px; padding:15px 20px;}
+    .card-body .btn-success{ background: #70ad47; margin-left:0px;  margin-right:1%; padding:5px 10px;width:49%; font-size:18px; text-transform: uppercase; font-weight:bold;}
+    .card-body .btn-danger{width:49%; font-size:18px; margin-left:1%;  margin-right:0px; padding:5px 10px; text-transform: uppercase; font-weight:bold;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}
    #filter-header{background-color: #c4e0b2 !important; padding:10px;}
@@ -830,6 +848,8 @@ div {
  
  .modal-sm .modal-body{padding: 0 0 15px 0;}
  .modal-sm > .modal-content > .modal-body > .heading-signUp{background-color: #1e31ae;padding: 10px; color:#fff; text-align:left; font-weight:normal;}
+ .modal-sm > .modal-content > .modal-body > .heading-success{background-color: #70ad47;padding: 10px; color:#fff; text-align:left; font-weight:normal;}
+ .modal-sm > .modal-content > .modal-body > .heading-fail{background-color: #d9534f;padding: 10px; color:#fff; text-align:left; font-weight:normal;}
  .modal-sm > .modal-content > .modal-body > p{font-weight:bold;}
  .modal-sm .modal-content .modal-body .btn-success{margin-right:5px;}
 
@@ -1007,9 +1027,9 @@ div {
     
     .small_font .header_img_text{font-size:26px;}
     .small_font .card .btn-link{font-size:14px;}
-    .small_font .card-body .btn-success{font-size:14px;padding: 10px 15px; margin-left:0px;}
-    .small_font .card-body .btn-danger{font-size:14px;padding: 10px 15px; margin-right:0px;}
-    .small_font h1.mainDate{font-size:18px; margin-top:10px;}
+    .small_font .card-body .btn-success{font-size:14px;padding: 5px 10px; margin-left:0px;}
+    .small_font .card-body .btn-danger{font-size:14px;padding: 5px 10px; margin-right:0px;}
+    .small_font h1.mainDate{font-size:18px; margin-top:15px;}
     .small_font .filter_module h2, .small_font .data_module h2{font-size: 14px;}
     .small_font ul.reportlist li{font-size:14px;}
     .small_font h3 {font-size: 14px !important;  margin-top:10px;}
@@ -1035,7 +1055,10 @@ div {
     .small_font .game_select_bg{padding: 10px 0;}
     .small_font .bg_logo{padding: 10px 0;}
     .small_font ul.addList li{margin-bottom: 10px;}
-
+    .small_font .bgColorMain button{font-size:14px !important;}
+    .small_font .pwChanged button{font-size:14px !important;}
+    .small_font .leftReportDate{line-height:20px;}
+    .small_font .rightReportDate{line-height:20px;}
 }
 
   /* ---- End Small Font Css --- */

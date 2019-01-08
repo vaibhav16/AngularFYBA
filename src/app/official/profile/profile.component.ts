@@ -9,6 +9,7 @@ import { OfficialService } from "./../official.service";
 import { LoginService } from "./../../common/services/login.service";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
+import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 
 @Component({
   selector: "app-profile",
@@ -33,6 +34,10 @@ export class ProfileComponent implements OnInit {
     // this.loginService.newRequest=true;
     // this.loginService.refreshRequest=false;
     this.officialService.fetchProfileData().then(res => {
+      if(this.officialService.serviceError){
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = "Close";        
+      }
       if (
         this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos
           .length > 0
