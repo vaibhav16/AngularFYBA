@@ -10,10 +10,8 @@ import {
   Headers,
   RequestOptions,
   RequestMethod,
-  JSONPConnection,
   ResponseContentType
 } from "@angular/http";
-import { toInteger } from "@ng-bootstrap/ng-bootstrap/util/util";
 import { Observable } from "rxjs";
 import { SignUpRequestedData } from "./classes/selectgame/signUp_rd.model";
 import { IntialFilter } from "./classes/selectgame/initialFilter.model";
@@ -21,12 +19,12 @@ import { ReportGameData } from "./classes/reportgame/reportGame.model";
 import { APIGamePost } from "./classes/reportgame/APIGamePost.model";
 import { APIPlayerScorePost } from "./classes/reportgame/APIPlayerScorePost.model";
 import { SignUpEmail } from "./classes/reportgame/signupEmail.model";
-import { SignUp } from "./classes/selectgame/signup.model";
 import { Profile } from "./classes/profile/profile.model";
 import { UploadProfileImage } from "./classes/profile/uploadProfileImg.model";
 import { DeleteProfileImage } from "./classes/profile/deleteProfileImg.model";
 import { CookieService } from "ngx-cookie-service";
 import { Constants } from "../common/models/constants";
+import { DataSharingService } from "./../data-sharing.service";
 
 @Injectable({
   providedIn: "root"
@@ -192,6 +190,7 @@ export class OfficialService {
 
   constructor(
     private http: Http,
+    private dss: DataSharingService,
     public loginService: LoginService,
     private cookieService: CookieService
   ) {}
@@ -200,20 +199,10 @@ export class OfficialService {
   /* - Select Games - */
   /**************************/
 
-  // getSelectGames():any{
-  //   this.http.get("./assets/raw.json")
-  //   .pipe(map((data: Response) => {
-  //     return data.json()
-  //   })).toPromise().then(x => {
-  //     console.log(x);
-  //     this.fetchPreselectedFilters(x);
-  //     return Promise.resolve(this.selectGameJson = x);
-  //   });
-  // }
-
   /* - Fetch Initial Data in Select Games - */
   fetchSelectGames = null;
-  postSelectGames(obj: Filter): any {
+  postSelectGames(obj: Filter): any {    
+    this.dss.initialFetchError=null;
     this.serviceError = false;
     this.fetchSelectGames = true;
     this.numberOfSelectGameClicks++;
@@ -238,7 +227,7 @@ export class OfficialService {
       .then(x => {
         console.log(x);
         console.log(x["Message"]);
-        if (x["Message"]!=null){
+        if (!this.isNullorUndefined(x["Message"])){
           if (x["Message"].includes("reset") || x["Message"].includes("Reset")) {
             this.loginService.promptChangePassword = x["Message"];
           }
@@ -249,6 +238,7 @@ export class OfficialService {
         return Promise.resolve((this.selectGameJson = x));
       })
       .catch(err => {
+        this.dss.initialFetchError=true;
         this.handleError(err);
       });
   }
@@ -552,6 +542,7 @@ export class OfficialService {
 
   reportRequest: boolean;
   getReportData() {
+    this.dss.initialFetchError=null;
     this.serviceError = false;
     this.reportRequest = true;
     this.reportGameData.SeasonId = this.loginService.seasonId;
@@ -582,6 +573,7 @@ export class OfficialService {
         return Promise.resolve((this.reportGameJson = x));
       })
       .catch(err => {
+        this.dss.initialFetchError=true;
         this.handleError(err);
       });
   }
@@ -622,7 +614,7 @@ export class OfficialService {
         this.requestStatus = 0;
         this.reportErrorMsg = x["Message"];
         if (x["Error"] == 200) {
-          if (x["Message"]!=null) {
+          if (!this.isNullorUndefined(x["Message"])) {
             if (x["Message"].includes("Fail") ||x["Message"].includes("Invalid") || x["Message"].includes("not")) {
               this.postReportError=true;
               this.reportErrorMsg = x["Message"];
@@ -653,6 +645,7 @@ export class OfficialService {
   /* - This function is used to fetch the initial data to populate the Get Paid section. - */
   paidRequest: boolean = false;
   fetchGetPaidData() {
+    this.dss.initialFetchError=null;
     this.serviceError = false;
     this.paidRequest = true;
     this.reportGameData.SeasonId = this.loginService.seasonId;
@@ -683,6 +676,7 @@ export class OfficialService {
         return Promise.resolve((this.getPaidJson = x));
       })
       .catch(err => {
+        this.dss.initialFetchError=true;
         this.handleError(err);
       });
   }
@@ -695,6 +689,7 @@ export class OfficialService {
   profileJson: JSON = null;
   fetchProfileRequest: boolean = null;
   fetchProfileData() {
+    this.dss.initialFetchError=null;
     this.serviceError = false;
     this.fetchProfileRequest = true;
     this.profileModel.SeasonId = this.loginService.seasonId;
@@ -725,6 +720,7 @@ export class OfficialService {
         return Promise.resolve((this.profileJson = x));
       })
       .catch(err => {
+        this.dss.initialFetchError=true;
         this.handleError(err);
       });
   }
@@ -851,21 +847,13 @@ export class OfficialService {
       });
   }
 
-  //////////////////////////////////////////
-
-  //  public getPdfUrl(url: string):any{
-  //   console.log(url);
-  //   const headers = new Headers();
-  //   return this.http.get(url,{
-  //     headers: headers,
-  //     responseType: ResponseContentType.Json })
-  //   .pipe(
-  //    map(
-  //       (res) => {
-  //         console.log(res);
-  //           return res["_body"]
-  //       }))
-  //  }
+  
+  isNullorUndefined(x:any){
+    if(x==null || x==undefined){
+      return true;
+    }
+    return false;
+  }
 
   public getPdfUrl(url: string): any {
     return this.http.get(url);

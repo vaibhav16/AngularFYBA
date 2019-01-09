@@ -24,6 +24,7 @@ import { map, switchMap, tap, mergeMap, catchError } from "rxjs/operators";
 import { ModalContentComponent } from "./../official.component";
 import { Observable } from "rxjs";
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
   selector: "app-select-game",
@@ -53,7 +54,8 @@ export class SelectGameComponent implements OnInit {
     public sanitizer: DomSanitizer,
     config: NgbAccordionConfig,
     public loginService: LoginService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private dss: DataSharingService
   ) {
     config.closeOthers = false;
     config.type = "info";

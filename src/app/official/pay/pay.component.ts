@@ -3,6 +3,7 @@ import { OfficialService } from "./../official.service";
 import { LoginService } from "./../../common/services/login.service";
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
   selector: "app-pay",
@@ -13,7 +14,8 @@ export class PayComponent implements OnInit {
   modalRef: BsModalRef;
   constructor(public modalService: BsModalService,
     public officialService: OfficialService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    private dss: DataSharingService
   ) {}
 
   ngOnInit() {

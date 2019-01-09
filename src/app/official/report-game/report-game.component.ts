@@ -4,9 +4,7 @@ import {
   ElementRef,
   Renderer2,
   ViewChild,
-  Injectable,
   AfterViewInit,
-  HostListener
 } from "@angular/core";
 import { NgbAccordionConfig } from "@ng-bootstrap/ng-bootstrap";
 import { OfficialService } from "../official.service";
@@ -20,12 +18,11 @@ import { LoginService } from "./../../common/services/login.service";
 import { NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { ScoreSheetImages2 } from "./../classes/reportgame/ScoreSheet2.model";
 import { DeletedScoreSheet2 } from "./../classes/reportgame/DeletedScoreSheet2.model";
-//import { FinalFilter } from '../../models/official/select-game/finalFilter.model';
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
-//import { Lightbox } from 'ngx-lightbox';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import * as $ from "jquery";
+import { DataSharingService } from "src/app/data-sharing.service";
 
 @Component({
   selector: "app-report-game",
@@ -124,7 +121,8 @@ export class ReportGameComponent {
     public elRef: ElementRef,
     public http: Http,
     config: NgbAccordionConfig,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private dss: DataSharingService
   ) {
     config.type = "info";
   }

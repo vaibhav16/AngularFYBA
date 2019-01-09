@@ -1,6 +1,6 @@
 <div
   class="container paddingBottom50"
-  *ngIf="officialService.reportGameJson != null"
+  *ngIf="officialService.reportGameJson != null && dss.initialFetchError!=true"
 >
   <div
     *ngIf="
@@ -708,11 +708,11 @@
 ></app-fybaloader>
 <!--######################################-->
 
-<!-- <div  *ngIf="officialService.serviceError" #serverError>
+<div *ngIf="dss.initialFetchError" #serverError>
     <div class="noRecords">
       <span class="spanError">Server Error.</span> Please try again later!
     </div>
-  </div> -->
+  </div>
 
 
 <!-- <div *ngIf="officialService.serviceError" #serverError>

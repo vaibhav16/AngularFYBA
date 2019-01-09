@@ -1,4 +1,4 @@
-<div *ngIf="officialService.getPaidJson != null">
+<div *ngIf="officialService.getPaidJson != null && dss.initialFetchError!=true">
   <div class="container paddingBottom50">
     <div class="row">
       <div class="col-lg-12">
@@ -126,7 +126,7 @@
 <app-fybaloader *ngIf="officialService.paidRequest"></app-fybaloader>
 <!--######################################-->
 
-<div *ngIf="officialService.serviceError" #serverError>
+<div *ngIf="dss.initialFetchError" #serverError>
     <div class="noRecords">
       <span class="spanError">Server Error.</span> Please try again later!
     </div>

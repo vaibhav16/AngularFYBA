@@ -6,35 +6,40 @@ import {
   RouterStateSnapshot
 } from "@angular/router";
 import { LoginService } from "./common/services/login.service";
+import { CookieService } from "ngx-cookie-service";
+import { DataSharingService } from './data-sharing.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(private router: Router, 
+    private cookieService: CookieService,
+    private dataSharingService: DataSharingService,
+    private loginService: LoginService) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.loginService.cookieService.check("sessionKey")) {
-      this.loginService.sessionKey = this.loginService.cookieService.get(
+    if (this.cookieService.check("sessionKey")) {
+      this.loginService.sessionKey = this.cookieService.get(
         "sessionKey"
       );
       this.loginService.userId = parseInt(
         this.loginService.cookieService.get("userId")
       );
-      this.loginService.officialSeasonId = this.loginService.cookieService.get(
+      this.loginService.officialSeasonId = this.cookieService.get(
         "officialSeasonId"
       );
-      this.loginService.seasonId = this.loginService.cookieService.get(
+      this.loginService.seasonId = this.cookieService.get(
         "seasonId"
       );
-      this.loginService.roleId = this.loginService.cookieService.get("roleId");
-      this.loginService.leagueId = this.loginService.cookieService.get(
+      this.loginService.roleId = this.cookieService.get("roleId");
+      this.loginService.leagueId = this.cookieService.get(
         "leagueId"
       );
       this.loginService.reportTagLabel = parseInt(
         this.loginService.cookieService.get("reportTagLabel")
       );
-      this.loginService.roundThumbnail = this.loginService.cookieService.get(
+      this.loginService.roundThumbnail = this.cookieService.get(
         "roundThumbnail"
       );
-      this.loginService.textSize = this.loginService.cookieService.get(
+      this.dataSharingService.textSize = this.cookieService.get(
         "textSize"
       );
       // logged in so return true

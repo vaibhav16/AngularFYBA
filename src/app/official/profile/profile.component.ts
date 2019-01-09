@@ -10,6 +10,7 @@ import { LoginService } from "./../../common/services/login.service";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
   selector: "app-profile",
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
     public elRef: ElementRef,
     public loginService: LoginService,
     private modalService: BsModalService,
-    public renderer: Renderer2
+    public renderer: Renderer2,
+    private dss: DataSharingService
   ) {
     //const formData: FormData = new FormData();
   }

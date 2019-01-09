@@ -1,6 +1,6 @@
 <body>
   <div
-    *ngIf="officialService.selectGameJson != undefined"
+    *ngIf="officialService.selectGameJson != undefined && dss.initialFetchError!=true"
     class="container paddingBottom50"
   >
     <div class="row">
@@ -538,7 +538,7 @@
     </div>
   </ng-template>
   <!-- style="background-color:#000000" -->
-  <div  *ngIf="officialService.serviceError" #serverError>
+  <div *ngIf="dss.initialFetchError" #serverError>
     <div class="noRecords">
       <span class="spanError">Server Error.</span> Please try again later!
     </div>
