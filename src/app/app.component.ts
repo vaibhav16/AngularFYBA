@@ -42,6 +42,7 @@ export class AppComponent {
     if (!window.navigator.onLine) {
      
     }
+    this.dss.textSize = this.cookieService.get("textSize");
     console.log(this.dss.textSize);
     var iOS = ["iPad", "iPhone", "iPod"].indexOf(navigator.platform) >= 0;
     //console.log(iOS);

@@ -13,6 +13,7 @@ import { ProfileComponent } from "./official/profile/profile.component";
 import { AppRoutingModule, routingComponents } from "./app-routing.module";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown/angular2-multiselect-dropdown";
 import { OfficialComponent } from "./official/official.component";
+import { OfficialService } from './official/official.service';
 import {
   NgbAccordionModule,
   NgbAccordionConfig,
@@ -81,6 +82,7 @@ import { ErrorModalComponent } from './common/error-modal/error-modal.component'
   providers: [
     HttpClientModule,
     CookieService,
+    OfficialService,
     NgbAccordionConfig,
     { provide: APP_BASE_HREF, useValue: "/" },
     { provide: LocationStrategy, useClass: HashLocationStrategy },

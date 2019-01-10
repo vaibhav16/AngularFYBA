@@ -32,7 +32,7 @@ body{
     .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
     .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
-    .leftGameDate strong{position: absolute;bottom: 0;left: 0;width: 45%;}
+    .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
     .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
    .spanError{display: block;font-size: 38px; color: #999;font-weight: bold;text-shadow: 0 1px 2px #fff;}
 
@@ -626,7 +626,7 @@ div {
     .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
     .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
-    .leftGameDate strong{position: absolute;bottom: 0;left: 0;width: 45%;}
+    .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
     .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
     .breakAll{word-wrap:break-word; display:block;}
        .spaceBorder{display:block !important;}

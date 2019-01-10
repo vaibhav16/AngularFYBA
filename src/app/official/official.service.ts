@@ -3,7 +3,9 @@ import { map, switchMap, tap } from "rxjs/operators";
 import { Filter } from "./classes/selectgame/filter.model";
 import { LoginService } from "./../common/services/login.service";
 import { FinalFilter } from "./classes/selectgame/finalFilter.model";
+import { IPaidSection } from './classes/pay/pay.model';
 import { catchError } from "rxjs/operators";
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Http,
   Response,
@@ -12,7 +14,7 @@ import {
   RequestMethod,
   ResponseContentType
 } from "@angular/http";
-import { Observable } from "rxjs";
+import { Observable,throwError } from "rxjs";
 import { SignUpRequestedData } from "./classes/selectgame/signUp_rd.model";
 import { IntialFilter } from "./classes/selectgame/initialFilter.model";
 import { ReportGameData } from "./classes/reportgame/reportGame.model";
@@ -189,6 +191,7 @@ export class OfficialService {
   };
 
   constructor(
+    private httpClient: HttpClient,
     private http: Http,
     private dss: DataSharingService,
     public loginService: LoginService,
@@ -680,6 +683,55 @@ export class OfficialService {
         this.handleError(err);
       });
   }
+
+
+  fetchGetPaidData1() :Observable<IPaidSection>{
+    this.dss.initialFetchError=null;
+    this.serviceError = false;
+    this.paidRequest = true;
+    this.reportGameData.SeasonId = this.loginService.seasonId;
+    this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;
+    this.finalFilter.RequestedData = JSON.stringify(this.reportGameData);
+
+    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID = this.loginService.userId.toString();
+    var body = JSON.stringify(this.finalFilter);
+    console.log(JSON.stringify(this.finalFilter));
+
+    var headerOptions = new Headers({ "Content-Type": "application/json" });
+    var requestOptions = new RequestOptions({
+      method: RequestMethod.Post,
+      headers: headerOptions
+    });
+
+    return this.httpClient
+    .post(Constants.apiURL + "/api/GetPaid", body)
+    .pipe(map(res => <IPaidSection>res),
+     catchError(this.handleError1))
+
+
+    // return this.http
+    //   .post(Constants.apiURL + "/api/GetPaid", body, requestOptions)
+    //   .pipe(map(res => <IPaidSection>res.json()),
+    //    catchError(this.handleError1))
+ 
+      //   console.log(x);
+      //   this.paidRequest = false;
+      // .catch(err => {
+      //   this.dss.initialFetchError=true;
+      //   this.handleError(err);
+      // });
+  }
+
+  private handleError1 (error: HttpErrorResponse) {
+    // TODO: seems we cannot use messageService from here...
+    let errMsg = (error.message) ? error.message : 'Server error';
+    console.error(errMsg);
+    if (error.status === 401 ) {
+        window.location.href = '/';
+    }
+    return throwError(errMsg);
+}
 
   /**************************/
   /* - Profile Section - */

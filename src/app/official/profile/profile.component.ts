@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     public loginService: LoginService,
     private modalService: BsModalService,
     public renderer: Renderer2,
-    private dss: DataSharingService
+    public dss: DataSharingService
   ) {
     //const formData: FormData = new FormData();
   }

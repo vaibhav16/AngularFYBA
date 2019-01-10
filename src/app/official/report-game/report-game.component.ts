@@ -122,7 +122,7 @@ export class ReportGameComponent {
     public http: Http,
     config: NgbAccordionConfig,
     private modalService: BsModalService,
-    private dss: DataSharingService
+    public dss: DataSharingService
   ) {
     config.type = "info";
   }

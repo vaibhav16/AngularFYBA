@@ -1,4 +1,4 @@
-<div *ngIf="officialService.getPaidJson != null && dss.initialFetchError!=true">
+<div *ngIf="paidSection != null && initialFetchError!=true">
   <div class="container paddingBottom50">
     <div class="row">
       <div class="col-lg-12">
@@ -6,7 +6,7 @@
         <ul class="paymentdates">
           <li
             *ngFor="
-              let item of officialService.getPaidJson.Value.SchedulePayments
+              let item of paidSection.Value.SchedulePayments
             "
           >
             {{ item }}
@@ -14,16 +14,19 @@
         </ul>
       </div>
     </div>
+
+    <!--Signed Up but not approved-->
+
     <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong></h3>
     <ngb-accordion
       *ngIf="
-        officialService.getPaidJson.Value.PaymentNotApproved.length > 0;
+        paidSection.Value.PaymentNotApproved.length > 0;
         else noGamesDiv
       "
     >
       <ngb-panel
         *ngFor="
-          let item of officialService.getPaidJson.Value.PaymentNotApproved
+          let item of paidSection.Value.PaymentNotApproved
         "
       >
         <ng-template ngbPanelTitle>
@@ -48,18 +51,18 @@
       <strong>APPROVED BUT NOT PAID</strong>
       <strong style="float:right">
         (${{
-          officialService.getPaidJson.Value.PaymentNotPaidTotalAmount
+          paidSection.Value.PaymentNotPaidTotalAmount
         }})</strong
       >
     </h3>
     <ngb-accordion
       *ngIf="
-        officialService.getPaidJson.Value.PaymentNotPaid.length > 0;
+        paidSection.Value.PaymentNotPaid.length > 0;
         else noGamesDiv
       "
     >
       <ngb-panel
-        *ngFor="let item of officialService.getPaidJson.Value.PaymentNotPaid"
+        *ngFor="let item of paidSection.Value.PaymentNotPaid"
       >
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
@@ -83,18 +86,18 @@
       <strong>PAID</strong>
       <strong style="float:right"
         >(${{
-          officialService.getPaidJson.Value.PaidPaymentsTotalAmount
+          paidSection.Value.PaidPaymentsTotalAmount
         }})</strong
       >
     </h3>
     <ngb-accordion
       *ngIf="
-        officialService.getPaidJson.Value.PaidPayments.length > 0;
+        paidSection.Value.PaidPayments.length > 0;
         else noRecordDiv
       "
     >
       <ngb-panel
-        *ngFor="let item of officialService.getPaidJson.Value.PaidPayments"
+        *ngFor="let item of paidSection.Value.PaidPayments"
       >
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
@@ -123,10 +126,10 @@
   </div>
 </div>
 <!--##########loader###################-->
-<app-fybaloader *ngIf="officialService.paidRequest"></app-fybaloader>
+<app-fybaloader *ngIf="paidRequest"></app-fybaloader>
 <!--######################################-->
 
-<div *ngIf="dss.initialFetchError" #serverError>
+<div *ngIf="initialFetchError" #serverError>
     <div class="noRecords">
       <span class="spanError">Server Error.</span> Please try again later!
     </div>

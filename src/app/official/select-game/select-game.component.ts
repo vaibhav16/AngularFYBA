@@ -55,7 +55,7 @@ export class SelectGameComponent implements OnInit {
     config: NgbAccordionConfig,
     public loginService: LoginService,
     private modalService: BsModalService,
-    private dss: DataSharingService
+    public dss: DataSharingService
   ) {
     config.closeOthers = false;
     config.type = "info";
