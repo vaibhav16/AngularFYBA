@@ -16,24 +16,6 @@ import { LogoutComponent } from "./common/logout/logout.component";
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
 
 const routes: Routes = [
-<<<<<<< HEAD
-    {path:'', component:LoginComponent},
-    {path:'login', component:LoginComponent},    
-	{ path:'official', component: OfficialComponent,canActivate: [AuthGuard],
-		children: [
-			{path: '', redirectTo: 'ReportGameComponent', pathMatch: 'full' },
-			{path: 'SelectGameComponent', component: SelectGameComponent }, 
-			{path:'PayComponent', component:PayComponent},
-			{path:'ProfileComponent', component:ProfileComponent},
-			{path:'ReportGameComponent', component:ReportGameComponent},
-		]
-	}, 
-    {path:'coach', component:CoachComponent,canActivate: [AuthGuard]},
-	{path:'player', component:PlayerComponent,canActivate: [AuthGuard]},
-	{path:'fybaloader', component:FybaloaderComponent},
-	{path:'logout', component:LogoutComponent,canActivate: [AuthGuard]},
-	{path:'changepassword', component:ChangepasswordComponent,canActivate: [AuthGuard]}
-=======
   { path: "", component: LoginComponent },
   { path: "login", component: LoginComponent },
   {
@@ -57,7 +39,6 @@ const routes: Routes = [
     component: ChangepasswordComponent,
     canActivate: [AuthGuard]
   }
->>>>>>> 630996f16dcf0949a211a5ebd94d7e0025fc0700
 ];
 
 @NgModule({

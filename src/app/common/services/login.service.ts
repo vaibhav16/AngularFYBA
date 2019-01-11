@@ -49,27 +49,7 @@ export class LoginService {
   ) {
     this.isLoggedIn = false;
     //console.log(this.isLoggedIn);
-<<<<<<< HEAD
-   } 
-
-postLoginData(userVar : Login){
-  this.loginFailed=false;
-  this.serviceError=false;
-  this.requestStatus=true;
-  userVar.Email=userVar.Email.toLowerCase();
-  var headerOptions =  new Headers({'Content-Type':'application/json'});
-  var requestOptions = new RequestOptions({method: RequestMethod.Post, headers: headerOptions});
-  return this.http.post(Constants.apiURL +'/api/Home',userVar,requestOptions)
-  .pipe(map((data: Response) => {
-  return data.json() as JSON;
-  })).toPromise().then(x => {
-    console.log(x);
-  this.jsonResult = x; 
-  this.sessionKey=x["SessionKey"];
-  this.requestStatus=false;
-=======
   }
->>>>>>> 630996f16dcf0949a211a5ebd94d7e0025fc0700
 
   postLoginData(userVar: Login) {
     this.loginFailed = false;

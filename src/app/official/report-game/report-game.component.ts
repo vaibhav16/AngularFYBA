@@ -700,12 +700,7 @@ export class ReportGameComponent {
     this.deletedIndex++;
   }
 
-<<<<<<< HEAD
-   DeleteTempImage(obj:any):any{ 
-    console.log(obj.target.parentNode);    
-=======
   DeleteTempImage(obj: any) {
->>>>>>> 630996f16dcf0949a211a5ebd94d7e0025fc0700
     obj.target.parentNode.remove();
   }
 
