@@ -1,8 +1,11 @@
-import { Component,ElementRef, OnInit,Renderer2,TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, TemplateRef } from '@angular/core';
 import { OfficialService } from './../official.service';
 import { LoginService } from './../../common/services/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
+import { DataSharingService } from './../../data-sharing.service';
+import { IProfileSection } from './../classes/profile/IProfile.model';
 
 @Component({
   selector: 'app-profile',
@@ -10,91 +13,135 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
-  imgUrl:string = '';
-  modalRef: BsModalRef;  
+  public profileSection: IProfileSection = null;
+  profileRequest: boolean = null;
+  initialFetchError: boolean = null;
+  imgUrl: string = '';
+  modalRef: BsModalRef;
   template: TemplateRef<any>;
-  constructor(public officialService: OfficialService,
+  constructor(
+    public officialService: OfficialService,
     public elRef: ElementRef,
-     public loginService: LoginService,
-     private modalService: BsModalService,
-     public renderer:Renderer2) {
-    //const formData: FormData = new FormData();
-   }
+    public loginService: LoginService,
+    private modalService: BsModalService,
+    public renderer: Renderer2,
+    public dss: DataSharingService
+  ) {}
 
   ngOnInit() {
-    // this.loginService.newRequest=true;
-    // this.loginService.refreshRequest=false;
-    this.officialService.fetchProfileData().then(res=>{
-      
-      if(this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos.length>0){
-        this.imgUrl = this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos[0].Link;
-        this.imgThumbnail = this.officialService.profileJson["Value"][0].PersonalInfo.profilePhotos[0].Thumbnail;
+    this.profileRequest = true;
+    this.officialService.fetchProfileData1().subscribe(
+      (data) => {
+        this.profileSection = data;
+        console.log(this.profileSection);
+      },
+      (err) => {
+        this.profileRequest = false;
+        this.initialFetchError = true;
+        console.log(err);
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = 'Close';
+      },
+      () => {
+        if (this.profileSection.Value[0].PersonalInfo.profilePhotos.length > 0) {
+          this.imgUrl = this.profileSection.Value[0].PersonalInfo.profilePhotos[0].Link;
+          this.imgThumbnail = this.profileSection.Value[0].PersonalInfo.profilePhotos[0].Thumbnail;
+        }
+        this.profileRequest = false;
       }
-    });
+    );
   }
 
- 
   //uploadTempImage:boolean;
-  async processFile(imageInput:any,template: TemplateRef<any>){ 
-    
-    if(imageInput){
-      this.template=template;
+  async processFile(imageInput: any, template: TemplateRef<any>) {
+    this.profileRequest = true;
+    if (imageInput) {
+      this.template = template;
       //console.log(imageInput.files[0]);
       var reader = await new FileReader();
       reader.onload = await this._handleReaderLoaded.bind(this);
       await reader.readAsBinaryString(imageInput.files[0]);
-              
-    }    
+    }
   }
 
   newImgByteCode;
   source_code;
-  imgThumbnail:string = '';
- 
+  imgThumbnail: string = '';
+
   async _handleReaderLoaded(readerEvt) {
-    var binaryString=null;
-    binaryString = await readerEvt.target.result;   
+    var binaryString = null;
+    binaryString = await readerEvt.target.result;
     this.newImgByteCode = await btoa(binaryString);
 
-    // var tempId = await this.elRef.nativeElement.querySelector('#temporaryImage');
-    // var source_code = 'data:image/jpeg;base64,' + await this.newImgByteCode;
-    //   await console.log(source_code);
-    
-    //   await this.renderer.setAttribute(tempId,'src',source_code);
-     
-    await this.officialService.uploadProfileImage(this.newImgByteCode).then(res=>{
-      if(!this.officialService.uploadError){
-        this.imgUrl=this.officialService.newImage;
-        this.imgThumbnail=this.officialService.newThumbnail;
-        console.log(this.imgUrl);
-      } 
-      else{
-        this.showModal();
+    await this.officialService.uploadProfileImage1(this.newImgByteCode).subscribe(
+      (data) => {
+        console.log(data);
+        if (data['Message'].PopupMessage == 'Successful') {
+          this.loginService.cookieService.set('roundThumbnail', data['Value'].RoundThumbnail);
+          this.loginService.roundThumbnail = data['Value'].RoundThumbnail;
+          this.imgThumbnail = data['Value'].Thumbnail;
+          this.imgUrl = data['Value'].Link;
+        } else {
+          this.modalRef = this.modalService.show(ErrorModalComponent);
+          this.modalRef.content.closeBtnName = 'Close';
+        }
+      },
+      (err) => {
+        this.profileRequest = false;
+        console.log(err);
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = 'Close';
+      },
+      () => {
+        this.profileRequest = false;
       }
-      
-    });  
-    
- 
-   }  
-
-   showModal(){        
-    if(this.officialService.uploadError){
-      this.modalRef = this.modalService.show(this.template, {class: 'modal-sm'});
-    } 
+    );
   }
 
-
-   deleteProfileImage(fileName){
-    console.log(this.imgUrl);
-    this.officialService.deleteProfileImage(this.imgUrl).then(res=>{
-       this.imgUrl='';
-       this.imgThumbnail='';
+  showModal() {
+    if (this.officialService.uploadError) {
+      this.modalRef = this.modalService.show(this.template, {
+        class: 'modal-sm'
       });
-   }
+    }
+  }
 
-   closeModal(){
-     this.modalRef.hide();
-     this.officialService.uploadError=false;
-   }
+  deleteProfileImage(fileName) {
+    this.profileRequest = true;
+    console.log(this.imgUrl);
+
+    this.officialService.deleteProfileImage1(this.imgUrl).subscribe(
+      (data) => {
+        console.log(data);
+        if (data['Message'].PopupMessage == 'Successful') {
+          this.loginService.roundThumbnail = data['Value'];
+          this.loginService.cookieService.set('roundThumbnail', data['Value']);
+        } else {
+          this.modalRef = this.modalService.show(ErrorModalComponent);
+          this.modalRef.content.closeBtnName = 'Close';
+        }
+      },
+      (err) => {
+        this.profileRequest = false;
+        console.log(err);
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        this.modalRef.content.closeBtnName = 'Close';
+      },
+      () => {
+        this.profileRequest = false;
+        this.imgUrl = '';
+        this.imgThumbnail = '';
+      }
+    );
+    // this.officialService.deleteProfileImage(this.imgUrl).then((res) => {
+    //   this.profileRequest = false;
+    //   this.imgUrl = '';
+    //   this.imgThumbnail = '';
+    // });
+  }
+
+  closeModal() {
+    this.modalRef.hide();
+    this.officialService.uploadError = false;
+  }
 }

@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FybaloaderComponent } from './fybaloader.component';
+import { FybaloaderComponent } from "./fybaloader.component";
 
-describe('FybaloaderComponent', () => {
+describe("FybaloaderComponent", () => {
   let component: FybaloaderComponent;
   let fixture: ComponentFixture<FybaloaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FybaloaderComponent ]
-    })
-    .compileComponents();
+      declarations: [FybaloaderComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FybaloaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
