@@ -30,9 +30,9 @@ body{
 
 
    .leftReportDate span{display:block; font-weight:normal;}
-    .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
+    .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
     .leftReportDate100{float:left; width:100%; text-align:left;padding-top: 0px; margin-right:5%;}
-    .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
+    .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
     .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
     .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
     .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
@@ -41,7 +41,7 @@ body{
    .modal-dialog{position: absolute;margin: 0px; transform: translateX(-50%) translateY(-50%) !important;-ms-transform: translateX(-50%) translateY(-50%) !important;
     -webkit-transform: translateX(-50%) translateY(-50%) !important;
     -moz-transform: translateX(-50%) translateY(-50%) !important;
-    -o-transform: translateX(-50%) translateY(-50%) !important;left: 50%;top: 50%;width: 90%;}
+    -o-transform: translateX(-50%) translateY(-50%) !important;left: 50%;top: 50%;/*width: 90%;*/}
 
    .btn-grey{background-color: #ddd;}
    .rightGameAvailable{font-size:16px;padding-top: 3px;}
@@ -63,10 +63,12 @@ body{
     font-style: normal;
     font-weight: normal;
     line-height:16px;
-    position: absolute;
-    bottom: 12px;
-    right: 10px;
-    width: 25%;
+    /*position: absolute;
+    bottom: 0;
+    right: -9px;
+    width: 25%;*/
+    float: right;
+    margin-top: 5px;
 }
 
 
@@ -248,7 +250,7 @@ div {
    .filter_module{background:#ededed; border:1px solid #bbc9da; padding:10px 20px; box-shadow:0 0 10px #cccccc; margin-top:20px;}
    .data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc;*/ /*padding:10px 0px;*/ margin-top:0px;}
    /*.data_module{/*background:#ededed; border:1px solid #bbc9da; box-shadow:0 0 10px #cccccc; padding:10px 0px; margin-top:10px;}*/
-   .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px; display: inline-block;width: calc(100% - 30px);line-height: 24px; margin-left:5px; color:#000;}
+   .filter_module h2, .data_module h2{margin-top:0px; font-size:18px; font-weight:bold; cursor:pointer; margin-bottom:0px; display: inline-block;width: calc(100% - 16px);line-height: 24px; margin-left:0px; color:#000; position:relative;}
    .filter_div label{margin-top:5px;}
    .filter_div{margin-top:0px; display:inline-block; width:100%;}
    .marginTop10{margin-top:10px;}
@@ -625,8 +627,8 @@ div {
 
 
     .leftReportDate span{display:block; font-weight:normal;}
-    .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
-    .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
+    .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:0%;}
+    .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
     .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
     .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
     .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}

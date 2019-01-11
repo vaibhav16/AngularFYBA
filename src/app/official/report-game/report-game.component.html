@@ -28,25 +28,26 @@
               >
                 <h2 #acchead1>
 <!-- 
-                  <div    [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '65%' }"></div>
+                  <div    [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '75%' }"></div>
 
                   <div [ngStyle]="{'width:100%;' : item.IncentiveText.length>0}"></div>></div> -->
                     
-                    <div class="leftReportDate"  [ngStyle]="{ width: item.IncentiveText.length>0 ? '65%' : '100%' }">
-                  {{ item.GameName }}
+                    <div class="leftReportDate"  [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '100%' }">
+                  <div>{{ item.GameName }}
+                    <span *ngIf="item.IncentiveText.length > 0"
+                    class="unreported_game">1</span></div> 
                   <span class="">
                       {{ item.GameDate }} @{{ item.Location }} @
                       {{ item.GameStartTime }}
                   </span>
-                  <span class="asCoach">{{ item.PositionText }}</span>
+                  <span class="asCoach">{{ item.PositionText }}
+                      <span class="earnMore">{{ item.IncentiveText }}</span>
+                  </span>
                   </div>
                   <!-- [ngStyle]="{ display: item.IncentiveText.length>0 ? 'none%' : '' }" -->
                   <div class="rightReportDate"       [ngStyle]="{ display: item.IncentiveText.length>0 ? '' : 'none' }">
-                      <span
-                      *ngIf="item.IncentiveText.length > 0"
-                      class="unreported_game"
-                      >1</span>
-                    <span class="earnMore">{{ item.IncentiveText }}</span></div>
+                      
+                    </div>
                   </h2>
               </div>
             </ng-template>
