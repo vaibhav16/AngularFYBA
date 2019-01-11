@@ -30,6 +30,7 @@ body{
 
    .leftReportDate span{display:block; font-weight:normal;}
     .leftReportDate{float:left; width:65%; text-align:left;padding-top: 0px; margin-right:5%;}
+    .leftReportDate100{float:left; width:100%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:left; width:25%; text-align:right; margin-left:5%;}
     .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
     .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
@@ -658,7 +659,7 @@ div {
    .coach_header_img{height:200px; background-position:center center;}
    .official_header_img_paddNone .col-md-12{padding-left:0px !important; padding-right:0px !important;}
    .breakWord{display:block;}
-   h1.mainDate{font-size:20px;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
+   h1.mainDate{font-size:19px;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
    .data_module h3{font-size:15px;}
    ul.addList li{float:left; width:60px; margin-left:10px;height: 60px;
    line-height: 60px;

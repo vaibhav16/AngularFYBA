@@ -1,16 +1,16 @@
 <div
-  *ngIf="officialService.profileJson != null && dss.initialFetchError!=true"
+  *ngIf="profileSection != null && initialFetchError!=true"
   class="container paddingBottom50"
 >
   <div
     class="row"
-    *ngIf="officialService.profileJson.Value != null; else noRecordDiv"
+    *ngIf="profileSection.Value != null; else noRecordDiv"
   >
     <div class="col-lg-12">
       <h1 class="mainDate name_player">
-        <strong>{{ officialService.profileJson.Value[0].ProfileName }}</strong>
+        <strong>{{ profileSection.Value[0].ProfileName }}</strong>
         <span class="rating_player">{{
-          officialService.profileJson.Value[0].ProfileRating
+          profileSection.Value[0].ProfileRating
         }}</span>
       </h1>
       <ngb-accordion>
@@ -29,7 +29,7 @@
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-6 paddLeft5">
                     {{
-                      officialService.profileJson.Value[0].PersonalInfo.Address
+                      profileSection.Value[0].PersonalInfo.Address
                     }}
                   </div>
                   <div class="clearfix"></div>
@@ -40,7 +40,7 @@
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
                     {{
-                      officialService.profileJson.Value[0].PersonalInfo.Email
+                      profileSection.Value[0].PersonalInfo.Email
                     }}
                   </div>
                   <div class="clearfix"></div>
@@ -51,7 +51,7 @@
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
                     {{
-                      officialService.profileJson.Value[0].PersonalInfo
+                      profileSection.Value[0].PersonalInfo
                         .HomePhone
                     }}
                   </div>
@@ -63,7 +63,7 @@
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
                     {{
-                      officialService.profileJson.Value[0].PersonalInfo
+                      profileSection.Value[0].PersonalInfo
                         .MobilePhone
                     }}
                   </div>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-6 paddLeft5">
                   {{
-                    officialService.profileJson.Value[0].LeagueSettings
+                    profileSection.Value[0].LeagueSettings
                       .MaxGamesPerDay
                   }}
                 </div>
@@ -144,7 +144,7 @@
                 <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
                   $
                   {{
-                    officialService.profileJson.Value[0].LeagueSettings
+                    profileSection.Value[0].LeagueSettings
                       .MaxSeasonEarnings
                   }}
                 </div>
@@ -183,7 +183,7 @@
                       <tbody>
                         <tr
                           *ngFor="
-                            let item of officialService.profileJson.Value[0]
+                            let item of profileSection.Value[0]
                               .ApprovedOfficiatingDivisions
                               .approvedOfficiatingDivisionsLists
                           "
@@ -232,7 +232,7 @@
           <ng-template ngbPanelContent>
             <div
               *ngIf="
-                officialService.profileJson.Value[0].Payments.paymentLists
+                profileSection.Value[0].Payments.paymentLists
                   .length > 0;
                 else noPaymentDiv
               "
@@ -258,7 +258,7 @@
                       <tbody>
                         <tr
                           *ngFor="
-                            let item of officialService.profileJson.Value[0]
+                            let item of profileSection.Value[0]
                               .Payments.paymentLists
                           "
                         >
@@ -279,7 +279,7 @@
   </div>
 </div>
 <!--##########loader###################-->
-<app-fybaloader *ngIf="officialService.fetchProfileRequest"></app-fybaloader>
+<app-fybaloader *ngIf="profileRequest"></app-fybaloader>
 <!--######################################-->
 <ng-template #noPaymentDiv>
   <div class="noRecordsProfile">No Payments Found</div>

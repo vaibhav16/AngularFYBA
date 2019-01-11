@@ -18,28 +18,30 @@ export class PayComponent implements OnInit {
     public officialService: OfficialService,
     public loginService: LoginService,
     private dss: DataSharingService
-  ) {}
+  ) {
+    
+  }
 
   public paidSection: IPaidSection;
-  initialFetchError=null;
-  paidRequest:boolean;
-  ngOnInit() {  
-    this.paidRequest=true;
-    this.officialService.fetchGetPaidData1().subscribe(    
+  initialFetchError = null;
+  paidRequest: boolean;
+  ngOnInit() {
+    this.paidRequest = true;
+    this.officialService.fetchGetPaidData1().subscribe(
       (data) => {
         this.paidSection = data;
         console.log(this.paidSection);
       },
       (err) => {
-        this.paidRequest=false;
-        this.initialFetchError=true;
+        this.paidRequest = false;
+        this.initialFetchError = true;
         console.log(err);
         this.modalRef = this.modalService.show(ErrorModalComponent);
-        this.modalRef.content.closeBtnName = "Close";
+        this.modalRef.content.closeBtnName = 'Close';
       },
-      () => { 
-        this.paidRequest=false;
-        console.log('finally') 
+      () => {
+        this.paidRequest = false;
+        console.log('finally');
       }
     );
   }

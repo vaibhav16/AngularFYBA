@@ -37,11 +37,12 @@ export class ChangepwService {
       .then(x => {
         console.log(x);
         this.request = false;
-        this.resultMsg = x["Value"];
+        this.resultMsg = x["Message"].PopupMessage;
+        this.result = x["Message"].PopupHeading;
 
-        if (x["Value"].includes("mismatch")||x["Value"].includes("not")) {
-          this.result = "Action Unsuccessful";
-        } else this.result = "Action Successful";
+        // if (x["Message"].PopupHeading.includes("mismatch")||x["Value"].includes("not")) {
+        //   this.result = "Action Unsuccessful";
+        // } else this.result = "Action Successful";
         return Promise.resolve();
       })
       .catch(err => {

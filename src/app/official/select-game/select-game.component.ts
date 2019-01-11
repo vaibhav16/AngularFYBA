@@ -70,16 +70,16 @@ export class SelectGameComponent implements OnInit {
     };
 
     this.officialService.postSelectGames(this.selectedFilter).then(res => {
-      if(this.officialService.serviceError){
-        this.modalRef = this.modalService.show(ErrorModalComponent);
-        this.modalRef.content.closeBtnName = "Close";        
-      }
-      if (this.loginService.promptChangePassword != null) {
-        if (this.loginService.promptChangePassword.length > 1) {
-          this.modalRef = this.modalService.show(ModalContentComponent);
-          this.modalRef.content.closeBtnName = "Close";    
-        }       
-      }
+      // if(this.officialService.serviceError){
+      //   this.modalRef = this.modalService.show(ErrorModalComponent);
+      //   this.modalRef.content.closeBtnName = "Close";        
+      // }
+      // if (this.loginService.promptChangePassword != null) {
+      //   if (this.loginService.promptChangePassword.length > 1) {
+      //     this.modalRef = this.modalService.show(ModalContentComponent);
+      //     this.modalRef.content.closeBtnName = "Close";    
+      //   }       
+      // }
     });
   }
 
@@ -171,13 +171,17 @@ export class SelectGameComponent implements OnInit {
       .then(res => {
         this.signUpRequest = false;
         if (this.officialService.signUpResponse == "Registered")
+        {
           this.modalRef = this.modalService.show(template, {
             class: "modal-sm"
           });
+        }
         else
+        {
           this.modalRef = this.modalService.show(standardTemplate, {
             class: "modal-sm"
           });
+        }
       });
   }
 

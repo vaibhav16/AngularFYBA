@@ -37,6 +37,7 @@ import { ModalContentComponent } from "./official/official.component";
 //import { LightboxModule } from 'ngx-lightbox';
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
 import { ErrorModalComponent } from './common/error-modal/error-modal.component';
+import { IncidenComponent } from './official/report-game/inciden/inciden.component';
 //import { DataSharingService } from './datasharing.service';
 
 @NgModule({
@@ -57,7 +58,8 @@ import { ErrorModalComponent } from './common/error-modal/error-modal.component'
     FybaloaderComponent,
     LogoutComponent,
     ChangepasswordComponent,
-    ErrorModalComponent
+    ErrorModalComponent,
+    IncidenComponent
   ],
   imports: [
     HttpModule,

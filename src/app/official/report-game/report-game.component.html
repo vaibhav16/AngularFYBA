@@ -27,7 +27,12 @@
                 class="HeadCollapse seemant"
               >
                 <h2 #acchead1>
-                    <div class="leftReportDate">
+<!-- 
+                  <div    [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '65%' }"></div>
+
+                  <div [ngStyle]="{'width:100%;' : item.IncentiveText.length>0}"></div>></div> -->
+                    
+                    <div class="leftReportDate"  [ngStyle]="{ width: item.IncentiveText.length>0 ? '65%' : '100%' }">
                   {{ item.GameName }}
                   <span class="">
                       {{ item.GameDate }} @{{ item.Location }} @
@@ -35,7 +40,8 @@
                   </span>
                   <span class="asCoach">{{ item.PositionText }}</span>
                   </div>
-                  <div class="rightReportDate">
+                  <!-- [ngStyle]="{ display: item.IncentiveText.length>0 ? 'none%' : '' }" -->
+                  <div class="rightReportDate"       [ngStyle]="{ display: item.IncentiveText.length>0 ? '' : 'none' }">
                       <span
                       *ngIf="item.IncentiveText.length > 0"
                       class="unreported_game"
