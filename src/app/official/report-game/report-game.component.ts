@@ -640,8 +640,8 @@ export class ReportGameComponent {
 
     let img = this.renderer.createElement("img");
     this.renderer.setProperty(img, "id", "incident_img_" + this.tempIndex);
-    this.renderer.setStyle(img, "width", "100px");
-    this.renderer.setStyle(img, "height", "100px");
+    //this.renderer.setStyle(img, "width", "100px");
+    //this.renderer.setStyle(img, "height", "100px");
     this.renderer.setAttribute(img, "src", source_code);
     this.renderer.appendChild(li, img);
 

@@ -274,8 +274,8 @@ export class SelectGameComponent implements OnInit {
           console.log(res);
           console.log(res["_body"]);
           var x = JSON.parse(res["_body"]);
-          downLoadUrl = x["RelativeUrl"];
-          fileName = x["FileName"];
+          downLoadUrl = x["Value"].RelativeUrl;
+          fileName = x["Value"].FileName;
         })
       )
       .pipe(mergeMap(_body => this.officialService.downloadPdf(downLoadUrl)))

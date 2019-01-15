@@ -504,8 +504,8 @@
                                        id="scoresheet{{ ssIndex }}"
                                        >
                                        <img
-                                          src="{{ child.ImageURL }}"
-                                          style="width:100px;height:100px;"
+                                          src="{{ child.ImageThumbnail }}"
+                                          
                                           />
                                        <span
                                           url="child.ImageURL"
@@ -520,6 +520,7 @@
                                           aria-hidden="true"
                                           ></span>
                                     </li>
+                                    
                                  </ul>
                                  <!-- <div *ngFor="let image of _album; let i=index">
                                     <img [src]="image.thumb" (click)="open(i)"/>
@@ -562,14 +563,13 @@
                            </div>
                         </div>
                      </div>
-                     <div class="marginTop10">
+                     <!-- <div class="marginTop10">
                         <ul class="reportlist">
                            <li>Incident</li>
                         </ul>
                         <div class="bgGrey">
                            <div class="row">
-                              <div class="col-md-12">
-                                
+                              <div class="col-md-12">                                
                                  <ul                        
                                     class="addList"
                                     >
@@ -595,7 +595,7 @@
                               </div>
                            </div>
                         </div>
-                     </div>
+                     </div> -->
                      <div
                      [ngStyle]="{
                      display: item.OfficiatingPositionId == '3' ? '' : 'none'

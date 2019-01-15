@@ -465,10 +465,10 @@ div {
     margin-right: 20px;
     margin-bottom: 20px;
     height: 100px;
-    background: #999999;
+    /*background: #999999;*/
     text-align: center;
     line-height: 100px;
-    color: #ffffff; position:relative; /*border:3px solid #3c98db;*/}
+    color: #ffffff; position:relative; /*border:3px solid #3c98db;*/margin-top:10px;}
        
    ul.addList li.uploadDiv{float: left;
     width: 100px;
@@ -678,8 +678,8 @@ div {
     top: -11px;
     right: -11px;
     height: 18px;*/
-    width:auto !important;
-    height:100% !important;
+    width:60px;
+    height:100%;
    } 
    h3{font-size:16px !important;}
    ul.paymentdates li{font-size:16px;}
