@@ -1,4 +1,4 @@
-export class ReportGameData{
-   public OfficialSeasonId:string;
-   public SeasonId:string;
+export class ReportGameData {
+  public OfficialSeasonId: string;
+  public SeasonId: string;
 }
