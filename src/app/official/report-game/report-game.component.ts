@@ -6,6 +6,7 @@ import {
   ViewChild,
   AfterViewInit,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { NgbAccordionConfig } from "@ng-bootstrap/ng-bootstrap";
 import { OfficialService } from "../official.service";
 import { FormBuilder, FormGroup, FormArray, NgForm } from "@angular/forms";
@@ -113,6 +114,7 @@ export class ReportGameComponent {
   //  }
 
   constructor(
+    public router: Router,
     public officialService: OfficialService,
     public renderer: Renderer2,
     // private _lightbox: Lightbox,
@@ -725,6 +727,11 @@ export class ReportGameComponent {
         class: "modal-sm"
       });
     }
+  }
+
+
+  addIncident(){
+    this.router.navigate(["newIncident"]);
   }
 
   public _album: Array<any> = [

@@ -33,9 +33,9 @@ body{
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
     .leftReportDate100{float:left; width:100%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
-    .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
+    .leftGameDate{float:left; width:49%; text-align:left;padding-top: 10px; margin-right:1%;}
     .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
-    .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
+    .rightGameDate{float:left; width:49%; text-align:right; margin-left:1%;}
    .spanError{display: block;font-size: 38px; color: #999;font-weight: bold;text-shadow: 0 1px 2px #fff;}
 
    .modal-dialog{position: absolute;margin: 0px; transform: translateX(-50%) translateY(-50%) !important;-ms-transform: translateX(-50%) translateY(-50%) !important;
@@ -477,6 +477,8 @@ div {
        background: #ff0000;
     text-align: center;color: #ffffff; position:relative; border:3px solid #3c98db; line-height:auto;line-height: inherit;
     padding-top: 25px;overflow:hidden;} 
+
+    ul.addList li.uploadIncident{background: #3c98db; border:1px solid #1e31ae;}
        
        
    /*ul.addList li img{position: absolute;
@@ -629,10 +631,10 @@ div {
     .leftReportDate span{display:block; font-weight:normal;}
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:0%;}
     .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
-    .leftGameDate{float:left; width:45%; text-align:left;padding-top: 10px; margin-right:5%;}
+    .leftGameDate{float:left; width:49%; text-align:left;padding-top: 10px; margin-right:1%;}
     .leftGameDate strong{position: absolute;bottom: 0;left: 0;/*width: 45%;*/}
-    .rightGameDate{float:left; width:45%; text-align:right; margin-left:5%;}
-    .breakAll{word-wrap:break-word; display:block;}
+    .rightGameDate{float:left; width:49%; text-align:right; margin-left:1%;}
+    .breakAll{word-wrap:break-word; display:block;} 
        .spaceBorder{display:block !important;}
        
    .logo_text a{font-size:32px;}
@@ -668,6 +670,7 @@ div {
    line-height: 60px;
    font-size: 12px;}
    .addHeading{display:block; padding-top:2px;text-transform: uppercase;} 
+   .addIncident{top: 50%;position: absolute;left: 50%;transform: translateX(-50%) translateY(-50%);padding-top: 0;font-size: 11px;}
    
    ul.addList li:last-child{float:left; width:60px; margin-left:10px;height: 60px;font-size: 12px; padding-top:0px;}   
    ul.addList li img {
@@ -675,7 +678,7 @@ div {
     top: -11px;
     right: -11px;
     height: 18px;*/
-    width:100% !important;
+    width:auto !important;
     height:100% !important;
    } 
    h3{font-size:16px !important;}
@@ -708,6 +711,10 @@ div {
        table.scoreTable tr td span{word-break:break-word;} 
         
    }
+
+   @media only screen and (max-width : 275px) {
+    .leftGameDate strong{position:inherit;}  
+}
 
    @media only screen and (min-width : 341px) and (max-width : 480px) {
        
