@@ -21,9 +21,6 @@ import { Constants } from "./../models/constants";
   providedIn: "root"
 })
 export class LoginService {
-  //const APIUrl = "https://mobile.folsomyouthbasketball.com";
-  // static APIUrl:string = "https://mobile.folsomyouthbasketball.com";
-  // static testAPIUrl:string = "https://fybaservice.sapplesystems.com";
   email: string = null;
   requestStatus: boolean = null;
   selectedLogin: Login;
@@ -40,6 +37,7 @@ export class LoginService {
   roundThumbnail: string = null;
   textSize: string = null;
   promptChangePassword: string = null;
+  name: string = null;
 
   constructor(
     private http: Http,
@@ -112,7 +110,14 @@ export class LoginService {
             this.jsonResult["Value"].Text_Size,
             365
           );
+          this.cookieService.set(
+            "name",
+            this.jsonResult["Value"].FirstName+this.jsonResult["Value"].LastName,
+            365
+          );
+       
           this.cookieService.set("email", this.jsonResult["Value"].Email, 365);
+          this.cookieService.set("name", this.jsonResult["Value"].FirstName + " " + this.jsonResult["Value"].LastName, 365);
           this.dataSharingService.textSize = this.jsonResult["Value"].Text_Size;
           //console.log
           if (
@@ -141,6 +146,7 @@ export class LoginService {
           this.promptChangePassword = this.jsonResult[
             "Value"
           ].PromptChangePassword;
+          this.name = this.jsonResult["Value"].FirstName + " " + this.jsonResult["Value"].LastName;
         } else {
           this.isLoggedIn = false;
           this.loginFailed = true;

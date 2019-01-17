@@ -24,8 +24,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import * as $ from 'jquery';
 import { DataSharingService } from 'src/app/data-sharing.service';
-import { IncidentComponent } from './incident/incident.component';
-import { IncidentReports } from './../classes/reportgame/Incident.model';
+import { NewIncidentComponent } from './new-incident/new-incident.component';
+import { ShowIncidentComponent } from './show-incident/show-incident.component';
+
 
 @Component({
   selector: 'app-report-game',
@@ -131,7 +132,6 @@ export class ReportGameComponent {
   //   NewImageByteCode:'',
   //   GameIndex:''
   //  }
-  //@ViewChild(IncidentComponent) incidentComponent:IncidentComponent;
   constructor(
     public router: Router,
     public officialService: OfficialService,
@@ -198,7 +198,6 @@ export class ReportGameComponent {
     unEqualVisitingScoreTemplate: TemplateRef<any>,
     uploadTemplate: TemplateRef<any>
   ) {
-    //console.log(this.incidentComponent.incident);
     console.log(form.value);
     this.uploadTemplate = uploadTemplate;
 
@@ -727,9 +726,18 @@ export class ReportGameComponent {
       incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[0].IncidentSubDropDown
     };
     //this.router.navigate(["newIncident"]);
-    this.bsModalRef = this.modalService.show(IncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));   
+    this.bsModalRef = this.modalService.show(NewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));   
     //this.modalRef.content.closeBtnName = "Close";
-    //console.log(this.incidentComponent.incident);
+  }
+
+  showIncident(incidentIndex){
+    const initialState = {
+      gameId:this.officialService.reportGameJson['Value'].GameList[0].GameId,
+      incident: this.officialService.reportGameJson['Value'].GameList[0].IncidentReports[incidentIndex],
+    };
+
+    this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));   
+
   }
 
   public _album: Array<any> = [

@@ -39,6 +39,8 @@ import { ModalContentComponent } from "./official/official.component";
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
 import { ErrorModalComponent } from './common/error-modal/error-modal.component';
 import { IncidentComponent } from './official/report-game/incident/incident.component';
+import { NewIncidentComponent } from './official/report-game/new-incident/new-incident.component';
+import { ShowIncidentComponent } from './official/report-game/show-incident/show-incident.component';
 //import { DataSharingService } from './datasharing.service';
 
 @NgModule({
@@ -60,7 +62,9 @@ import { IncidentComponent } from './official/report-game/incident/incident.comp
     LogoutComponent,
     ChangepasswordComponent,
     ErrorModalComponent,
-    IncidentComponent
+    IncidentComponent,
+    NewIncidentComponent,
+    ShowIncidentComponent
   ],
   imports: [
     HttpModule,
@@ -81,8 +85,11 @@ import { IncidentComponent } from './official/report-game/incident/incident.comp
     })
     //LightboxModule
   ],
-  entryComponents: [ModalContentComponent,
-    ErrorModalComponent
+  entryComponents: [
+    ModalContentComponent,
+    ErrorModalComponent,
+    NewIncidentComponent,
+    ShowIncidentComponent
   ],
   providers: [
     HttpClientModule,

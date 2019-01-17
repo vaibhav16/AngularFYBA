@@ -328,7 +328,8 @@
                            <div class="row">
                               <div class="col-md-12">                               
                                   <ul *ngIf="item.IncidentReports.length > 0" class="addList incidentLi">
-                                    <li *ngFor="let child of item.IncidentReports;  let incidentIndex = index">
+                                    <li *ngFor="let child of item.IncidentReports;  let incidentIndex = index"
+                                    (click)="showIncident(incidentIndex)" >
                                        Incident {{incidentIndex+1}}
                                     </li>                            
                                  </ul>

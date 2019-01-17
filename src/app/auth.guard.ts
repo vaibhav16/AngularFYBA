@@ -39,6 +39,9 @@ export class AuthGuard implements CanActivate {
       this.loginService.roundThumbnail = this.cookieService.get(
         "roundThumbnail"
       );
+      this.loginService.name = this.cookieService.get(
+        "name"
+      );
       this.dataSharingService.textSize = this.cookieService.get(
         "textSize"
       );
