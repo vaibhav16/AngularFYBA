@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-fybaloader',
-  templateUrl: './fybaloader.component.html',
-  styleUrls: ['./fybaloader.component.css']
+  selector: "app-fybaloader",
+  templateUrl: "./fybaloader.component.html",
+  styleUrls: ["./fybaloader.component.css"]
 })
 export class FybaloaderComponent implements OnInit {
- 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

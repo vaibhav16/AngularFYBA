@@ -1,16 +1,24 @@
-<app-header [topImage]='headerImg'></app-header> 
+<app-header [topImage]="headerImg"></app-header>
 
 <div class="parentBG">
-	<div class="container">
-		<div class="row official_header_img_paddNone">
-			<div class="col-lg-12 col-md-12">
-				<ul class="parentCoach">
-					<li class="active"><img [src]="game1" src="images/game1.png" alt="Game 1" /><span>(6B) Morning Hawks</span></li>
-					<li><img [src]="game2" src="images/game2.png" alt="Game 2" /><span>(1/2G) Daisies</span></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row official_header_img_paddNone">
+      <div class="col-lg-12 col-md-12">
+        <ul class="parentCoach">
+          <li class="active">
+            <img [src]="game1" src="images/game1.png" alt="Game 1" /><span
+              >(6B) Morning Hawks</span
+            >
+          </li>
+          <li>
+            <img [src]="game2" src="images/game2.png" alt="Game 2" /><span
+              >(1/2G) Daisies</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!----div class="game_select_bg">
@@ -31,17 +39,31 @@
 </div-->
 
 <div class="game_select_bg">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-					<ul class="game_select">
-							<li class="tab-link current active" data-tab="tab2-1"><img [src]="calender_icon" alt="Calender" /><span>Calender</span></li>
-							<li class="tab-link" data-tab="tab2-2"><img [src]="team_icon" alt="Team" /><span class="wordLimit">Team <span class="spaceBorder">Info</span></span></li>
-							<li class="tab-link" data-tab="tab2-3"><img [src]="game_icon" alt="Teach" /><span>Teach <span class="spaceBorder">&nbsp;</span></span></li>
-							<!----li class="tab-link" data-tab="tab2-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
-							<li class="tab-link" data-tab="tab2-5"><img [src]="officiating" alt="Profile" /><span>Profile <span class="spaceBorder">&nbsp;</span></span></li>
-						</ul>
-			</div>
-		</div>
-	</div>
-</div> 
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="game_select">
+          <li class="tab-link current active" data-tab="tab2-1">
+            <img [src]="calender_icon" alt="Calender" /><span>Calender</span>
+          </li>
+          <li class="tab-link" data-tab="tab2-2">
+            <img [src]="team_icon" alt="Team" /><span class="wordLimit"
+              >Team <span class="spaceBorder">Info</span></span
+            >
+          </li>
+          <li class="tab-link" data-tab="tab2-3">
+            <img [src]="game_icon" alt="Teach" /><span
+              >Teach <span class="spaceBorder">&nbsp;</span></span
+            >
+          </li>
+          <!----li class="tab-link" data-tab="tab2-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
+          <li class="tab-link" data-tab="tab2-5">
+            <img [src]="officiating" alt="Profile" /><span
+              >Profile <span class="spaceBorder">&nbsp;</span></span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

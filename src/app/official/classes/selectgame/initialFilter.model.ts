@@ -1,4 +1,4 @@
-export class IntialFilter{
-    UserID:string;
-    SessionKey:string;
+export class IntialFilter {
+  UserID: string;
+  SessionKey: string;
 }

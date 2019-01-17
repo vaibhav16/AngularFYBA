@@ -1,0 +1,29 @@
+<div class="incidentBox">
+  <form [formGroup]="incidentForm" (ngSubmit)="submitForm()">
+    <h3>Incident #1</h3>
+    <div class="conIncidentBox">
+      <p>Filed by:</p>
+      <h4>Robert Larson</h4>
+      <p>Filed Date/Time:</p>
+      <h4>1/5/2019 4:23 PM</h4>
+      <p>Incident Type:</p>
+      <select class="reportFacilities" formControlName="incidentType" (change)="incidentSelected()">
+        <option *ngFor="let item of incidentTypes" value={{item.DependentDropdownName}}>{{item.Item}}</option>
+      </select>
+      <select *ngIf="depedentIncidentDropdown.length>0" formControlName="incidentSubDropDown" (change)="dependentDropDownSelected()" class="reportFacilities">
+        <option *ngFor="let item of depedentIncidentDropdown" value={{item.Item}}>{{item.Item}}</option>
+      </select>
+      <p>Notes:</p>
+      <textarea formControlName="note" class="textareaIncident"></textarea>
+      <div class="footerBtnIncident">
+        <button [disabled]="!incidentForm.valid" class="btn btn-success" type="submit">
+          SAVE
+        </button>
+        &nbsp;
+        <button class="btn btn-danger" (click)="bsModalRef.hide()" type="reset">
+          CANCEL
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
