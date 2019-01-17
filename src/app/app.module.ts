@@ -41,6 +41,8 @@ import { ErrorModalComponent } from './common/error-modal/error-modal.component'
 import { IncidentComponent } from './official/report-game/incident/incident.component';
 import { NewIncidentComponent } from './official/report-game/new-incident/new-incident.component';
 import { ShowIncidentComponent } from './official/report-game/show-incident/show-incident.component';
+import { ValidationModalComponent } from './official/report-game/validation-modal/validation-modal.component';
+import { validateConfig } from "@angular/router/src/config";
 //import { DataSharingService } from './datasharing.service';
 
 @NgModule({
@@ -64,7 +66,8 @@ import { ShowIncidentComponent } from './official/report-game/show-incident/show
     ErrorModalComponent,
     IncidentComponent,
     NewIncidentComponent,
-    ShowIncidentComponent
+    ShowIncidentComponent,
+    ValidationModalComponent
   ],
   imports: [
     HttpModule,
@@ -89,7 +92,8 @@ import { ShowIncidentComponent } from './official/report-game/show-incident/show
     ModalContentComponent,
     ErrorModalComponent,
     NewIncidentComponent,
-    ShowIncidentComponent
+    ShowIncidentComponent,
+    ValidationModalComponent
   ],
   providers: [
     HttpClientModule,

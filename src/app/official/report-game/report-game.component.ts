@@ -26,6 +26,7 @@ import * as $ from 'jquery';
 import { DataSharingService } from 'src/app/data-sharing.service';
 import { NewIncidentComponent } from './new-incident/new-incident.component';
 import { ShowIncidentComponent } from './show-incident/show-incident.component';
+import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 
 
 @Component({
@@ -109,20 +110,20 @@ export class ReportGameComponent {
     ],
     IncidentReports: [
       {
-        GameId:null,
-        IncidentId:null,
-        IncidentType:null,
-        IncidentValue:null,
-        Notes:''
+        GameId: null,
+        IncidentId: null,
+        IncidentType: null,
+        IncidentValue: null,
+        Notes: ''
       }
     ],
     DeleteIncidentReport: [
       {
-        GameId:null,
-        IncidentId:null,
-        IncidentType:null,
-        IncidentValue:null,
-        Notes:''
+        GameId: null,
+        IncidentId: null,
+        IncidentType: null,
+        IncidentValue: null,
+        Notes: ''
       }
     ]
   };
@@ -161,7 +162,7 @@ export class ReportGameComponent {
       var targetid = e.target.id;
       e.target.parentNode.remove();
       this.ScoreSheetImages.splice(targetid, 1);
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
@@ -199,10 +200,10 @@ export class ReportGameComponent {
     uploadTemplate: TemplateRef<any>
   ) {
     console.log(form.value);
+    
     this.uploadTemplate = uploadTemplate;
-
     await this.makeScoreSheetArray().then((res) => {
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
@@ -220,7 +221,7 @@ export class ReportGameComponent {
         unEqualHomeScoreTemplate,
         unEqualVisitingScoreTemplate
       ) == true
-    ) {
+    && this.checkMinPON(gameListIndex)) {
       this.prepareDatatoUpdate(form, gameListIndex);
     }
   }
@@ -301,7 +302,7 @@ export class ReportGameComponent {
   }
 
   prepareDatatoUpdate(form: NgForm, gameListIndex: number) {
-    
+
     for (
       let i = 0;
       i <
@@ -448,6 +449,86 @@ export class ReportGameComponent {
     this.officialService.requestSuccess = false;
   }
 
+  checkMinPON(gameListIndex: number) {
+    
+   let homeTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].HomeTeam;
+
+    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].VisitingTeam;
+
+    if (this.checkBtnClick > 0) {
+      if (this.homePON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in '+ homeTeamName +'are less than Zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
+        return false;
+        }
+      if (this.visitingPON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in '+ visitingTeamName + ' are less than Zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        return false;
+      }
+        
+    }
+    else {
+      for (
+        let i = 0;
+        i <
+        this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores
+          .length;
+        ++i
+      ) {
+        if (
+          this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores[i]
+            .PlayerNote == true) {
+          this.homePON++;
+        }
+
+        if (
+          this.officialService.reportGameJson['Value'].GameList[gameListIndex].VisitingTeamPlayerScores[i]
+            .PlayerNote == true) {
+          this.visitingPON++;
+        }
+      }
+
+      if (this.homePON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in '+ homeTeamName +'are less than Zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        return false;
+      }
+      if (this.visitingPON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in '+ visitingTeamName + ' are less than Zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        return false;
+      }
+        
+    }
+
+  }
+
   /* - Function to check the number of 'Player of Note' in a particular game.
   If it exceeds 3, a validation error will be displayed. - */
   maxPON: number = 0;
@@ -526,7 +607,10 @@ export class ReportGameComponent {
         else if (teamType == 'visiting' && this.visitingPON <= 2) this.visitingPON++;
       } else {
         this.maxPON--;
-        if (teamType == 'home') this.homePON--;
+        if (teamType == 'home') {
+          this.homePON--;
+
+        }
         else if (teamType == 'visiting') this.visitingPON--;
       }
     }
@@ -577,7 +661,7 @@ export class ReportGameComponent {
   showModal() {
     if (this.officialService.reportErrorMsg) {
       console.log(this.officialService.reportErrorMsg);
-      console.log(this.modalRef);
+      //console.log(this.modalRef);
       this.modalRef = this.modalService.show(this.uploadTemplate, {
         class: 'modal-sm'
       });
@@ -721,22 +805,22 @@ export class ReportGameComponent {
   addIncident() {
     //const config: ModalOptions = { class: 'modal-sm' };
     const initialState = {
-      gameId:this.officialService.reportGameJson['Value'].GameList[0].GameId,
+      gameId: this.officialService.reportGameJson['Value'].GameList[0].GameId,
       incidentTypes: this.officialService.reportGameJson['Value'].GameList[0].IncidentTypes,
       incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[0].IncidentSubDropDown
     };
     //this.router.navigate(["newIncident"]);
-    this.bsModalRef = this.modalService.show(NewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));   
+    this.bsModalRef = this.modalService.show(NewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
     //this.modalRef.content.closeBtnName = "Close";
   }
 
-  showIncident(incidentIndex){
+  showIncident(incidentIndex) {
     const initialState = {
-      gameId:this.officialService.reportGameJson['Value'].GameList[0].GameId,
+      gameId: this.officialService.reportGameJson['Value'].GameList[0].GameId,
       incident: this.officialService.reportGameJson['Value'].GameList[0].IncidentReports[incidentIndex],
     };
 
-    this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));   
+    this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
 
   }
 
