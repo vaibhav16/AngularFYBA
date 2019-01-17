@@ -21,8 +21,8 @@
                               <div>{{ item.GameName }}
                                     IsScoreFilled 
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
-                                 <img class="report_status" *ngIf="item.IsScoreFilled" src="assets/images/tick.png">                             
-                                 <img class="report_status" *ngIf="!item.IsScoreFilled" src="assets/images/error.png">
+                                 <img class="report_status" *ngIf="item.IsScoreFilled && item.OfficiatingPositionId == 3" src="assets/images/tick.png">                             
+                                 <img class="report_status" *ngIf="!item.IsScoreFilled && item.OfficiatingPositionId == 3" src="assets/images/error.png">
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
                               </div>
                               <span class="">

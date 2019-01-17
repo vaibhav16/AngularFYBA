@@ -27,7 +27,7 @@ import { DataSharingService } from 'src/app/data-sharing.service';
 import { NewIncidentComponent } from './new-incident/new-incident.component';
 import { ShowIncidentComponent } from './show-incident/show-incident.component';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
-
+import { SuccessPopupComponent } from './success-popup/success-popup.component';
 
 @Component({
   selector: 'app-report-game',
@@ -210,10 +210,17 @@ export class ReportGameComponent {
     });
 
     if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
-      this.modalRef = this.modalService.show(invalidScoreTemplate, {
-        class: 'modal-sm'
-      });
-      console.log('Invalid');
+      // this.modalRef = this.modalService.show(invalidScoreTemplate, {
+      //   class: 'modal-sm'
+      // });
+      // console.log('Invalid');
+      const initialState = {
+        popupTitle: 'Invalid Final Scores',
+        popupMsg: 'Final Score can not be zero.',
+      };
+
+      this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      
     } else if (
       this.checkFinalScore(
         form,
@@ -238,6 +245,13 @@ export class ReportGameComponent {
   ) {
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
+
+    let homeTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].HomeTeam;
+
+    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex].VisitingTeam;
     if (
       this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores !=
       null
@@ -283,18 +297,32 @@ export class ReportGameComponent {
     }
 
     if (this.tempSumVisitingPoint != parseInt(form.value.VTeamScore)) {
-      this.modalRef = null;
-      console.log(this.tempSumVisitingPoint, form.value.VTeamScore);
-      this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {
-        class: 'modal-sm'
-      });
+      //this.modalRef = null;
+      // console.log(this.tempSumVisitingPoint, form.value.VTeamScore);
+      // this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {
+      //   class: 'modal-sm'
+      // });
+      const initialState = {
+        popupTitle: 'Error',
+        popupMsg: ' The sum of the scores of the players in Team '+ visitingTeamName + ' must be equal to the final score.',
+      };
+
+      this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
       return false;
-    } else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
-      this.modalRef = null;
-      console.log(this.tempSumHomePoint, form.value.HTeamScore);
-      this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {
-        class: 'modal-sm'
-      });
+    } 
+    else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
+      // this.modalRef = null;
+      // console.log(this.tempSumHomePoint, form.value.HTeamScore);
+      // this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {
+      //   class: 'modal-sm'
+      // });
+      const initialState = {
+        popupTitle: 'Error',
+        popupMsg: ' The sum of the scores of the players in Team '+ homeTeamName + ' must be equal to the final score.',
+      };
+      console.log("319");
+      this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
       return false;
     }
     //change to true
@@ -425,8 +453,8 @@ export class ReportGameComponent {
     this.APIGamePost.DeleteIncidentReport = [];
     console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost).then((res) => {
-      if (this.officialService.reportErrorMsg) {
-        console.log(this.officialService.reportErrorMsg);
+      if (this.officialService.postReportMsg) {
+        console.log(this.officialService.postReportMsg);
         console.log
         this.showModal();
       }
@@ -464,7 +492,7 @@ export class ReportGameComponent {
       {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in '+ homeTeamName +'are less than Zero.',
+          popupMsg: 'Players of Note in Team '+ homeTeamName +' can not be zero.',
         };
 
         this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
@@ -475,7 +503,7 @@ export class ReportGameComponent {
       {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in '+ visitingTeamName + ' are less than Zero.',
+          popupMsg: 'Players of Note in Team '+ visitingTeamName + ' can not be zero.',
         };
 
         this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
@@ -508,7 +536,7 @@ export class ReportGameComponent {
       {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in '+ homeTeamName +'are less than Zero.',
+          popupMsg: 'Players of Note in Team '+ homeTeamName +' can not be zero.',
         };
 
         this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
@@ -518,7 +546,7 @@ export class ReportGameComponent {
       {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in '+ visitingTeamName + ' are less than Zero.',
+          popupMsg: 'Players of Note in Team '+ visitingTeamName + ' can not be zero.',
         };
 
         this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
@@ -526,6 +554,7 @@ export class ReportGameComponent {
       }
         
     }
+    return true;
 
   }
 
@@ -659,12 +688,28 @@ export class ReportGameComponent {
   }
 
   showModal() {
-    if (this.officialService.reportErrorMsg) {
-      console.log(this.officialService.reportErrorMsg);
+    if (this.officialService.postReportMsg) {
+      console.log(this.officialService.postReportMsg);
       //console.log(this.modalRef);
-      this.modalRef = this.modalService.show(this.uploadTemplate, {
-        class: 'modal-sm'
-      });
+      // this.modalRef = this.modalService.show(this.uploadTemplate, {
+      //   class: 'modal-sm'
+      // });
+
+      const initialState = {
+        popupTitle: this.officialService.postReportTitle,
+        popupMsg: this.officialService.postReportMsg,
+      };
+
+      if(!this.officialService.postReportStatus){       
+        this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      }
+      else{
+        this.modalRef = this.modalService.show(SuccessPopupComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      }
+
+
+      
+
     }
   }
 

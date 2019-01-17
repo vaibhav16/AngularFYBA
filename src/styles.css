@@ -28,6 +28,7 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
+   
 
    .leftReportDate span{display:block; font-weight:normal;}
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
@@ -1032,11 +1033,12 @@ div {
   .pwForm{
       font-size: 14px;
   }
-
   
   .customModalWidth75{
     width:75%
   }
+
+
 
   /*--------- END --------*/
 

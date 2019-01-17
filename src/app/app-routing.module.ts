@@ -14,7 +14,6 @@ import { LoginService } from "./common/services/login.service";
 import { FybaloaderComponent } from "./common/fybaloader/fybaloader.component";
 import { LogoutComponent } from "./common/logout/logout.component";
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
-import { IncidentComponent } from './../app/official/report-game/incident/incident.component';
 
 const routes: Routes = [
   { path: "", component: LoginComponent },
@@ -39,8 +38,7 @@ const routes: Routes = [
     path: "changepassword",
     component: ChangepasswordComponent,
     canActivate: [AuthGuard]
-  },
-  { path: "newIncident", component: IncidentComponent, canActivate: [AuthGuard] },
+  }
 ];
 
 @NgModule({
@@ -57,6 +55,5 @@ export const routingComponents = [
   ReportGameComponent,
   OfficialComponent,
   CoachComponent,
-  PlayerComponent,
-  IncidentComponent
+  PlayerComponent
 ];

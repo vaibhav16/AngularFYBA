@@ -158,24 +158,23 @@ export class OfficialService {
     ],
     IncidentReports: [
       {
-        GameId:null,
-        IncidentId:null,
-        IncidentType:null,
-        IncidentValue:null,
-        Notes:''
+        GameId: null,
+        IncidentId: null,
+        IncidentType: null,
+        IncidentValue: null,
+        Notes: ''
       }
     ],
     DeleteIncidentReport: [
       {
-        GameId:null,
-        IncidentId:null,
-        IncidentType:null,
-        IncidentValue:null,
-        Notes:''
+        GameId: null,
+        IncidentId: null,
+        IncidentType: null,
+        IncidentValue: null,
+        Notes: ''
       }
     ]
   };
-
 
   // IncidentReports[]: IncidentReports[] = {
   //   GameId:null,
@@ -186,7 +185,6 @@ export class OfficialService {
   // };
 
   IncidentReports: IncidentReports[] = [];
-
 
   APIPlayerScorePost: APIPlayerScorePost = {
     GameId: '',
@@ -606,11 +604,13 @@ export class OfficialService {
   /* - This function is used to post the entire gameList model to the API.
   It comes into play when the ScoreKeeper make any changes to the player scores in a specific game. 
   An updated model with all the scores is sent to the database and the records are updated. - */
-  reportErrorMsg: string;
-  postReportError: boolean;
+  postReportTitle: string;
+  postReportMsg: string;
+  postReportStatus: boolean;
+  //postReportError: boolean;
   postReportData(gameListObj: any) {
-    this.postReportError = null;
-    this.reportErrorMsg = null;
+    //this.postReportError = null;
+    this.postReportMsg = null;
     this.requestStatus = 1;
     this.requestSuccess = false;
     this.requestFailure = false;
@@ -637,22 +637,15 @@ export class OfficialService {
       .then((x) => {
         console.log(x);
         this.requestStatus = 0;
-        this.reportErrorMsg = x['Message'].PopupMessage;
         if (x['Error'] == 200) {
-          if (!this.isNullorUndefined(x['Message'].PopupHeading)) {
-            if (
-              x['Message'].PopupHeading.includes('Unsuccessful')) {
-              this.postReportError = true;
-              this.reportErrorMsg =  x['Message'].PopupMessage;
-              console.log(this.reportErrorMsg);
-            }
-          } else {
-            this.requestSuccess = true;
-            this.loginService.reportTagLabel = x['Value'];
-            this.cookieService.set('reportTagLabel', x['Value']);
-            console.log(this.loginService.reportTagLabel);
-            this.getReportData();
-          }
+          this.postReportMsg = x['Message'].PopupMessage;
+          this.postReportTitle = x['Message'].PopupHeading;
+          this.postReportStatus = x['Status'];
+          this.requestSuccess = true;
+          this.loginService.reportTagLabel = x['Value'];
+          this.cookieService.set('reportTagLabel', x['Value']);
+          console.log(this.loginService.reportTagLabel);
+          //this.getReportData();
         } else {
           this.requestFailure = true;
         }
@@ -815,8 +808,7 @@ export class OfficialService {
   //     });
   // }
 
-
-  uploadProfileImage1(newImgByteCode: string) :Observable<any>{
+  uploadProfileImage1(newImgByteCode: string): Observable<any> {
     this.uploadProfileImg.SeasonId = this.loginService.seasonId;
     this.uploadProfileImg.LeagueId = this.loginService.leagueId;
     this.uploadProfileImg.FileName = newImgByteCode;
@@ -830,16 +822,13 @@ export class OfficialService {
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
 
-    return this.http
-      .post(Constants.apiURL + '/api/ftp', body, this.postRequestOptions)
-      .pipe(
-        map((res) => <any>res.json()),
-        catchError(this.handleError1)
-      );
+    return this.http.post(Constants.apiURL + '/api/ftp', body, this.postRequestOptions).pipe(
+      map((res) => <any>res.json()),
+      catchError(this.handleError1)
+    );
   }
 
-  
-  deleteProfileImage1(fileName: string) :Observable<any> {
+  deleteProfileImage1(fileName: string): Observable<any> {
     var headerOptions = new Headers();
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     //headerOptions.append('Accept', 'application/json');
@@ -861,12 +850,10 @@ export class OfficialService {
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
 
-    return this.http
-      .post(Constants.apiURL + '/api/ftp', body, requestOptions)
-      .pipe(
-        map((res) => <any>res.json()),
-        catchError(this.handleError1)
-      );
+    return this.http.post(Constants.apiURL + '/api/ftp', body, requestOptions).pipe(
+      map((res) => <any>res.json()),
+      catchError(this.handleError1)
+    );
   }
 
   isNullorUndefined(x: any) {

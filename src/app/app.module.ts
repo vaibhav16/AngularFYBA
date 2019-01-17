@@ -38,11 +38,11 @@ import { ModalContentComponent } from "./official/official.component";
 //import { LightboxModule } from 'ngx-lightbox';
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
 import { ErrorModalComponent } from './common/error-modal/error-modal.component';
-import { IncidentComponent } from './official/report-game/incident/incident.component';
 import { NewIncidentComponent } from './official/report-game/new-incident/new-incident.component';
 import { ShowIncidentComponent } from './official/report-game/show-incident/show-incident.component';
 import { ValidationModalComponent } from './official/report-game/validation-modal/validation-modal.component';
 import { validateConfig } from "@angular/router/src/config";
+import { SuccessPopupComponent } from './official/report-game/success-popup/success-popup.component';
 //import { DataSharingService } from './datasharing.service';
 
 @NgModule({
@@ -64,10 +64,10 @@ import { validateConfig } from "@angular/router/src/config";
     LogoutComponent,
     ChangepasswordComponent,
     ErrorModalComponent,
-    IncidentComponent,
     NewIncidentComponent,
     ShowIncidentComponent,
-    ValidationModalComponent
+    ValidationModalComponent,
+    SuccessPopupComponent
   ],
   imports: [
     HttpModule,
@@ -93,7 +93,8 @@ import { validateConfig } from "@angular/router/src/config";
     ErrorModalComponent,
     NewIncidentComponent,
     ShowIncidentComponent,
-    ValidationModalComponent
+    ValidationModalComponent,
+    SuccessPopupComponent
   ],
   providers: [
     HttpClientModule,
