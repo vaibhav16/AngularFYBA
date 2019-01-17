@@ -1,10 +1,12 @@
-.incidentBox{max-width:500px; position: absolute; top:50%; left:50%; transform:translateX(-50%) translateY(-50%);width: 100%;}
+.incidentBox form{margin:0px;}
 .incidentBox h3{background-color:#5B9BD5; padding:10px; color:#fff; font-size:16px; margin:0px;}
-.conIncidentBox{background-color:#ededed;border:1px solid #5B9BD5; padding:10px;}
+.conIncidentBox{background-color:#f7f7f7;border:1px solid #5B9BD5; padding:10px;}
 .MarginLeft10{margin-left:10px;}
 .conIncidentBox h4{font-weight:bold; margin-top:0px;}
 .conIncidentBox p{margin-bottom:5px;}
-.reportFacilities{height:35px; line-height: 35px; padding:5px; margin-bottom:10px; width:100%;}
-.textareaIncident{height:60px; width:100%;} 
+.reportFacilities{height:35px; line-height: 35px; padding:5px; margin-bottom:10px; width:100%;border: 1px solid #999;}
+select.reportFacilities:disabled{background-color:rgb(235,235,228);}
+.textareaIncident{height:60px; width:100%;border: 1px solid #999;} 
 .footerBtnIncident{text-align:center; margin-top:20px;}
 .footerBtnIncident .btn{padding: 8px 15px 6px 15px;}
+/* .modal-dialog{width:90% !important; } */

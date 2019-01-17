@@ -5,6 +5,7 @@ import { LoginService } from './../common/services/login.service';
 import { FinalFilter } from './classes/selectgame/finalFilter.model';
 import { IPaidSection } from './classes/pay/pay.model';
 import { IProfileSection } from './classes/profile/IProfile.model';
+import { IncidentReports } from './classes/reportgame/Incident.model';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
@@ -154,8 +155,38 @@ export class OfficialService {
         ImageURL: '',
         NewImageByteCode: ''
       }
+    ],
+    IncidentReports: [
+      {
+        GameId:null,
+        IncidentId:null,
+        IncidentType:null,
+        IncidentValue:null,
+        Notes:''
+      }
+    ],
+    DeleteIncidentReport: [
+      {
+        GameId:null,
+        IncidentId:null,
+        IncidentType:null,
+        IncidentValue:null,
+        Notes:''
+      }
     ]
   };
+
+
+  // IncidentReports[]: IncidentReports[] = {
+  //   GameId:null,
+  //   IncidentId:null,
+  //   IncidentType:null,
+  //   IncidentValue:null,
+  //   Notes:''
+  // };
+
+  IncidentReports: IncidentReports[] = [];
+
 
   APIPlayerScorePost: APIPlayerScorePost = {
     GameId: '',

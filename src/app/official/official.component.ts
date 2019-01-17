@@ -35,15 +35,15 @@ export class OfficialComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.loginService.promptChangePassword);
+    //console.log(this.loginService.promptChangePassword);
     // this.bsModalRef = this.modalService.show(ModalContentComponent);
     // this.bsModalRef.content.closeBtnName = 'Close';
-    if (this.loginService.promptChangePassword != null) {
-      if (this.loginService.promptChangePassword.length > 1) {
-        this.bsModalRef = this.modalService.show(ModalContentComponent);
-        this.bsModalRef.content.closeBtnName = "Close";
-      }
-    }
+    // if (this.loginService.promptChangePassword != null) {
+    //   if (this.loginService.promptChangePassword.length > 1) {
+    //     this.bsModalRef = this.modalService.show(ModalContentComponent);
+    //     this.bsModalRef.content.closeBtnName = "Close";
+    //   }
+    // }
   }
 
   keepSelectActive() {

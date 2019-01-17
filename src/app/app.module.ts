@@ -1,4 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from "@angular/core";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
@@ -63,6 +64,8 @@ import { IncidentComponent } from './official/report-game/incident/incident.comp
   ],
   imports: [
     HttpModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AngularMultiSelectModule,
     ReactiveFormsModule,
