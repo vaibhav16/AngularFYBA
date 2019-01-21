@@ -850,6 +850,7 @@ export class ReportGameComponent {
   addIncident() {
     //const config: ModalOptions = { class: 'modal-sm' };
     const initialState = {
+      name:this.officialService.reportGameJson['Value'].GameList[0].UserName,
       gameId: this.officialService.reportGameJson['Value'].GameList[0].GameId,
       incidentTypes: this.officialService.reportGameJson['Value'].GameList[0].IncidentTypes,
       incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[0].IncidentSubDropDown

@@ -37,7 +37,7 @@ export class NewIncidentComponent implements OnInit {
     console.log(this.incidentSubDropDown);
     console.log(this.depedentIncidentDropdown);
     console.log(this.name);
-    this.name= this.cookieService.get("name");
+    //this.name= this.cookieService.get("name");
     this.incidentForm = this.fb.group({
       incidentType: ["",Validators.required],
       incidentSubDropDown: [{value:"" , disabled: true},Validators.required],
