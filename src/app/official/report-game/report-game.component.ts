@@ -161,15 +161,15 @@ export class ReportGameComponent {
   }
 
   ngAfterViewInit() {
-    // $(document).on('click', '.glyphicon', (e) => {
-    //   var targetid = e.target.id;
-    //   e.target.parentNode.remove();
-    //   this.ScoreSheetImages.splice(targetid, 1);
-    //   this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-    //     return el != null;
-    //   });
-    //   console.log(this.ScoreSheetImages);
-    // });
+    $(document).on('click', '.glyphicon', (e) => {
+      var targetid = e.target.id;
+      e.target.parentNode.remove();
+      this.ScoreSheetImages.splice(targetid, 1);
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+        return el != null;
+      });
+      console.log(this.ScoreSheetImages);
+    });
   }
 
   async asyncReport() {
