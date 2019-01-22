@@ -30,6 +30,7 @@ import { NewIncidentComponent } from './new-incident/new-incident.component';
 import { ShowIncidentComponent } from './show-incident/show-incident.component';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { SuccessPopupComponent } from './success-popup/success-popup.component';
+import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 
 @Component({
   selector: 'app-report-game',
@@ -153,22 +154,22 @@ export class ReportGameComponent {
 
   newRequest: boolean = null;
   ngOnInit() {
-    this.officialService.requestSuccess = false;
-    this.officialService.requestFailure = false;
+    //this.officialService.requestSuccess = false;
+    //this.officialService.requestFailure = false;
 
     this.asyncReport();
   }
 
   ngAfterViewInit() {
-    $(document).on('click', '.glyphicon', (e) => {
-      var targetid = e.target.id;
-      e.target.parentNode.remove();
-      this.ScoreSheetImages.splice(targetid, 1);
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-        return el != null;
-      });
-      console.log(this.ScoreSheetImages);
-    });
+    // $(document).on('click', '.glyphicon', (e) => {
+    //   var targetid = e.target.id;
+    //   e.target.parentNode.remove();
+    //   this.ScoreSheetImages.splice(targetid, 1);
+    //   this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+    //     return el != null;
+    //   });
+    //   console.log(this.ScoreSheetImages);
+    // });
   }
 
   async asyncReport() {
@@ -454,12 +455,12 @@ export class ReportGameComponent {
     this.APIGamePost.ScoreSheetImages = this.ScoreSheetImages;
     this.APIGamePost.DeletedScoreSheetImages = this.DeletedScoreSheetImages;
     this.APIGamePost.IncidentReports = this.officialService.IncidentReports;
-    this.APIGamePost.DeleteIncidentReport = [];
+    this.APIGamePost.DeleteIncidentReport = this.DeletedIncidentReports;
     console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost).then((res) => {
       if (this.officialService.postReportMsg) {
         console.log(this.officialService.postReportMsg);
-        console.log
+        //console.log
         this.showModal();
       }
       if (this.officialService.serviceError) {
@@ -478,8 +479,13 @@ export class ReportGameComponent {
   We hide the message if the user clicks on a new panel - */
   panelChange($event: NgbPanelChangeEvent) {
     //console.log($event);
-    this.officialService.requestFailure = false;
-    this.officialService.requestSuccess = false;
+    // this.officialService.requestFailure = false;
+    // this.officialService.requestSuccess = false;
+    this.tempIndex = 0;
+    this.ScoreSheetImages = [];
+    this.ScoreSheetImages2 = [];
+    this.officialService.IncidentReports = [];
+    this.DeletedIncidentReports = [];
   }
 
   checkMinPON(gameListIndex: number) {
@@ -694,7 +700,7 @@ export class ReportGameComponent {
 
   showModal() {
     if (this.officialService.postReportMsg) {
-      console.log(this.officialService.postReportMsg);
+      //console.log(this.officialService.postReportMsg);
       //console.log(this.modalRef);
       // this.modalRef = this.modalService.show(this.uploadTemplate, {
       //   class: 'modal-sm'
@@ -705,6 +711,7 @@ export class ReportGameComponent {
         popupMsg: this.officialService.postReportMsg,
       };
 
+      console.log(this.officialService.postReportStatus);
       if(!this.officialService.postReportStatus){       
         this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
       }
@@ -865,26 +872,9 @@ export class ReportGameComponent {
     //this.modalRef.content.closeBtnName = "Close";
   }
 
-  deletedIncident: DeleteIncidentReport;
-  deleteIncident(incidentIndex,gameIndex){
-    let reportGameJson = this.officialService.reportGameJson['Value'];
-    this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
-    this.deletedIncident.IncidentId = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
-    this.deletedIncident.IncidentType = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
-    this.deletedIncident.IncidentValue = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
-    this.deletedIncident.Notes = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
-
-
-    console.log(this.deleteIncident);
-    this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
-
-  }
-
-  deleteTempIncident(newIncidentIndex,gameIndex){
-    this.officialService.IncidentReports.splice(newIncidentIndex, 1); 
-  }
-
   showIncident(incidentIndex,gameIndex) {    
+    console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex]);
+    
     const initialState = {
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
       incident: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex],
@@ -894,6 +884,57 @@ export class ReportGameComponent {
 
     this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
 
+  }
+
+
+  deletedIncident: DeleteIncidentReport = {
+    GameId: null,
+    IncidentId: null,
+    IncidentType: null,
+    IncidentValue: null,
+    Notes: null
+  };
+  DeletedIncidentReports : DeleteIncidentReport[] = [];
+  //toggleDeleteClass:boolean;
+  deleteIncident(incidentIndex,gameIndex){
+    //this.toggleDeleteClass=true;
+    //console.log(this.toggleDeleteClass);
+    let reportGameJson = this.officialService.reportGameJson['Value'];
+    console.log(reportGameJson.GameList[gameIndex].GameId);
+    this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
+    this.deletedIncident.IncidentId = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
+    this.deletedIncident.IncidentType = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
+    this.deletedIncident.IncidentValue = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
+    this.deletedIncident.Notes = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
+
+
+    console.log(this.deletedIncident);
+    //this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
+    this.DeletedIncidentReports.push(this.deletedIncident);
+    console.log(this.DeletedIncidentReports);
+
+  }
+
+ 
+
+ 
+  showTempIncident(newIncidentIndex,gameIndex){
+    console.log(this.officialService.IncidentReports[newIncidentIndex]);
+    console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes);
+    const initialState = {
+      index: newIncidentIndex,
+      gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
+      incident: this.officialService.IncidentReports[newIncidentIndex],
+      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
+      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+    };
+
+    this.bsModalRef = this.modalService.show(ShowNewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
+  }
+
+  deleteTempIncident(newIncidentIndex,gameIndex){
+    this.officialService.IncidentReports.splice(newIncidentIndex, 1); 
   }
 
   public _album: Array<any> = [

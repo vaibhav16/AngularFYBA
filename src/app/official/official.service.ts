@@ -38,8 +38,8 @@ export class OfficialService {
   reportGameJson: JSON = null;
   getPaidJson: JSON = null;
   requestStatus: number = 0;
-  requestSuccess: boolean = false;
-  requestFailure: boolean = false;
+  //requestSuccess: boolean = false;
+  //requestFailure: boolean = false;
   numberOfSelectGameClicks: number = 0;
   initialData: Filter;
 
@@ -612,8 +612,8 @@ export class OfficialService {
     //this.postReportError = null;
     this.postReportMsg = null;
     this.requestStatus = 1;
-    this.requestSuccess = false;
-    this.requestFailure = false;
+    //this.requestSuccess = false;
+    //this.requestFailure = false;
     this.finalFilter.RequestedData = JSON.stringify(gameListObj);
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID = this.loginService.userId.toString();
@@ -637,17 +637,17 @@ export class OfficialService {
       .then((x) => {
         console.log(x);
         this.requestStatus = 0;
-        if (x['Error'] == 200) {
+        if (x['Error']) {
           this.postReportMsg = x['Message'].PopupMessage;
           this.postReportTitle = x['Message'].PopupHeading;
           this.postReportStatus = x['Status'];
-          this.requestSuccess = true;
+          //this.requestSuccess = true;
           this.loginService.reportTagLabel = x['Value'];
           this.cookieService.set('reportTagLabel', x['Value']);
-          console.log(this.loginService.reportTagLabel);
+          //console.log(this.loginService.reportTagLabel);
           //this.getReportData();
         } else {
-          this.requestFailure = true;
+          //this.requestFailure = true;
         }
         return Promise.resolve();
       })

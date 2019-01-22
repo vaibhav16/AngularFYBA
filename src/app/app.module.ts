@@ -43,6 +43,7 @@ import { ShowIncidentComponent } from './official/report-game/show-incident/show
 import { ValidationModalComponent } from './official/report-game/validation-modal/validation-modal.component';
 import { validateConfig } from "@angular/router/src/config";
 import { SuccessPopupComponent } from './official/report-game/success-popup/success-popup.component';
+import { ShowNewIncidentComponent } from './official/report-game/show-new-incident/show-new-incident.component';
 //import { DataSharingService } from './datasharing.service';
 
 @NgModule({
@@ -67,7 +68,8 @@ import { SuccessPopupComponent } from './official/report-game/success-popup/succ
     NewIncidentComponent,
     ShowIncidentComponent,
     ValidationModalComponent,
-    SuccessPopupComponent
+    SuccessPopupComponent,
+    ShowNewIncidentComponent
   ],
   imports: [
     HttpModule,
@@ -94,7 +96,8 @@ import { SuccessPopupComponent } from './official/report-game/success-popup/succ
     NewIncidentComponent,
     ShowIncidentComponent,
     ValidationModalComponent,
-    SuccessPopupComponent
+    SuccessPopupComponent,
+    ShowNewIncidentComponent
   ],
   providers: [
     HttpClientModule,

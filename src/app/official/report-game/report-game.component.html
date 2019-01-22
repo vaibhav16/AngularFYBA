@@ -19,10 +19,12 @@
                         <h2>
                            <div class="leftReportDate" [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '100%' }">
                               <div>{{ item.GameName }}
-                                    <!-- IsScoreFilled  -->
+                                 <!-- IsScoreFilled  -->
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
-                                 <img class="report_status" *ngIf="item.IsScoreFilled && item.OfficiatingPositionId == 3" src="assets/images/tick.png">                             
-                                 <img class="report_status" *ngIf="!item.IsScoreFilled && item.OfficiatingPositionId == 3" src="assets/images/error.png">
+                                 <img class="report_status" *ngIf="item.IsScoreFilled && item.OfficiatingPositionId == 3"
+                                    src="assets/images/tick.png">
+                                 <img class="report_status" *ngIf="!item.IsScoreFilled && item.OfficiatingPositionId == 3"
+                                    src="assets/images/error.png">
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
                               </div>
                               <span class="">
@@ -325,60 +327,63 @@
                            </div>
                         </div>
                         <div class="marginTop10">
-                        <ul class="reportlist">
-                           <li>Incident</li>
-                        </ul>
-                        <div class="bgGrey">
-                           <div class="row">
-                              <div class="col-md-12">                               
-                                  <ul *ngIf="item.IncidentReports.length > 0" class="addList incidentLi">
-                                    <li *ngFor="let child of item.IncidentReports;  let incidentIndex = index"
-                                    (click)="showIncident(incidentIndex,gameListIndex)" >
-                                       Incident {{incidentIndex+1}}
-                                       <span (click)="
+                           <ul class="reportlist">
+                              <li>Incident</li>
+                           </ul>
+                           <div class="bgGrey">
+                              <div class="row">
+                                 <div class="col-md-12">
+                                    <ul *ngIf="item.IncidentReports.length > 0" class="addList incidentLi">
+                                       <li *ngFor="let child of item.IncidentReports;  let incidentIndex = index">
+                                          <div (click)="showIncident(incidentIndex,gameListIndex)">
+                                             Incident {{incidentIndex+1}}
+                                          </div>
+
+                                          <span (click)="
                                           deleteIncident(
                                           incidentIndex,
                                           gameListIndex                                
-                                          )" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                                    </li>                            
-                                 </ul>
-                                 
-                                 <ul *ngIf="officialService.IncidentReports.length > 0" class="addList incidentLi">
-                                    <li *ngFor="let item of officialService.IncidentReports;  let newIncidentIndex = index"
-                                    (click)="showIncident(incidentIndex,gameListIndex)" >
-                                       Incident {{newIncidentIndex+1}}
-                                       <span (click)="
+                                          )"
+                                             class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                                       </li>
+                                    </ul>
+
+                                    <ul *ngIf="officialService.IncidentReports.length > 0" class="addList incidentLi">
+                                       <li *ngFor="let item of officialService.IncidentReports;  let newIncidentIndex = index">
+
+                                          <div class="incident_linebreak" (click)="showTempIncident(newIncidentIndex,gameListIndex)">
+                                             New <br class="breakAll" />Incident <br class="breakAll" />{{newIncidentIndex+1}}
+                                             <!-- <ng-template *ngIf="item.IncidentReports.length>0">
+                                             {{item.IncidentReports.length+newIncidentIndex+1}}
+                                          </ng-template>                                          
+                                          
+                                          <ng-template *ngIf="item.IncidentReports.length==0">
+                                             {{newIncidentIndex+1}}
+                                          </ng-template>                                           -->
+                                          </div>
+
+                                          <span (click)="
                                           deleteTempIncident(
                                           newIncidentIndex,
                                           gameListIndex                                
-                                          )" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                                    </li>                            
-                                 </ul>
-                                 <ul
-                                    class="addList IncidentListClass"                        
-                                    >
-                                    <li (click)="addIncident(gameListIndex)"
-                                       class="Incidentclass uploadDiv uploadIncident"
-                                       id="Incidentclass_{{ gameListIndex }}"
-                                       >
-                                       <span class="addHeading addIncident"
-                                          >Add<br class="breakAll" />
-                                       Incident</span
-                                          >
-                                    </li>
-                                 </ul>
+                                          )"
+                                             class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                                       </li>
+                                    </ul>
+                                    <ul class="addList IncidentListClass">
+                                       <li (click)="addIncident(gameListIndex)" class="Incidentclass uploadDiv uploadIncident"
+                                          id="Incidentclass_{{ gameListIndex }}">
+                                          <span class="addHeading addIncident">Add<br class="breakAll" />
+                                             Incident</span>
+                                       </li>
+                                    </ul>
+                                 </div>
                               </div>
                            </div>
                         </div>
-                     </div>
                         <div [ngStyle]="{
                      display: item.OfficiatingPositionId == '3' ? '' : 'none'
                      }"
-                           *ngIf="
-                     officialService.requestStatus == 0 ||
-                     !officialService.requestSuccess ||
-                     !officialService.requestSuccess
-                     "
                            class="text-center">
                            <button class="btn btn-success" [disabled]="!(item.OfficiatingPositionId == 3)" id="{{ item.OfficiatingPositionId }}"
                               type="submit" (click)="

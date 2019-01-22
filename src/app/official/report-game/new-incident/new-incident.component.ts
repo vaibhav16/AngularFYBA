@@ -31,11 +31,11 @@ export class NewIncidentComponent implements OnInit {
 
  
   ngOnInit() {
-    console.log(this.gameId);
-    console.log(this.incidentTypes);
-    console.log(this.incidentSubDropDown);
-    console.log(this.depedentIncidentDropdown);
-    console.log(this.name);
+    //console.log(this.gameId);
+    //console.log(this.incidentTypes);
+    //console.log(this.incidentSubDropDown);
+   // console.log(this.depedentIncidentDropdown);
+    //console.log(this.name);
     // this.name= this.cookieService.get("name");
     this.incidentForm = this.fb.group({
       incidentType: ["",Validators.required],
@@ -76,7 +76,7 @@ export class NewIncidentComponent implements OnInit {
   };
 
   submitForm(){
-    console.log(this.incidentForm.value); 
+    //console.log(this.incidentForm.value); 
     this.incident.GameId = this.gameId;
     this.incident.IncidentId = null;
     this.incident.IncidentType = this.incidentId;
@@ -84,7 +84,7 @@ export class NewIncidentComponent implements OnInit {
     this.incident.Notes = this.incidentForm.get('note').value;
     console.log(this.incident);
     this.officialService.IncidentReports.push(this.incident);
-    this.officialService.IncidentReports = this.officialService.IncidentReports.slice();
+    //this.officialService.IncidentReports = this.officialService.IncidentReports.slice();
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();
   }

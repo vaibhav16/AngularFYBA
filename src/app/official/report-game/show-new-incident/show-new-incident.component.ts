@@ -6,11 +6,11 @@ import { OfficialService } from './../../official.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
-  selector: 'app-show-incident',
-  templateUrl: './show-incident.component.html',
-  styleUrls: ['./show-incident.component.css']
+  selector: 'app-show-new-incident',
+  templateUrl: './show-new-incident.component.html',
+  styleUrls: ['./show-new-incident.component.css']
 })
-export class ShowIncidentComponent implements OnInit {
+export class ShowNewIncidentComponent implements OnInit {
   public incident;
   public name: string;
   public gameid: string;
@@ -18,6 +18,7 @@ export class ShowIncidentComponent implements OnInit {
   public allDependentDropdowns;
   public depedentIncidentDropdown = [];
   public dependentDropDownName;
+  index: number;
   today = new Date();
   constructor(
     public fb: FormBuilder,
@@ -28,9 +29,9 @@ export class ShowIncidentComponent implements OnInit {
 
   editIncidentForm: FormGroup;
   ngOnInit() {
-    //console.log(this.incident);
-    // console.log(this.allIncidentTypes);
-    // console.log(this.allDependentDropdowns);
+    console.log(this.incident);
+    console.log(this.allIncidentTypes);
+    console.log(this.allDependentDropdowns);
     this.name = this.incident.FiledByName;
     this.gameid = this.incident.GameId;
     this.editIncidentForm = this.fb.group({
@@ -83,7 +84,8 @@ export class ShowIncidentComponent implements OnInit {
     // console.log(incidentType);
     // console.log(this.allDependentDropdowns);
     this.depedentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
-    return  this.incidentTypeId;
+
+    return this.incidentTypeId;
   }
 
   incidentTypeId;
@@ -99,26 +101,24 @@ export class ShowIncidentComponent implements OnInit {
         console.log(this.dependentDropdownId);
       }
     }
-    return this.dependentDropdownId;
+    
+    return (this.dependentDropdownId);
   }
 
-  changedIncident: IncidentReports = {
-    GameId: null,
-    IncidentId: null,
-    IncidentType: null,
-    IncidentValue: null,
-    Notes: ''
-  };
 
   submitForm() {
     console.log(this.editIncidentForm.value);
-    this.changedIncident.GameId = parseInt(this.gameid);
-    this.changedIncident.IncidentId = this.incident.IncidentId;
-    this.changedIncident.IncidentType = this.incidentSelected();
-    this.changedIncident.IncidentValue = this.dependentDropDownSelected();
-    this.changedIncident.Notes = this.editIncidentForm.get('note').value;
-    console.log(this.incident);
-    this.officialService.IncidentReports.push(this.changedIncident);
+    //this.changedIncident.GameId = parseInt(this.gameid);
+    this.officialService.IncidentReports[this.index].IncidentId = this.incident.IncidentId;
+    // this.officialService.IncidentReports[this.index].IncidentType = this.incidentTypeId;
+    // this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropdownId;
+    this.officialService.IncidentReports[this.index].IncidentType =  this.incidentSelected();
+    this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropDownSelected();
+    this.officialService.IncidentReports[this.index].Notes = this.editIncidentForm.get('note').value;
+    //console.log(this.incident);
+    //for(var i=0; i<)
+    //this.officialService.IncidentReports[this.index].
+    //this.officialService.IncidentReports.push(this.changedIncident);
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();
   }
