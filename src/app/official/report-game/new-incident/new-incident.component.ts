@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { IncidentReports } from './../../classes/reportgame/Incident.model';
 import { OfficialService } from './../../official.service';
-import { DatePipe } from '@angular/common';
 import { CookieService } from "ngx-cookie-service";
 
 @Component({
@@ -85,6 +84,7 @@ export class NewIncidentComponent implements OnInit {
     this.incident.Notes = this.incidentForm.get('note').value;
     console.log(this.incident);
     this.officialService.IncidentReports.push(this.incident);
+    this.officialService.IncidentReports = this.officialService.IncidentReports.slice();
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();
   }

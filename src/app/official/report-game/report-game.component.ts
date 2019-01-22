@@ -4,7 +4,8 @@ import {
   ElementRef,
   Renderer2,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +15,7 @@ import { APIGamePost } from '../classes/reportgame/APIGamePost.model';
 import { ScoreSheetImages } from '../classes/reportgame/ScoreSheet.model';
 import { DeletedScoreSheetImages } from '../classes/reportgame/DeletedScoreSheetImages';
 import { APIPlayerScorePost } from '../classes/reportgame/APIPlayerScorePost.model';
+import { DeleteIncidentReport } from './../classes/reportgame/APIGamePost.model';
 import { Http } from '@angular/http';
 import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -194,14 +196,15 @@ export class ReportGameComponent {
   async onSubmit(
     form: NgForm,
     gameListIndex: number,
-    invalidScoreTemplate: TemplateRef<any>,
-    unEqualHomeScoreTemplate: TemplateRef<any>,
-    unEqualVisitingScoreTemplate: TemplateRef<any>,
-    uploadTemplate: TemplateRef<any>
+    // invalidScoreTemplate: TemplateRef<any>,
+    // unEqualHomeScoreTemplate: TemplateRef<any>,
+    // unEqualVisitingScoreTemplate: TemplateRef<any>,
+    // uploadTemplate: TemplateRef<any>
   ) {
+    
     console.log(form.value);
     
-    this.uploadTemplate = uploadTemplate;
+    //this.uploadTemplate = uploadTemplate;
     await this.makeScoreSheetArray().then((res) => {
       this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
@@ -224,9 +227,9 @@ export class ReportGameComponent {
     } else if (
       this.checkFinalScore(
         form,
-        gameListIndex,
-        unEqualHomeScoreTemplate,
-        unEqualVisitingScoreTemplate
+        gameListIndex
+        // unEqualHomeScoreTemplate,
+        // unEqualVisitingScoreTemplate
       ) == true
     && this.checkMinPON(gameListIndex)) {
       this.prepareDatatoUpdate(form, gameListIndex);
@@ -240,8 +243,8 @@ export class ReportGameComponent {
   checkFinalScore(
     form: NgForm,
     gameListIndex: number,
-    unEqualHomeScoreTemplate: TemplateRef<any>,
-    unEqualVisitingScoreTemplate: TemplateRef<any>
+    // unEqualHomeScoreTemplate: TemplateRef<any>,
+    // unEqualVisitingScoreTemplate: TemplateRef<any>
   ) {
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
@@ -329,6 +332,7 @@ export class ReportGameComponent {
     return true;
   }
 
+  
   prepareDatatoUpdate(form: NgForm, gameListIndex: number) {
 
     for (
@@ -465,6 +469,7 @@ export class ReportGameComponent {
       this.tempIndex = 0;
       this.ScoreSheetImages = [];
       this.ScoreSheetImages2 = [];
+      this.officialService.IncidentReports = [];
       //this.ScoreSheetImages
     });
   }
@@ -847,23 +852,44 @@ export class ReportGameComponent {
   }
 
   bsModalRef: BsModalRef;
-  addIncident() {
+  addIncident(gameIndex) {
     //const config: ModalOptions = { class: 'modal-sm' };
     const initialState = {
-      name:this.officialService.reportGameJson['Value'].GameList[0].UserName,
-      gameId: this.officialService.reportGameJson['Value'].GameList[0].GameId,
-      incidentTypes: this.officialService.reportGameJson['Value'].GameList[0].IncidentTypes,
-      incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[0].IncidentSubDropDown
+      name:this.officialService.reportGameJson['Value'].GameList[gameIndex].UserName,
+      gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
+      incidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
+      incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
     };
     //this.router.navigate(["newIncident"]);
     this.bsModalRef = this.modalService.show(NewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
     //this.modalRef.content.closeBtnName = "Close";
   }
 
-  showIncident(incidentIndex) {
+  deletedIncident: DeleteIncidentReport;
+  deleteIncident(incidentIndex,gameIndex){
+    let reportGameJson = this.officialService.reportGameJson['Value'];
+    this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
+    this.deletedIncident.IncidentId = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
+    this.deletedIncident.IncidentType = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
+    this.deletedIncident.IncidentValue = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
+    this.deletedIncident.Notes = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
+
+
+    console.log(this.deleteIncident);
+    this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
+
+  }
+
+  deleteTempIncident(newIncidentIndex,gameIndex){
+    this.officialService.IncidentReports.splice(newIncidentIndex, 1); 
+  }
+
+  showIncident(incidentIndex,gameIndex) {    
     const initialState = {
-      gameId: this.officialService.reportGameJson['Value'].GameList[0].GameId,
-      incident: this.officialService.reportGameJson['Value'].GameList[0].IncidentReports[incidentIndex],
+      gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
+      incident: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex],
+      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
+      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
     };
 
     this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
