@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from "@angular/core";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
@@ -44,7 +44,7 @@ import { ValidationModalComponent } from './official/report-game/validation-moda
 import { validateConfig } from "@angular/router/src/config";
 import { SuccessPopupComponent } from './official/report-game/success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './official/report-game/show-new-incident/show-new-incident.component';
-//import { DataSharingService } from './datasharing.service';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -82,6 +82,7 @@ import { ShowNewIncidentComponent } from './official/report-game/show-new-incide
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    NotifierModule,
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
     ModalModule.forRoot(),

@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
 import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { OfficialService } from '../official.service';
@@ -136,6 +137,7 @@ export class ReportGameComponent {
   //   NewImageByteCode:'',
   //   GameIndex:''
   //  }
+  private readonly notifier: NotifierService;
   constructor(
     public router: Router,
     public officialService: OfficialService,
@@ -147,13 +149,16 @@ export class ReportGameComponent {
     public http: Http,
     config: NgbAccordionConfig,
     private modalService: BsModalService,
-    public dss: DataSharingService
+    public dss: DataSharingService,
+    public notifierService: NotifierService
   ) {
+    this.notifier = notifierService;
     config.type = 'info';
   }
 
   newRequest: boolean = null;
   ngOnInit() {
+   
     //this.officialService.requestSuccess = false;
     //this.officialService.requestFailure = false;
 
@@ -161,6 +166,7 @@ export class ReportGameComponent {
   }
 
   ngAfterViewInit() {
+    
     $(document).on('click', '.glyphicon', (e) => {
       var targetid = e.target.id;
       e.target.parentNode.remove();

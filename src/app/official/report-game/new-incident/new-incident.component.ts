@@ -4,6 +4,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { IncidentReports } from './../../classes/reportgame/Incident.model';
 import { OfficialService } from './../../official.service';
 import { CookieService } from "ngx-cookie-service";
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-new-incident',
@@ -21,13 +22,17 @@ export class NewIncidentComponent implements OnInit {
   public subDropDownId:number;
   today= new Date();
   name: string;
+  private readonly notifier: NotifierService;
   
   constructor(public fb: FormBuilder,
+    public notifierService: NotifierService,
     public bsModalRef: BsModalRef,
     public modalService: BsModalService,
     public officialService: OfficialService,
     public cookieService: CookieService
-    ) { }
+    ) { 
+      this.notifier = notifierService;
+    }
 
  
   ngOnInit() {
@@ -77,6 +82,8 @@ export class NewIncidentComponent implements OnInit {
 
   submitForm(){
     //console.log(this.incidentForm.value); 
+    //“Be sure to save the Game Report to complete the incident reporting.”
+    this.notifier.notify( 'success', 'Be sure to save the Game Report to complete the incident reporting' );
     this.incident.GameId = this.gameId;
     this.incident.IncidentId = null;
     this.incident.IncidentType = this.incidentId;
@@ -87,5 +94,6 @@ export class NewIncidentComponent implements OnInit {
     //this.officialService.IncidentReports = this.officialService.IncidentReports.slice();
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();
+    //this.notifier.notify( 'success', 'You are awesome! I mean it!' );
   }
 }
