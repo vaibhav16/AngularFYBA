@@ -1,5 +1,9 @@
 
 /* presentation styles */
+ul.addList li img {
+    width: 100%;
+    height: 100%;
+}
 html {height: 100%}
 body { text-align:center; background: radial-gradient(circle, #fff 0%, #bbb 85%) no-repeat; background: -webkit-radial-gradient(circle, #fff 0%, #bbb 85%) no-repeat; height: 100%; display:table; width:100%}
 .block {display: table-cell; vertical-align:middle}

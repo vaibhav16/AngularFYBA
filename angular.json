@@ -28,7 +28,7 @@
               "src/styles.css",
               "./node_modules/angular-notifier/styles.css",
               "./node_modules/angular-notifier/styles.scss"
-            
+          
             ],
             "scripts": ["src/assets/js/jquery-1.12.4.js"]
           },
@@ -83,6 +83,7 @@
               "./node_modules/ngx-lightbox/lightbox.css",
               "./node_modules/angular-notifier/styles.css",
               "./node_modules/angular-notifier/styles.scss"
+
             ],
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",

@@ -97,17 +97,23 @@ export class ShowNewIncidentComponent implements OnInit {
   dependentDropdownId;
 
   dependentDropDownSelected() {
-    for (var i = 0; i < this.depedentIncidentDropdown.length; ++i) {
-      if (
-        this.depedentIncidentDropdown[i]['Item'] ==
-        this.editIncidentForm.get('incidentSubDropDown').value
-      ) {
-        this.dependentDropdownId = this.depedentIncidentDropdown[i]['Id'];
-        console.log(this.dependentDropdownId);
+    console.log(this.depedentIncidentDropdown);
+    if(this.depedentIncidentDropdown){
+      for (var i = 0; i < this.depedentIncidentDropdown.length; ++i) {
+        if (
+          this.depedentIncidentDropdown[i]['Item'] ==
+          this.editIncidentForm.get('incidentSubDropDown').value
+        ) {
+          this.dependentDropdownId = this.depedentIncidentDropdown[i]['Id'];
+          console.log(this.dependentDropdownId);
+        }
       }
+      
+      return (this.dependentDropdownId);
     }
+
+    return null;
     
-    return (this.dependentDropdownId);
   }
 
 

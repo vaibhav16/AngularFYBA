@@ -32,6 +32,8 @@ import { ShowIncidentComponent } from './show-incident/show-incident.component';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
+//import {Message} from 'primeng/api';
+//import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-report-game',
@@ -52,6 +54,8 @@ export class ReportGameComponent {
   modalMsg: string;
   uploadTemplate: TemplateRef<any>;
   imgsrc: any;
+  //msgs: Message[] = [];
+
 
   APIGamePost: APIGamePost = {
     Roleid: '',
@@ -142,6 +146,7 @@ export class ReportGameComponent {
     public router: Router,
     public officialService: OfficialService,
     public renderer: Renderer2,
+    //private messageService: MessageService,
     // private _lightbox: Lightbox,
     public fb: FormBuilder,
     public loginService: LoginService,
@@ -867,6 +872,8 @@ export class ReportGameComponent {
   bsModalRef: BsModalRef;
   addIncident(gameIndex) {
     //const config: ModalOptions = { class: 'modal-sm' };
+    //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+
     const initialState = {
       name:this.officialService.reportGameJson['Value'].GameList[gameIndex].UserName,
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,

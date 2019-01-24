@@ -12,7 +12,7 @@
       <select class="reportFacilities" formControlName="incidentType" (change)="incidentSelected()">
         <option *ngFor="let item of allIncidentTypes" value="{{item.Item}}">{{item.Item}}</option>
       </select>
-      <select formControlName="incidentSubDropDown" class="reportFacilities" (change)="dependentDropDownSelected()">
+      <select *ngIf="depedentIncidentDropdown.length>0" formControlName="incidentSubDropDown" class="reportFacilities" (change)="dependentDropDownSelected()">
         <option *ngFor="let item of depedentIncidentDropdown" value={{item.Item}}>{{item.Item}}</option>
       </select>
       <p>Notes:</p>
