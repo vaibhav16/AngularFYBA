@@ -4,8 +4,7 @@
       <div class="col-lg-12">
         <h3 class="mainDate"><strong>SCHEDULED PAYMENT DATES</strong></h3>
         <ul class="paymentdates">
-          <li
-            *ngFor="let item of paidSection.Value.SchedulePayments">
+          <li *ngFor="let item of paidSection.Value.SchedulePayments">
             {{ item }}
           </li>
         </ul>
@@ -15,52 +14,44 @@
     <!--Signed Up but not approved-->
 
     <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong></h3>
-    <ngb-accordion
-      *ngIf="
+    <div *ngIf="paidSection.Value.PaymentNotApproved.length > 0;
+        else noGamesDiv">
+      <div *ngFor="let item of paidSection.Value.PaymentNotApproved"
+       class="staticStrip">{{ item.GameName }}
+        <span class="asScorekeeper"> as {{ item.OfficiatingPositionText }}</span>
+      </div>
+    </div>
+    
+    <!-- <ngb-accordion *ngIf="
         paidSection.Value.PaymentNotApproved.length > 0;
         else noGamesDiv
-      "
-    >
-      <ngb-panel
-        *ngFor="
+      ">
+      <ngb-panel *ngFor="
           let item of paidSection.Value.PaymentNotApproved
-        "
-      >
+        ">
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
-            <h2 class="paidHead">{{ item.GameName }}</h2>           
+            <h2 class="paidHead">{{ item.GameName }} <span class="asScorekeeper">{{ item.OfficiatingPositionText }}</span></h2>
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="matchInfo matchInfo2">
-            {{ item.OfficiatingPositionText }}
-            <!-- <ul>
-              <li>- Base Pay: ${{ item.BaseAmount }}</li>
-              <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
-                - Scoresheet Report: ${{ item.IncentiveAmount }}
-              </li>
-            </ul> -->
           </div>
         </ng-template>
       </ngb-panel>
-    </ngb-accordion>
+    </ngb-accordion> -->
     <h3 class="mainDate">
       <strong>APPROVED BUT NOT PAID</strong>
       <strong style="float:right">
         (${{
-          paidSection.Value.PaymentNotPaidTotalAmount
-        }})</strong
-      >
+        paidSection.Value.PaymentNotPaidTotalAmount
+        }})</strong>
     </h3>
-    <ngb-accordion
-      *ngIf="
+    <ngb-accordion *ngIf="
         paidSection.Value.PaymentNotPaid.length > 0;
         else noGamesDiv
-      "
-    >
-      <ngb-panel
-        *ngFor="let item of paidSection.Value.PaymentNotPaid"
-      >
+      ">
+      <ngb-panel *ngFor="let item of paidSection.Value.PaymentNotPaid">
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
             <h2 class="paidHead">{{ item.GameName }}</h2>
@@ -81,21 +72,15 @@
     </ngb-accordion>
     <h3 class="mainDate">
       <strong>PAID</strong>
-      <strong style="float:right"
-        >(${{
-          paidSection.Value.PaidPaymentsTotalAmount
-        }})</strong
-      >
+      <strong style="float:right">(${{
+        paidSection.Value.PaidPaymentsTotalAmount
+        }})</strong>
     </h3>
-    <ngb-accordion
-      *ngIf="
+    <ngb-accordion *ngIf="
         paidSection.Value.PaidPayments.length > 0;
         else noRecordDiv
-      "
-    >
-      <ngb-panel
-        *ngFor="let item of paidSection.Value.PaidPayments"
-      >
+      ">
+      <ngb-panel *ngFor="let item of paidSection.Value.PaidPayments">
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
             <h2 class="paidHead">{{ item.GameName }}</h2>
@@ -127,10 +112,10 @@
 <!--######################################-->
 
 <div *ngIf="initialFetchError" #serverError>
-    <div class="noRecords">
-      <span class="spanError">Server Error.</span> Please try again later!
-    </div>
+  <div class="noRecords">
+    <span class="spanError">Server Error.</span> Please try again later!
   </div>
+</div>
 
 <!-- <div *ngIf="officialService.serviceError" #serverError>
   <div style="padding:10px" class="noRecords2">

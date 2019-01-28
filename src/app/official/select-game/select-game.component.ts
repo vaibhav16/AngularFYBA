@@ -2,10 +2,7 @@ import {
   Component,
   TemplateRef,
   OnInit,
-  ViewEncapsulation,
-  ElementRef,
-  Renderer2,
-  ViewChild
+  ViewEncapsulation
 } from "@angular/core";
 import { OfficialService } from "../official.service";
 import {

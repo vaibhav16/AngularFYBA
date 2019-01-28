@@ -41,7 +41,7 @@ import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.
   styleUrls: ['./report-game.component.css']
 })
 export class ReportGameComponent {
-  @ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
+  //@ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
 
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
@@ -858,16 +858,16 @@ export class ReportGameComponent {
     this.renderer.setProperty(tempId2, 'value', false);
     this.renderer.setProperty(tempId2, 'checked', false);
   }
-  async openTempImageModal(Imagesrc: string) {
-    //this.imgsrc=null;
-    this.imgsrc = await Imagesrc;
-    if (this.imgsrc != null) {
-      console.log(this.imgsrc);
-      this.modalRef = this.modalService.show(this.imgTemplate, {
-        class: 'modal-sm'
-      });
-    }
-  }
+  // async openTempImageModal(Imagesrc: string) {
+  //   //this.imgsrc=null;
+  //   this.imgsrc = await Imagesrc;
+  //   if (this.imgsrc != null) {
+  //     console.log(this.imgsrc);
+  //     this.modalRef = this.modalService.show(this.imgTemplate, {
+  //       class: 'modal-sm'
+  //     });
+  //   }
+  // }
 
   bsModalRef: BsModalRef;
   addIncident(gameIndex) {

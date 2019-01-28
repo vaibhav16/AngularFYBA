@@ -4,7 +4,6 @@ import { LoginService } from './../../common/services/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
-import { DataSharingService } from './../../data-sharing.service';
 import { IProfileSection } from './../classes/profile/IProfile.model';
 
 @Component({
@@ -24,16 +23,22 @@ export class ProfileComponent implements OnInit {
     public elRef: ElementRef,
     public loginService: LoginService,
     private modalService: BsModalService,
-    public renderer: Renderer2,
-    public dss: DataSharingService
+    public renderer: Renderer2
   ) {}
 
   ngOnInit() {
     this.profileRequest = true;
-    this.officialService.fetchProfileData1().subscribe(
+    this.officialService.fetchProfileData().subscribe(
       (data) => {
-        this.profileSection = data;
-        console.log(this.profileSection);
+        if (data['Status']) {
+          this.profileSection = data;
+          console.log(this.profileSection);
+        } else {
+          this.profileRequest = false;
+          this.initialFetchError = true;
+          this.modalRef = this.modalService.show(ErrorModalComponent);
+          this.modalRef.content.closeBtnName = 'Close';
+        }
       },
       (err) => {
         this.profileRequest = false;
@@ -73,10 +78,10 @@ export class ProfileComponent implements OnInit {
     binaryString = await readerEvt.target.result;
     this.newImgByteCode = await btoa(binaryString);
 
-    await this.officialService.uploadProfileImage1(this.newImgByteCode).subscribe(
+    await this.officialService.uploadProfileImage(this.newImgByteCode).subscribe(
       (data) => {
         console.log(data);
-        if (data['Message'].PopupMessage == 'Successful') {
+        if (data['Status']) {
           this.loginService.cookieService.set('roundThumbnail', data['Value'].RoundThumbnail);
           this.loginService.roundThumbnail = data['Value'].RoundThumbnail;
           this.imgThumbnail = data['Value'].Thumbnail;
@@ -84,6 +89,7 @@ export class ProfileComponent implements OnInit {
         } else {
           this.modalRef = this.modalService.show(ErrorModalComponent);
           this.modalRef.content.closeBtnName = 'Close';
+          this.profileRequest = false;
         }
       },
       (err) => {
@@ -98,25 +104,26 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  showModal() {
-    if (this.officialService.uploadError) {
-      this.modalRef = this.modalService.show(this.template, {
-        class: 'modal-sm'
-      });
-    }
-  }
+  // showModal() {
+  //   if (this.officialService.uploadError) {
+  //     this.modalRef = this.modalService.show(this.template, {
+  //       class: 'modal-sm'
+  //     });
+  //   }
+  // }
 
   deleteProfileImage(fileName) {
     this.profileRequest = true;
     console.log(this.imgUrl);
 
-    this.officialService.deleteProfileImage1(this.imgUrl).subscribe(
+    this.officialService.deleteProfileImage(this.imgUrl).subscribe(
       (data) => {
         console.log(data);
-        if (data['Message'].PopupMessage == 'Successful') {
+        if (data['Status']) {
           this.loginService.roundThumbnail = data['Value'];
           this.loginService.cookieService.set('roundThumbnail', data['Value']);
         } else {
+          this.profileRequest = false;
           this.modalRef = this.modalService.show(ErrorModalComponent);
           this.modalRef.content.closeBtnName = 'Close';
         }
@@ -140,8 +147,8 @@ export class ProfileComponent implements OnInit {
     // });
   }
 
-  closeModal() {
-    this.modalRef.hide();
-    this.officialService.uploadError = false;
-  }
+  // closeModal() {
+  //   this.modalRef.hide();
+  //   this.officialService.uploadError = false;
+  // }
 }

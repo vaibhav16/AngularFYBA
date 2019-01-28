@@ -37,7 +37,7 @@ export class OfficialService {
   selectGameJson: JSON = null;
   reportGameJson: JSON = null;
   getPaidJson: JSON = null;
-  requestStatus: number = 0;
+  //requestStatus: number = 0;
   //requestSuccess: boolean = false;
   //requestFailure: boolean = false;
   numberOfSelectGameClicks: number = 0;
@@ -176,14 +176,6 @@ export class OfficialService {
     ]
   };
 
-  // IncidentReports[]: IncidentReports[] = {
-  //   GameId:null,
-  //   IncidentId:null,
-  //   IncidentType:null,
-  //   IncidentValue:null,
-  //   Notes:''
-  // };
-
   IncidentReports: IncidentReports[] = [];
 
   APIPlayerScorePost: APIPlayerScorePost = {
@@ -244,8 +236,6 @@ export class OfficialService {
     this.dss.initialFetchError = null;
     this.serviceError = false;
     this.fetchSelectGames = true;
-    this.numberOfSelectGameClicks++;
-    //this.finalFilter.RequestedData=JSON.stringify(obj);
     this.initialFilter.SessionKey = this.loginService.sessionKey;
     this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
     var body = JSON.stringify(this.initialFilter);
@@ -282,13 +272,12 @@ export class OfficialService {
     this.fetchSelectGames = false;
     this.reportRequest = false;
     //this.fetchProfileRequest = false;
-    this.paidRequest = false;
+    //this.paidRequest = false;
     console.log('A Server Error has occured!', error);
   }
 
   /* - Used to refresh the Data in Select Games after some change - */
   refershSelectGameData(obj: Filter): any {
-    //this.finalFilter.RequestedData=JSON.stringify(obj);
     this.initialFilter.SessionKey = this.loginService.sessionKey;
     this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
     var body = JSON.stringify(this.initialFilter);
@@ -607,13 +596,9 @@ export class OfficialService {
   postReportTitle: string;
   postReportMsg: string;
   postReportStatus: boolean;
-  //postReportError: boolean;
   postReportData(gameListObj: any) {
-    //this.postReportError = null;
+    this.reportRequest=true;
     this.postReportMsg = null;
-    this.requestStatus = 1;
-    //this.requestSuccess = false;
-    //this.requestFailure = false;
     this.finalFilter.RequestedData = JSON.stringify(gameListObj);
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID = this.loginService.userId.toString();
@@ -636,22 +621,23 @@ export class OfficialService {
       .toPromise()
       .then((x) => {
         console.log(x);
-        this.requestStatus = 0;
-        if (x['Error']) {
+        this.reportRequest=false;
+        if (x['Status']) {
           this.postReportMsg = x['Message'].PopupMessage;
           this.postReportTitle = x['Message'].PopupHeading;
           this.postReportStatus = x['Status'];
-          //this.requestSuccess = true;
           this.loginService.reportTagLabel = x['Value'];
           this.cookieService.set('reportTagLabel', x['Value']);
-          //console.log(this.loginService.reportTagLabel);
-          //this.getReportData();
+
         } else {
-          //this.requestFailure = true;
+          this.postReportMsg = x['Message'].PopupMessage;
+          this.postReportTitle = x['Message'].PopupHeading;
+          this.postReportStatus = x['Status'];
         }
         return Promise.resolve();
       })
       .catch((err) => {
+        this.reportRequest=false;
         this.handleError(err);
       });
   }
@@ -661,48 +647,8 @@ export class OfficialService {
   /**************************/
 
   /* - This function is used to fetch the initial data to populate the Get Paid section. - */
-  paidRequest: boolean = false;
-  fetchGetPaidData() {
-    this.dss.initialFetchError = null;
-    this.serviceError = false;
-    this.paidRequest = true;
-    this.reportGameData.SeasonId = this.loginService.seasonId;
-    this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;
-    this.finalFilter.RequestedData = JSON.stringify(this.reportGameData);
-
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
-    var body = JSON.stringify(this.finalFilter);
-    console.log(JSON.stringify(this.finalFilter));
-
-    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
-    var requestOptions = new RequestOptions({
-      method: RequestMethod.Post,
-      headers: headerOptions
-    });
-    return this.http
-      .post(Constants.apiURL + '/api/GetPaid', body, requestOptions)
-      .pipe(
-        map((data: Response) => {
-          return data.json();
-        })
-      )
-      .toPromise()
-      .then((x) => {
-        console.log(x);
-        this.paidRequest = false;
-        return Promise.resolve((this.getPaidJson = x));
-      })
-      .catch((err) => {
-        this.dss.initialFetchError = true;
-        this.handleError(err);
-      });
-  }
-
-  fetchGetPaidData1(): Observable<any> {
-    // this.dss.initialFetchError = null;
-    // this.serviceError = false;
-    // this.paidRequest = true;
+ 
+  fetchGetPaidData(): Observable<any> {
     this.reportGameData.SeasonId = this.loginService.seasonId;
     this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;
     this.finalFilter.RequestedData = JSON.stringify(this.reportGameData);
@@ -733,11 +679,10 @@ export class OfficialService {
   /************************/
 
   /* - This function is used to fetch the initial data to populate the Profile section. - */
-  fetchProfileData1(): Observable<any> {
+  fetchProfileData(): Observable<any> {
     this.profileModel.SeasonId = this.loginService.seasonId;
     this.profileModel.LeagueId = this.loginService.leagueId;
     this.finalFilter.RequestedData = JSON.stringify(this.profileModel);
-
     this.finalFilter.SessionKey = this.loginService.sessionKey;
     this.finalFilter.UserID = this.loginService.userId.toString();
     var body = JSON.stringify(this.finalFilter);
@@ -760,55 +705,7 @@ export class OfficialService {
     Page: ''
   };
 
-  newImage: string;
-  newThumbnail: string;
-  uploadError: boolean;
-  uploadErrorMsg: string;
-
-  // uploadProfileImage(newImgByteCode: string) {
-  //   this.uploadError = false;
-  //   this.uploadProfileImg.SeasonId = this.loginService.seasonId;
-  //   this.uploadProfileImg.LeagueId = this.loginService.leagueId;
-  //   this.uploadProfileImg.FileName = newImgByteCode;
-  //   this.uploadProfileImg.Page = 'Profile';
-
-  //   this.finalFilter.RequestedData = JSON.stringify(this.uploadProfileImg);
-  //   this.finalFilter.SessionKey = this.loginService.sessionKey;
-  //   this.finalFilter.UserID = this.loginService.userId.toString();
-
-  //   console.log(this.finalFilter);
-  //   var body = JSON.stringify(this.finalFilter);
-  //   console.log(JSON.stringify(this.finalFilter));
-
-  //   return this.http
-  //     .post(Constants.apiURL + '/api/ftp', body, this.postRequestOptions)
-  //     .pipe(
-  //       map((data: Response) => {
-  //         return data.json();
-  //       })
-  //     )
-  //     .toPromise()
-  //     .then((x) => {
-  //       console.log(x);
-  //       this.newImage = x.Value.Link;
-  //       if (x['Message'].PopupMessage == 'Successful') {
-  //         this.loginService.cookieService.set('roundThumbnail', x['Value'].RoundThumbnail);
-  //         this.loginService.roundThumbnail = x['Value'].RoundThumbnail;
-  //         this.newThumbnail = x['Value'].Thumbnail;
-  //         console.log(x['Value'].RoundThumbnail);
-  //       } else {
-  //         this.uploadError = true;
-  //         this.uploadErrorMsg = x['Value'];
-  //       }
-  //       //this.fetchProfileRequest = false;
-  //       return Promise.resolve();
-  //     })
-  //     .catch((err) => {
-  //       this.handleError(err);
-  //     });
-  // }
-
-  uploadProfileImage1(newImgByteCode: string): Observable<any> {
+  uploadProfileImage(newImgByteCode: string): Observable<any> {
     this.uploadProfileImg.SeasonId = this.loginService.seasonId;
     this.uploadProfileImg.LeagueId = this.loginService.leagueId;
     this.uploadProfileImg.FileName = newImgByteCode;
@@ -828,7 +725,7 @@ export class OfficialService {
     );
   }
 
-  deleteProfileImage1(fileName: string): Observable<any> {
+  deleteProfileImage(fileName: string): Observable<any> {
     var headerOptions = new Headers();
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     //headerOptions.append('Accept', 'application/json');
@@ -856,12 +753,12 @@ export class OfficialService {
     );
   }
 
-  isNullorUndefined(x: any) {
-    if (x == null || x == undefined) {
-      return true;
-    }
-    return false;
-  }
+  // isNullorUndefined(x: any) {
+  //   if (x == null || x == undefined) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   public getPdfUrl(url: string): any {
     return this.http.get(url);

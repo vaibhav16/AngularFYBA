@@ -30,8 +30,7 @@ body{
    }
 
    
-
-   .leftReportDate span{display:block; font-weight:normal;}
+   
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
     .leftReportDate100{float:left; width:100%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
@@ -1082,6 +1081,8 @@ div {
     .small_font .pwChanged button{font-size:14px !important;}
     .small_font .leftReportDate{line-height:20px;}
     .small_font .rightReportDate{line-height:20px;}
+    .small_font .asScorekeeper{font-size:14px !important;}
+    .small_font .staticStrip{font-size:14px !important;}
 }
 
   /* ---- End Small Font Css --- */

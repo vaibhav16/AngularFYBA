@@ -338,41 +338,30 @@
                                           <div (click)="showIncident(incidentIndex,gameListIndex)">
                                              Incident {{incidentIndex+1}}
                                           </div>
-
+                        
                                           <span (click)="
-                                          deleteIncident(
-                                          incidentIndex,
-                                          gameListIndex                                
-                                          )"
+                                                                  deleteIncident(
+                                                                  incidentIndex,
+                                                                  gameListIndex                                
+                                                                  )"
                                              class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                                        </li>
                                     </ul>
-
+                        
                                     <ul *ngIf="officialService.IncidentReports.length > 0" class="addList incidentLi">
                                        <li *ngFor="let item of officialService.IncidentReports;  let newIncidentIndex = index">
-
+                        
                                           <div class="incident_linebreak" (click)="showTempIncident(newIncidentIndex,gameListIndex)">
-                                             New <br class="breakAll" />Incident <br class="breakAll" />{{newIncidentIndex+1}}
-                                             <!-- <ng-template *ngIf="item.IncidentReports.length>0">
-                                             {{item.IncidentReports.length+newIncidentIndex+1}}
-                                          </ng-template>                                          
-                                          
-                                          <ng-template *ngIf="item.IncidentReports.length==0">
-                                             {{newIncidentIndex+1}}
-                                          </ng-template>                                           -->
+                                             New <br class="breakAll" />Incident <br class="breakAll" />{{newIncidentIndex+1}}                                            
                                           </div>
-
-                                          <span (click)="
-                                          deleteTempIncident(
-                                          newIncidentIndex,
-                                          gameListIndex                                
-                                          )"
+                        
+                                          <span (click)="deleteTempIncident(
+                                             newIncidentIndex,gameListIndex)"
                                              class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                                        </li>
                                     </ul>
                                     <ul class="addList IncidentListClass">
-                                       <li (click)="addIncident(gameListIndex)" class="Incidentclass uploadDiv uploadIncident"
-                                          id="Incidentclass_{{ gameListIndex }}">
+                                       <li (click)="addIncident(gameListIndex)" class="Incidentclass uploadDiv uploadIncident" id="Incidentclass_{{ gameListIndex }}">
                                           <span class="addHeading addIncident">Add<br class="breakAll" />
                                              Incident</span>
                                        </li>
@@ -398,14 +387,7 @@
                      ">
                               SAVE REPORT
                            </button>
-                        </div>
-                        <!-- <div
-            *ngIf="officialService.requestSuccess == true"
-            class="requestSuccess"
-            >
-         <br />
-         Data Saved!
-         </div> -->
+                        </div>         
                      </form>
                   </ng-template>
                </ngb-panel>
@@ -423,13 +405,13 @@
    <div class="noRecordsProfile">No ScoreSheet uploaded</div>
 </ng-template> -->
 
-<ng-template #template>
+<!-- <ng-template #template>
    <div class="modal-body text-center">
       <p class="heading-signUp">Max Limit Reached</p>
       <p>{{ modalMsg }}</p>
       <button type="button" class="btn btn-danger" (click)="confirm()">OK</button>
    </div>
-</ng-template>
+</ng-template> -->
 
 <!-- <ng-template #unEqualHomeScoreTemplate>
    <div class="modal-body text-center">
@@ -485,7 +467,7 @@
 </ng-template> -->
 
 <!--Loader-->
-<app-fybaloader *ngIf="officialService.reportRequest || officialService.requestStatus == 1"></app-fybaloader>
+<app-fybaloader *ngIf="officialService.reportRequest"></app-fybaloader>
 <!--Loader-->
 
 <div *ngIf="dss.initialFetchError" #serverError>
