@@ -22,6 +22,8 @@ export class APIGamePost {
   public VisitingTeamPlayerScores: VisitingTeamPlayerScores[];
   public ScoreSheetImages: ScoreSheetImages[];
   public DeletedScoreSheetImages: DeletedScoreSheetImages[];
+  public IncidentReports: IncidentReports[]; 
+  public DeleteIncidentReport : DeleteIncidentReport[];
 
   constructor() {
     this.SeasonId = "";
@@ -37,6 +39,38 @@ export class APIGamePost {
   }
 }
 
+
+export class IncidentReports {
+  public IncidentId: number;
+  public GameId: number;
+  public IncidentType : number;
+  public IncidentValue: number;
+  public Notes: string;
+
+  constructor() {
+    this.IncidentId = null;
+    this.GameId = null;
+    this.IncidentType = null;
+    this.IncidentValue = null;
+    this.Notes = '';
+  }
+}
+
+export class DeleteIncidentReport {
+  public IncidentId: number;
+  public GameId: number;
+  public IncidentType : number;
+  public IncidentValue: number;
+  public Notes: string;
+
+  constructor() {
+    this.IncidentId = null;
+    this.GameId = null;
+    this.IncidentType = null;
+    this.IncidentValue = null;
+    this.Notes = '';
+  }
+}
 export class HomeTeamPlayerScores {
   public GameId: string;
   public PlayerName?: string;

@@ -5,10 +5,7 @@
         <h3 class="mainDate"><strong>SCHEDULED PAYMENT DATES</strong></h3>
         <ul class="paymentdates">
           <li
-            *ngFor="
-              let item of paidSection.Value.SchedulePayments
-            "
-          >
+            *ngFor="let item of paidSection.Value.SchedulePayments">
             {{ item }}
           </li>
         </ul>
@@ -31,18 +28,18 @@
       >
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
-            <h2 class="paidHead">{{ item.GameName }}</h2>
+            <h2 class="paidHead">{{ item.GameName }}</h2>           
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="matchInfo matchInfo2">
             {{ item.OfficiatingPositionText }}
-            <ul>
+            <!-- <ul>
               <li>- Base Pay: ${{ item.BaseAmount }}</li>
               <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
                 - Scoresheet Report: ${{ item.IncentiveAmount }}
               </li>
-            </ul>
+            </ul> -->
           </div>
         </ng-template>
       </ngb-panel>

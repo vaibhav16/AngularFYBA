@@ -4,6 +4,7 @@
 /*actual design*/
 
 
+
 body{
     /* Disables pull-to-refresh but allows overscroll glow effects. */
     overscroll-behavior-y: contain;
@@ -28,6 +29,7 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
+   
 
    .leftReportDate span{display:block; font-weight:normal;}
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
@@ -469,6 +471,10 @@ div {
     text-align: center;
     line-height: 100px;
     color: #ffffff; position:relative; /*border:3px solid #3c98db;*/margin-top:10px;}
+
+    ul.addList.incidentLi li{
+        background: #1e31ae;
+    }
        
    ul.addList li.uploadDiv{float: left;
     width: 100px;
@@ -1028,6 +1034,12 @@ div {
   .pwForm{
       font-size: 14px;
   }
+  
+  .customModalWidth75{
+    width:75%
+  }
+
+
 
   /*--------- END --------*/
 

@@ -5,33 +5,43 @@ import {
   Renderer2,
   ViewChild,
   AfterViewInit,
-} from "@angular/core";
-import { Router } from "@angular/router";
-import { NgbAccordionConfig } from "@ng-bootstrap/ng-bootstrap";
-import { OfficialService } from "../official.service";
-import { FormBuilder, FormGroup, FormArray, NgForm } from "@angular/forms";
-import { APIGamePost } from "../classes/reportgame/APIGamePost.model";
-import { ScoreSheetImages } from "../classes/reportgame/ScoreSheet.model";
-import { DeletedScoreSheetImages } from "../classes/reportgame/DeletedScoreSheetImages";
-import { APIPlayerScorePost } from "../classes/reportgame/APIPlayerScorePost.model";
-import { Http } from "@angular/http";
-import { LoginService } from "./../../common/services/login.service";
-import { NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
-import { ScoreSheetImages2 } from "./../classes/reportgame/ScoreSheet2.model";
-import { DeletedScoreSheet2 } from "./../classes/reportgame/DeletedScoreSheet2.model";
-import { BsModalService } from "ngx-bootstrap/modal";
-import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
+  ChangeDetectionStrategy
+} from '@angular/core';
+import { NotifierService } from 'angular-notifier';
+import { Router } from '@angular/router';
+import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
+import { OfficialService } from '../official.service';
+import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
+import { APIGamePost } from '../classes/reportgame/APIGamePost.model';
+import { ScoreSheetImages } from '../classes/reportgame/ScoreSheet.model';
+import { DeletedScoreSheetImages } from '../classes/reportgame/DeletedScoreSheetImages';
+import { APIPlayerScorePost } from '../classes/reportgame/APIPlayerScorePost.model';
+import { DeleteIncidentReport } from './../classes/reportgame/APIGamePost.model';
+import { Http } from '@angular/http';
+import { LoginService } from './../../common/services/login.service';
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ScoreSheetImages2 } from './../classes/reportgame/ScoreSheet2.model';
+import { DeletedScoreSheet2 } from './../classes/reportgame/DeletedScoreSheet2.model';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
-import * as $ from "jquery";
-import { DataSharingService } from "src/app/data-sharing.service";
+import * as $ from 'jquery';
+import { DataSharingService } from 'src/app/data-sharing.service';
+import { NewIncidentComponent } from './new-incident/new-incident.component';
+import { ShowIncidentComponent } from './show-incident/show-incident.component';
+import { ValidationModalComponent } from './validation-modal/validation-modal.component';
+import { SuccessPopupComponent } from './success-popup/success-popup.component';
+import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
+//import {Message} from 'primeng/api';
+//import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
-  selector: "app-report-game",
-  templateUrl: "./report-game.component.html",
-  styleUrls: ["./report-game.component.css"]
+  selector: 'app-report-game',
+  templateUrl: './report-game.component.html',
+  styleUrls: ['./report-game.component.css']
 })
 export class ReportGameComponent {
-  @ViewChild("imgTemplate") imgTemplate: TemplateRef<any>;
+  @ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
 
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
@@ -42,67 +52,86 @@ export class ReportGameComponent {
   tempIndex = 0;
   modalHeading: string;
   modalMsg: string;
-  tempRemoveImage = ["shashank", "vishnu", "vaibhav", "seemant"];
   uploadTemplate: TemplateRef<any>;
   imgsrc: any;
+  //msgs: Message[] = [];
+
 
   APIGamePost: APIGamePost = {
-    Roleid: "",
-    SeasonId: "",
-    OfficialSeasonId: "",
-    OfficiatingPositionId: "",
-    GameId: "",
-    GameName: "",
-    GameDate: "",
-    Location: "",
-    GameStartTime: "",
-    HomeTeam: "",
-    VisitingTeam: "",
-    HomeTeamId: "",
-    VisitingTeamId: "",
-    HomeTeamScore: "",
-    VisitingTeamScore: "",
-    Division: "",
-    LeagueId: "",
+    Roleid: '',
+    SeasonId: '',
+    OfficialSeasonId: '',
+    OfficiatingPositionId: '',
+    GameId: '',
+    GameName: '',
+    GameDate: '',
+    Location: '',
+    GameStartTime: '',
+    HomeTeam: '',
+    VisitingTeam: '',
+    HomeTeamId: '',
+    VisitingTeamId: '',
+    HomeTeamScore: '',
+    VisitingTeamScore: '',
+    Division: '',
+    LeagueId: '',
 
     HomeTeamPlayerScores: [
       {
-        GameId: "",
-        PlayerName: "",
-        PlayerSeasonalId: "",
-        FoulId: "",
+        GameId: '',
+        PlayerName: '',
+        PlayerSeasonalId: '',
+        FoulId: '',
         Points: null,
         PlayerNote: null,
         NotPresent: null,
-        Rebound: "",
-        TeamId: "",
-        TeamName: ""
+        Rebound: '',
+        TeamId: '',
+        TeamName: ''
       }
     ],
     VisitingTeamPlayerScores: [
       {
-        GameId: "",
-        PlayerName: "",
-        PlayerSeasonalId: "",
-        FoulId: "",
+        GameId: '',
+        PlayerName: '',
+        PlayerSeasonalId: '',
+        FoulId: '',
         Points: null,
         PlayerNote: null,
         NotPresent: null,
-        Rebound: "",
-        TeamId: "",
-        TeamName: ""
+        Rebound: '',
+        TeamId: '',
+        TeamName: ''
       }
     ],
     ScoreSheetImages: [
       {
-        ImageURL: "",
-        NewImageByteCode: ""
+        ImageURL: '',
+        NewImageByteCode: ''
       }
     ],
     DeletedScoreSheetImages: [
       {
-        ImageURL: "",
-        NewImageByteCode: ""
+        ImageURL: '',
+        NewImageByteCode: ''
+      }
+    ],
+    IncidentReports: [
+      {
+        GameId: null,
+        IncidentId: null,
+        IncidentType: null,
+        IncidentValue: null,
+        Notes: ''
+      }
+    ],
+    DeleteIncidentReport: [
+      {
+        GameId: null,
+        IncidentId: null,
+        IncidentType: null,
+        IncidentValue: null,
+        Notes: ''
       }
     ]
   };
@@ -112,11 +141,12 @@ export class ReportGameComponent {
   //   NewImageByteCode:'',
   //   GameIndex:''
   //  }
-
+  private readonly notifier: NotifierService;
   constructor(
     public router: Router,
     public officialService: OfficialService,
     public renderer: Renderer2,
+    //private messageService: MessageService,
     // private _lightbox: Lightbox,
     public fb: FormBuilder,
     public loginService: LoginService,
@@ -124,25 +154,29 @@ export class ReportGameComponent {
     public http: Http,
     config: NgbAccordionConfig,
     private modalService: BsModalService,
-    public dss: DataSharingService
+    public dss: DataSharingService,
+    public notifierService: NotifierService
   ) {
-    config.type = "info";
+    this.notifier = notifierService;
+    config.type = 'info';
   }
 
   newRequest: boolean = null;
   ngOnInit() {
-    this.officialService.requestSuccess = false;
-    this.officialService.requestFailure = false;
+   
+    //this.officialService.requestSuccess = false;
+    //this.officialService.requestFailure = false;
 
     this.asyncReport();
   }
 
   ngAfterViewInit() {
-    $(document).on("click", ".glyphicon", e => {
+    
+    $(document).on('click', '.glyphicon', (e) => {
       var targetid = e.target.id;
       e.target.parentNode.remove();
       this.ScoreSheetImages.splice(targetid, 1);
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
@@ -150,10 +184,10 @@ export class ReportGameComponent {
   }
 
   async asyncReport() {
-    await this.officialService.getReportData().then(res => {
-      if(this.officialService.serviceError){
+    await this.officialService.getReportData().then((res) => {
+      if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
-        this.modalRef.content.closeBtnName = "Close";        
+        this.modalRef.content.closeBtnName = 'Close';
       }
     });
   }
@@ -163,9 +197,9 @@ export class ReportGameComponent {
       console.log(i);
       if (this.ScoreSheetImages2[i].GameIndex == this.panelId.toString()) {
         this.ScoreSheetImages[i] = await new ScoreSheetImages();
-        this.ScoreSheetImages[i].ImageURL = await "";
-        this.ScoreSheetImages[i].NewImageByteCode = await this
-          .ScoreSheetImages2[i].NewImageByteCode;
+        this.ScoreSheetImages[i].ImageURL = await '';
+        this.ScoreSheetImages[i].NewImageByteCode = await this.ScoreSheetImages2[i]
+          .NewImageByteCode;
       }
     }
   }
@@ -174,34 +208,42 @@ export class ReportGameComponent {
   async onSubmit(
     form: NgForm,
     gameListIndex: number,
-    invalidScoreTemplate: TemplateRef<any>,
-    unEqualHomeScoreTemplate: TemplateRef<any>,
-    unEqualVisitingScoreTemplate: TemplateRef<any>,
-    uploadTemplate: TemplateRef<any>
+    // invalidScoreTemplate: TemplateRef<any>,
+    // unEqualHomeScoreTemplate: TemplateRef<any>,
+    // unEqualVisitingScoreTemplate: TemplateRef<any>,
+    // uploadTemplate: TemplateRef<any>
   ) {
+    
     console.log(form.value);
-    this.uploadTemplate = uploadTemplate;
-
-    await this.makeScoreSheetArray().then(res => {
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
+    
+    //this.uploadTemplate = uploadTemplate;
+    await this.makeScoreSheetArray().then((res) => {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
     });
 
     if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
-      this.modalRef = this.modalService.show(invalidScoreTemplate, {
-        class: "modal-sm"
-      });
-      console.log("Invalid");
+      // this.modalRef = this.modalService.show(invalidScoreTemplate, {
+      //   class: 'modal-sm'
+      // });
+      // console.log('Invalid');
+      const initialState = {
+        popupTitle: 'Invalid Final Scores',
+        popupMsg: 'Final Score can not be zero.',
+      };
+
+      this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      
     } else if (
       this.checkFinalScore(
         form,
-        gameListIndex,
-        unEqualHomeScoreTemplate,
-        unEqualVisitingScoreTemplate
+        gameListIndex
+        // unEqualHomeScoreTemplate,
+        // unEqualVisitingScoreTemplate
       ) == true
-    ) {
+    && this.checkMinPON(gameListIndex)) {
       this.prepareDatatoUpdate(form, gameListIndex);
     }
   }
@@ -213,26 +255,33 @@ export class ReportGameComponent {
   checkFinalScore(
     form: NgForm,
     gameListIndex: number,
-    unEqualHomeScoreTemplate: TemplateRef<any>,
-    unEqualVisitingScoreTemplate: TemplateRef<any>
+    // unEqualHomeScoreTemplate: TemplateRef<any>,
+    // unEqualVisitingScoreTemplate: TemplateRef<any>
   ) {
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
+
+    let homeTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].HomeTeam;
+
+    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex].VisitingTeam;
     if (
-      this.officialService.reportGameJson["Value"].GameList[gameListIndex]
-        .HomeTeamPlayerScores != null
+      this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores !=
+      null
     ) {
-      this.tempHomeTeamName = this.officialService.reportGameJson[
-        "Value"
-      ].GameList[gameListIndex].HomeTeam;
+      this.tempHomeTeamName = this.officialService.reportGameJson['Value'].GameList[
+        gameListIndex
+      ].HomeTeam;
       for (
         let i = 0;
         i <
-        this.officialService.reportGameJson["Value"].GameList[gameListIndex]
-          .HomeTeamPlayerScores.length;
+        this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores
+          .length;
         ++i
       ) {
-        let hpoint = "HPoints" + i;
+        let hpoint = 'HPoints' + i;
         if (form.value[hpoint] != null && parseInt(form.value[hpoint]) > 0) {
           this.tempSumHomePoint += parseInt(form.value[hpoint]);
           console.log(form.value[hpoint]);
@@ -241,20 +290,20 @@ export class ReportGameComponent {
     }
 
     if (
-      this.officialService.reportGameJson["Value"].GameList[gameListIndex]
+      this.officialService.reportGameJson['Value'].GameList[gameListIndex]
         .VisitingTeamPlayerScores != null
     ) {
-      this.tempVisitingTeamName = this.officialService.reportGameJson[
-        "Value"
-      ].GameList[gameListIndex].VisitingTeam;
+      this.tempVisitingTeamName = this.officialService.reportGameJson['Value'].GameList[
+        gameListIndex
+      ].VisitingTeam;
       for (
         let i = 0;
         i <
-        this.officialService.reportGameJson["Value"].GameList[gameListIndex]
+        this.officialService.reportGameJson['Value'].GameList[gameListIndex]
           .VisitingTeamPlayerScores.length;
         ++i
       ) {
-        let vpoint = "VPoints" + i;
+        let vpoint = 'VPoints' + i;
         if (form.value[vpoint] != null && parseInt(form.value[vpoint]) > 0) {
           this.tempSumVisitingPoint += parseInt(form.value[vpoint]);
           console.log(vpoint, form.value[vpoint]);
@@ -263,41 +312,57 @@ export class ReportGameComponent {
     }
 
     if (this.tempSumVisitingPoint != parseInt(form.value.VTeamScore)) {
-      this.modalRef = null;
-      console.log(this.tempSumVisitingPoint, form.value.VTeamScore);
-      this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {
-        class: "modal-sm"
-      });
+      //this.modalRef = null;
+      // console.log(this.tempSumVisitingPoint, form.value.VTeamScore);
+      // this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {
+      //   class: 'modal-sm'
+      // });
+      const initialState = {
+        popupTitle: 'Error',
+        popupMsg: ' The sum of the scores of the players in Team '+ visitingTeamName + ' must be equal to the final score.',
+      };
+
+      this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
       return false;
-    } else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
-      this.modalRef = null;
-      console.log(this.tempSumHomePoint, form.value.HTeamScore);
-      this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {
-        class: "modal-sm"
-      });
+    } 
+    else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
+      // this.modalRef = null;
+      // console.log(this.tempSumHomePoint, form.value.HTeamScore);
+      // this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {
+      //   class: 'modal-sm'
+      // });
+      const initialState = {
+        popupTitle: 'Error',
+        popupMsg: ' The sum of the scores of the players in Team '+ homeTeamName + ' must be equal to the final score.',
+      };
+      console.log("319");
+      this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
       return false;
     }
     //change to true
     return true;
   }
 
+  
   prepareDatatoUpdate(form: NgForm, gameListIndex: number) {
+
     for (
       let i = 0;
       i <
-      this.officialService.reportGameJson["Value"].GameList[gameListIndex]
-        .HomeTeamPlayerScores.length;
+      this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores
+        .length;
       ++i
     ) {
-      let point = "HPoints" + i;
-      let playername = "HPlayerName" + i;
-      let gameid = "HGameId" + i;
-      let playerseasonalId = "HPlayerSeasonalId" + i;
-      let fouldId = "HFoulId" + i;
-      let playernote = "HPlayerNote" + i;
-      let notpresent = "HNotPresent" + i;
-      let rebound = "HRebound" + i;
-      let teamid = "HTeamId" + i;
+      let point = 'HPoints' + i;
+      let playername = 'HPlayerName' + i;
+      let gameid = 'HGameId' + i;
+      let playerseasonalId = 'HPlayerSeasonalId' + i;
+      let fouldId = 'HFoulId' + i;
+      let playernote = 'HPlayerNote' + i;
+      let notpresent = 'HNotPresent' + i;
+      let rebound = 'HRebound' + i;
+      let teamid = 'HTeamId' + i;
       //let teamname = "HTeamName"+i;
 
       this.HomeTeamPlayerScores[i] = new APIPlayerScorePost();
@@ -310,9 +375,7 @@ export class ReportGameComponent {
       this.HomeTeamPlayerScores[i].NotPresent = form.value[notpresent];
       this.HomeTeamPlayerScores[i].Rebound = form.value[rebound];
       this.HomeTeamPlayerScores[i].TeamId = form.value[teamid];
-      this.HomeTeamPlayerScores[
-        i
-      ].TeamName = this.officialService.reportGameJson["Value"].GameList[
+      this.HomeTeamPlayerScores[i].TeamName = this.officialService.reportGameJson['Value'].GameList[
         gameListIndex
       ].HomeTeam;
       //this.HomeTeamPlayerScores[i].TeamName = form.value[teamname];
@@ -321,37 +384,34 @@ export class ReportGameComponent {
     for (
       let i = 0;
       i <
-      this.officialService.reportGameJson["Value"].GameList[gameListIndex]
-        .VisitingTeamPlayerScores.length;
+      this.officialService.reportGameJson['Value'].GameList[gameListIndex].VisitingTeamPlayerScores
+        .length;
       ++i
     ) {
-      let point = "VPoints" + i;
-      let playername = "VPlayerName" + i;
-      let gameid = "VGameId" + i;
-      let playerseasonalId = "VPlayerSeasonalId" + i;
-      let fouldId = "VFoulId" + i;
-      let playernote = "VPlayerNote" + i;
-      let notpresent = "VNotPresent" + i;
-      let rebound = "VRebound" + i;
-      let teamid = "VTeamId" + i;
-      let teamname = "VTeamName" + i;
+      let point = 'VPoints' + i;
+      let playername = 'VPlayerName' + i;
+      let gameid = 'VGameId' + i;
+      let playerseasonalId = 'VPlayerSeasonalId' + i;
+      let fouldId = 'VFoulId' + i;
+      let playernote = 'VPlayerNote' + i;
+      let notpresent = 'VNotPresent' + i;
+      let rebound = 'VRebound' + i;
+      let teamid = 'VTeamId' + i;
+      let teamname = 'VTeamName' + i;
 
       this.VisitingTeamPlayerScores[i] = new APIPlayerScorePost();
       this.VisitingTeamPlayerScores[i].PlayerName = form.value[playername];
       this.VisitingTeamPlayerScores[i].Points = form.value[point];
       this.VisitingTeamPlayerScores[i].GameId = form.value[gameid];
-      this.VisitingTeamPlayerScores[i].PlayerSeasonalId =
-        form.value[playerseasonalId];
+      this.VisitingTeamPlayerScores[i].PlayerSeasonalId = form.value[playerseasonalId];
       this.VisitingTeamPlayerScores[i].FoulId = form.value[fouldId];
       this.VisitingTeamPlayerScores[i].PlayerNote = form.value[playernote];
       this.VisitingTeamPlayerScores[i].NotPresent = form.value[notpresent];
       this.VisitingTeamPlayerScores[i].Rebound = form.value[rebound];
       this.VisitingTeamPlayerScores[i].TeamId = form.value[teamid];
-      this.VisitingTeamPlayerScores[
-        i
-      ].TeamName = this.officialService.reportGameJson["Value"].GameList[
-        gameListIndex
-      ].VisitingTeam;
+      this.VisitingTeamPlayerScores[i].TeamName = this.officialService.reportGameJson[
+        'Value'
+      ].GameList[gameListIndex].VisitingTeam;
       //this.VisitingTeamPlayerScores[i].TeamName = form.value[teamname];
     }
 
@@ -360,64 +420,68 @@ export class ReportGameComponent {
     this.APIGamePost.Roleid = this.loginService.roleId;
     this.APIGamePost.SeasonId = this.loginService.seasonId;
     this.APIGamePost.OfficialSeasonId = this.loginService.officialSeasonId;
-    this.APIGamePost.OfficiatingPositionId = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].OfficiatingPositionId;
+    this.APIGamePost.OfficiatingPositionId = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].OfficiatingPositionId;
 
-    this.APIGamePost.Location = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].Location;
-    this.APIGamePost.Division = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].Division;
+    this.APIGamePost.Location = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].Location;
+    this.APIGamePost.Division = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].Division;
     this.APIGamePost.LeagueId = this.loginService.leagueId;
 
-    this.APIGamePost.GameId = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].GameId;
-    this.APIGamePost.GameName = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].GameName;
-    this.APIGamePost.GameDate = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].GameDate;
-    this.APIGamePost.GameStartTime = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].GameStartTime;
+    this.APIGamePost.GameId = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].GameId;
+    this.APIGamePost.GameName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].GameName;
+    this.APIGamePost.GameDate = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].GameDate;
+    this.APIGamePost.GameStartTime = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].GameStartTime;
 
-    this.APIGamePost.HomeTeam = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].HomeTeam;
-    this.APIGamePost.VisitingTeam = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].VisitingTeam;
-    this.APIGamePost.HomeTeamId = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].HomeTeamId;
-    this.APIGamePost.VisitingTeamId = this.officialService.reportGameJson[
-      "Value"
-    ].GameList[gameListIndex].VisitingTeamId;
+    this.APIGamePost.HomeTeam = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].HomeTeam;
+    this.APIGamePost.VisitingTeam = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].VisitingTeam;
+    this.APIGamePost.HomeTeamId = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].HomeTeamId;
+    this.APIGamePost.VisitingTeamId = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].VisitingTeamId;
     //this.APIGamePost.HomeTeamScore = this.officialService.reportGameJson["Value"].GameList[gameListIndex].HomeTeamScore;
-    this.APIGamePost.HomeTeamScore = form.value["HTeamScore"];
-    this.APIGamePost.VisitingTeamScore = form.value["VTeamScore"];
+    this.APIGamePost.HomeTeamScore = form.value['HTeamScore'];
+    this.APIGamePost.VisitingTeamScore = form.value['VTeamScore'];
     //this.APIGamePost.VisitingTeamScore = this.officialService.reportGameJson["Value"].GameList[gameListIndex].VisitingTeamScore;
     this.APIGamePost.HomeTeamPlayerScores = this.HomeTeamPlayerScores;
     this.APIGamePost.VisitingTeamPlayerScores = this.VisitingTeamPlayerScores;
     this.APIGamePost.ScoreSheetImages = this.ScoreSheetImages;
     this.APIGamePost.DeletedScoreSheetImages = this.DeletedScoreSheetImages;
+    this.APIGamePost.IncidentReports = this.officialService.IncidentReports;
+    this.APIGamePost.DeleteIncidentReport = this.DeletedIncidentReports;
     console.log(this.APIGamePost);
-    this.officialService.postReportData(this.APIGamePost).then(res => {
-      if (this.officialService.reportErrorMsg) {
-        console.log(this.officialService.reportErrorMsg);
+    this.officialService.postReportData(this.APIGamePost).then((res) => {
+      if (this.officialService.postReportMsg) {
+        console.log(this.officialService.postReportMsg);
+        //console.log
         this.showModal();
       }
-      if(this.officialService.serviceError){
+      if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
-        this.modalRef.content.closeBtnName = "Close";        
+        this.modalRef.content.closeBtnName = 'Close';
       }
       this.tempIndex = 0;
       this.ScoreSheetImages = [];
       this.ScoreSheetImages2 = [];
+      this.officialService.IncidentReports = [];
       //this.ScoreSheetImages
     });
   }
@@ -426,8 +490,94 @@ export class ReportGameComponent {
   We hide the message if the user clicks on a new panel - */
   panelChange($event: NgbPanelChangeEvent) {
     //console.log($event);
-    this.officialService.requestFailure = false;
-    this.officialService.requestSuccess = false;
+    // this.officialService.requestFailure = false;
+    // this.officialService.requestSuccess = false;
+    this.tempIndex = 0;
+    this.ScoreSheetImages = [];
+    this.ScoreSheetImages2 = [];
+    this.officialService.IncidentReports = [];
+    this.DeletedIncidentReports = [];
+  }
+
+  checkMinPON(gameListIndex: number) {
+    
+   let homeTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].HomeTeam;
+
+    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[
+      gameListIndex
+    ].VisitingTeam;
+
+    if (this.checkBtnClick > 0) {
+      if (this.homePON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in Team '+ homeTeamName +' can not be zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
+        return false;
+        }
+      if (this.visitingPON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in Team '+ visitingTeamName + ' can not be zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        return false;
+      }
+        
+    }
+    else {
+      for (
+        let i = 0;
+        i <
+        this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores
+          .length;
+        ++i
+      ) {
+        if (
+          this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores[i]
+            .PlayerNote == true) {
+          this.homePON++;
+        }
+
+        if (
+          this.officialService.reportGameJson['Value'].GameList[gameListIndex].VisitingTeamPlayerScores[i]
+            .PlayerNote == true) {
+          this.visitingPON++;
+        }
+      }
+
+      if (this.homePON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in Team '+ homeTeamName +' can not be zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        return false;
+      }
+      if (this.visitingPON <= 0)
+      {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in Team '+ visitingTeamName + ' can not be zero.',
+        };
+
+        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        return false;
+      }
+        
+    }
+    return true;
+
   }
 
   /* - Function to check the number of 'Player of Note' in a particular game.
@@ -454,19 +604,20 @@ export class ReportGameComponent {
         for (
           let i = 0;
           i <
-          this.officialService.reportGameJson["Value"].GameList[gameIndex]
-            .HomeTeamPlayerScores.length;
+          this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores
+            .length;
           ++i
         ) {
           if (
-            this.officialService.reportGameJson["Value"].GameList[gameIndex]
-              .HomeTeamPlayerScores[i].PlayerNote == true
+            this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores[i]
+              .PlayerNote == true
           ) {
-            console.log("home team");
+            console.log('home team');
             console.log(i);
             console.log(
-              this.officialService.reportGameJson["Value"].GameList[gameIndex]
-                .HomeTeamPlayerScores[i].PlayerNote
+              this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores[
+                i
+              ].PlayerNote
             );
             this.maxPON++;
             this.homePON++;
@@ -478,18 +629,18 @@ export class ReportGameComponent {
         for (
           let i = 0;
           i <
-          this.officialService.reportGameJson["Value"].GameList[gameIndex]
-            .VisitingTeamPlayerScores.length;
+          this.officialService.reportGameJson['Value'].GameList[gameIndex].VisitingTeamPlayerScores
+            .length;
           ++i
         ) {
           if (
-            this.officialService.reportGameJson["Value"].GameList[gameIndex]
+            this.officialService.reportGameJson['Value'].GameList[gameIndex]
               .VisitingTeamPlayerScores[i].PlayerNote == true
           ) {
-            console.log("visiting team");
+            console.log('visiting team');
             console.log(i);
             console.log(
-              this.officialService.reportGameJson["Value"].GameList[gameIndex]
+              this.officialService.reportGameJson['Value'].GameList[gameIndex]
                 .VisitingTeamPlayerScores[i].PlayerNote
             );
             this.maxPON++;
@@ -503,28 +654,27 @@ export class ReportGameComponent {
       console.log(this.checkBtnClick, this.maxPON);
       if (e.target.checked && this.maxPON < 6) {
         this.maxPON++;
-        if (teamType == "home" && this.homePON <= 2) this.homePON++;
-        else if (teamType == "visiting" && this.visitingPON <= 2)
-          this.visitingPON++;
+        if (teamType == 'home' && this.homePON <= 2) this.homePON++;
+        else if (teamType == 'visiting' && this.visitingPON <= 2) this.visitingPON++;
       } else {
         this.maxPON--;
-        if (teamType == "home") this.homePON--;
-        else if (teamType == "visiting") this.visitingPON--;
+        if (teamType == 'home') {
+          this.homePON--;
+
+        }
+        else if (teamType == 'visiting') this.visitingPON--;
       }
     }
 
     if (e.target.checked) {
       if (this.maxPON >= 6) {
-        this.modalMsg =
-          "Only upto Six Players of Note are allowed in a single game.";
+        this.modalMsg = 'Only upto Six Players of Note are allowed in a single game.';
         //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
       } else if (this.homePON >= 3) {
-        this.modalMsg =
-          "Only Three Players of Note are allowed from Home Team.";
+        this.modalMsg = 'Only Three Players of Note are allowed from Home Team.';
         //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
       } else if (this.visitingPON >= 3) {
-        this.modalMsg =
-          "Only Three Players of Note are allowed from Visiting Team.";
+        this.modalMsg = 'Only Three Players of Note are allowed from Visiting Team.';
         //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
       }
     }
@@ -555,17 +705,34 @@ export class ReportGameComponent {
     const pattern = /^([0-9][0-9]{0,2}|1000)$/;
     if (!pattern.test(event.target.value)) {
       console.log(event.target.value);
-      event.target.value = "";
+      event.target.value = '';
     }
   }
 
   showModal() {
-    if (this.officialService.reportErrorMsg) {
-      console.log(this.officialService.reportErrorMsg);
-      console.log(this.modalRef);
-      this.modalRef = this.modalService.show(this.uploadTemplate, {
-        class: "modal-sm"
-      });
+    if (this.officialService.postReportMsg) {
+      //console.log(this.officialService.postReportMsg);
+      //console.log(this.modalRef);
+      // this.modalRef = this.modalService.show(this.uploadTemplate, {
+      //   class: 'modal-sm'
+      // });
+
+      const initialState = {
+        popupTitle: this.officialService.postReportTitle,
+        popupMsg: this.officialService.postReportMsg,
+      };
+
+      console.log(this.officialService.postReportStatus);
+      if(!this.officialService.postReportStatus){       
+        this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      }
+      else{
+        this.modalRef = this.modalService.show(SuccessPopupComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      }
+
+
+      
+
     }
   }
 
@@ -583,22 +750,6 @@ export class ReportGameComponent {
     await this.makeImageByteArray(imageInput, id);
     //this.uploadRequest = await false;
   }
-
-//   checkExtension(photoName){
-//     var allowedExtensions = ["jpg","jpeg","png","JPG","JPEG","JFIF","BMP","SVG"];
-//     var fileExtension = photoName.split('.').pop();
-//     if(this.isInArray(allowedExtensions, fileExtension)) {
-//       return true;
-//   } else {
-//       return false;
-//   }
-
-//   }
-
-//   /*- checks if word exists in array -*/
-//  isInArray(array, word) {
-//   return array.indexOf(word.toLowerCase()) > -1;
-// }
 
   async makeImageByteArray(imageInput: any, id: number) {
     for (var i = 0; i < imageInput.files.length; i++) {
@@ -618,38 +769,31 @@ export class ReportGameComponent {
     //console.log(this.ScoreSheetImages);
     console.log(this.tempIndex);
     this.ScoreSheetImages2[this.tempIndex] = await new ScoreSheetImages2();
-    this.ScoreSheetImages2[this.tempIndex].ImageURL = await "";
-    this.ScoreSheetImages2[this.tempIndex].NewImageByteCode = await btoa(
-      binaryString
-    );
+    this.ScoreSheetImages2[this.tempIndex].ImageURL = await '';
+    this.ScoreSheetImages2[this.tempIndex].NewImageByteCode = await btoa(binaryString);
     this.ScoreSheetImages2[this.tempIndex].GameIndex = this.panelId.toString();
 
     var source_code =
-      "data:image/jpeg;base64," +
-      this.ScoreSheetImages2[this.tempIndex].NewImageByteCode;
+      'data:image/jpeg;base64,' + this.ScoreSheetImages2[this.tempIndex].NewImageByteCode;
 
-    var el = this.elRef.nativeElement.querySelector(
-      "#IncidentListClass_" + this.panelId
-    );
-    var refchild = this.elRef.nativeElement.querySelector(
-      "#Incidentclass_" + this.panelId
-    );
+    var el = this.elRef.nativeElement.querySelector('#IncidentListClass_' + this.panelId);
+    var refchild = this.elRef.nativeElement.querySelector('#Incidentclass_' + this.panelId);
 
-    let li = this.renderer.createElement("li");
-    this.renderer.setProperty(li, "id", "incident_li_" + this.tempIndex);
+    let li = this.renderer.createElement('li');
+    this.renderer.setProperty(li, 'id', 'incident_li_' + this.tempIndex);
 
-    let img = this.renderer.createElement("img");
-    this.renderer.setProperty(img, "id", "incident_img_" + this.tempIndex);
+    let img = this.renderer.createElement('img');
+    this.renderer.setProperty(img, 'id', 'incident_img_' + this.tempIndex);
     //this.renderer.setStyle(img, "width", "100px");
     //this.renderer.setStyle(img, "height", "100px");
-    this.renderer.setAttribute(img, "src", source_code);
+    this.renderer.setAttribute(img, 'src', source_code);
     this.renderer.appendChild(li, img);
 
-    let span = this.renderer.createElement("span");
-    this.renderer.setProperty(span, "id", this.tempIndex);
-    this.renderer.addClass(span, "glyphicon");
-    this.renderer.addClass(span, "glyphicon-remove-circle");
-    this.renderer.listen(span, "click", this.DeleteTempImage.bind(span));
+    let span = this.renderer.createElement('span');
+    this.renderer.setProperty(span, 'id', this.tempIndex);
+    this.renderer.addClass(span, 'glyphicon');
+    this.renderer.addClass(span, 'glyphicon-remove-circle');
+    this.renderer.listen(span, 'click', this.DeleteTempImage.bind(span));
     this.renderer.appendChild(li, span);
     this.renderer.insertBefore(el, li, refchild);
     await this.tempIndex++;
@@ -686,18 +830,16 @@ export class ReportGameComponent {
   /* - Code to Delete Image - */
   deletedIndex = 0;
   deleteImage(e: any, url: string, ssIndex: string) {
-    console.log("delete server image");
-    var tempId = this.elRef.nativeElement.querySelector("#" + ssIndex);
-    this.renderer.setProperty(tempId, "style", "display:none");
+    console.log('delete server image');
+    var tempId = this.elRef.nativeElement.querySelector('#' + ssIndex);
+    this.renderer.setProperty(tempId, 'style', 'display:none');
 
     console.log(url);
     console.log(ssIndex);
     //this.DeletedScoreSheetImages
-    this.DeletedScoreSheetImages[
-      this.deletedIndex
-    ] = new DeletedScoreSheetImages();
+    this.DeletedScoreSheetImages[this.deletedIndex] = new DeletedScoreSheetImages();
     this.DeletedScoreSheetImages[this.deletedIndex].ImageURL = url;
-    this.DeletedScoreSheetImages[this.deletedIndex].NewImageByteCode = "";
+    this.DeletedScoreSheetImages[this.deletedIndex].NewImageByteCode = '';
     console.log(this.DeletedScoreSheetImages);
     this.deletedIndex++;
   }
@@ -709,14 +851,12 @@ export class ReportGameComponent {
   /* - Code to check if Player no Not Present. If the user says the Player is not present, then
   his score will be changed to zero.*/
   checkNP(teamType: string, playerofNote: string, id: string) {
-    var tempId = this.elRef.nativeElement.querySelector("#" + teamType + id);
-    this.renderer.setProperty(tempId, "value", 0);
+    var tempId = this.elRef.nativeElement.querySelector('#' + teamType + id);
+    this.renderer.setProperty(tempId, 'value', 0);
 
-    var tempId2 = this.elRef.nativeElement.querySelector(
-      "#" + playerofNote + id
-    );
-    this.renderer.setProperty(tempId2, "value", false);
-    this.renderer.setProperty(tempId2, "checked", false);
+    var tempId2 = this.elRef.nativeElement.querySelector('#' + playerofNote + id);
+    this.renderer.setProperty(tempId2, 'value', false);
+    this.renderer.setProperty(tempId2, 'checked', false);
   }
   async openTempImageModal(Imagesrc: string) {
     //this.imgsrc=null;
@@ -724,23 +864,97 @@ export class ReportGameComponent {
     if (this.imgsrc != null) {
       console.log(this.imgsrc);
       this.modalRef = this.modalService.show(this.imgTemplate, {
-        class: "modal-sm"
+        class: 'modal-sm'
       });
     }
   }
 
+  bsModalRef: BsModalRef;
+  addIncident(gameIndex) {
+    //const config: ModalOptions = { class: 'modal-sm' };
+    //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
 
-  addIncident(){
-    this.router.navigate(["newIncident"]);
+    const initialState = {
+      name:this.officialService.reportGameJson['Value'].GameList[gameIndex].UserName,
+      gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
+      incidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
+      incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+    };
+    //this.router.navigate(["newIncident"]);
+    this.bsModalRef = this.modalService.show(NewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+    //this.modalRef.content.closeBtnName = "Close";
+  }
+
+  showIncident(incidentIndex,gameIndex) {    
+    console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex]);
+    
+    const initialState = {
+      gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
+      incident: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex],
+      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
+      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+    };
+
+    this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
+  }
+
+
+  deletedIncident: DeleteIncidentReport = {
+    GameId: null,
+    IncidentId: null,
+    IncidentType: null,
+    IncidentValue: null,
+    Notes: null
+  };
+  DeletedIncidentReports : DeleteIncidentReport[] = [];
+  //toggleDeleteClass:boolean;
+  deleteIncident(incidentIndex,gameIndex){
+    //this.toggleDeleteClass=true;
+    //console.log(this.toggleDeleteClass);
+    let reportGameJson = this.officialService.reportGameJson['Value'];
+    console.log(reportGameJson.GameList[gameIndex].GameId);
+    this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
+    this.deletedIncident.IncidentId = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
+    this.deletedIncident.IncidentType = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
+    this.deletedIncident.IncidentValue = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
+    this.deletedIncident.Notes = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
+
+
+    console.log(this.deletedIncident);
+    //this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
+    this.DeletedIncidentReports.push(this.deletedIncident);
+    console.log(this.DeletedIncidentReports);
+
+  }
+
+ 
+
+ 
+  showTempIncident(newIncidentIndex,gameIndex){
+    console.log(this.officialService.IncidentReports[newIncidentIndex]);
+    console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes);
+    const initialState = {
+      index: newIncidentIndex,
+      gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
+      incident: this.officialService.IncidentReports[newIncidentIndex],
+      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
+      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+    };
+
+    this.bsModalRef = this.modalService.show(ShowNewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+
+  }
+
+  deleteTempIncident(newIncidentIndex,gameIndex){
+    this.officialService.IncidentReports.splice(newIncidentIndex, 1); 
   }
 
   public _album: Array<any> = [
     {
-      src:
-        "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-      caption: "github",
-      thumb:
-        "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678110-sign-info-128.png"
+      src: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
+      caption: 'github',
+      thumb: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678110-sign-info-128.png'
     }
   ];
 }
