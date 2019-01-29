@@ -1,0 +1,19 @@
+<div class="modal-header modalPadding" style="background-color:red">
+  <h4 style="color:white" class="modal-title pull-left">{{popupTitle}}</h4>
+     <button type="button" class="close pull-right customClose" 
+  aria-label="Close" (click)="modalRef.hide()">
+
+    <span aria-hidden="true">&times;</span>
+
+  </button>
+</div>
+<div class="modal-body modal-body-bold">{{popupMsg}}</div>
+<div style="text-align:center" class="modal-footer">
+
+  <button type="button" class="btn btn-default" (click)="save()">
+      OK
+  </button>
+  <button type="button" class="btn btn-danger" (click)="cancel()">
+    CANCEL
+  </button>
+</div>

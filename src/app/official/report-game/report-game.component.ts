@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
-import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionConfig, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { OfficialService } from '../official.service';
 import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
 import { APIGamePost } from '../classes/reportgame/APIGamePost.model';
@@ -32,6 +32,7 @@ import { ShowIncidentComponent } from './show-incident/show-incident.component';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
+import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
 //import {Message} from 'primeng/api';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -55,7 +56,6 @@ export class ReportGameComponent {
   uploadTemplate: TemplateRef<any>;
   imgsrc: any;
   //msgs: Message[] = [];
-
 
   APIGamePost: APIGamePost = {
     Roleid: '',
@@ -152,31 +152,31 @@ export class ReportGameComponent {
     public loginService: LoginService,
     public elRef: ElementRef,
     public http: Http,
-    config: NgbAccordionConfig,
+    public config: NgbAccordionConfig,
     private modalService: BsModalService,
     public dss: DataSharingService,
     public notifierService: NotifierService
   ) {
     this.notifier = notifierService;
     config.type = 'info';
+    config.closeOthers= true;
   }
 
   newRequest: boolean = null;
   ngOnInit() {
-   
     //this.officialService.requestSuccess = false;
     //this.officialService.requestFailure = false;
 
     this.asyncReport();
   }
 
+
   ngAfterViewInit() {
-    
     $(document).on('click', '.glyphicon', (e) => {
       var targetid = e.target.id;
       e.target.parentNode.remove();
       this.ScoreSheetImages.splice(targetid, 1);
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
@@ -207,18 +207,17 @@ export class ReportGameComponent {
   /* - When Edited Data is sent by ScoreKeeper this function is called - */
   async onSubmit(
     form: NgForm,
-    gameListIndex: number,
+    gameListIndex: number
     // invalidScoreTemplate: TemplateRef<any>,
     // unEqualHomeScoreTemplate: TemplateRef<any>,
     // unEqualVisitingScoreTemplate: TemplateRef<any>,
     // uploadTemplate: TemplateRef<any>
   ) {
-    
     console.log(form.value);
-    
+
     //this.uploadTemplate = uploadTemplate;
     await this.makeScoreSheetArray().then((res) => {
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
@@ -231,19 +230,22 @@ export class ReportGameComponent {
       // console.log('Invalid');
       const initialState = {
         popupTitle: 'Invalid Final Scores',
-        popupMsg: 'Final Score can not be zero.',
+        popupMsg: 'Final Score can not be zero.'
       };
 
-      this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
-      
+      this.bsModalRef = this.modalService.show(
+        ValidationModalComponent,
+        Object.assign({}, { class: 'customModalWidth75', initialState })
+      );
     } else if (
       this.checkFinalScore(
         form,
         gameListIndex
         // unEqualHomeScoreTemplate,
         // unEqualVisitingScoreTemplate
-      ) == true
-    && this.checkMinPON(gameListIndex)) {
+      ) == true &&
+      this.checkMinPON(gameListIndex)
+    ) {
       this.prepareDatatoUpdate(form, gameListIndex);
     }
   }
@@ -254,19 +256,18 @@ export class ReportGameComponent {
   tempVisitingTeamName: string;
   checkFinalScore(
     form: NgForm,
-    gameListIndex: number,
+    gameListIndex: number
     // unEqualHomeScoreTemplate: TemplateRef<any>,
     // unEqualVisitingScoreTemplate: TemplateRef<any>
   ) {
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
 
-    let homeTeamName = this.officialService.reportGameJson['Value'].GameList[
-      gameListIndex
-    ].HomeTeam;
+    let homeTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
+      .HomeTeam;
 
-    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[
-      gameListIndex].VisitingTeam;
+    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
+      .VisitingTeam;
     if (
       this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores !=
       null
@@ -319,14 +320,19 @@ export class ReportGameComponent {
       // });
       const initialState = {
         popupTitle: 'Error',
-        popupMsg: ' The sum of the scores of the players in Team '+ visitingTeamName + ' must be equal to the final score.',
+        popupMsg:
+          ' The sum of the scores of the players in Team ' +
+          visitingTeamName +
+          ' must be equal to the final score.'
       };
 
-      this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      this.modalRef = this.modalService.show(
+        ValidationModalComponent,
+        Object.assign({}, { class: 'customModalWidth75', initialState })
+      );
 
       return false;
-    } 
-    else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
+    } else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
       // this.modalRef = null;
       // console.log(this.tempSumHomePoint, form.value.HTeamScore);
       // this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {
@@ -334,19 +340,23 @@ export class ReportGameComponent {
       // });
       const initialState = {
         popupTitle: 'Error',
-        popupMsg: ' The sum of the scores of the players in Team '+ homeTeamName + ' must be equal to the final score.',
+        popupMsg:
+          ' The sum of the scores of the players in Team ' +
+          homeTeamName +
+          ' must be equal to the final score.'
       };
-      console.log("319");
-      this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      //console.log('319');
+      this.modalRef = this.modalService.show(
+        ValidationModalComponent,
+        Object.assign({}, { class: 'customModalWidth75', initialState })
+      );
       return false;
     }
     //change to true
     return true;
   }
 
-  
   prepareDatatoUpdate(form: NgForm, gameListIndex: number) {
-
     for (
       let i = 0;
       i <
@@ -478,10 +488,16 @@ export class ReportGameComponent {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
       }
+      this.formChange=false;
       this.tempIndex = 0;
+      this.checkBtnClick=0;
       this.ScoreSheetImages = [];
       this.ScoreSheetImages2 = [];
       this.officialService.IncidentReports = [];
+      this.DeletedIncidentReports = [];
+      this.homePON = 0;
+      this.visitingPON = 0;
+      this.maxPON = 0;
       //this.ScoreSheetImages
     });
   }
@@ -489,51 +505,93 @@ export class ReportGameComponent {
   /* - On clicking save button, a message is shown to the user. 
   We hide the message if the user clicks on a new panel - */
   panelChange($event: NgbPanelChangeEvent) {
-    //console.log($event);
+    //this.config.closeOthers=false;
+   
+    console.log($event);
     // this.officialService.requestFailure = false;
     // this.officialService.requestSuccess = false;
-    this.tempIndex = 0;
-    this.ScoreSheetImages = [];
-    this.ScoreSheetImages2 = [];
-    this.officialService.IncidentReports = [];
-    this.DeletedIncidentReports = [];
+
+    if (this.checkBtnClick > 0 || this.formChange) {
+      $event.preventDefault();
+      const initialState = {
+        popupTitle: 'Save Game Data',
+        popupMsg: 'Please save your previous game data else it will not be saved.'
+      };
+      
+      const newPanelModal = this.modalService.show(
+        SavedataPopupComponent,
+        Object.assign({}, { class: 'customModalWidth75', initialState })
+      );
+
+      newPanelModal.content.saveStatus.subscribe(($e) => {
+        
+        console.log($e);
+        if(!$e){          
+          this.formChange=false;
+          this.tempIndex = 0;
+          this.checkBtnClick=0;
+          this.ScoreSheetImages = [];
+          this.ScoreSheetImages2 = [];
+          this.officialService.IncidentReports = [];
+          this.DeletedIncidentReports = [];
+          this.homePON = 0;
+          this.visitingPON = 0;
+          this.maxPON = 0;
+          this.config.closeOthers=true;                       
+        }
+ 
+      })
+      
+    }
+    
+  
+
+  
+
+    //   this.bsModalRef = this.modalService.show(
+    //     SavedataPopupComponent,
+    //     Object.assign({}, { class: 'customModalWidth75', initialState })
+    //   );
+    // }
+  
+
+
   }
 
   checkMinPON(gameListIndex: number) {
-    
-   let homeTeamName = this.officialService.reportGameJson['Value'].GameList[
-      gameListIndex
-    ].HomeTeam;
+    let homeTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
+      .HomeTeam;
 
-    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[
-      gameListIndex
-    ].VisitingTeam;
+    let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
+      .VisitingTeam;
 
     if (this.checkBtnClick > 0) {
-      if (this.homePON <= 0)
-      {
+      if (this.homePON <= 0) {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team '+ homeTeamName +' can not be zero.',
+          popupMsg: 'Players of Note in Team ' + homeTeamName + ' can not be zero.'
         };
 
-        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        this.bsModalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
 
-        return false;
-        }
-      if (this.visitingPON <= 0)
-      {
-        const initialState = {
-          popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team '+ visitingTeamName + ' can not be zero.',
-        };
-
-        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
         return false;
       }
-        
-    }
-    else {
+      if (this.visitingPON <= 0) {
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg: 'Players of Note in Team ' + visitingTeamName + ' can not be zero.'
+        };
+
+        this.bsModalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
+        return false;
+      }
+    } else {
       for (
         let i = 0;
         i <
@@ -542,42 +600,47 @@ export class ReportGameComponent {
         ++i
       ) {
         if (
-          this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores[i]
-            .PlayerNote == true) {
+          this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores[
+            i
+          ].PlayerNote == true
+        ) {
           this.homePON++;
         }
 
         if (
-          this.officialService.reportGameJson['Value'].GameList[gameListIndex].VisitingTeamPlayerScores[i]
-            .PlayerNote == true) {
+          this.officialService.reportGameJson['Value'].GameList[gameListIndex]
+            .VisitingTeamPlayerScores[i].PlayerNote == true
+        ) {
           this.visitingPON++;
         }
       }
 
-      if (this.homePON <= 0)
-      {
+      if (this.homePON <= 0) {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team '+ homeTeamName +' can not be zero.',
+          popupMsg: 'Players of Note in Team ' + homeTeamName + ' can not be zero.'
         };
 
-        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        this.bsModalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
         return false;
       }
-      if (this.visitingPON <= 0)
-      {
+      if (this.visitingPON <= 0) {
         const initialState = {
           popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team '+ visitingTeamName + ' can not be zero.',
+          popupMsg: 'Players of Note in Team ' + visitingTeamName + ' can not be zero.'
         };
 
-        this.bsModalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+        this.bsModalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
         return false;
       }
-        
     }
     return true;
-
   }
 
   /* - Function to check the number of 'Player of Note' in a particular game.
@@ -589,7 +652,7 @@ export class ReportGameComponent {
   modalRef: BsModalRef;
   tempGameIndex: number;
   checkMaxPON(e, gameIndex, teamType: string, template: TemplateRef<any>) {
-    console.log(e);
+    //console.log(e);
     if (this.tempGameIndex != gameIndex) {
       this.maxPON = 0;
       this.homePON = 0;
@@ -660,9 +723,7 @@ export class ReportGameComponent {
         this.maxPON--;
         if (teamType == 'home') {
           this.homePON--;
-
-        }
-        else if (teamType == 'visiting') this.visitingPON--;
+        } else if (teamType == 'visiting') this.visitingPON--;
       }
     }
 
@@ -682,26 +743,29 @@ export class ReportGameComponent {
     console.log(this.maxPON, this.homePON, this.visitingPON);
   }
 
-  confirm(): void {
-    this.modalRef.hide();
-  }
+  // confirm(): void {
+  //   this.modalRef.hide();
+  // }
 
-  closeInvalidScoreModal(): void {
-    this.modalRef.hide();
-    this.modalRef = null;
-  }
+  // closeInvalidScoreModal(): void {
+  //   this.modalRef.hide();
+  //   this.modalRef = null;
+  // }
 
-  closeUnEqualHomeScoreModal(): void {
-    this.modalRef.hide();
-    this.modalRef = null;
-  }
+  // closeUnEqualHomeScoreModal(): void {
+  //   this.modalRef.hide();
+  //   this.modalRef = null;
+  // }
 
-  closeUnEqualVisitingScoreModal(): void {
-    this.modalRef.hide();
-    this.modalRef = null;
-  }
+  // closeUnEqualVisitingScoreModal(): void {
+  //   this.modalRef.hide();
+  //   this.modalRef = null;
+  // }
+
+  formChange:boolean;
 
   public inputValidator(event: any) {
+    this.dataChanged();
     const pattern = /^([0-9][0-9]{0,2}|1000)$/;
     if (!pattern.test(event.target.value)) {
       console.log(event.target.value);
@@ -719,27 +783,28 @@ export class ReportGameComponent {
 
       const initialState = {
         popupTitle: this.officialService.postReportTitle,
-        popupMsg: this.officialService.postReportMsg,
+        popupMsg: this.officialService.postReportMsg
       };
 
       console.log(this.officialService.postReportStatus);
-      if(!this.officialService.postReportStatus){       
-        this.modalRef = this.modalService.show(ValidationModalComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+      if (!this.officialService.postReportStatus) {
+        this.modalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
+      } else {
+        this.modalRef = this.modalService.show(
+          SuccessPopupComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
       }
-      else{
-        this.modalRef = this.modalService.show(SuccessPopupComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
-      }
-
-
-      
-
     }
   }
 
-  hideModal() {
-    this.modalRef.hide();
-    this.officialService.getReportData();
-  }
+  // hideModal() {
+  //   this.modalRef.hide();
+  //   this.officialService.getReportData();
+  // }
 
   public panelId: number;
   //uploadRequest:boolean;
@@ -851,6 +916,7 @@ export class ReportGameComponent {
   /* - Code to check if Player no Not Present. If the user says the Player is not present, then
   his score will be changed to zero.*/
   checkNP(teamType: string, playerofNote: string, id: string) {
+    this.dataChanged();
     var tempId = this.elRef.nativeElement.querySelector('#' + teamType + id);
     this.renderer.setProperty(tempId, 'value', 0);
 
@@ -875,30 +941,43 @@ export class ReportGameComponent {
     //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
 
     const initialState = {
-      name:this.officialService.reportGameJson['Value'].GameList[gameIndex].UserName,
+      name: this.officialService.reportGameJson['Value'].GameList[gameIndex].UserName,
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
       incidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
-      incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+      incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[gameIndex]
+        .IncidentSubDropDown
     };
     //this.router.navigate(["newIncident"]);
-    this.bsModalRef = this.modalService.show(NewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
+    this.bsModalRef = this.modalService.show(
+      NewIncidentComponent,
+      Object.assign({}, { class: 'customModalWidth75', initialState })
+    );
     //this.modalRef.content.closeBtnName = "Close";
   }
 
-  showIncident(incidentIndex,gameIndex) {    
-    console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex]);
-    
+  showIncident(incidentIndex, gameIndex) {
+    console.log(
+      this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+        incidentIndex
+      ]
+    );
+
     const initialState = {
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
-      incident: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex],
-      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
-      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+      incident: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+        incidentIndex
+      ],
+      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex]
+        .IncidentTypes,
+      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex]
+        .IncidentSubDropDown
     };
 
-    this.bsModalRef = this.modalService.show(ShowIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
-
+    this.bsModalRef = this.modalService.show(
+      ShowIncidentComponent,
+      Object.assign({}, { class: 'customModalWidth75', initialState })
+    );
   }
-
 
   deletedIncident: DeleteIncidentReport = {
     GameId: null,
@@ -907,48 +986,57 @@ export class ReportGameComponent {
     IncidentValue: null,
     Notes: null
   };
-  DeletedIncidentReports : DeleteIncidentReport[] = [];
+
+  DeletedIncidentReports: DeleteIncidentReport[] = [];
   //toggleDeleteClass:boolean;
-  deleteIncident(incidentIndex,gameIndex){
+  deleteIncident(incidentIndex, gameIndex) {
     //this.toggleDeleteClass=true;
     //console.log(this.toggleDeleteClass);
     let reportGameJson = this.officialService.reportGameJson['Value'];
     console.log(reportGameJson.GameList[gameIndex].GameId);
     this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
-    this.deletedIncident.IncidentId = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
-    this.deletedIncident.IncidentType = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
-    this.deletedIncident.IncidentValue = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
-    this.deletedIncident.Notes = reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
-
+    this.deletedIncident.IncidentId =
+      reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
+    this.deletedIncident.IncidentType =
+      reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
+    this.deletedIncident.IncidentValue =
+      reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
+    this.deletedIncident.Notes =
+      reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
 
     console.log(this.deletedIncident);
     //this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
     this.DeletedIncidentReports.push(this.deletedIncident);
     console.log(this.DeletedIncidentReports);
-
   }
 
- 
-
- 
-  showTempIncident(newIncidentIndex,gameIndex){
+  showTempIncident(newIncidentIndex, gameIndex) {
     console.log(this.officialService.IncidentReports[newIncidentIndex]);
     console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes);
     const initialState = {
       index: newIncidentIndex,
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
       incident: this.officialService.IncidentReports[newIncidentIndex],
-      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
-      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentSubDropDown
+      allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex]
+        .IncidentTypes,
+      allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex]
+        .IncidentSubDropDown
     };
 
-    this.bsModalRef = this.modalService.show(ShowNewIncidentComponent, Object.assign({}, { class: 'customModalWidth75', initialState }));
-
+    this.bsModalRef = this.modalService.show(
+      ShowNewIncidentComponent,
+      Object.assign({}, { class: 'customModalWidth75', initialState })
+    );
   }
 
-  deleteTempIncident(newIncidentIndex,gameIndex){
-    this.officialService.IncidentReports.splice(newIncidentIndex, 1); 
+  deleteTempIncident(newIncidentIndex, gameIndex) {
+    this.officialService.IncidentReports.splice(newIncidentIndex, 1);
   }
+
+  dataChanged(){
+    this.formChange=true;
+  }
+
 
   public _album: Array<any> = [
     {

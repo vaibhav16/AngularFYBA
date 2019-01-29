@@ -10,3 +10,5 @@ h1, a { margin-top: 1em; font-family: "Open Sans Light", "Open Sans", "Segoe UI"
 .info br + a {text-decoration:none}
 .asScorekeeper{font-weight:normal; color:#5B9BD5; font-style: italic; font-size:16px;}
 .staticStrip{padding: 0px;border: 1px solid #bbc9da;margin-top: 6px;background: #ededed; padding:10px; font-weight:bold;color: #000; font-size:18px;}
+.customSpan span{display:block; font-weight:normal;}
+.customSpan{line-height:20px;}

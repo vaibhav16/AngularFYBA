@@ -49,6 +49,7 @@ import { ValidationModalComponent } from './official/report-game/validation-moda
 import { SuccessPopupComponent } from './official/report-game/success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './official/report-game/show-new-incident/show-new-incident.component';
 import { NotifierModule } from 'angular-notifier';
+import { SavedataPopupComponent } from './official/report-game/savedata-popup/savedata-popup.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { NotifierModule } from 'angular-notifier';
     ShowIncidentComponent,
     ValidationModalComponent,
     SuccessPopupComponent,
-    ShowNewIncidentComponent
+    ShowNewIncidentComponent,
+    SavedataPopupComponent
   ],
   imports: [
     HttpModule,
@@ -104,7 +106,8 @@ import { NotifierModule } from 'angular-notifier';
     ShowIncidentComponent,
     ValidationModalComponent,
     SuccessPopupComponent,
-    ShowNewIncidentComponent
+    ShowNewIncidentComponent,
+    SavedataPopupComponent
   ],
   providers: [
     //MessageService,
