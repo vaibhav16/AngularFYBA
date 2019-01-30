@@ -302,30 +302,37 @@
                               <div class="row">
                                  <div class="col-md-12">
                                     <input style="display: none" type="file" />
-                                    <ul *ngIf="item.ScoreSheetImages.length > 0" class="addList" #Incidentlist>
-                                          <!-- <li class="uploadDiv customLI"><span class="addHeading">Lorem<br /> Ipsum</span></li> -->
-                                       <li *ngFor="
-                                       let child of item.ScoreSheetImages;
-                                       let ssIndex = index
-                                       "
-                                          id="scoresheet{{ ssIndex }}">
-                                          <img src="{{ child.ImageThumbnail }}" />
-                                          <span url="child.ImageURL" (click)="
-                                          deleteImage(
-                                          $event,
-                                          child.ImageURL,
-                                          'scoresheet' + ssIndex
-                                          )
-                                          "
-                                             class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                                    <ul class="addList" #Incidentlist>
+                                       <li *ngIf="item.PrePrintedScoresheetPdf" 
+                                       (click)="downloadScoresheet(item.PrePrintedScoresheetPdf)" 
+                                       class="preFilledDiv customLI">
+                                       <span class="preFilledSS">
+                                             Pre-filled<br />
+                                             Score<br class="breakAll" />Sheet
+                                          </span>
                                        </li>
 
+                                       <ng-container *ngIf="item.ScoreSheetImages.length > 0">
+                                          <li *ngFor="let child of item.ScoreSheetImages;let ssIndex = index"
+                                          id="scoresheet{{ ssIndex }}">
+                                          <img src="{{ child.ImageThumbnail }}" />
+
+                                          <span url="child.ImageURL" 
+
+                                          (click)="deleteImage($event,child.ImageURL,
+                                          'scoresheet' + ssIndex)
+                                                                     "
+                                          class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                                       </li>
+                                       </ng-container>
+                        
+                           
                                     </ul>
                                     <ul class="addList IncidentListClass" *ngIf="item.OfficiatingPositionId == 3" id="IncidentListClass_{{ gameListIndex }}">
-                                       
+                           
                                        <li class="Incidentclass uploadDiv" id="Incidentclass_{{ gameListIndex }}">
-                                          <input [disabled]="!(item.OfficiatingPositionId == 3)" #imageInput type="file"
-                                             multiple accept="image/*" (change)="processFile(imageInput, gameListIndex)" />
+                                          <input [disabled]="!(item.OfficiatingPositionId == 3)" #imageInput type="file" multiple accept="image/*"
+                                             (change)="processFile(imageInput, gameListIndex)" />
                                           <span class="addHeading">Add<br />
                                              Score<br class="breakAll" />Sheet</span>
                                        </li>
@@ -333,7 +340,7 @@
                                  </div>
                               </div>
                            </div>
-                        </div>
+                           </div>
                         <div class="marginTop10">
                            <ul class="reportlist">
                               <li>Incident</li>
@@ -386,11 +393,7 @@
                               type="submit" (click)="
                      onSubmit(
                      reportForm,
-                     gameListIndex,
-                     invalidScoreTemplate,
-                     unEqualHomeScoreTemplate,
-                     unEqualVisitingScoreTemplate,
-                     uploadTemplate
+                     gameListIndex
                      )
                      ">
                               SAVE REPORT
@@ -409,73 +412,10 @@
    </ng-template>
 
 </div>
-<!-- <ng-template #noScoreSheet>
-   <div class="noRecordsProfile">No ScoreSheet uploaded</div>
-</ng-template> -->
 
-<!-- <ng-template #template>
-   <div class="modal-body text-center">
-      <p class="heading-signUp">Max Limit Reached</p>
-      <p>{{ modalMsg }}</p>
-      <button type="button" class="btn btn-danger" (click)="confirm()">OK</button>
-   </div>
-</ng-template> -->
-
-<!-- <ng-template #unEqualHomeScoreTemplate>
-   <div class="modal-body text-center">
-      <p class="heading-signUp">Invalid Final Score</p>
-      <p>
-         The sum of the scores of the players in <b>{{ tempHomeTeamName }}</b> must
-         be equal to the final score.
-      </p>
-      <button type="button" class="btn btn-danger" (click)="closeUnEqualHomeScoreModal()">
-         OK
-      </button>
-   </div>
-</ng-template>
-
-<ng-template #invalidScoreTemplate>
-   <div class="modal-body text-center">
-      <p class="heading-signUp">Invalid Final Scores</p>
-      <p>
-         Final Scores can not be Zero.
-      </p>
-      <button type="button" class="btn btn-danger" (click)="closeInvalidScoreModal()">
-         OK
-      </button>
-   </div>
-</ng-template>
-
-<ng-template #unEqualVisitingScoreTemplate>
-   <div class="modal-body text-center">
-      <p class="heading-signUp">Invalid Final Score</p>
-      <p>
-         The sum of the scores of the players in
-         <b>{{ tempVisitingTeamName }}</b> must be equal to the final score.
-      </p>
-      <button type="button" class="btn btn-danger" (click)="closeUnEqualVisitingScoreModal()">
-         OK
-      </button>
-   </div>
-</ng-template> -->
-<!-- 
-<ng-template #uploadTemplate>
-   <div class="modal-body text-center">
-      <p *ngIf="officialService.postReportError" class="heading-fail">
-         Action Unsuccessful
-      </p>
-      <p *ngIf="!officialService.postReportError || officialService.postReportError==null" class="heading-success">
-         Action Successful
-      </p>
-      <p>{{ officialService.reportErrorMsg }}</p>
-      <button type="button" class="btn btn-danger" (click)="closeUnEqualVisitingScoreModal()">
-         OK
-      </button>
-   </div>
-</ng-template> -->
 
 <!--Loader-->
-<app-fybaloader *ngIf="officialService.reportRequest"></app-fybaloader>
+<app-fybaloader *ngIf="officialService.reportRequest||downloadRequest"></app-fybaloader>
 <!--Loader-->
 
 <div *ngIf="dss.initialFetchError" #serverError>

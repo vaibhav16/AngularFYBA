@@ -13,7 +13,11 @@
 
     <!--Signed Up but not approved-->
 
-    <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong></h3>
+    <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong>
+      <strong style="float:right">
+          (${{
+          paidSection.Value.SignedupTotalAmount
+          }})</strong></h3>
     <!-- <div *ngIf="paidSection.Value.PaymentNotApproved.length > 0;
         else noGamesDiv">
       <div *ngFor="let item of paidSection.Value.PaymentNotApproved"
@@ -48,7 +52,7 @@
 
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="matchInfo matchInfo2">
+          <!-- <div class="matchInfo matchInfo2">
             {{ item.OfficiatingPositionText }}
             <ul>
               <li>- Base Pay: ${{ item.BaseAmount }}</li>
@@ -56,7 +60,7 @@
                 - Scoresheet Report: ${{ item.IncentiveAmount }}
               </li>
             </ul>
-          </div>
+          </div> -->
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
@@ -65,7 +69,7 @@
       <strong style="float:right">
         (${{
         paidSection.Value.PaymentNotPaidTotalAmount
-        }})</strong>
+        }}.00)</strong>
     </h3>
     <ngb-accordion *ngIf="
         paidSection.Value.PaymentNotPaid.length > 0;

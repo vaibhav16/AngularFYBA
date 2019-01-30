@@ -7,6 +7,8 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { saveAs } from "file-saver";
+import { map, switchMap, tap, mergeMap, catchError } from "rxjs/operators";
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
 import { NgbAccordionConfig, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +35,7 @@ import { ValidationModalComponent } from './validation-modal/validation-modal.co
 import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
+import { file } from '@rxweb/reactive-form-validators';
 //import {Message} from 'primeng/api';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -159,7 +162,7 @@ export class ReportGameComponent {
   ) {
     this.notifier = notifierService;
     config.type = 'info';
-    config.closeOthers= true;
+    config.closeOthers = true;
   }
 
   newRequest: boolean = null;
@@ -176,7 +179,7 @@ export class ReportGameComponent {
       var targetid = e.target.id;
       e.target.parentNode.remove();
       this.ScoreSheetImages.splice(targetid, 1);
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
@@ -208,26 +211,18 @@ export class ReportGameComponent {
   async onSubmit(
     form: NgForm,
     gameListIndex: number
-    // invalidScoreTemplate: TemplateRef<any>,
-    // unEqualHomeScoreTemplate: TemplateRef<any>,
-    // unEqualVisitingScoreTemplate: TemplateRef<any>,
-    // uploadTemplate: TemplateRef<any>
   ) {
     console.log(form.value);
 
     //this.uploadTemplate = uploadTemplate;
     await this.makeScoreSheetArray().then((res) => {
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function(el) {
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
       console.log(this.ScoreSheetImages);
     });
 
     if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
-      // this.modalRef = this.modalService.show(invalidScoreTemplate, {
-      //   class: 'modal-sm'
-      // });
-      // console.log('Invalid');
       const initialState = {
         popupTitle: 'Invalid Final Scores',
         popupMsg: 'Final Score can not be zero.'
@@ -257,8 +252,6 @@ export class ReportGameComponent {
   checkFinalScore(
     form: NgForm,
     gameListIndex: number
-    // unEqualHomeScoreTemplate: TemplateRef<any>,
-    // unEqualVisitingScoreTemplate: TemplateRef<any>
   ) {
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
@@ -313,11 +306,6 @@ export class ReportGameComponent {
     }
 
     if (this.tempSumVisitingPoint != parseInt(form.value.VTeamScore)) {
-      //this.modalRef = null;
-      // console.log(this.tempSumVisitingPoint, form.value.VTeamScore);
-      // this.modalRef = this.modalService.show(unEqualVisitingScoreTemplate, {
-      //   class: 'modal-sm'
-      // });
       const initialState = {
         popupTitle: 'Error',
         popupMsg:
@@ -333,11 +321,6 @@ export class ReportGameComponent {
 
       return false;
     } else if (this.tempSumHomePoint != parseInt(form.value.HTeamScore)) {
-      // this.modalRef = null;
-      // console.log(this.tempSumHomePoint, form.value.HTeamScore);
-      // this.modalRef = this.modalService.show(unEqualHomeScoreTemplate, {
-      //   class: 'modal-sm'
-      // });
       const initialState = {
         popupTitle: 'Error',
         popupMsg:
@@ -488,9 +471,9 @@ export class ReportGameComponent {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
       }
-      this.formChange=false;
+      this.formChange = false;
       this.tempIndex = 0;
-      this.checkBtnClick=0;
+      this.checkBtnClick = 0;
       this.ScoreSheetImages = [];
       this.ScoreSheetImages2 = [];
       this.officialService.IncidentReports = [];
@@ -505,31 +488,26 @@ export class ReportGameComponent {
   /* - On clicking save button, a message is shown to the user. 
   We hide the message if the user clicks on a new panel - */
   panelChange($event: NgbPanelChangeEvent) {
-    //this.config.closeOthers=false;
-   
     console.log($event);
-    // this.officialService.requestFailure = false;
-    // this.officialService.requestSuccess = false;
-
     if (this.checkBtnClick > 0 || this.formChange) {
       $event.preventDefault();
       const initialState = {
         popupTitle: 'Save Game Data',
         popupMsg: 'Please save your previous game data else it will not be saved.'
       };
-      
+
       const newPanelModal = this.modalService.show(
         SavedataPopupComponent,
         Object.assign({}, { class: 'customModalWidth75', initialState })
       );
 
       newPanelModal.content.saveStatus.subscribe(($e) => {
-        
+
         console.log($e);
-        if(!$e){          
-          this.formChange=false;
+        if (!$e) {
+          this.formChange = false;
           this.tempIndex = 0;
-          this.checkBtnClick=0;
+          this.checkBtnClick = 0;
           this.ScoreSheetImages = [];
           this.ScoreSheetImages2 = [];
           this.officialService.IncidentReports = [];
@@ -537,24 +515,12 @@ export class ReportGameComponent {
           this.homePON = 0;
           this.visitingPON = 0;
           this.maxPON = 0;
-          this.config.closeOthers=true;                       
+          this.config.closeOthers = true;
         }
- 
+
       })
-      
+
     }
-    
-  
-
-  
-
-    //   this.bsModalRef = this.modalService.show(
-    //     SavedataPopupComponent,
-    //     Object.assign({}, { class: 'customModalWidth75', initialState })
-    //   );
-    // }
-  
-
 
   }
 
@@ -743,26 +709,8 @@ export class ReportGameComponent {
     console.log(this.maxPON, this.homePON, this.visitingPON);
   }
 
-  // confirm(): void {
-  //   this.modalRef.hide();
-  // }
 
-  // closeInvalidScoreModal(): void {
-  //   this.modalRef.hide();
-  //   this.modalRef = null;
-  // }
-
-  // closeUnEqualHomeScoreModal(): void {
-  //   this.modalRef.hide();
-  //   this.modalRef = null;
-  // }
-
-  // closeUnEqualVisitingScoreModal(): void {
-  //   this.modalRef.hide();
-  //   this.modalRef = null;
-  // }
-
-  formChange:boolean;
+  formChange: boolean;
 
   public inputValidator(event: any) {
     this.dataChanged();
@@ -775,12 +723,6 @@ export class ReportGameComponent {
 
   showModal() {
     if (this.officialService.postReportMsg) {
-      //console.log(this.officialService.postReportMsg);
-      //console.log(this.modalRef);
-      // this.modalRef = this.modalService.show(this.uploadTemplate, {
-      //   class: 'modal-sm'
-      // });
-
       const initialState = {
         popupTitle: this.officialService.postReportTitle,
         popupMsg: this.officialService.postReportMsg
@@ -801,10 +743,6 @@ export class ReportGameComponent {
     }
   }
 
-  // hideModal() {
-  //   this.modalRef.hide();
-  //   this.officialService.getReportData();
-  // }
 
   public panelId: number;
   //uploadRequest:boolean;
@@ -864,32 +802,6 @@ export class ReportGameComponent {
     await this.tempIndex++;
   }
 
-  // async _handleReaderLoaded(readerEvt) {
-  //   var binaryString=null;
-  //   binaryString = await readerEvt.target.result;
-  //   this.ScoreSheetImages[this.tempIndex]= await new ScoreSheetImages();
-  //   this.ScoreSheetImages[this.tempIndex].ImageURL = await '';
-  //   this.ScoreSheetImages[this.tempIndex].NewImageByteCode = await btoa(binaryString);
-  //   var source_code='data:image/jpeg;base64,'+this.ScoreSheetImages[this.tempIndex].NewImageByteCode;
-  //   var el=this.elRef.nativeElement.querySelector('.IncidentListClass');
-  //   var refchild=this.elRef.nativeElement.querySelector('.Incidentclass');
-  //   let li= this.renderer.createElement('li');
-  //   this.renderer.setProperty(li, 'id','incident_li_'+this.tempIndex);
-  //   let img= this.renderer.createElement('img');
-  //   this.renderer.setProperty(img, 'id','incident_img_'+this.tempIndex);
-  //   this.renderer.setStyle(img, 'width','100px');
-  //   this.renderer.setStyle(img, 'height','100px');
-  //   this.renderer.setAttribute(img, 'src',source_code);
-  //   this.renderer.appendChild(li, img);
-  //   let span= this.renderer.createElement('span');
-  //   this.renderer.setProperty(span, 'id',this.tempIndex);
-  //   this.renderer.addClass(span,'glyphicon');
-  //   this.renderer.addClass(span,'glyphicon-remove-circle');
-  //   this.renderer.listen(span, 'click',this.DeleteTempImage.bind(span));
-  //   this.renderer.appendChild(li, span);
-  //   this.renderer.insertBefore(el, li,refchild);
-  //   await this.tempIndex++;
-  //  }
   /* - Image implementation ends - */
 
   /* - Code to Delete Image - */
@@ -899,9 +811,9 @@ export class ReportGameComponent {
     var tempId = this.elRef.nativeElement.querySelector('#' + ssIndex);
     this.renderer.setProperty(tempId, 'style', 'display:none');
 
-    console.log(url);
-    console.log(ssIndex);
-    //this.DeletedScoreSheetImages
+    //console.log(url);
+    //console.log(ssIndex);
+
     this.DeletedScoreSheetImages[this.deletedIndex] = new DeletedScoreSheetImages();
     this.DeletedScoreSheetImages[this.deletedIndex].ImageURL = url;
     this.DeletedScoreSheetImages[this.deletedIndex].NewImageByteCode = '';
@@ -924,16 +836,7 @@ export class ReportGameComponent {
     this.renderer.setProperty(tempId2, 'value', false);
     this.renderer.setProperty(tempId2, 'checked', false);
   }
-  // async openTempImageModal(Imagesrc: string) {
-  //   //this.imgsrc=null;
-  //   this.imgsrc = await Imagesrc;
-  //   if (this.imgsrc != null) {
-  //     console.log(this.imgsrc);
-  //     this.modalRef = this.modalService.show(this.imgTemplate, {
-  //       class: 'modal-sm'
-  //     });
-  //   }
-  // }
+
 
   bsModalRef: BsModalRef;
   addIncident(gameIndex) {
@@ -958,7 +861,7 @@ export class ReportGameComponent {
   showIncident(incidentIndex, gameIndex) {
     console.log(
       this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
-        incidentIndex
+      incidentIndex
       ]
     );
 
@@ -1033,8 +936,40 @@ export class ReportGameComponent {
     this.officialService.IncidentReports.splice(newIncidentIndex, 1);
   }
 
-  dataChanged(){
-    this.formChange=true;
+  dataChanged() {
+    this.formChange = true;
+  }
+
+  downloadRequest:boolean=false;
+  downloadScoresheet(url: string) {
+    console.log(url);
+    this.downloadRequest=true;
+    //window.location.href=url;
+
+    this.officialService.downloadPdfReportGames(url)
+      .subscribe((data) => {
+        console.log(data);
+        const contentDisposition = data.headers.get('content-disposition') || '';
+        const matches = /filename=([^;]+)/ig.exec(contentDisposition);
+        var fileName = ((matches[1] || 'untitled').trim()).replace('.pdf','');
+        //fileName.replace('.pdf','');
+        //const finalName = fileName.substring(fileName.indexOf('.pdf')+1)
+        console.log(fileName);
+        const blob = new Blob([data.blob()], { type: 'application/pdf' });
+        console.log(blob);
+        saveAs(blob, fileName);
+      },
+        (err) => {
+          this.downloadRequest=false;
+          console.log(err);
+          this.modalRef = this.modalService.show(ErrorModalComponent);
+          this.modalRef.content.closeBtnName = 'Close';
+        },
+        () => {
+           this.downloadRequest=false;
+          //console.log("done");
+        }
+      );
   }
 
 

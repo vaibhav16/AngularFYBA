@@ -783,4 +783,31 @@ export class OfficialService {
         })
       );
   }
+
+  pdfFileName: string;
+  public downloadPdfReportGames(url: string): any {
+    let newUrl = url;
+    console.log(newUrl);
+    const headers = new Headers({
+      'Content-Type': 'application/pdf',
+      
+    });
+
+    return this.http
+      .get(newUrl, {
+        headers: headers,
+        responseType: ResponseContentType.Blob
+      })
+      .pipe(
+        map((res) => {
+          console.log(res);
+          // const contentDisposition = res.headers.get('content-disposition') || '';
+          // const matches = /filename=([^;]+)/ig.exec(contentDisposition);
+          // const fileName = (matches[1] || 'untitled').trim();
+          // return new Blob([res.blob()], { type: 'application/pdf' });
+          return res;
+        })
+      );
+  }
+
 }

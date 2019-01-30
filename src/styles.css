@@ -30,7 +30,7 @@ body{
    }
 
    
-   .customLI{padding-top:10px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important;}
+   .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important;}
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
     .leftReportDate100{float:left; width:100%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
@@ -100,6 +100,12 @@ div {
     background: #fff;
     border-radius: 50%;
     font-size: 20px;
+   }
+
+   ul.addList li .preFilledSS{position: absolute;
+    font-size: 11px;
+    padding-top: 0% !important;
+    margin-top: 0% !important;
    }
 
    .Incidentclass input[type="file"]{font-size: 100px;
@@ -474,7 +480,18 @@ div {
     ul.addList.incidentLi li{
         background: #1e31ae;
     }
-       
+    
+    ul.addList li.preFilledDiv{float: left;
+        width: 100px;
+        /*margin-left: 20px;*/
+        margin-right:0px;           
+        text-align: center;color: #ffffff; 
+        position:relative;
+        /* border:3px solid black !important; */
+         line-height:auto;line-height: inherit;
+        padding-top: 25px;overflow:hidden;} 
+    
+
    ul.addList li.uploadDiv{float: left;
     width: 100px;
     /*margin-left: 20px;*/
@@ -675,6 +692,12 @@ div {
    line-height: 60px;
    font-size: 12px;}
    .addHeading{display:block; padding-top:2px;text-transform: uppercase;} 
+   .preFilledSS{display:block; 
+    padding-top:2px;
+    text-transform: uppercase;
+    font-size:11px;
+
+}
    .addIncident{top: 50%;position: absolute;left: 50%;transform: translateX(-50%) translateY(-50%);padding-top: 0;font-size: 11px;}
    
    ul.addList li:last-child{float:left; width:60px; margin-left:10px;height: 60px;font-size: 12px; padding-top:0px;}   
