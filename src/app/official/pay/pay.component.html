@@ -15,7 +15,7 @@
 
     <h3 class="mainDate"><strong>SIGNED UP BUT NOT APPROVED</strong>
       <strong style="float:right">
-          (${{
+          ({{
           paidSection.Value.SignedupTotalAmount
           }})</strong></h3>
     <!-- <div *ngIf="paidSection.Value.PaymentNotApproved.length > 0;
@@ -55,9 +55,9 @@
           <!-- <div class="matchInfo matchInfo2">
             {{ item.OfficiatingPositionText }}
             <ul>
-              <li>- Base Pay: ${{ item.BaseAmount }}</li>
+              <li>- Base Pay: {{ item.BaseAmount }}</li>
               <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
-                - Scoresheet Report: ${{ item.IncentiveAmount }}
+                - Scoresheet Report: {{ item.IncentiveAmount }}
               </li>
             </ul>
           </div> -->
@@ -67,9 +67,9 @@
     <h3 class="mainDate">
       <strong>APPROVED BUT NOT PAID</strong>
       <strong style="float:right">
-        (${{
+        ({{
         paidSection.Value.PaymentNotPaidTotalAmount
-        }}.00)</strong>
+        }})</strong>
     </h3>
     <ngb-accordion *ngIf="
         paidSection.Value.PaymentNotPaid.length > 0;
@@ -84,7 +84,7 @@
                   {{ item.LocationTime }}
                   {{ item.GameStartTime }}
                 </span>
-                <span> GameId: {{item.GameId}}</span>
+                <span> Game Id: {{item.GameId}}</span>
                 <span class="asCoach">as {{ item.OfficiatingPositionText }}
                   <span class="earnMore">{{ item.IncentiveText }}</span>
                 </span>
@@ -97,9 +97,9 @@
           <div class="matchInfo matchInfo2">
             {{ item.OfficiatingPositionText }}
             <ul>
-              <li>- Base Pay: ${{ item.BaseAmount }}</li>
+              <li>- Base Pay: {{ item.BaseAmount }}</li>
               <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
-                - Scoresheet Report: ${{ item.IncentiveAmount }}
+                - Scoresheet Report: {{ item.IncentiveAmount }}
               </li>
             </ul>
           </div>
@@ -108,7 +108,7 @@
     </ngb-accordion>
     <h3 class="mainDate">
       <strong>PAID</strong>
-      <strong style="float:right">(${{
+      <strong style="float:right">({{
         paidSection.Value.PaidPaymentsTotalAmount
         }})</strong>
     </h3>
@@ -137,9 +137,9 @@
           <div class="matchInfo matchInfo2">
             {{ item.OfficiatingPositionText }}
             <ul>
-              <li>- Base Pay: ${{ item.BaseAmount }}</li>
+              <li>- Base Pay: {{ item.BaseAmount }}</li>
               <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
-                - Scoresheet Report: ${{ item.IncentiveAmount }}
+                - Scoresheet Report: {{ item.IncentiveAmount }}
               </li>
             </ul>
           </div>

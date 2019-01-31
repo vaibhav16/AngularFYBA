@@ -12,14 +12,14 @@
             <ngb-accordion #acc="ngbAccordion" (panelChange)="panelChange($event)">
                <ngb-panel *ngFor="
                let item of officialService.reportGameJson.Value.GameList;
-               let gameListIndex = index
-               ">
+               let gameListIndex = index"
+                  id={{gameListIndex}}>
                   <ng-template ngbPanelTitle>
                      <div class="{{ item.GameReported }} HeadCollapse" class="HeadCollapse seemant">
                         <h2>
                            <div class="leftReportDate" [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '100%' }">
                               <div>{{ item.GameName }}
-                                  
+
                                  <!-- IsScoreFilled  -->
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
                                  <img class="report_status" *ngIf="item.IsScoreFilled && item.OfficiatingPositionId == 3"
@@ -29,11 +29,11 @@
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
                               </div>
                               <span class="">
-                                
+
                                  {{ item.GameDate }} @{{ item.Location }} @
                                  {{ item.GameStartTime }}
                               </span>
-                              <span> GameId: {{item.GameId}}</span>
+                              <span> Game Id: {{item.GameId}}</span>
                               <span class="asCoach">{{ item.PositionText }}
                                  <span class="earnMore">{{ item.IncentiveText }}</span>
                               </span>
@@ -66,20 +66,22 @@
                                                 <tr>
                                                    <td>{{ item.HomeTeam }}</td>
                                                    <td>
-                                                      <input type="text" name="HTeamScore" style="width:40px"
-                                                         [disabled]="item.OfficiatingPositionId != 3" [(ngModel)]="item.HomeTeamScore"
-                                                         value="{{ item.HomeTeamScore }}" 
-                                                         (change)="dataChanged()"
-                                                         />
+                                                      <input type="text" 
+                                                      name="HTeamScore" style="width:40px"
+                                                      [disabled]="item.OfficiatingPositionId != 3" 
+                                                      [(ngModel)]="item.HomeTeamScore"
+                                                      value="{{ item.HomeTeamScore }}" 
+                                                      (change)="dataChanged()" />
                                                    </td>
                                                 </tr>
                                                 <tr>
                                                    <td>{{ item.VisitingTeam }}</td>
                                                    <td>
                                                       <input type="text" name="VTeamScore" style="width:40px"
-                                                         [disabled]="item.OfficiatingPositionId != 3" [(ngModel)]="item.VisitingTeamScore"
+                                                         [disabled]="item.OfficiatingPositionId != 3" 
+                                                         [(ngModel)]="item.VisitingTeamScore"
                                                          value="{{ item.VisitingTeamScore }}" 
-                                                         (change)="dataChanged()"/>
+                                                         (change)="dataChanged()" />
                                                    </td>
                                                 </tr>
                                              </tbody>
@@ -131,70 +133,89 @@
                                              </tr>
                                           </thead>
                                           <tbody>
-                                             <tr *ngFor="
-                                             let child of item.HomeTeamPlayerScores;
-                                             let i = index">
+                                             <tr *ngFor="let child of item.HomeTeamPlayerScores;let i = index">                                              
+                                               
                                                 <td>{{ child.JersyNumber }}</td>
+
                                                 <td style="display:none">
-                                                   <input type="number" value="child.GameId" name="HGameId{{ i }}"
-                                                      [(ngModel)]="child.GameId" />
+                                                   <input type="number" value="child.GameId"
+                                                   name="HGameId{{ i }}" [(ngModel)]="child.GameId" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="text" value="child.PlayerName" name="HPlayerName{{ i }}"
-                                                      [(ngModel)]="child.PlayerName" />
+                                                   <input type="text" value="child.PlayerName" 
+                                                   name="HPlayerName{{ i }}" [(ngModel)]="child.PlayerName" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="number" value="child.PlayerSeasonalId" name="HPlayerSeasonalId{{ i }}"
-                                                      [(ngModel)]="child.PlayerSeasonalId" />
+                                                   <input type="number" value="child.PlayerSeasonalId" 
+                                                   name="HPlayerSeasonalId{{ i }}" [(ngModel)]="child.PlayerSeasonalId" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="number" value="child.FoulId" name="HFoulId{{ i }}"
-                                                      [(ngModel)]="child.FoulId" />
+                                                   <input type="number" value="child.FoulId" 
+                                                   name="HFoulId{{ i }}" [(ngModel)]="child.FoulId" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="number" value="child.TeamId" name="HTeamId{{ i }}"
-                                                      [(ngModel)]="child.TeamId" />
+                                                   <input type="number" value="child.TeamId" 
+                                                   name="HTeamId{{ i }}" [(ngModel)]="child.TeamId" />
                                                 </td>
+
                                                 <td style="text-align:left;">
                                                    <span value="child.PlayerName">{{
                                                       child.PlayerName
                                                       }}</span>
                                                 </td>
                                                 <td>
-                                                   <input type="checkbox" [checked]="child.NotPresent" [disabled]="
-                                                !(item.OfficiatingPositionId == 3)
-                                                "
-                                                      name="HNotPresent{{ i }}" [(ngModel)]="child.NotPresent" (change)="
-                                                checkNP('HPoints', 'HPlayerofNote', i)
-                                                "
-                                                      value="child.NotPresent" />
+                                                   <input type="checkbox"                                                  
+                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3)"
+
+                                                   name="HNotPresent{{ i }}" 
+                                                   
+                                                   [ngModel]="child.NotPresent"
+                                                   
+                                                   (change)="child.NotPresent= !child.NotPresent"        
+                                                   
+                                                   (click)="dataChanged()"
+                                                   />
                                                 </td>
                                                 <td>
-                                                   <input type="checkbox" [checked]="child.PlayerNote" id="HPlayerofNote{{ i }}"
-                                                      [disabled]="
-                                                (!child.PlayerNote &&
-                                                (maxPON >= 6 || homePON >= 3)) ||
-                                                !(item.OfficiatingPositionId == 3) ||
-                                                child.NotPresent
-                                                "
-                                                      (change)="
-                                                checkMaxPON(
-                                                $event,
-                                                gameListIndex,
-                                                'home',
-                                                template
-                                                )
-                                                "
-                                                      name="HPlayerNote{{ i }}" [(ngModel)]="child.PlayerNote" value="child.PlayerNote" />
+                                                   <input
+
+                                                   type="checkbox" 
+                                                   
+                                                   id="HPlayerofNote{{ i }}" 
+                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3) || 
+                                                   child.NotPresent"
+                                                      
+                                                   [ngModel]="child.PlayerNote && !child.NotPresent"  
+                                                   
+                                                   (change)="child.PlayerNote=!child.PlayerNote"
+                                                   
+                                                   name="HPlayerNote{{ i }}"   
+
+                                                   (click)="dataChanged()"
+                                                   />
+
                                                 </td>
                                                 <td>
-                                                   <input type="number" id="HPoints{{ i }}" (input)="inputValidator($event)"
-                                                      [maxlength]="3" value="child.Points" [disabled]="
-                                                !(item.OfficiatingPositionId == 3) ||
-                                                child.NotPresent
-                                                "
-                                                      pattern="[0-9]*" min="0" max="999" name="HPoints{{ i }}"
-                                                      [(ngModel)]="child.Points" />
+                                                   <input type="number" 
+                                                   
+                                                   id="HPoints{{ i }}" 
+                                                   
+                                                   (input)="inputValidator($event)"
+                                                   
+                                                   [maxlength]="3" value="child.Points"
+                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3) ||
+                                                   child.NotPresent"
+
+                                                   pattern="[0-9]*" min="0" max="999" name="HPoints{{ i }}"
+                                                   
+                                                   [(ngModel)]="child.Points" />
                                                 </td>
                                              </tr>
                                           </tbody>
@@ -209,8 +230,8 @@
                                           {{ item.VisitingTeam }}</strong>
                                     </h2>
                                     <div class="overflowAuto">
-                                       <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0"
-                                          border="0" width="100%">
+                                       <table class="scoreTable marginTop10 widthTable" 
+                                       cellspacing="0" cellpadding="0" border="0" width="100%">
                                           <thead>
                                              <tr>
                                                 <th width="5%">#</th>
@@ -226,65 +247,88 @@
                                              let i = index
                                              ">
                                                 <td style="display:none">
-                                                   <input type="number" value="child.GameId" name="VGameId{{ i }}"
-                                                      [(ngModel)]="child.GameId" />
+                                                   <input type="number" 
+                                                   value="child.GameId" 
+                                                   name="VGameId{{ i }}" 
+                                                   [(ngModel)]="child.GameId" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="text" value="child.PlayerName" name="VPlayerName{{ i }}"
-                                                      [(ngModel)]="child.PlayerName" />
+                                                   <input type="text" value="child.PlayerName"
+                                                    name="VPlayerName{{ i }}"
+                                                    [(ngModel)]="child.PlayerName" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="number" value="child.PlayerSeasonalId" name="VPlayerSeasonalId{{ i }}"
-                                                      [(ngModel)]="child.PlayerSeasonalId" />
+                                                   <input type="number" value="child.PlayerSeasonalId" 
+                                                   name="VPlayerSeasonalId{{ i }}"
+                                                   [(ngModel)]="child.PlayerSeasonalId" />
                                                 </td>
+                                                
                                                 <td style="display:none">
-                                                   <input type="number" value="child.FoulId" name="VFoulId{{ i }}"
-                                                      [(ngModel)]="child.FoulId" />
+                                                   <input type="number" value="child.FoulId" 
+                                                   name="VFoulId{{ i }}"
+                                                   [(ngModel)]="child.FoulId" />
                                                 </td>
+
                                                 <td style="display:none">
-                                                   <input type="number" value="child.TeamId" name="VTeamId{{ i }}"
-                                                      [(ngModel)]="child.TeamId" />
+                                                   <input type="number" value="child.TeamId" 
+                                                   name="VTeamId{{ i }}"
+                                                   [(ngModel)]="child.TeamId" />
                                                 </td>
+
                                                 <td>{{ child.JersyNumber }}</td>
+
                                                 <td style="text-align:left;">
                                                    {{ child.PlayerName }}
                                                 </td>
+
                                                 <td>
-                                                   <input type="checkbox" [(ngModel)]="child.NotPresent" name="VNotPresent{{ i }}"
-                                                      [disabled]="
-                                                !(item.OfficiatingPositionId == 3)
-                                                "
-                                                      value="child.NotPresent" (change)="
-                                                checkNP('VPoints', 'VPlayerofNote', i)
-                                                "
-                                                      [checked]="child.NotPresent" />
+                                                   <input type="checkbox" 
+
+                                                   [ngModel]="child.NotPresent"
+                                                   
+                                                   name="VNotPresent{{ i }}"
+                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3)"                                                  
+                                                   
+                                                   (change)="child.NotPresent=!child.NotPresent"    
+                                                   
+                                                   (click)="dataChanged()"
+                                                    />
                                                 </td>
                                                 <td>
-                                                   <input type="checkbox" id="VPlayerofNote{{ i }}" [(ngModel)]="child.PlayerNote"
-                                                      name="VPlayerNote{{ i }}" [disabled]="
-                                                (!child.PlayerNote &&
-                                                (maxPON >= 6 || visitingPON >= 3)) ||
-                                                !(item.OfficiatingPositionId == 3) ||
-                                                child.NotPresent
-                                                "
-                                                      (change)="
-                                                checkMaxPON(
-                                                $event,
-                                                gameListIndex,
-                                                'visiting',
-                                                template
-                                                )
-                                                "
-                                                      value="child.PlayerNote" [checked]="child.PlayerNote" />
+                                                   <input type="checkbox" 
+                                                   
+                                                   id="VPlayerofNote{{ i }}" 
+                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3) || 
+                                                   child.NotPresent"
+                                                      
+                                                   [ngModel]="child.PlayerNote && !child.NotPresent"  
+                                                   
+                                                   (change)="child.PlayerNote=!child.PlayerNote"
+
+                                                   (click)="dataChanged()"
+
+                                                   name="VPlayerNote{{ i }}" 
+                                                   
+                                                     />
                                                 </td>
                                                 <td>
-                                                   <input type="number" id="VPoints{{ i }}" value="child.Points"
-                                                      (input)="inputValidator($event)" [maxlength]="3" name="VPoints{{ i }}"
-                                                      [(ngModel)]="child.Points" [disabled]="
-                                                !(item.OfficiatingPositionId == 3) ||
-                                                child.NotPresent
-                                                "
-                                                      min="0" max="1000" pattern="[0-9]*" />
+                                                   <input type="number" id="VPoints{{ i }}" 
+                                                   
+                                                   value="child.Points"
+
+                                                   (input)="inputValidator($event)" 
+                                                   
+                                                   [maxlength]="3" name="VPoints{{ i }}"
+                                                   
+                                                   [(ngModel)]="child.Points" 
+                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3) ||child.NotPresent"                                                   
+
+                                                   min="0" max="1000" pattern="[0-9]*" />
                                                 </td>
                                              </tr>
                                           </tbody>
@@ -304,35 +348,35 @@
                                     <input style="display: none" type="file" />
                                     <ul class="addList" #Incidentlist>
                                        <li *ngIf="item.PrePrintedScoresheetPdf" 
-                                       (click)="downloadScoresheet(item.PrePrintedScoresheetPdf)" 
-                                       class="preFilledDiv customLI">
-                                       <span class="preFilledSS">
+                                       (click)="downloadScoresheet(item.PrePrintedScoresheetPdf)"
+                                          class="preFilledDiv customLI">
+                                          <span class="preFilledSS">
                                              Pre-filled<br />
                                              Score<br class="breakAll" />Sheet
                                           </span>
                                        </li>
 
                                        <ng-container *ngIf="item.ScoreSheetImages.length > 0">
-                                          <li *ngFor="let child of item.ScoreSheetImages;let ssIndex = index"
+                                          <li *ngFor="let child of item.ScoreSheetImages;let ssIndex = index" 
                                           id="scoresheet{{ ssIndex }}">
                                           <img src="{{ child.ImageThumbnail }}" />
 
                                           <span url="child.ImageURL" 
-
+                                          
                                           (click)="deleteImage($event,child.ImageURL,
                                           'scoresheet' + ssIndex)
                                                                      "
                                           class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                                       </li>
+                                          </li>
                                        </ng-container>
-                        
-                           
+
+
                                     </ul>
                                     <ul class="addList IncidentListClass" *ngIf="item.OfficiatingPositionId == 3" id="IncidentListClass_{{ gameListIndex }}">
-                           
+
                                        <li class="Incidentclass uploadDiv" id="Incidentclass_{{ gameListIndex }}">
-                                          <input [disabled]="!(item.OfficiatingPositionId == 3)" #imageInput type="file" multiple accept="image/*"
-                                             (change)="processFile(imageInput, gameListIndex)" />
+                                          <input [disabled]="!(item.OfficiatingPositionId == 3)" #imageInput type="file"
+                                             multiple accept="image/*" (change)="processFile(imageInput, gameListIndex)" />
                                           <span class="addHeading">Add<br />
                                              Score<br class="breakAll" />Sheet</span>
                                        </li>
@@ -340,8 +384,8 @@
                                  </div>
                               </div>
                            </div>
-                           </div>
-                        <div class="marginTop10">
+                        </div>
+                        <!-- <div class="marginTop10">
                            <ul class="reportlist">
                               <li>Incident</li>
                            </ul>
@@ -384,7 +428,7 @@
                                  </div>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                         <div [ngStyle]="{
                      display: item.OfficiatingPositionId == '3' ? '' : 'none'
                      }"
@@ -398,7 +442,7 @@
                      ">
                               SAVE REPORT
                            </button>
-                        </div>         
+                        </div>
                      </form>
                   </ng-template>
                </ngb-panel>
@@ -415,7 +459,7 @@
 
 
 <!--Loader-->
-<app-fybaloader *ngIf="officialService.reportRequest||downloadRequest"></app-fybaloader>
+<app-fybaloader *ngIf="officialService.reportRequest || downloadRequest"></app-fybaloader>
 <!--Loader-->
 
 <div *ngIf="dss.initialFetchError" #serverError>
@@ -427,7 +471,7 @@
 <!-- <p-growl [(value)]="msgs"></p-growl> -->
 
 <notifier-container>
-   
+
 </notifier-container>
 
 <!-- <div *ngIf="officialService.serviceError" #serverError>

@@ -35,7 +35,7 @@ import { ValidationModalComponent } from './validation-modal/validation-modal.co
 import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
-import { file } from '@rxweb/reactive-form-validators';
+//import { file } from '@rxweb/reactive-form-validators';
 //import {Message} from 'primeng/api';
 //import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -167,9 +167,9 @@ export class ReportGameComponent {
 
   newRequest: boolean = null;
   ngOnInit() {
+    console.log("Report Games On Init");
     //this.officialService.requestSuccess = false;
     //this.officialService.requestFailure = false;
-
     this.asyncReport();
   }
 
@@ -187,11 +187,14 @@ export class ReportGameComponent {
   }
 
   async asyncReport() {
+    console.log(this.tempGameIndex);
     await this.officialService.getReportData().then((res) => {
+      //this.checkInitialPON();
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
       }
+  
     });
   }
 
@@ -236,10 +239,11 @@ export class ReportGameComponent {
       this.checkFinalScore(
         form,
         gameListIndex
-        // unEqualHomeScoreTemplate,
-        // unEqualVisitingScoreTemplate
-      ) == true &&
-      this.checkMinPON(gameListIndex)
+      ) == true 
+      //&&
+      //this.checkMinPON(form,gameListIndex) 
+      //&&
+      //this.checkFinalPON(gameListIndex)
     ) {
       this.prepareDatatoUpdate(form, gameListIndex);
     }
@@ -253,6 +257,11 @@ export class ReportGameComponent {
     form: NgForm,
     gameListIndex: number
   ) {
+
+    this.homePON=0;
+    this.visitingPON=0;
+    this.maxPON=0;
+
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
 
@@ -280,6 +289,30 @@ export class ReportGameComponent {
           this.tempSumHomePoint += parseInt(form.value[hpoint]);
           console.log(form.value[hpoint]);
         }
+
+        let hpon = 'HPlayerNote'+i;
+        if (form.value[hpon] != null && form.value[hpon]) {
+         this.homePON++;
+         this.maxPON++;
+         console.log(this.homePON, this.visitingPON, this.maxPON);
+         if(this.homePON>3){
+
+          const initialState = {
+            popupTitle: 'Error',
+            popupMsg:
+              'The players of note in Team ' +
+              homeTeamName +
+              ' can not be greater than three.'
+          };
+    
+          this.modalRef = this.modalService.show(
+            ValidationModalComponent,
+            Object.assign({}, { class: 'customModalWidth75', initialState })
+          );
+
+           return false;
+         }
+        }
       }
     }
 
@@ -300,9 +333,72 @@ export class ReportGameComponent {
         let vpoint = 'VPoints' + i;
         if (form.value[vpoint] != null && parseInt(form.value[vpoint]) > 0) {
           this.tempSumVisitingPoint += parseInt(form.value[vpoint]);
-          console.log(vpoint, form.value[vpoint]);
+          //console.log(vpoint, form.value[vpoint]);
+        }
+
+        let vpon = 'VPlayerNote'+i;
+        if (form.value[vpoint] != null && form.value[vpon]) {
+         this.visitingPON++;
+         this.maxPON++;
+
+         if(this.visitingPON>3){
+
+          const initialState = {
+            popupTitle: 'Error',
+            popupMsg:
+              'The players of note in Team ' +
+              visitingTeamName +
+              ' can not be greater than three.'
+          };
+    
+          this.modalRef = this.modalService.show(
+            ValidationModalComponent,
+            Object.assign({}, { class: 'customModalWidth75', initialState })
+          );
+
+           return false;
+          }
+         console.log(this.homePON, this.visitingPON, this.maxPON);
+
+         
         }
       }
+
+      if(this.homePON==0){
+
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg:
+            'The players of note in Team ' +
+            homeTeamName +
+            ' can not be Zero.'
+        };
+  
+        this.modalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
+
+         return false;
+        }
+        else if(this.visitingPON==0){
+
+          const initialState = {
+            popupTitle: 'Error',
+            popupMsg:
+              'The players of note in Team ' +
+              visitingTeamName +
+              ' can not be Zero.'
+          };
+    
+          this.modalRef = this.modalService.show(
+            ValidationModalComponent,
+            Object.assign({}, { class: 'customModalWidth75', initialState })
+          );
+
+           return false;}
+      
+      console.log(this.homePON, this.visitingPON, this.maxPON);
     }
 
     if (this.tempSumVisitingPoint != parseInt(form.value.VTeamScore)) {
@@ -520,18 +616,26 @@ export class ReportGameComponent {
 
       })
 
+    } else {
+      let gameListId = parseInt($event.panelId);
+      this.tempGameIndex=gameListId;
+      console.log(this.tempGameIndex);
+      this.homePON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalHomePON;
+      this.visitingPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalVisitingPON;
+      this.maxPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalGamePON;
+      console.log(this.homePON, this.visitingPON, this.maxPON);
     }
 
   }
 
-  checkMinPON(gameListIndex: number) {
+  checkMinPON(form,gameListIndex: number) {
+    console.log(form.value);
     let homeTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
       .HomeTeam;
 
     let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
       .VisitingTeam;
 
-    if (this.checkBtnClick > 0) {
       if (this.homePON <= 0) {
         const initialState = {
           popupTitle: 'Error',
@@ -557,55 +661,55 @@ export class ReportGameComponent {
         );
         return false;
       }
-    } else {
-      for (
-        let i = 0;
-        i <
-        this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores
-          .length;
-        ++i
-      ) {
-        if (
-          this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores[
-            i
-          ].PlayerNote == true
-        ) {
-          this.homePON++;
-        }
+    // } else {
+    //   for (
+    //     let i = 0;
+    //     i <
+    //     this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores
+    //       .length;
+    //     ++i
+    //   ) {
+    //     if (
+    //       this.officialService.reportGameJson['Value'].GameList[gameListIndex].HomeTeamPlayerScores[
+    //         i
+    //       ].PlayerNote == true
+    //     ) {
+    //       this.homePON++;
+    //     }
 
-        if (
-          this.officialService.reportGameJson['Value'].GameList[gameListIndex]
-            .VisitingTeamPlayerScores[i].PlayerNote == true
-        ) {
-          this.visitingPON++;
-        }
-      }
+    //     if (
+    //       this.officialService.reportGameJson['Value'].GameList[gameListIndex]
+    //         .VisitingTeamPlayerScores[i].PlayerNote == true
+    //     ) {
+    //       this.visitingPON++;
+    //     }
+    //   }
 
-      if (this.homePON <= 0) {
-        const initialState = {
-          popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team ' + homeTeamName + ' can not be zero.'
-        };
+    //   if (this.homePON <= 0) {
+    //     const initialState = {
+    //       popupTitle: 'Error',
+    //       popupMsg: 'Players of Note in Team ' + homeTeamName + ' can not be zero.'
+    //     };
 
-        this.bsModalRef = this.modalService.show(
-          ValidationModalComponent,
-          Object.assign({}, { class: 'customModalWidth75', initialState })
-        );
-        return false;
-      }
-      if (this.visitingPON <= 0) {
-        const initialState = {
-          popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team ' + visitingTeamName + ' can not be zero.'
-        };
+    //     this.bsModalRef = this.modalService.show(
+    //       ValidationModalComponent,
+    //       Object.assign({}, { class: 'customModalWidth75', initialState })
+    //     );
+    //     return false;
+    //   }
+    //   if (this.visitingPON <= 0) {
+    //     const initialState = {
+    //       popupTitle: 'Error',
+    //       popupMsg: 'Players of Note in Team ' + visitingTeamName + ' can not be zero.'
+    //     };
 
-        this.bsModalRef = this.modalService.show(
-          ValidationModalComponent,
-          Object.assign({}, { class: 'customModalWidth75', initialState })
-        );
-        return false;
-      }
-    }
+    //     this.bsModalRef = this.modalService.show(
+    //       ValidationModalComponent,
+    //       Object.assign({}, { class: 'customModalWidth75', initialState })
+    //     );
+    //     return false;
+    //   }
+  
     return true;
   }
 
@@ -617,98 +721,124 @@ export class ReportGameComponent {
   checkBtnClick = 0;
   modalRef: BsModalRef;
   tempGameIndex: number;
-  checkMaxPON(e, gameIndex, teamType: string, template: TemplateRef<any>) {
+
+
+
+  checkMaxPON(e, gameIndex, teamType: string) {
+
+    console.log(e.target);
+
+    if (e.target.checked && this.maxPON < 6) {
+      console.log("MaxPon Checked")
+      this.maxPON++;
+      if (teamType == 'home' && this.homePON <= 2) {
+        this.homePON++;
+        console.log("HomePon Checked");
+      }
+      else if (teamType == 'visiting' && this.visitingPON <= 2) 
+      {  
+        console.log("VisitingPon Checked");
+        this.visitingPON++;
+      }
+      
+    } else {
+      this.maxPON--;
+      console.log("MaxPon Unchecked");
+      if (teamType == 'home') {
+        this.homePON--;
+        console.log("HomePon Unchecked");
+      } else if (teamType == 'visiting'){
+        this.visitingPON--;
+        console.log("Visiting Pon Unchecked");
+      } 
+      
+    }
+
+    // if (!e.target.checked && this.maxPON <= 6 && this.maxPON >= 1) {
+    //   this.maxPON--;
+    //   if (teamType == 'home' && this.homePON <= 3 && this.homePON >= 1) this.homePON--;
+    //   else if (teamType == 'visiting' && this.visitingPON <= 3 && this.visitingPON>=1) 
+    //   this.visitingPON--;
+    // } else {
+    //   this.maxPON--;
+    //   if (teamType == 'home') {
+    //     this.homePON--;
+    //   } else if (teamType == 'visiting') this.visitingPON--;
+    // }
+
     //console.log(e);
-    if (this.tempGameIndex != gameIndex) {
-      this.maxPON = 0;
-      this.homePON = 0;
-      this.visitingPON = 0;
-      this.checkBtnClick = 0;
-    }
+    // if (this.tempGameIndex != gameIndex && this.checkBtnClick==0) {
+    //   this.maxPON = 0;
+    //   this.homePON = 0;
+    //   this.visitingPON = 0;
+    //   this.checkBtnClick = 0;
+    // }
     this.checkBtnClick++;
-    if (this.checkBtnClick == 1) {
-      this.tempGameIndex = gameIndex;
-      //this.checkBtnClick++;
-      if (this.maxPON <= 6) {
-        for (
-          let i = 0;
-          i <
-          this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores
-            .length;
-          ++i
-        ) {
-          if (
-            this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores[i]
-              .PlayerNote == true
-          ) {
-            console.log('home team');
-            console.log(i);
-            console.log(
-              this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores[
-                i
-              ].PlayerNote
-            );
-            this.maxPON++;
-            this.homePON++;
-          }
-        }
-      }
+    // if (this.checkBtnClick == 1) {
+    //   this.tempGameIndex = gameIndex;
+    //   //this.checkBtnClick++;
+    //   if (this.maxPON <= 6) {
+    //     for (
+    //       let i = 0;
+    //       i <
+    //       this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores
+    //         .length;
+    //       ++i
+    //     ) {
+    //       if (
+    //         this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores[i]
+    //           .PlayerNote == true
+    //       ) {
+    //         console.log('home team');
+    //         console.log(i);
+    //         console.log(
+    //           this.officialService.reportGameJson['Value'].GameList[gameIndex].HomeTeamPlayerScores[
+    //             i
+    //           ].PlayerNote
+    //         );
+    //         this.maxPON++;
+    //         this.homePON++;
+    //       }
+    //     }
+    //   }
 
-      if (this.maxPON <= 6) {
-        for (
-          let i = 0;
-          i <
-          this.officialService.reportGameJson['Value'].GameList[gameIndex].VisitingTeamPlayerScores
-            .length;
-          ++i
-        ) {
-          if (
-            this.officialService.reportGameJson['Value'].GameList[gameIndex]
-              .VisitingTeamPlayerScores[i].PlayerNote == true
-          ) {
-            console.log('visiting team');
-            console.log(i);
-            console.log(
-              this.officialService.reportGameJson['Value'].GameList[gameIndex]
-                .VisitingTeamPlayerScores[i].PlayerNote
-            );
-            this.maxPON++;
-            this.visitingPON++;
-          }
-        }
-      }
+    //   if (this.maxPON <= 6) {
+    //     for (
+    //       let i = 0;
+    //       i <
+    //       this.officialService.reportGameJson['Value'].GameList[gameIndex].VisitingTeamPlayerScores
+    //         .length;
+    //       ++i
+    //     ) {
+    //       if (
+    //         this.officialService.reportGameJson['Value'].GameList[gameIndex]
+    //           .VisitingTeamPlayerScores[i].PlayerNote == true
+    //       ) {
+    //         console.log('visiting team');
+    //         console.log(i);
+    //         console.log(
+    //           this.officialService.reportGameJson['Value'].GameList[gameIndex]
+    //             .VisitingTeamPlayerScores[i].PlayerNote
+    //         );
+    //         this.maxPON++;
+    //         this.visitingPON++;
+    //       }
+    //     }
+    //   }
+    // }
+
+    if (this.checkBtnClick > 0) {
+      //console.log(this.checkBtnClick, this.maxPON);
+     
     }
 
-    if (this.checkBtnClick > 1) {
-      console.log(this.checkBtnClick, this.maxPON);
-      if (e.target.checked && this.maxPON < 6) {
-        this.maxPON++;
-        if (teamType == 'home' && this.homePON <= 2) this.homePON++;
-        else if (teamType == 'visiting' && this.visitingPON <= 2) this.visitingPON++;
-      } else {
-        this.maxPON--;
-        if (teamType == 'home') {
-          this.homePON--;
-        } else if (teamType == 'visiting') this.visitingPON--;
-      }
-    }
-
-    if (e.target.checked) {
-      if (this.maxPON >= 6) {
-        this.modalMsg = 'Only upto Six Players of Note are allowed in a single game.';
-        //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-      } else if (this.homePON >= 3) {
-        this.modalMsg = 'Only Three Players of Note are allowed from Home Team.';
-        //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-      } else if (this.visitingPON >= 3) {
-        this.modalMsg = 'Only Three Players of Note are allowed from Visiting Team.';
-        //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
-      }
-    }
-
-    console.log(this.maxPON, this.homePON, this.visitingPON);
+    console.log(this.homePON, this.visitingPON,this.maxPON);
   }
 
+
+  onChange(e:Event){
+    console.log(e);
+  }
 
   formChange: boolean;
 
@@ -722,25 +852,37 @@ export class ReportGameComponent {
   }
 
   showModal() {
-    if (this.officialService.postReportMsg) {
+    //if (this.officialService.postReportMsg) {
+      console.log(this.officialService.postReportStatus)
       const initialState = {
+        status: this.officialService.postReportStatus,
         popupTitle: this.officialService.postReportTitle,
         popupMsg: this.officialService.postReportMsg
       };
 
-      console.log(this.officialService.postReportStatus);
-      if (!this.officialService.postReportStatus) {
-        this.modalRef = this.modalService.show(
-          ValidationModalComponent,
-          Object.assign({}, { class: 'customModalWidth75', initialState })
-        );
-      } else {
+      //console.log(this.officialService.postReportStatus);
+      // if (!this.officialService.postReportStatus) {
+      //   this.modalRef = this.modalService.show(
+      //     ValidationModalComponent,
+      //     Object.assign({}, { class: 'customModalWidth75', initialState })
+      //   );
+      // } else {
         this.modalRef = this.modalService.show(
           SuccessPopupComponent,
           Object.assign({}, { class: 'customModalWidth75', initialState })
         );
-      }
-    }
+        this.modalRef.content.click.subscribe(($e)=>{
+          console.log("Btn Click Status:"+$e);
+          console.log(this.tempGameIndex);
+          if ($e) {
+            this.homePON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalHomePON;
+            this.visitingPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalVisitingPON;
+            this.maxPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalGamePON;
+            console.log(this.homePON,this.visitingPON,this.maxPON);
+          }
+        })
+      //}
+   
   }
 
 
@@ -827,7 +969,37 @@ export class ReportGameComponent {
 
   /* - Code to check if Player no Not Present. If the user says the Player is not present, then
   his score will be changed to zero.*/
-  checkNP(teamType: string, playerofNote: string, id: string) {
+  checkNP(e:Event,teamType: string, playerofNote: string, id: string,form:any) {
+    console.log(e.target);
+    console.log(form.value);
+    for(var i=0; i<10; ++i){
+      let hpon = 'HPlayerNote'+i;
+      let hnp = 'HNotPresent'+i;
+      let vpon = 'VPlayerNote'+i;
+      let vnp = 'VNotPresent'+i;  
+      if(form.value[hnp] && form.value[hpon] && this.homePON<=3){
+        this.homePON--;
+        this.maxPON--;
+        console.log(this.homePON,this.maxPON)
+      }
+      if(form.value[vpon] && form.value[vnp] && this.visitingPON<=3){
+        this.visitingPON--;
+        this.maxPON--;
+        console.log(this.visitingPON,this.maxPON)
+      }
+      if(form.value[hnp]==false && form.value[hpon]==false && this.homePON>=0 && this.homePON<=2  ){
+        this.homePON++;
+        this.maxPON++;
+        console.log(this.homePON,this.maxPON)
+      }
+      if(form.value[vpon]==false && form.value[vnp]==false && this.visitingPON>=0 && this.visitingPON<=2 ){
+        this.visitingPON++;
+        this.maxPON++;
+        console.log(this.visitingPON,this.maxPON)
+      }
+
+    }
+    
     this.dataChanged();
     var tempId = this.elRef.nativeElement.querySelector('#' + teamType + id);
     this.renderer.setProperty(tempId, 'value', 0);
@@ -940,36 +1112,45 @@ export class ReportGameComponent {
     this.formChange = true;
   }
 
-  downloadRequest:boolean=false;
-  downloadScoresheet(url: string) {
+  downloadRequest: boolean = false;
+  async downloadScoresheet(url: string) {
+    this.downloadRequest = true;
     console.log(url);
-    this.downloadRequest=true;
-    //window.location.href=url;
 
-    this.officialService.downloadPdfReportGames(url)
-      .subscribe((data) => {
-        console.log(data);
-        const contentDisposition = data.headers.get('content-disposition') || '';
-        const matches = /filename=([^;]+)/ig.exec(contentDisposition);
-        var fileName = ((matches[1] || 'untitled').trim()).replace('.pdf','');
-        //fileName.replace('.pdf','');
-        //const finalName = fileName.substring(fileName.indexOf('.pdf')+1)
-        console.log(fileName);
-        const blob = new Blob([data.blob()], { type: 'application/pdf' });
-        console.log(blob);
-        saveAs(blob, fileName);
-      },
-        (err) => {
-          this.downloadRequest=false;
-          console.log(err);
-          this.modalRef = this.modalService.show(ErrorModalComponent);
-          this.modalRef.content.closeBtnName = 'Close';
-        },
-        () => {
-           this.downloadRequest=false;
-          //console.log("done");
-        }
-      );
+    console.log(this.downloadRequest);
+    await this.downloadUrl(url);
+    console.log(this.downloadRequest);
+
+
+    // this.officialService.downloadPdfReportGames(url)
+    //   .subscribe((data) => {
+    //     console.log(data);
+    //     const contentDisposition = data.headers.get('content-disposition') || '';
+    //     const matches = /filename=([^;]+)/ig.exec(contentDisposition);
+    //     var fileName = ((matches[1] || 'untitled').trim()).replace('.pdf','');
+    //     //fileName.replace('.pdf','');
+    //     //const finalName = fileName.substring(fileName.indexOf('.pdf')+1)
+    //     console.log(fileName);
+    //     const blob = new Blob([data.blob()], { type: 'application/pdf' });
+    //     console.log(blob);
+    //     saveAs(blob, fileName);
+    //   },
+    //     (err) => {
+    //       this.downloadRequest=false;
+    //       console.log(err);
+    //       this.modalRef = this.modalService.show(ErrorModalComponent);
+    //       this.modalRef.content.closeBtnName = 'Close';
+    //     },
+    //     () => {
+    //        this.downloadRequest=false;
+    //       //console.log("done");
+    //     }
+    //   );
+  }
+
+  async downloadUrl(url) {
+    window.location.href = await url;
+    this.downloadRequest = await false;
   }
 
 

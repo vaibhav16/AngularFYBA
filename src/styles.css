@@ -30,8 +30,9 @@ body{
    }
 
    
-   .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important;}
-    .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
+   .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:100px !important; height:100px !important; margin-right:20px !important;}
+   .customLI span{left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%); font-size:14px !important; text-transform: uppercase;} 
+   .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
     .leftReportDate100{float:left; width:100%; text-align:left;padding-top: 0px; margin-right:5%;}
     .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
     .leftGameDate{float:left; width:49%; text-align:left;padding-top: 10px; margin-right:1%;}
@@ -42,7 +43,7 @@ body{
    .modal-dialog{position: absolute;margin: 0px; transform: translateX(-50%) translateY(-50%) !important;-ms-transform: translateX(-50%) translateY(-50%) !important;
     -webkit-transform: translateX(-50%) translateY(-50%) !important;
     -moz-transform: translateX(-50%) translateY(-50%) !important;
-    -o-transform: translateX(-50%) translateY(-50%) !important;left: 50%;top: 50%;/*width: 90%;*/}
+    -o-transform: translateX(-50%) translateY(-50%) !important;left: 50%;top: 50%;width: 90%; max-width: 500px;}
 
    .btn-grey{background-color: #ddd;}
    .rightGameAvailable{font-size:16px;padding-top: 3px;}
@@ -498,7 +499,7 @@ div {
     margin-right:0px;
        background: #ff0000;
     text-align: center;color: #ffffff; position:relative; border:3px solid #3c98db; line-height:auto;line-height: inherit;
-    padding-top: 25px;overflow:hidden;} 
+    padding-top: 25px;overflow:hidden; text-transform: uppercase;} 
 
     ul.addList li.uploadIncident{background: #3c98db; border:1px solid #1e31ae;}
        
@@ -649,7 +650,7 @@ div {
    
    @media only screen and (max-width : 767px) {
 
-
+    
     .leftReportDate span{display:block; font-weight:normal;}
     .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:0%;}
     .rightReportDate{float:right; width:100%; text-align:right; margin-left:0px;}
@@ -1106,6 +1107,8 @@ div {
     .small_font .rightReportDate{line-height:20px;}
     .small_font .asScorekeeper{font-size:14px !important;}
     .small_font .staticStrip{font-size:14px !important;}
+    .small_font .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important; margin-right:0px !important;}
+    .small_font .customLI span{font-size:11px !important;}
 }
 
   /* ---- End Small Font Css --- */
