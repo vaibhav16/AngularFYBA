@@ -182,7 +182,7 @@ export class ReportGameComponent {
       this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
         return el != null;
       });
-      console.log(this.ScoreSheetImages);
+      console.log("Scoreheet Images: "+ this.ScoreSheetImages);
     });
   }
 
@@ -567,11 +567,17 @@ export class ReportGameComponent {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
       }
+      // if (this.dss.initialFetchError) {
+      //   this.modalRef = this.modalService.show(ErrorModalComponent);
+      //   this.modalRef.content.closeBtnName = 'Close';
+      // }
       this.formChange = false;
       this.tempIndex = 0;
       this.checkBtnClick = 0;
       this.ScoreSheetImages = [];
       this.ScoreSheetImages2 = [];
+      this.DeletedScoreSheet2 = [];
+      this.DeletedScoreSheetImages = [];
       this.officialService.IncidentReports = [];
       this.DeletedIncidentReports = [];
       this.homePON = 0;
@@ -606,6 +612,8 @@ export class ReportGameComponent {
           this.checkBtnClick = 0;
           this.ScoreSheetImages = [];
           this.ScoreSheetImages2 = [];
+          this.DeletedScoreSheet2 = [];
+          this.DeletedScoreSheetImages = [];
           this.officialService.IncidentReports = [];
           this.DeletedIncidentReports = [];
           this.homePON = 0;
@@ -853,7 +861,7 @@ export class ReportGameComponent {
 
   showModal() {
     //if (this.officialService.postReportMsg) {
-      console.log(this.officialService.postReportStatus)
+      //console.log(this.officialService.postReportStatus)
       const initialState = {
         status: this.officialService.postReportStatus,
         popupTitle: this.officialService.postReportTitle,

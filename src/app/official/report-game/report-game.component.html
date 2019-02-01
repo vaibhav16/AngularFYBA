@@ -28,15 +28,17 @@
                                     src="assets/images/error.png">
                                  <!-- <span *ngIf="item.IncentiveText.length > 0" class="unreported_game">1</span>                                  -->
                               </div>
+                              <div class="customSpan">
                               <span class="">
 
                                  {{ item.GameDate }} @{{ item.Location }} @
                                  {{ item.GameStartTime }}
                               </span>
-                              <span> Game Id: {{item.GameId}}</span>
+                              <span> Game ID: {{item.GameId}}</span>
                               <span class="asCoach">{{ item.PositionText }}
                                  <span class="earnMore">{{ item.IncentiveText }}</span>
                               </span>
+                           </div>
                            </div>
                            <!-- <div class="rightReportDate" [ngStyle]="{ display: item.IncentiveText.length>0 ? '' : 'none' }">
                            </div> -->
