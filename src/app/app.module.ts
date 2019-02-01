@@ -43,12 +43,13 @@ import { ErrorModalComponent } from './common/error-modal/error-modal.component'
 import { NewIncidentComponent } from './official/report-game/new-incident/new-incident.component';
 import { ShowIncidentComponent } from './official/report-game/show-incident/show-incident.component';
 import { ValidationModalComponent } from './official/report-game/validation-modal/validation-modal.component';
-//import {MessageService} from 'primeng/components/common/messageservice';
+import { StringSplit } from './official/report-game/strsplit.pipe';
 
 
 import { SuccessPopupComponent } from './official/report-game/success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './official/report-game/show-new-incident/show-new-incident.component';
 import { NotifierModule } from 'angular-notifier';
+import { SavedataPopupComponent } from './official/report-game/savedata-popup/savedata-popup.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,6 @@ import { NotifierModule } from 'angular-notifier';
     CoachComponent,
     PlayerComponent,
     HeaderComponent,
-
     FybaloaderComponent,
     LogoutComponent,
     ChangepasswordComponent,
@@ -73,7 +73,9 @@ import { NotifierModule } from 'angular-notifier';
     ShowIncidentComponent,
     ValidationModalComponent,
     SuccessPopupComponent,
-    ShowNewIncidentComponent
+    ShowNewIncidentComponent,
+    SavedataPopupComponent,
+    StringSplit
   ],
   imports: [
     HttpModule,
@@ -104,7 +106,8 @@ import { NotifierModule } from 'angular-notifier';
     ShowIncidentComponent,
     ValidationModalComponent,
     SuccessPopupComponent,
-    ShowNewIncidentComponent
+    ShowNewIncidentComponent,
+    SavedataPopupComponent
   ],
   providers: [
     //MessageService,

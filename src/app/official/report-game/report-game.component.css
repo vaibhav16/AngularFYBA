@@ -15,3 +15,4 @@ h1, a { margin-top: 1em; font-family: "Open Sans Light", "Open Sans", "Segoe UI"
 .report_status{ font-size: 10px;border-radius: 50%;height: 18px;width: 18px;text-align: center;line-height: 15px;color: #fff; display:inline-block;margin-top: 4px;float: right;}
 .incident_linebreak{line-height: 16px;padding-top: 8px;}
 .incident_delete{background-color: #555 !important;border: 2px solid #ff0000 !important;}
+.customSpan span{display: block;font-weight: 400;}

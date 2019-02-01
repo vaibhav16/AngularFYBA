@@ -94,7 +94,7 @@
                           imgUrl.length <= 0
                         "
                         class="Incidentclass"
-                        style="background-color: red; width: 60px"
+                        style="background-color: red"
                       >
                         <input
                           #imageInput
@@ -300,7 +300,7 @@
   </div>
 </ng-template>
 
-<div *ngIf="dss.initialFetchError" #serverError>
+<div *ngIf="initialFetchError" #serverError>
     <div class="noRecords">
       <span class="spanError">Server Error.</span> Please try again later!
     </div>

@@ -2,10 +2,7 @@ import {
   Component,
   TemplateRef,
   OnInit,
-  ViewEncapsulation,
-  ElementRef,
-  Renderer2,
-  ViewChild
+  ViewEncapsulation
 } from "@angular/core";
 import { OfficialService } from "../official.service";
 import {
@@ -265,31 +262,47 @@ export class SelectGameComponent implements OnInit {
   downloadRequest: boolean;
   downloadPdf(url) {
     this.downloadRequest = true;
-    var downLoadUrl;
-    var fileName;
+    var downLoadUrl;    
     this.officialService
-      .getPdfUrl(url)
-      .pipe(
-        map(res => {
-          console.log(res);
-          console.log(res["_body"]);
-          var x = JSON.parse(res["_body"]);
-          downLoadUrl = x["Value"].RelativeUrl;
-          fileName = x["Value"].FileName;
-        })
-      )
-      .pipe(mergeMap(_body => this.officialService.downloadPdf(downLoadUrl)))
-      .pipe(
-        catchError(e => {
-          console.log(e);
-          this.downloadRequest = false;
-          return Observable.throw(e);
-        })
-      )
+      .getPdfUrl(url)      
       .subscribe(res => {
         console.log(res);
-        saveAs(res, fileName);
+        console.log(res["_body"]);
+        var x = JSON.parse(res["_body"]);
+        downLoadUrl = x["Value"].AbsoluteUrl;
         this.downloadRequest = false;
+        window.location.href = downLoadUrl;
+        
       });
   }
+
+  // downloadPdf2(url) {
+  //   this.downloadRequest = true;
+  //   var downLoadUrl;
+  //   var fileName;
+  //   this.officialService
+  //     .getPdfUrl(url)
+  //     .pipe(
+  //       map(res => {
+  //         console.log(res);
+  //         console.log(res["_body"]);
+  //         var x = JSON.parse(res["_body"]);
+  //         downLoadUrl = x["Value"].RelativeUrl;
+  //         fileName = x["Value"].FileName;
+  //       })
+  //     )
+  //     .pipe(mergeMap(_body => this.officialService.downloadPdf(downLoadUrl)))
+  //     .pipe(
+  //       catchError(e => {
+  //         console.log(e);
+  //         this.downloadRequest = false;
+  //         return Observable.throw(e);
+  //       })
+  //     )
+  //     .subscribe(res => {
+  //       console.log(res);
+  //       saveAs(res, fileName);
+  //       this.downloadRequest = false;
+  //     });
+  // }
 }

@@ -1,4 +1,6 @@
-<div class="modal-header modalPadding" style="background-color:#70ad47">
+<!-- <div class="modal-header modalPadding" style="background-color:#70ad47"></div> -->
+<div class="modal-header modalPadding" 
+[ngStyle]="{'background-color': status ? '#70ad47' : 'red' }">
     <h4 style="color:white" class="modal-title pull-left">{{popupTitle}}</h4>
        <button type="button" class="close pull-right customClose" 
     aria-label="Close" (click)="modalRef.hide()">
