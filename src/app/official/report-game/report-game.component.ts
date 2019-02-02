@@ -613,7 +613,7 @@ export class ReportGameComponent {
           this.ScoreSheetImages = [];
           this.ScoreSheetImages2 = [];
           this.DeletedScoreSheet2 = [];
-          this.DeletedScoreSheetImages = [];
+          this.DeletedScoreSheetImages = [];          
           this.officialService.IncidentReports = [];
           this.DeletedIncidentReports = [];
           this.homePON = 0;
@@ -1035,6 +1035,11 @@ export class ReportGameComponent {
       NewIncidentComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
+
+    
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+      this.dataChanged();
+    })
     //this.modalRef.content.closeBtnName = "Close";
   }
 
@@ -1060,36 +1065,56 @@ export class ReportGameComponent {
       ShowIncidentComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
+    
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+      this.dataChanged();
+    })
   }
 
-  deletedIncident: DeleteIncidentReport = {
-    GameId: null,
-    IncidentId: null,
-    IncidentType: null,
-    IncidentValue: null,
-    Notes: null
-  };
+  // deletedIncident: DeleteIncidentReport = {
+  //   GameId: null,
+  //   IncidentId: null,
+  //   IncidentType: null,
+  //   IncidentValue: null,
+  //   Notes: null
+  // };
+
+  setDeletedIncident(){
+    return {
+      GameId: null,
+      IncidentId: null,
+      IncidentType: null,
+      IncidentValue: null,
+      Notes: null
+    }
+  }
 
   DeletedIncidentReports: DeleteIncidentReport[] = [];
   //toggleDeleteClass:boolean;
-  deleteIncident(incidentIndex, gameIndex) {
+  async deleteIncident(incidentIndex, gameIndex) {
+    console.log(incidentIndex,gameIndex);
     //this.toggleDeleteClass=true;
     //console.log(this.toggleDeleteClass);
-    let reportGameJson = this.officialService.reportGameJson['Value'];
+
+    //this.ngAfterViewInit.
+
+    var s = this.setDeletedIncident();
+
+    let reportGameJson = await this.officialService.reportGameJson['Value'];
     console.log(reportGameJson.GameList[gameIndex].GameId);
-    this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
-    this.deletedIncident.IncidentId =
+    s['GameId'] = await reportGameJson.GameList[gameIndex].GameId;
+    s['IncidentId'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
-    this.deletedIncident.IncidentType =
+    s['IncidentType'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
-    this.deletedIncident.IncidentValue =
+    s['IncidentValue'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
-    this.deletedIncident.Notes =
+    s['Notes'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
 
-    console.log(this.deletedIncident);
+    //console.log(this.deletedIncident);
     //this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
-    this.DeletedIncidentReports.push(this.deletedIncident);
+    await this.DeletedIncidentReports.push(s);
     console.log(this.DeletedIncidentReports);
   }
 
@@ -1110,6 +1135,12 @@ export class ReportGameComponent {
       ShowNewIncidentComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
+
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+      this.dataChanged();
+    })
+
+    
   }
 
   deleteTempIncident(newIncidentIndex, gameIndex) {
@@ -1120,15 +1151,33 @@ export class ReportGameComponent {
     this.formChange = true;
   }
 
-  downloadRequest: boolean = false;
-  async downloadScoresheet(url: string) {
+  pdfUrl: string;
+  downloadRequest: boolean;
+  downloadPdf(url) {
     this.downloadRequest = true;
-    console.log(url);
+    var downLoadUrl;    
+    this.officialService
+      .getPdfUrl(url)      
+      .subscribe(res => {
+        console.log(res);
+        console.log(res["_body"]);
+        var x = JSON.parse(res["_body"]);
+        downLoadUrl = x["Value"].AbsoluteUrl;
+        this.downloadRequest = false;
+        window.location.href = downLoadUrl;        
+      });
+  }
 
-    console.log(this.downloadRequest);
-    await this.downloadUrl(url);
-    console.log(this.downloadRequest);
+  //downloadRequest: boolean = false;
+  // async downloadScoresheet(url: string) {
+  //   this.downloadRequest = true;
+  //   console.log(url);
 
+  //   console.log(this.downloadRequest);
+  //   await this.downloadUrl(url);
+  //   console.log(this.downloadRequest);
+  //   ////////////////////////////////////////
+  // }
 
     // this.officialService.downloadPdfReportGames(url)
     //   .subscribe((data) => {
@@ -1154,7 +1203,7 @@ export class ReportGameComponent {
     //       //console.log("done");
     //     }
     //   );
-  }
+
 
   async downloadUrl(url) {
     window.location.href = await url;
