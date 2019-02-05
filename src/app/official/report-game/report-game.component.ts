@@ -35,6 +35,7 @@ import { ValidationModalComponent } from './validation-modal/validation-modal.co
 import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
+import { DomSanitizer } from '@angular/platform-browser';
 //import { file } from '@rxweb/reactive-form-validators';
 //import {Message} from 'primeng/api';
 //import {MessageService} from 'primeng/components/common/messageservice';
@@ -56,8 +57,8 @@ export class ReportGameComponent {
   tempIndex = 0;
   modalHeading: string;
   modalMsg: string;
-  uploadTemplate: TemplateRef<any>;
-  imgsrc: any;
+  //uploadTemplate: TemplateRef<any>;
+  //imgsrc: any;
   //msgs: Message[] = [];
 
   APIGamePost: APIGamePost = {
@@ -158,7 +159,8 @@ export class ReportGameComponent {
     public config: NgbAccordionConfig,
     private modalService: BsModalService,
     public dss: DataSharingService,
-    public notifierService: NotifierService
+    public notifierService: NotifierService,
+    private _sanitizer: DomSanitizer
   ) {
     this.notifier = notifierService;
     config.type = 'info';
@@ -175,38 +177,43 @@ export class ReportGameComponent {
 
 
   ngAfterViewInit() {
-    $(document).on('click', '.glyphicon', (e) => {
-      var targetid = e.target.id;
-      e.target.parentNode.remove();
-      this.ScoreSheetImages.splice(targetid, 1);
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-        return el != null;
-      });
-      console.log("Scoreheet Images: "+ this.ScoreSheetImages);
-    });
+    // $(document).on('click', '.glyphicon', (e) => {
+    //   var targetid = e.target.id;
+    //   e.target.parentNode.remove();
+    //   this.ScoreSheetImages.splice(targetid, 1);
+    //   this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+    //     return el != null;
+    //   });
+    //   console.log("Scoreheet Images: "+ this.ScoreSheetImages);
+    // });
   }
 
   async asyncReport() {
-    console.log(this.tempGameIndex);
+    //console.log(this.tempGameIndex);
     await this.officialService.getReportData().then((res) => {
       //this.checkInitialPON();
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
       }
-  
+
     });
   }
 
   async makeScoreSheetArray() {
-    for (var i = 0; i < this.tempIndex; ++i) {
-      console.log(i);
-      if (this.ScoreSheetImages2[i].GameIndex == this.panelId.toString()) {
-        this.ScoreSheetImages[i] = await new ScoreSheetImages();
-        this.ScoreSheetImages[i].ImageURL = await '';
-        this.ScoreSheetImages[i].NewImageByteCode = await this.ScoreSheetImages2[i]
-          .NewImageByteCode;
-      }
+    console.log(this.ScoreSheetImages);
+    console.log(this.ScoreSheetImages2);   
+    console.log(this.tempIndex);
+    
+    for (var i = 0; i < this.ScoreSheetImages2.length; ++i) {
+      console.log(this.ScoreSheetImages2.length);
+      this.ScoreSheetImages[i] = await new ScoreSheetImages();
+      this.ScoreSheetImages[i].ImageURL = await '';
+      this.ScoreSheetImages[i].NewImageByteCode = await this.ScoreSheetImages2[i]
+        .NewImageByteCode;
+      // if (this.ScoreSheetImages2[i].GameIndex == this.panelId.toString()) {
+      
+      // }
     }
   }
 
@@ -226,6 +233,9 @@ export class ReportGameComponent {
     });
 
     if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
+      /*---------------------------------------------------------------------------*/
+      /*Bootstrap Modal shown in case home/visiting final score not entered by the user*/
+      /*---------------------------------------------------------------------------*/
       const initialState = {
         popupTitle: 'Invalid Final Scores',
         popupMsg: 'Final Score can not be zero.'
@@ -239,7 +249,7 @@ export class ReportGameComponent {
       this.checkFinalScore(
         form,
         gameListIndex
-      ) == true 
+      ) == true
       //&&
       //this.checkMinPON(form,gameListIndex) 
       //&&
@@ -258,9 +268,9 @@ export class ReportGameComponent {
     gameListIndex: number
   ) {
 
-    this.homePON=0;
-    this.visitingPON=0;
-    this.maxPON=0;
+    this.homePON = 0;
+    this.visitingPON = 0;
+    this.maxPON = 0;
 
     this.tempSumHomePoint = 0;
     this.tempSumVisitingPoint = 0;
@@ -290,28 +300,30 @@ export class ReportGameComponent {
           console.log(form.value[hpoint]);
         }
 
-        let hpon = 'HPlayerNote'+i;
+        let hpon = 'HPlayerNote' + i;
         if (form.value[hpon] != null && form.value[hpon]) {
-         this.homePON++;
-         this.maxPON++;
-         console.log(this.homePON, this.visitingPON, this.maxPON);
-         if(this.homePON>3){
+          this.homePON++;
+          this.maxPON++;
+          console.log(this.homePON, this.visitingPON, this.maxPON);
+          if (this.homePON > 3) {
+            /*---------------------------------------------------------------------------*/
+            /*Bootstrap Modal shown in case PON greater than three.*/
+            /*---------------------------------------------------------------------------*/
+            const initialState = {
+              popupTitle: 'Error',
+              popupMsg:
+                'The players of note in Team ' +
+                homeTeamName +
+                ' can not be greater than three.'
+            };
 
-          const initialState = {
-            popupTitle: 'Error',
-            popupMsg:
-              'The players of note in Team ' +
-              homeTeamName +
-              ' can not be greater than three.'
-          };
-    
-          this.modalRef = this.modalService.show(
-            ValidationModalComponent,
-            Object.assign({}, { class: 'customModalWidth75', initialState })
-          );
+            this.modalRef = this.modalService.show(
+              ValidationModalComponent,
+              Object.assign({}, { class: 'customModalWidth75', initialState })
+            );
 
-           return false;
-         }
+            return false;
+          }
         }
       }
     }
@@ -336,35 +348,42 @@ export class ReportGameComponent {
           //console.log(vpoint, form.value[vpoint]);
         }
 
-        let vpon = 'VPlayerNote'+i;
+        let vpon = 'VPlayerNote' + i;
         if (form.value[vpoint] != null && form.value[vpon]) {
-         this.visitingPON++;
-         this.maxPON++;
+          this.visitingPON++;
+          this.maxPON++;
 
-         if(this.visitingPON>3){
+          if (this.visitingPON > 3) {
+            /*---------------------------------------------------------------------------*/
+            /*Bootstrap Modal shown in case PON grater than three.*/
+            /*---------------------------------------------------------------------------*/
 
-          const initialState = {
-            popupTitle: 'Error',
-            popupMsg:
-              'The players of note in Team ' +
-              visitingTeamName +
-              ' can not be greater than three.'
-          };
-    
-          this.modalRef = this.modalService.show(
-            ValidationModalComponent,
-            Object.assign({}, { class: 'customModalWidth75', initialState })
-          );
+            const initialState = {
+              popupTitle: 'Error',
+              popupMsg:
+                'The players of note in Team ' +
+                visitingTeamName +
+                ' can not be greater than three.'
+            };
 
-           return false;
+            this.modalRef = this.modalService.show(
+              ValidationModalComponent,
+              Object.assign({}, { class: 'customModalWidth75', initialState })
+            );
+
+            return false;
           }
-         console.log(this.homePON, this.visitingPON, this.maxPON);
+          console.log(this.homePON, this.visitingPON, this.maxPON);
 
-         
+
         }
       }
 
-      if(this.homePON==0){
+      if (this.homePON == 0) {
+
+        /*---------------------------------------------------------------------------*/
+        /*Bootstrap Modal shown in case PON count is Zero.*/
+        /*---------------------------------------------------------------------------*/
 
         const initialState = {
           popupTitle: 'Error',
@@ -373,31 +392,34 @@ export class ReportGameComponent {
             homeTeamName +
             ' can not be Zero.'
         };
-  
+
         this.modalRef = this.modalService.show(
           ValidationModalComponent,
           Object.assign({}, { class: 'customModalWidth75', initialState })
         );
 
-         return false;
-        }
-        else if(this.visitingPON==0){
+        return false;
+      }
+      else if (this.visitingPON == 0) {
+        /*---------------------------------------------------------------------------*/
+        /*Bootstrap Modal shown in case PON count is Zero.*/
+        /*---------------------------------------------------------------------------*/
+        const initialState = {
+          popupTitle: 'Error',
+          popupMsg:
+            'The players of note in Team ' +
+            visitingTeamName +
+            ' can not be Zero.'
+        };
 
-          const initialState = {
-            popupTitle: 'Error',
-            popupMsg:
-              'The players of note in Team ' +
-              visitingTeamName +
-              ' can not be Zero.'
-          };
-    
-          this.modalRef = this.modalService.show(
-            ValidationModalComponent,
-            Object.assign({}, { class: 'customModalWidth75', initialState })
-          );
+        this.modalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
 
-           return false;}
-      
+        return false;
+      }
+
       console.log(this.homePON, this.visitingPON, this.maxPON);
     }
 
@@ -573,13 +595,22 @@ export class ReportGameComponent {
       // }
       this.formChange = false;
       this.tempIndex = 0;
+      this.deletedIndex=0;      
       this.checkBtnClick = 0;
       this.ScoreSheetImages = [];
+      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+            return el != null;
+          });
       this.ScoreSheetImages2 = [];
       this.DeletedScoreSheet2 = [];
       this.DeletedScoreSheetImages = [];
+      this.DeletedScoreSheetImages = this.DeletedScoreSheetImages.filter(function (el) {
+        return el != null;
+      });
       this.officialService.IncidentReports = [];
+      console.log("Incident Reports:" + this.officialService.IncidentReports);
       this.DeletedIncidentReports = [];
+      this.TempScoreSheets = [];
       this.homePON = 0;
       this.visitingPON = 0;
       this.maxPON = 0;
@@ -611,14 +642,23 @@ export class ReportGameComponent {
           this.tempIndex = 0;
           this.checkBtnClick = 0;
           this.ScoreSheetImages = [];
+          this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+            return el != null;
+          });
           this.ScoreSheetImages2 = [];
-          this.DeletedScoreSheet2 = [];
+          //this.DeletedScoreSheet2 = [];
           this.DeletedScoreSheetImages = [];
+          this.DeletedScoreSheetImages = this.DeletedScoreSheetImages.filter(function (el) {
+            return el != null;
+          });
           this.officialService.IncidentReports = [];
           this.DeletedIncidentReports = [];
+          this.TempScoreSheets = []
           this.homePON = 0;
           this.visitingPON = 0;
           this.maxPON = 0;
+          this.deletedIndex=0;
+          this.tempIndex=0;
           this.config.closeOthers = true;
         }
 
@@ -626,17 +666,17 @@ export class ReportGameComponent {
 
     } else {
       let gameListId = parseInt($event.panelId);
-      this.tempGameIndex=gameListId;
-      console.log(this.tempGameIndex);
+      this.tempGameIndex = gameListId;
+      //console.log(this.tempGameIndex);
       this.homePON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalHomePON;
       this.visitingPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalVisitingPON;
       this.maxPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalGamePON;
-      console.log(this.homePON, this.visitingPON, this.maxPON);
+      //console.log(this.homePON, this.visitingPON, this.maxPON);
     }
 
   }
 
-  checkMinPON(form,gameListIndex: number) {
+  checkMinPON(form, gameListIndex: number) {
     console.log(form.value);
     let homeTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
       .HomeTeam;
@@ -644,31 +684,31 @@ export class ReportGameComponent {
     let visitingTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
       .VisitingTeam;
 
-      if (this.homePON <= 0) {
-        const initialState = {
-          popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team ' + homeTeamName + ' can not be zero.'
-        };
+    if (this.homePON <= 0) {
+      const initialState = {
+        popupTitle: 'Error',
+        popupMsg: 'Players of Note in Team ' + homeTeamName + ' can not be zero.'
+      };
 
-        this.bsModalRef = this.modalService.show(
-          ValidationModalComponent,
-          Object.assign({}, { class: 'customModalWidth75', initialState })
-        );
+      this.bsModalRef = this.modalService.show(
+        ValidationModalComponent,
+        Object.assign({}, { class: 'customModalWidth75', initialState })
+      );
 
-        return false;
-      }
-      if (this.visitingPON <= 0) {
-        const initialState = {
-          popupTitle: 'Error',
-          popupMsg: 'Players of Note in Team ' + visitingTeamName + ' can not be zero.'
-        };
+      return false;
+    }
+    if (this.visitingPON <= 0) {
+      const initialState = {
+        popupTitle: 'Error',
+        popupMsg: 'Players of Note in Team ' + visitingTeamName + ' can not be zero.'
+      };
 
-        this.bsModalRef = this.modalService.show(
-          ValidationModalComponent,
-          Object.assign({}, { class: 'customModalWidth75', initialState })
-        );
-        return false;
-      }
+      this.bsModalRef = this.modalService.show(
+        ValidationModalComponent,
+        Object.assign({}, { class: 'customModalWidth75', initialState })
+      );
+      return false;
+    }
     // } else {
     //   for (
     //     let i = 0;
@@ -717,7 +757,7 @@ export class ReportGameComponent {
     //     );
     //     return false;
     //   }
-  
+
     return true;
   }
 
@@ -743,23 +783,22 @@ export class ReportGameComponent {
         this.homePON++;
         console.log("HomePon Checked");
       }
-      else if (teamType == 'visiting' && this.visitingPON <= 2) 
-      {  
+      else if (teamType == 'visiting' && this.visitingPON <= 2) {
         console.log("VisitingPon Checked");
         this.visitingPON++;
       }
-      
+
     } else {
       this.maxPON--;
       console.log("MaxPon Unchecked");
       if (teamType == 'home') {
         this.homePON--;
         console.log("HomePon Unchecked");
-      } else if (teamType == 'visiting'){
+      } else if (teamType == 'visiting') {
         this.visitingPON--;
         console.log("Visiting Pon Unchecked");
-      } 
-      
+      }
+
     }
 
     // if (!e.target.checked && this.maxPON <= 6 && this.maxPON >= 1) {
@@ -837,14 +876,14 @@ export class ReportGameComponent {
 
     if (this.checkBtnClick > 0) {
       //console.log(this.checkBtnClick, this.maxPON);
-     
+
     }
 
-    console.log(this.homePON, this.visitingPON,this.maxPON);
+    console.log(this.homePON, this.visitingPON, this.maxPON);
   }
 
 
-  onChange(e:Event){
+  onChange(e: Event) {
     console.log(e);
   }
 
@@ -861,45 +900,46 @@ export class ReportGameComponent {
 
   showModal() {
     //if (this.officialService.postReportMsg) {
-      //console.log(this.officialService.postReportStatus)
-      const initialState = {
-        status: this.officialService.postReportStatus,
-        popupTitle: this.officialService.postReportTitle,
-        popupMsg: this.officialService.postReportMsg
-      };
+    //console.log(this.officialService.postReportStatus)
+    const initialState = {
+      status: this.officialService.postReportStatus,
+      popupTitle: this.officialService.postReportTitle,
+      popupMsg: this.officialService.postReportMsg
+    };
 
-      //console.log(this.officialService.postReportStatus);
-      // if (!this.officialService.postReportStatus) {
-      //   this.modalRef = this.modalService.show(
-      //     ValidationModalComponent,
-      //     Object.assign({}, { class: 'customModalWidth75', initialState })
-      //   );
-      // } else {
-        this.modalRef = this.modalService.show(
-          SuccessPopupComponent,
-          Object.assign({}, { class: 'customModalWidth75', initialState })
-        );
-        this.modalRef.content.click.subscribe(($e)=>{
-          console.log("Btn Click Status:"+$e);
-          console.log(this.tempGameIndex);
-          if ($e) {
-            this.homePON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalHomePON;
-            this.visitingPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalVisitingPON;
-            this.maxPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalGamePON;
-            console.log(this.homePON,this.visitingPON,this.maxPON);
-          }
-        })
-      //}
-   
+    //console.log(this.officialService.postReportStatus);
+    // if (!this.officialService.postReportStatus) {
+    //   this.modalRef = this.modalService.show(
+    //     ValidationModalComponent,
+    //     Object.assign({}, { class: 'customModalWidth75', initialState })
+    //   );
+    // } else {
+    this.modalRef = this.modalService.show(
+      SuccessPopupComponent,
+      Object.assign({}, { class: 'customModalWidth75', initialState })
+    );
+    this.modalRef.content.click.subscribe(($e) => {
+      //console.log("Btn Click Status:" + $e);
+      //console.log(this.tempGameIndex);
+      if ($e) {
+        this.homePON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalHomePON;
+        this.visitingPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalVisitingPON;
+        this.maxPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalGamePON;
+        //console.log(this.homePON, this.visitingPON, this.maxPON);
+      }
+    })
+    //}
+
   }
 
 
   public panelId: number;
   //uploadRequest:boolean;
   async processFile(imageInput: any, id: any) {
+   
     //this.uploadRequest = true;
     this.panelId = id;
-    console.log(this.panelId);
+    //console.log(this.panelId);
     await this.makeImageByteArray(imageInput, id);
     //this.uploadRequest = await false;
   }
@@ -910,111 +950,151 @@ export class ReportGameComponent {
         var reader = await new FileReader();
         reader.onload = await this._handleReaderLoaded.bind(this);
         await reader.readAsBinaryString(imageInput.files[i]);
-        await console.log(this.ScoreSheetImages2);
+        //await console.log(this.ScoreSheetImages2);
         //await this.improviseArray(id);
       }
     }
   }
 
+  /*-----Array to showcase images added by the user in template----*/
+  TempScoreSheets: any[] = [];
+
+
   async _handleReaderLoaded(readerEvt) {
+    this.dataChanged();
     var binaryString = null;
     binaryString = await readerEvt.target.result;
     //console.log(this.ScoreSheetImages);
-    console.log(this.tempIndex);
+    //console.log(this.tempIndex);
     this.ScoreSheetImages2[this.tempIndex] = await new ScoreSheetImages2();
     this.ScoreSheetImages2[this.tempIndex].ImageURL = await '';
     this.ScoreSheetImages2[this.tempIndex].NewImageByteCode = await btoa(binaryString);
-    this.ScoreSheetImages2[this.tempIndex].GameIndex = this.panelId.toString();
+    //this.ScoreSheetImages[this.tempIndex].GameIndex = this.panelId.toString();
 
-    var source_code =
-      'data:image/jpeg;base64,' + this.ScoreSheetImages2[this.tempIndex].NewImageByteCode;
+    var source_code = await this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + btoa(binaryString));
+    await this.TempScoreSheets.push(source_code);
 
-    var el = this.elRef.nativeElement.querySelector('#IncidentListClass_' + this.panelId);
-    var refchild = this.elRef.nativeElement.querySelector('#Incidentclass_' + this.panelId);
+    //console.log(this.TempScoreSheets);
+    //console.log(this.ScoreSheetImages);
 
-    let li = this.renderer.createElement('li');
-    this.renderer.setProperty(li, 'id', 'incident_li_' + this.tempIndex);
+    // var source_code =
+    //   'data:image/jpeg;base64,' + this.ScoreSheetImages2[this.tempIndex].NewImageByteCode;
 
-    let img = this.renderer.createElement('img');
-    this.renderer.setProperty(img, 'id', 'incident_img_' + this.tempIndex);
-    //this.renderer.setStyle(img, "width", "100px");
-    //this.renderer.setStyle(img, "height", "100px");
-    this.renderer.setAttribute(img, 'src', source_code);
-    this.renderer.appendChild(li, img);
+    // var el = this.elRef.nativeElement.querySelector('#IncidentListClass_' + this.panelId);
+    // var refchild = this.elRef.nativeElement.querySelector('#Incidentclass_' + this.panelId);
 
-    let span = this.renderer.createElement('span');
-    this.renderer.setProperty(span, 'id', this.tempIndex);
-    this.renderer.addClass(span, 'glyphicon');
-    this.renderer.addClass(span, 'glyphicon-remove-circle');
-    this.renderer.listen(span, 'click', this.DeleteTempImage.bind(span));
-    this.renderer.appendChild(li, span);
-    this.renderer.insertBefore(el, li, refchild);
+    // let li = this.renderer.createElement('li');
+    // this.renderer.setProperty(li, 'id', 'incident_li_' + this.tempIndex);
+
+    // let img = this.renderer.createElement('img');
+    // this.renderer.setProperty(img, 'id', 'incident_img_' + this.tempIndex);
+    // //this.renderer.setStyle(img, "width", "100px");
+    // //this.renderer.setStyle(img, "height", "100px");
+    // this.renderer.setAttribute(img, 'src', source_code);
+    // this.renderer.appendChild(li, img);
+
+    // let span = this.renderer.createElement('span');
+    // this.renderer.setProperty(span, 'id', this.tempIndex);
+    // this.renderer.addClass(span, 'glyphicon');
+    // this.renderer.addClass(span, 'glyphicon-remove-circle');
+    // this.renderer.listen(span, 'click', this.DeleteTempImage.bind(span));
+    // this.renderer.appendChild(li, span);
+    // this.renderer.insertBefore(el, li, refchild);
     await this.tempIndex++;
   }
 
   /* - Image implementation ends - */
 
+
+  /*--------Delete Temp UnSaved Image--------------*/
+
+  deleteTempImage($event: Event, tempSSIndex: number) {
+    this.dataChanged();
+    //console.log($event);
+    //console.log(tempSSIndex);
+    console.log(this.ScoreSheetImages2);
+    this.ScoreSheetImages2.splice(tempSSIndex, 1);
+    this.ScoreSheetImages2 = this.ScoreSheetImages2.filter(function (el) {
+      return el != null;
+    });
+
+    this.TempScoreSheets.splice(tempSSIndex,1);    
+    this.TempScoreSheets = this.TempScoreSheets.filter(function (el) {
+      return el != null;
+    });
+    console.log(this.ScoreSheetImages);
+
+  }
+
   /* - Code to Delete Image - */
   deletedIndex = 0;
   deleteImage(e: any, url: string, ssIndex: string) {
+    this.dataChanged();
     console.log('delete server image');
     var tempId = this.elRef.nativeElement.querySelector('#' + ssIndex);
     this.renderer.setProperty(tempId, 'style', 'display:none');
 
-    //console.log(url);
-    //console.log(ssIndex);
+    this.DeletedScoreSheet2= this.DeletedScoreSheet2.filter(function (el) {
+      return el != null;
+    });
+
+    console.log(this.DeletedScoreSheetImages);
 
     this.DeletedScoreSheetImages[this.deletedIndex] = new DeletedScoreSheetImages();
     this.DeletedScoreSheetImages[this.deletedIndex].ImageURL = url;
     this.DeletedScoreSheetImages[this.deletedIndex].NewImageByteCode = '';
-    console.log(this.DeletedScoreSheetImages);
+    // this.DeletedScoreSheet2.forEach(element => {
+    //   console.log(element);      
+    // });
     this.deletedIndex++;
   }
 
   DeleteTempImage(obj: any) {
+
     obj.target.parentNode.remove();
   }
 
-  /* - Code to check if Player no Not Present. If the user says the Player is not present, then
+  /* - Code to check if Player Not Present. If the user says the Player is not present, then
   his score will be changed to zero.*/
-  checkNP(e:Event,teamType: string, playerofNote: string, id: string,form:any) {
+  checkNP(e: Event, teamType: string, playerofNote: string, id: string, form: any) {
     console.log(e.target);
     console.log(form.value);
-    for(var i=0; i<10; ++i){
-      let hpon = 'HPlayerNote'+i;
-      let hnp = 'HNotPresent'+i;
-      let vpon = 'VPlayerNote'+i;
-      let vnp = 'VNotPresent'+i;  
-      if(form.value[hnp] && form.value[hpon] && this.homePON<=3){
+    for (var i = 0; i < 10; ++i) {
+      let hpon = 'HPlayerNote' + i;
+      let hnp = 'HNotPresent' + i;
+      let vpon = 'VPlayerNote' + i;
+      let vnp = 'VNotPresent' + i;
+      if (form.value[hnp] && form.value[hpon] && this.homePON <= 3) {
         this.homePON--;
         this.maxPON--;
-        console.log(this.homePON,this.maxPON)
+        console.log(this.homePON, this.maxPON)
       }
-      if(form.value[vpon] && form.value[vnp] && this.visitingPON<=3){
+      if (form.value[vpon] && form.value[vnp] && this.visitingPON <= 3) {
         this.visitingPON--;
         this.maxPON--;
-        console.log(this.visitingPON,this.maxPON)
+        console.log(this.visitingPON, this.maxPON)
       }
-      if(form.value[hnp]==false && form.value[hpon]==false && this.homePON>=0 && this.homePON<=2  ){
+      if (form.value[hnp] == false && form.value[hpon] == false && this.homePON >= 0 && this.homePON <= 2) {
         this.homePON++;
         this.maxPON++;
-        console.log(this.homePON,this.maxPON)
+        console.log(this.homePON, this.maxPON)
       }
-      if(form.value[vpon]==false && form.value[vnp]==false && this.visitingPON>=0 && this.visitingPON<=2 ){
+      if (form.value[vpon] == false && form.value[vnp] == false && this.visitingPON >= 0 && this.visitingPON <= 2) {
         this.visitingPON++;
         this.maxPON++;
-        console.log(this.visitingPON,this.maxPON)
+        console.log(this.visitingPON, this.maxPON)
       }
 
     }
-    
-    this.dataChanged();
-    var tempId = this.elRef.nativeElement.querySelector('#' + teamType + id);
-    this.renderer.setProperty(tempId, 'value', 0);
 
-    var tempId2 = this.elRef.nativeElement.querySelector('#' + playerofNote + id);
-    this.renderer.setProperty(tempId2, 'value', false);
-    this.renderer.setProperty(tempId2, 'checked', false);
+    this.dataChanged();
+    // var tempId = this.elRef.nativeElement.querySelector('#' + teamType + id);
+    // this.renderer.setProperty(tempId, 'value', 0);
+
+    // var tempId2 = this.elRef.nativeElement.querySelector('#' + playerofNote + id);
+    // this.renderer.setProperty(tempId2, 'value', false);
+    // this.renderer.setProperty(tempId2, 'checked', false);
   }
 
 
@@ -1023,6 +1103,12 @@ export class ReportGameComponent {
     //const config: ModalOptions = { class: 'modal-sm' };
     //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
 
+
+  /*************************************************************************** */
+  /*initialState consists of Nav Params that consist of initial value of child component.*/
+  /* It is being user here whenever multiple initial values are being passed. */
+  /*************************************************************************** */
+
     const initialState = {
       name: this.officialService.reportGameJson['Value'].GameList[gameIndex].UserName,
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
@@ -1030,11 +1116,19 @@ export class ReportGameComponent {
       incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[gameIndex]
         .IncidentSubDropDown
     };
-    //this.router.navigate(["newIncident"]);
     this.bsModalRef = this.modalService.show(
       NewIncidentComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
+
+
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+    /*************************************************************************** */
+    /* When user submits a new incident,
+    the formchange variable will be set to true */
+    /*************************************************************************** */
+      this.dataChanged();
+    })
     //this.modalRef.content.closeBtnName = "Close";
   }
 
@@ -1044,7 +1138,10 @@ export class ReportGameComponent {
       incidentIndex
       ]
     );
-
+  /*************************************************************************** */
+  /* initialState consists of Nav Params that consist of initial value of child component.*/
+  /* It is being user here whenever multiple initial values are being passed. */
+  /*************************************************************************** */
     const initialState = {
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
       incident: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
@@ -1060,42 +1157,63 @@ export class ReportGameComponent {
       ShowIncidentComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
+
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+    /*************************************************************************** */
+    /* When user submits change to a pre-existing incident from Database
+    the formchange variable will be set to true */
+    /*************************************************************************** */
+      this.dataChanged();
+    })
   }
 
-  deletedIncident: DeleteIncidentReport = {
-    GameId: null,
-    IncidentId: null,
-    IncidentType: null,
-    IncidentValue: null,
-    Notes: null
-  };
+  setDeletedIncident() {
+    return {
+      GameId: null,
+      IncidentId: null,
+      IncidentType: null,
+      IncidentValue: null,
+      Notes: null
+    }
+  }
 
   DeletedIncidentReports: DeleteIncidentReport[] = [];
   //toggleDeleteClass:boolean;
-  deleteIncident(incidentIndex, gameIndex) {
-    //this.toggleDeleteClass=true;
-    //console.log(this.toggleDeleteClass);
-    let reportGameJson = this.officialService.reportGameJson['Value'];
+  async deleteIncident(incidentIndex, gameIndex) {
+    this.dataChanged();
+  /*************************************************************************** */
+  /* s is of 'var' dataType and used as a temp model of deleted incident due to its limited block-scope*/
+  /* After setting values, it is pushed to DeletedIncidentReports */
+  /*************************************************************************** */
+
+  var tempId = this.elRef.nativeElement.querySelector('#' +"incident" + incidentIndex);
+  this.renderer.setProperty(tempId, 'style', 'display:none');
+
+    var s = this.setDeletedIncident();
+
+    let reportGameJson = await this.officialService.reportGameJson['Value'];
     console.log(reportGameJson.GameList[gameIndex].GameId);
-    this.deletedIncident.GameId = reportGameJson.GameList[gameIndex].GameId;
-    this.deletedIncident.IncidentId =
+    s['GameId'] = await reportGameJson.GameList[gameIndex].GameId;
+    s['IncidentId'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
-    this.deletedIncident.IncidentType =
+    s['IncidentType'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentType;
-    this.deletedIncident.IncidentValue =
+    s['IncidentValue'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentValue;
-    this.deletedIncident.Notes =
+    s['Notes'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
 
-    console.log(this.deletedIncident);
-    //this.APIGamePost.DeleteIncidentReport.push(this.deletedIncident);
-    this.DeletedIncidentReports.push(this.deletedIncident);
+    await this.DeletedIncidentReports.push(s);
     console.log(this.DeletedIncidentReports);
   }
 
-  showTempIncident(newIncidentIndex, gameIndex) {
-    console.log(this.officialService.IncidentReports[newIncidentIndex]);
-    console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes);
+  showTempIncident(newIncidentIndex, gameIndex) {   
+    
+  /*************************************************************************** */
+  /* initialState consists of Nav Params that consist of initial value of child component.*/
+  /* It is being user here whenever multiple initial values are being passed. */
+  /*************************************************************************** */
+
     const initialState = {
       index: newIncidentIndex,
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
@@ -1110,63 +1228,95 @@ export class ReportGameComponent {
       ShowNewIncidentComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
+    
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+   
+    /*************************************************************************** */
+    /* When user clicks save button on an Unsaved incident,
+    the formchange variable will be set to true */
+    /*************************************************************************** */
+
+      this.dataChanged();
+    })
+
+
   }
 
-  deleteTempIncident(newIncidentIndex, gameIndex) {
+  deleteTempIncident(newIncidentIndex) {
+    this.dataChanged();
+  /*************************************************************************** */
+  /* Incident Reports array in maintained in officialService. */
+  /* If the user wishes to delete an unsaved incident, the array is simply popped at that index. */
+  /*************************************************************************** */   
     this.officialService.IncidentReports.splice(newIncidentIndex, 1);
   }
 
   dataChanged() {
+  /*************************************************************************** */
+  /* This is useful to know if any data in the reportForm is changed by the user. */
+
+  /* If the data has been changed, and user clicks on a different accordion, then user 
+  will be given an option to save the data to database in the form of a bootstrap modal. 
+  If the user doesn't save, all the data will be cleared and 
+  formChange variable will be set to false.*/
+  /*************************************************************************** */  
     this.formChange = true;
   }
 
-  downloadRequest: boolean = false;
-  async downloadScoresheet(url: string) {
+  pdfUrl: string;
+  downloadRequest: boolean;
+  downloadPdf(url) {
+  /*************************************************************************** */
+  /* Download Pre-printed Scoresheet. */
+  /*************************************************************************** */
+
     this.downloadRequest = true;
-    console.log(url);
-
-    console.log(this.downloadRequest);
-    await this.downloadUrl(url);
-    console.log(this.downloadRequest);
-
-
-    // this.officialService.downloadPdfReportGames(url)
-    //   .subscribe((data) => {
-    //     console.log(data);
-    //     const contentDisposition = data.headers.get('content-disposition') || '';
-    //     const matches = /filename=([^;]+)/ig.exec(contentDisposition);
-    //     var fileName = ((matches[1] || 'untitled').trim()).replace('.pdf','');
-    //     //fileName.replace('.pdf','');
-    //     //const finalName = fileName.substring(fileName.indexOf('.pdf')+1)
-    //     console.log(fileName);
-    //     const blob = new Blob([data.blob()], { type: 'application/pdf' });
-    //     console.log(blob);
-    //     saveAs(blob, fileName);
-    //   },
-    //     (err) => {
-    //       this.downloadRequest=false;
-    //       console.log(err);
-    //       this.modalRef = this.modalService.show(ErrorModalComponent);
-    //       this.modalRef.content.closeBtnName = 'Close';
-    //     },
-    //     () => {
-    //        this.downloadRequest=false;
-    //       //console.log("done");
-    //     }
-    //   );
+    var downLoadUrl;
+    this.officialService
+      .getPdfUrl(url)
+      .subscribe(res => {
+        console.log(res);
+        console.log(res["_body"]);
+        var x = JSON.parse(res["_body"]);
+        downLoadUrl = x["Value"].AbsoluteUrl;
+        this.downloadRequest = false;
+        window.location.href = downLoadUrl;
+      });
   }
 
-  async downloadUrl(url) {
-    window.location.href = await url;
-    this.downloadRequest = await false;
-  }
+  //downloadRequest: boolean = false;
+  // async downloadScoresheet(url: string) {
+  //   this.downloadRequest = true;
+  //   console.log(url);
 
+  //   console.log(this.downloadRequest);
+  //   await this.downloadUrl(url);
+  //   console.log(this.downloadRequest);
+  //   ////////////////////////////////////////
+  // }
 
-  public _album: Array<any> = [
-    {
-      src: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
-      caption: 'github',
-      thumb: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678110-sign-info-128.png'
-    }
-  ];
+  // this.officialService.downloadPdfReportGames(url)
+  //   .subscribe((data) => {
+  //     console.log(data);
+  //     const contentDisposition = data.headers.get('content-disposition') || '';
+  //     const matches = /filename=([^;]+)/ig.exec(contentDisposition);
+  //     var fileName = ((matches[1] || 'untitled').trim()).replace('.pdf','');
+  //     //fileName.replace('.pdf','');
+  //     //const finalName = fileName.substring(fileName.indexOf('.pdf')+1)
+  //     console.log(fileName);
+  //     const blob = new Blob([data.blob()], { type: 'application/pdf' });
+  //     console.log(blob);
+  //     saveAs(blob, fileName);
+  //   },
+  //     (err) => {
+  //       this.downloadRequest=false;
+  //       console.log(err);
+  //       this.modalRef = this.modalService.show(ErrorModalComponent);
+  //       this.modalRef.content.closeBtnName = 'Close';
+  //     },
+  //     () => {
+  //        this.downloadRequest=false;
+  //       //console.log("done");
+  //     }
+  //   );
 }

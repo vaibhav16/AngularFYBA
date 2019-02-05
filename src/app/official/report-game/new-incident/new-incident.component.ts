@@ -12,7 +12,7 @@ import { NotifierService } from 'angular-notifier';
   styleUrls: ['./new-incident.component.css']
 })
 export class NewIncidentComponent implements OnInit {
-
+  @Output() saveStatus = new EventEmitter<boolean>();
   incidentForm: FormGroup;
   public incidentTypes;
   public incidentSubDropDown;
@@ -53,17 +53,34 @@ export class NewIncidentComponent implements OnInit {
     this.depedentIncidentDropdown = [];
     const incidentType = this.incidentForm.get('incidentType').value;
 
+    
+    
+    // subscribe(() => {
+    //   this.incidentForm.controls['incidentSubDropDown'].setValue([]);
+    // });
+
     if (incidentType!='Other') {
       for (var i = 0; i < this.incidentTypes.length; ++i) {
         if (this.incidentTypes[i]['DependentDropdownName'] == incidentType) {
           this.incidentId = this.incidentTypes[i]['Id'];
         }
       }
+      console.log(incidentType);
       this.depedentIncidentDropdown = this.incidentSubDropDown[incidentType];
       this.incidentForm.controls['incidentSubDropDown'].enable();
+      this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+      //this.incidentForm.controls['incidentSubDropDown'].markAsPending;
+      this.incidentForm.controls['incidentSubDropDown'].setValue([]);
+      //this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
+      //this.incidentForm.get('incidentSubDropDown').updateValueAndValidity(); 
     }
     else {
-      this.incidentForm.controls['incidentSubDropDown'].setValidators([]);
+      console.log(incidentType);
+      //this.incidentForm.controls['incidentSubDropDown'].setValidators([]);
+      this.depedentIncidentDropdown = [];
+      this.incidentForm.get('incidentSubDropDown').clearValidators();
+      this.incidentForm.get('incidentSubDropDown').updateValueAndValidity(); 
+      this.incidentForm.controls['incidentSubDropDown'].setValue([undefined]);
     }
     this.incidentForm.controls['note'].enable();
     console.log(this.depedentIncidentDropdown);
@@ -111,6 +128,7 @@ export class NewIncidentComponent implements OnInit {
     //this.officialService.IncidentReports = this.officialService.IncidentReports.slice();
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();
+    this.saveStatus.emit(false);
     //this.notifier.notify( 'success', 'You are awesome! I mean it!' );
   }
 }
