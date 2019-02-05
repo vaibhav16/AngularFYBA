@@ -936,6 +936,7 @@ export class ReportGameComponent {
   public panelId: number;
   //uploadRequest:boolean;
   async processFile(imageInput: any, id: any) {
+   
     //this.uploadRequest = true;
     this.panelId = id;
     //console.log(this.panelId);
@@ -960,6 +961,7 @@ export class ReportGameComponent {
 
 
   async _handleReaderLoaded(readerEvt) {
+    this.dataChanged();
     var binaryString = null;
     binaryString = await readerEvt.target.result;
     //console.log(this.ScoreSheetImages);
@@ -1008,6 +1010,7 @@ export class ReportGameComponent {
   /*--------Delete Temp UnSaved Image--------------*/
 
   deleteTempImage($event: Event, tempSSIndex: number) {
+    this.dataChanged();
     //console.log($event);
     //console.log(tempSSIndex);
     console.log(this.ScoreSheetImages2);
@@ -1027,6 +1030,7 @@ export class ReportGameComponent {
   /* - Code to Delete Image - */
   deletedIndex = 0;
   deleteImage(e: any, url: string, ssIndex: string) {
+    this.dataChanged();
     console.log('delete server image');
     var tempId = this.elRef.nativeElement.querySelector('#' + ssIndex);
     this.renderer.setProperty(tempId, 'style', 'display:none');
@@ -1047,6 +1051,7 @@ export class ReportGameComponent {
   }
 
   DeleteTempImage(obj: any) {
+
     obj.target.parentNode.remove();
   }
 
@@ -1175,6 +1180,7 @@ export class ReportGameComponent {
   DeletedIncidentReports: DeleteIncidentReport[] = [];
   //toggleDeleteClass:boolean;
   async deleteIncident(incidentIndex, gameIndex) {
+    this.dataChanged();
   /*************************************************************************** */
   /* s is of 'var' dataType and used as a temp model of deleted incident due to its limited block-scope*/
   /* After setting values, it is pushed to DeletedIncidentReports */
@@ -1237,6 +1243,7 @@ export class ReportGameComponent {
   }
 
   deleteTempIncident(newIncidentIndex) {
+    this.dataChanged();
   /*************************************************************************** */
   /* Incident Reports array in maintained in officialService. */
   /* If the user wishes to delete an unsaved incident, the array is simply popped at that index. */
