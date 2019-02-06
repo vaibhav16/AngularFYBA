@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnInit, Renderer2, TemplateRef } from '@angular/core';
 import { OfficialService } from './../official.service';
-import { LoginService } from './../../common/services/login.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import { IProfileSection } from './../classes/profile/IProfile.model';
+import { CookieService } from 'ngx-cookie-service';
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,9 +22,10 @@ export class ProfileComponent implements OnInit {
   constructor(
     public officialService: OfficialService,
     public elRef: ElementRef,
-    public loginService: LoginService,
     private modalService: BsModalService,
-    public renderer: Renderer2
+    public renderer: Renderer2,
+    private cookieService: CookieService,
+    public dss: DataSharingService
   ) {}
 
   ngOnInit() {
@@ -82,8 +84,8 @@ export class ProfileComponent implements OnInit {
       (data) => {
         console.log(data);
         if (data['Status']) {
-          this.loginService.cookieService.set('roundThumbnail', data['Value'].RoundThumbnail);
-          this.loginService.roundThumbnail = data['Value'].RoundThumbnail;
+          this.cookieService.set('roundThumbnail', data['Value'].RoundThumbnail);
+          this.dss.roundThumbnail = data['Value'].RoundThumbnail;
           this.imgThumbnail = data['Value'].Thumbnail;
           this.imgUrl = data['Value'].Link;
         } else {
@@ -120,8 +122,8 @@ export class ProfileComponent implements OnInit {
       (data) => {
         console.log(data);
         if (data['Status']) {
-          this.loginService.roundThumbnail = data['Value'];
-          this.loginService.cookieService.set('roundThumbnail', data['Value']);
+          this.dss.roundThumbnail = data['Value'];
+          this.cookieService.set('roundThumbnail', data['Value']);
         } else {
           this.profileRequest = false;
           this.modalRef = this.modalService.show(ErrorModalComponent);

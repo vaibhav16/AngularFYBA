@@ -29,7 +29,7 @@
               class="form-control"
               name="Email"
               #Email="ngModel"
-              [(ngModel)]="loginService.selectedLogin.Email"
+              [(ngModel)]="selectedLogin.Email"
               placeholder="Email"
               required
             />
@@ -47,7 +47,7 @@
               class="form-control"
               name="Password"
               #Password="ngModel"
-              [(ngModel)]="loginService.selectedLogin.Password"
+              [(ngModel)]="selectedLogin.Password"
               placeholder="Password"
               required
             />
@@ -63,38 +63,39 @@
             <button
               type="submit"
               [disabled]="
-                !loginService.selectedLogin.Password ||
-                !loginService.selectedLogin.Email
+                !selectedLogin.Password ||
+                !selectedLogin.Email
               "
               class="signIn_btn"
             >
               Sign In
             </button>
           </div>
-          <div class="invalid_credintial" *ngIf="loginService.loginFailed">
-            Invalid Login Credentials
-          </div>
-          <div class="invalid_credintial" *ngIf="loginService.serviceError">
+          <ng-container *ngIf="userData!=undefined">
+            <div class="invalid_credintial" *ngIf="!userData.Status">
+              Invalid Login Credentials
+            </div>
+          </ng-container>
+          <!-- <div class="invalid_credintial" *ngIf="loginService.serviceError">
             Server Error. Please Try Again!
-          </div>
+          </div> -->
           <div class="clearfix"></div>
         </div>
         <div class="clearfix"></div>
       </div>
     </div>
   </form>
-  <ng-template #loginErrorTemplate>
+  <!-- <ng-template #loginErrorTemplate>
     <div class="modal-body text-center">
-      <p class="heading-signUp">Error</p>
-      <!-- <p>{{loginService.errorMsg}}</p> -->
+      <p class="heading-signUp">Error</p>     
       <p>{{ loginService.errorMsg.split("\n")[0] }}</p>
       <p>{{ loginService.errorMsg.split("\n")[1] }}</p>
       <button type="button" class="btn btn-danger" (click)="closeErrorModal()">
         OK
       </button>
     </div>
-  </ng-template>
+  </ng-template> -->
 </body>
 <!--##########loader###################-->
-<app-fybaloader *ngIf="loginService.requestStatus"></app-fybaloader>
+<app-fybaloader *ngIf="loginRequest"></app-fybaloader>
 <!--######################################-->

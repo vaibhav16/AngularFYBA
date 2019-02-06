@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Filter } from './classes/selectgame/filter.model';
-import { LoginService } from './../common/services/login.service';
 import { FinalFilter } from './classes/selectgame/finalFilter.model';
 import { IPaidSection } from './classes/pay/pay.model';
 import { IProfileSection } from './classes/profile/IProfile.model';
@@ -216,7 +215,6 @@ export class OfficialService {
     private httpClient: HttpClient,
     private http: Http,
     private dss: DataSharingService,
-    public loginService: LoginService,
     private cookieService: CookieService
   ) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
@@ -236,8 +234,8 @@ export class OfficialService {
     this.dss.initialFetchError = null;
     this.serviceError = false;
     this.fetchSelectGames = true;
-    this.initialFilter.SessionKey = this.loginService.sessionKey;
-    this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
+    this.initialFilter.SessionKey = this.dss.sessionKey;
+    this.initialFilter.UserID = JSON.stringify(this.dss.userId);
     var body = JSON.stringify(this.initialFilter);
     console.log(JSON.stringify(this.initialFilter));
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
@@ -278,8 +276,8 @@ export class OfficialService {
 
   /* - Used to refresh the Data in Select Games after some change - */
   refershSelectGameData(obj: Filter): any {
-    this.initialFilter.SessionKey = this.loginService.sessionKey;
-    this.initialFilter.UserID = JSON.stringify(this.loginService.userId);
+    this.initialFilter.SessionKey = this.dss.sessionKey;
+    this.initialFilter.UserID = JSON.stringify(this.dss.userId);
     var body = JSON.stringify(this.initialFilter);
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({
@@ -306,7 +304,7 @@ export class OfficialService {
   user had selected any in his previous session. If the user didn't it will be empty - */
   fetchPreselectedFilters(x: any) {
     let y;
-    this.loginService.sessionKey = x['SessionKey'];
+    this.dss.sessionKey = x['SessionKey'];
 
     if (x['Value'].SelectedFilters != null) {
       if (x['Value'].SelectedFilters.Division != null) {
@@ -384,8 +382,8 @@ export class OfficialService {
 
   postFilterData(obj: Filter) {
     this.finalFilter.RequestedData = JSON.stringify(obj);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
 
@@ -421,13 +419,13 @@ export class OfficialService {
     this.signUpRD.GroupId = groupId;
     this.signUpRD.GameIds = gameId;
     this.signUpRD.PositionID = positionId;
-    this.signUpRD.OfficialSeasonId = this.loginService.officialSeasonId;
-    this.signUpRD.SeasonId = this.loginService.seasonId;
-    this.signUpRD.LeagueId = this.loginService.leagueId;
+    this.signUpRD.OfficialSeasonId = this.dss.officialSeasonId;
+    this.signUpRD.SeasonId = this.dss.seasonId;
+    this.signUpRD.LeagueId = this.dss.leagueId;
     this.signUpRD.ForCancelSignUp = ForCancelSignUp;
 
-    this.finalFilter.UserID = this.loginService.userId.toString();
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
     this.finalFilter.RequestedData = JSON.stringify(this.signUpRD);
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
@@ -464,14 +462,14 @@ export class OfficialService {
     this.signUpRD.GroupId = groupId;
     this.signUpRD.GameIds = gameId;
     this.signUpRD.PositionID = positionId;
-    this.signUpRD.OfficialSeasonId = this.loginService.officialSeasonId;
-    this.signUpRD.SeasonId = this.loginService.seasonId;
-    this.signUpRD.LeagueId = this.loginService.leagueId;
+    this.signUpRD.OfficialSeasonId = this.dss.officialSeasonId;
+    this.signUpRD.SeasonId = this.dss.seasonId;
+    this.signUpRD.LeagueId = this.dss.leagueId;
     this.signUpRD.ForCancelSignUp = ForCancelSignUp;
 
     this.finalFilter.RequestedData = JSON.stringify(this.signUpRD);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
 
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
@@ -510,14 +508,14 @@ export class OfficialService {
     this.signUpRD.GroupId = groupId;
     this.signUpRD.GameIds = gameId;
     this.signUpRD.PositionID = positionId;
-    this.signUpRD.OfficialSeasonId = this.loginService.officialSeasonId;
-    this.signUpRD.SeasonId = this.loginService.seasonId;
-    this.signUpRD.LeagueId = this.loginService.leagueId;
+    this.signUpRD.OfficialSeasonId = this.dss.officialSeasonId;
+    this.signUpRD.SeasonId = this.dss.seasonId;
+    this.signUpRD.LeagueId = this.dss.leagueId;
     this.signUpRD.ForCancelSignUp = ForCancelSignUp;
 
     this.finalFilter.RequestedData = JSON.stringify(this.signUpRD);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
 
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
@@ -557,12 +555,12 @@ export class OfficialService {
     this.dss.initialFetchError = null;
     this.serviceError = false;
     this.reportRequest = true;
-    this.reportGameData.SeasonId = this.loginService.seasonId;
-    this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;
+    this.reportGameData.SeasonId = this.dss.seasonId;
+    this.reportGameData.OfficialSeasonId = this.dss.officialSeasonId;
     this.finalFilter.RequestedData = JSON.stringify(this.reportGameData);
 
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
 
@@ -600,8 +598,8 @@ export class OfficialService {
     this.reportRequest=true;
     this.postReportMsg = null;
     this.finalFilter.RequestedData = JSON.stringify(gameListObj);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
     console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
@@ -626,7 +624,7 @@ export class OfficialService {
           this.postReportMsg = x['Message'].PopupMessage;
           this.postReportTitle = x['Message'].PopupHeading;
           this.postReportStatus = x['Status'];
-          this.loginService.reportTagLabel = x['Value'];
+          this.dss.reportTagLabel = x['Value'];
           this.cookieService.set('reportTagLabel', x['Value']);
 
         } else {
@@ -649,12 +647,12 @@ export class OfficialService {
   /* - This function is used to fetch the initial data to populate the Get Paid section. - */
  
   fetchGetPaidData(): Observable<any> {
-    this.reportGameData.SeasonId = this.loginService.seasonId;
-    this.reportGameData.OfficialSeasonId = this.loginService.officialSeasonId;
+    this.reportGameData.SeasonId = this.dss.seasonId;
+    this.reportGameData.OfficialSeasonId = this.dss.officialSeasonId;
     this.finalFilter.RequestedData = JSON.stringify(this.reportGameData);
 
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
 
@@ -680,11 +678,11 @@ export class OfficialService {
 
   /* - This function is used to fetch the initial data to populate the Profile section. - */
   fetchProfileData(): Observable<any> {
-    this.profileModel.SeasonId = this.loginService.seasonId;
-    this.profileModel.LeagueId = this.loginService.leagueId;
+    this.profileModel.SeasonId = this.dss.seasonId;
+    this.profileModel.LeagueId = this.dss.leagueId;
     this.finalFilter.RequestedData = JSON.stringify(this.profileModel);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
     var body = JSON.stringify(this.finalFilter);
     console.log(JSON.stringify(this.finalFilter));
 
@@ -706,14 +704,14 @@ export class OfficialService {
   };
 
   uploadProfileImage(newImgByteCode: string): Observable<any> {
-    this.uploadProfileImg.SeasonId = this.loginService.seasonId;
-    this.uploadProfileImg.LeagueId = this.loginService.leagueId;
+    this.uploadProfileImg.SeasonId = this.dss.seasonId;
+    this.uploadProfileImg.LeagueId = this.dss.leagueId;
     this.uploadProfileImg.FileName = newImgByteCode;
     this.uploadProfileImg.Page = 'Profile';
 
     this.finalFilter.RequestedData = JSON.stringify(this.uploadProfileImg);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
 
     console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);
@@ -734,14 +732,14 @@ export class OfficialService {
       headers: headerOptions
     });
 
-    this.uploadProfileImg.SeasonId = this.loginService.seasonId;
-    this.uploadProfileImg.LeagueId = this.loginService.leagueId;
+    this.uploadProfileImg.SeasonId = this.dss.seasonId;
+    this.uploadProfileImg.LeagueId = this.dss.leagueId;
     this.uploadProfileImg.FileName = fileName;
     this.uploadProfileImg.Page = 'Profile';
 
     this.finalFilter.RequestedData = JSON.stringify(this.uploadProfileImg);
-    this.finalFilter.SessionKey = this.loginService.sessionKey;
-    this.finalFilter.UserID = this.loginService.userId.toString();
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
 
     console.log(this.finalFilter);
     var body = JSON.stringify(this.finalFilter);

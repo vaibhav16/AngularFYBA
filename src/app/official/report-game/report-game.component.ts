@@ -20,7 +20,6 @@ import { DeletedScoreSheetImages } from '../classes/reportgame/DeletedScoreSheet
 import { APIPlayerScorePost } from '../classes/reportgame/APIPlayerScorePost.model';
 import { DeleteIncidentReport } from './../classes/reportgame/APIGamePost.model';
 import { Http } from '@angular/http';
-import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ScoreSheetImages2 } from './../classes/reportgame/ScoreSheet2.model';
 import { DeletedScoreSheet2 } from './../classes/reportgame/DeletedScoreSheet2.model';
@@ -153,7 +152,6 @@ export class ReportGameComponent {
     //private messageService: MessageService,
     // private _lightbox: Lightbox,
     public fb: FormBuilder,
-    public loginService: LoginService,
     public elRef: ElementRef,
     public http: Http,
     public config: NgbAccordionConfig,
@@ -528,9 +526,9 @@ export class ReportGameComponent {
 
     //console.log(this.VisitingTeamPlayerScores);
 
-    this.APIGamePost.Roleid = this.loginService.roleId;
-    this.APIGamePost.SeasonId = this.loginService.seasonId;
-    this.APIGamePost.OfficialSeasonId = this.loginService.officialSeasonId;
+    this.APIGamePost.Roleid = this.dss.roleId;
+    this.APIGamePost.SeasonId = this.dss.seasonId;
+    this.APIGamePost.OfficialSeasonId = this.dss.officialSeasonId;
     this.APIGamePost.OfficiatingPositionId = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
     ].OfficiatingPositionId;
@@ -541,7 +539,7 @@ export class ReportGameComponent {
     this.APIGamePost.Division = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
     ].Division;
-    this.APIGamePost.LeagueId = this.loginService.leagueId;
+    this.APIGamePost.LeagueId = this.dss.leagueId;
 
     this.APIGamePost.GameId = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex

@@ -39,7 +39,6 @@ export class ChangepwService {
         this.request = false;
         this.resultMsg = x["Message"].PopupMessage;
         this.result = x["Message"].PopupHeading;
-
         // if (x["Message"].PopupHeading.includes("mismatch")||x["Value"].includes("not")) {
         //   this.result = "Action Unsuccessful";
         // } else this.result = "Action Successful";

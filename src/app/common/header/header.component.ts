@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
-import { LoginService } from "./../services/login.service";
+import { DataSharingService } from './../../data-sharing.service';
 import { Router } from "@angular/router";
 import { CommonService } from "../services/common.service";
 import { FinalFilter } from "../../official/classes/selectgame/finalFilter.model";
-import { DataSharingService } from "./../../data-sharing.service";
 
 @Component({
   selector: "app-header",
@@ -19,11 +18,10 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    public loginService: LoginService,
     public commonService: CommonService,
-    public dataSharingService: DataSharingService
+    public dss: DataSharingService
   ) {
-    if (dataSharingService.textSize == "Small") this.textType = false;
+    if (this.dss.textSize == "Small") this.textType = false;
     else this.textType = true;
   }
   textType: boolean;
@@ -35,6 +33,7 @@ export class HeaderComponent implements OnInit {
   //@ViewChild('officialActive') officialActive: ElementRef;
 
   ngOnInit() {
+    
     //this.imageClass.nativeElement.classList.remove('player_header_img');
     //this.imageClass.nativeElement.classList.remove('official_header_img');
     //this.imageClass.nativeElement.classList.remove('coach_header_img');

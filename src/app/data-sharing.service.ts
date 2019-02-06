@@ -12,4 +12,18 @@ export class DataSharingService {
   }
   textSize: string = null;
   initialFetchError: boolean = null;
+  isLoggedIn: boolean;
+  jsonResult: JSON;
+  loginFailed: boolean;
+  userId: number = null;
+  reportTagLabel: number = null;
+  sessionKey: string = null;
+  officialSeasonId: string = null;
+  seasonId: string = null;
+  roleId: string = null;
+  leagueId: string = null;
+  roundThumbnail: string = null;
+  promptChangePassword: string = null;
+  name: string = null;
+  email:string = null;
 }
