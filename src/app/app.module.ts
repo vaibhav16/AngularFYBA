@@ -1,8 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgModule } from "@angular/core";
-import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
@@ -38,6 +36,7 @@ import { LogoutComponent } from "./common/logout/logout.component";
 import { ModalContentComponent } from "./official/official.component";
 //import {GrowlModule} from 'primeng/growl';
 //import { LightboxModule } from 'ngx-lightbox';
+import { ServiceWorkerModule, SwUpdate, SwPush } from '@angular/service-worker'
 import { ChangepasswordComponent } from "./common/changepassword/changepassword.component";
 import { ErrorModalComponent } from './common/error-modal/error-modal.component';
 import { NewIncidentComponent } from './official/report-game/new-incident/new-incident.component';
@@ -93,7 +92,6 @@ import { SavedataPopupComponent } from './official/report-game/savedata-popup/sa
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
     ModalModule.forRoot(),
-    MatSnackBarModule,
     ServiceWorkerModule.register("/ngsw-worker.js", {
       enabled: environment.production
     })
@@ -121,4 +119,13 @@ import { SavedataPopupComponent } from './official/report-game/savedata-popup/sa
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(update: SwUpdate, push: SwPush){
+    console.log(update.available);
+    update.available.subscribe(event=>{
+      update.activateUpdate().then(() => document.location.reload());
+    })
+
+
+  }
+}
