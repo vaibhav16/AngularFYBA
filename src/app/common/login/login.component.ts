@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
 
   loginRequest: boolean;
   //loginFailed: boolean;
-  onSubmit(form: NgForm, template: TemplateRef<any>) {
+  onSubmit(form: NgForm) {
     this.loginRequest = true;
     //this.loginFailed = false;
     console.log(form.value);
