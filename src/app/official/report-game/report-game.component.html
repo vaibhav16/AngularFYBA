@@ -80,7 +80,7 @@
                                                    <td>
                                                       <input type="checkbox" name="homeForfeit"
                                                        [value]="item.IsHomeForfeit"
-                                                       [disabled]="item.IsVisitorForfeit"                                                                                                           
+                                                       (ngModelChange)="homeForfeitToggle($event, gameListIndex)"                                                                                                                                                      
                                                        [(ngModel)]="item.IsHomeForfeit">
                                                    </td>
                                                 </tr>
@@ -97,7 +97,7 @@
                                                    <td>
                                                       <input type="checkbox" name="visitingForfeit" 
                                                       [value]="item.IsVisitorForfeit"
-                                                      [disabled]="item.IsHomeForfeit"                                                     
+                                                      (ngModelChange)="visitorfeitToggle($event, gameListIndex)"                                                                                                 
                                                       [(ngModel)]="item.IsVisitorForfeit">
                                                    </td>
                                                 </tr>

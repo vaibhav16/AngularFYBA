@@ -35,6 +35,7 @@ import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EventEmitter } from 'protractor';
 //import { file } from '@rxweb/reactive-form-validators';
 //import {Message} from 'primeng/api';
 //import {MessageService} from 'primeng/components/common/messageservice';
@@ -259,7 +260,10 @@ export class ReportGameComponent {
         this.prepareDatatoUpdate(form, gameListIndex);
       }
     }
-    this.prepareDatatoUpdate(form, gameListIndex);
+    else{
+      this.prepareDatatoUpdate(form, gameListIndex);
+    }
+    
 
 
   }
@@ -1257,6 +1261,51 @@ export class ReportGameComponent {
   /* If the user wishes to delete an unsaved incident, the array is simply popped at that index. */
   /*************************************************************************** */   
     this.officialService.IncidentReports.splice(newIncidentIndex, 1);
+  }
+
+  homeForfeitToggle($event:Event,gamelistindex){
+    //console.log($event);
+    console.log("Before:");
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
+
+    if($event){
+      this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit=!($event);
+    }
+
+    // this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit=
+    // !this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit
+
+    console.log("After: ");
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
+  }
+
+  visitorfeitToggle($event:Event,gamelistindex){
+    //console.log($event);
+    console.log("Before:");     
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
+
+    if($event){
+      this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit=!($event);
+    }
+
+
+    // this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit=
+    // !this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit
+
+    console.log("After: ");
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
   }
 
   dataChanged() {

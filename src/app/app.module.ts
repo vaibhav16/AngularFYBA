@@ -45,6 +45,7 @@ import { SuccessPopupComponent } from './official/report-game/success-popup/succ
 import { ShowNewIncidentComponent } from './official/report-game/show-new-incident/show-new-incident.component';
 import { NotifierModule } from 'angular-notifier';
 import { SavedataPopupComponent } from './official/report-game/savedata-popup/savedata-popup.component';
+import { interval } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -118,15 +119,29 @@ import { SavedataPopupComponent } from './official/report-game/savedata-popup/sa
 })
 export class AppModule {
   constructor(update: SwUpdate, push: SwPush, snackbar: MatSnackBar) {
-    //snackbar.open('hi!');
-    console.log(update.available);
-    update.available.subscribe((event) => {
-      console.log(event);
-      //update.activateUpdate().then(() => document.location.reload());
-      const snack = snackbar.open('Update Available', 'Reload');
-      snack.onAction().subscribe(() => {
-        window.location.reload();
-      });
-    });
+  
+    if(update.isEnabled){
+      interval(6*60*60).subscribe(()=>{
+        update.available.subscribe((event) => {
+          console.log('current version is', event.current);
+          console.log('available version is', event.available);       
+         
+          update.activateUpdate().then(()=>{
+            const snack = snackbar.open('Update Available', 'Reload');
+            snack.onAction().subscribe(() => {
+            window.location.reload();
+          });
+          })
+        });
+
+        update.activated.subscribe(event=>{
+          console.log("Old Version was: ", event.previous);
+          console.log("New Versio is: ", event.current);
+        })
+      })
+
+    }
+
+ 
   }
 }
