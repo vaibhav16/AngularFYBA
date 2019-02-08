@@ -2,7 +2,7 @@
   "index": "/index.html",
   "assetGroups": [{
     "name": "app",
-    "installMode": "prefetch",
+    "installMode": "lazy",
     "updateMode":"lazy",
     "resources": {
       "files": [
@@ -19,7 +19,7 @@
     }
   }, {
     "name": "assets",
-    "installMode": "prefetch",
+    "installMode": "lazy",
     "updateMode": "lazy",
     "resources": {
       "files": [

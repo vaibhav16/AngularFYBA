@@ -62,6 +62,7 @@
                                                 <tr>
                                                    <th>Team Name</th>
                                                    <th>Final Score</th>
+                                                   <th>Forfeit</th>
                                                 </tr>
                                              </thead>
                                              <tbody>
@@ -70,20 +71,34 @@
                                                    <td>
                                                       <input type="text" 
                                                       name="HTeamScore" style="width:40px"
-                                                      [disabled]="item.OfficiatingPositionId != 3" 
+                                                      [disabled]="item.OfficiatingPositionId != 3 ||
+                                                      item.IsHomeForfeit || item.IsVisitorForfeit" 
                                                       [(ngModel)]="item.HomeTeamScore"
                                                       value="{{ item.HomeTeamScore }}" 
                                                       (change)="dataChanged()" />
+                                                   </td>
+                                                   <td>
+                                                      <input type="checkbox" name="homeForfeit"
+                                                       [value]="item.IsHomeForfeit"
+                                                       [disabled]="item.IsVisitorForfeit"                                                                                                           
+                                                       [(ngModel)]="item.IsHomeForfeit">
                                                    </td>
                                                 </tr>
                                                 <tr>
                                                    <td>{{ item.VisitingTeam }}</td>
                                                    <td>
                                                       <input type="text" name="VTeamScore" style="width:40px"
-                                                         [disabled]="item.OfficiatingPositionId != 3" 
+                                                         [disabled]="item.OfficiatingPositionId != 3 ||
+                                                         item.IsHomeForfeit || item.IsVisitorForfeit" 
                                                          [(ngModel)]="item.VisitingTeamScore"
                                                          value="{{ item.VisitingTeamScore }}" 
                                                          (change)="dataChanged()" />
+                                                   </td>
+                                                   <td>
+                                                      <input type="checkbox" name="visitingForfeit" 
+                                                      [value]="item.IsVisitorForfeit"
+                                                      [disabled]="item.IsHomeForfeit"                                                     
+                                                      [(ngModel)]="item.IsVisitorForfeit">
                                                    </td>
                                                 </tr>
                                              </tbody>
@@ -172,7 +187,8 @@
                                                 <td>
                                                    <input type="checkbox"                                                  
                                                    
-                                                   [disabled]="!(item.OfficiatingPositionId == 3)"
+                                                   [disabled]="!(item.OfficiatingPositionId == 3)
+                                                   || item.IsHomeForfeit || item.IsVisitorForfeit"
 
                                                    name="HNotPresent{{ i }}" 
                                                    
@@ -191,7 +207,7 @@
                                                    id="HPlayerofNote{{ i }}" 
                                                    
                                                    [disabled]="!(item.OfficiatingPositionId == 3) || 
-                                                   child.NotPresent"
+                                                   child.NotPresent || item.IsHomeForfeit || item.IsVisitorForfeit"
                                                       
                                                    [ngModel]="child.PlayerNote && !child.NotPresent"  
                                                    
@@ -213,7 +229,7 @@
                                                    [maxlength]="3" value="child.Points"
                                                    
                                                    [disabled]="!(item.OfficiatingPositionId == 3) ||
-                                                   child.NotPresent"
+                                                   child.NotPresent || item.IsHomeForfeit || item.IsVisitorForfeit"
 
                                                    pattern="[0-9]*" min="0" max="999" name="HPoints{{ i }}"
                                                    
@@ -292,7 +308,8 @@
                                                    
                                                    name="VNotPresent{{ i }}"
                                                    
-                                                   [disabled]="!(item.OfficiatingPositionId == 3)"                                                  
+                                                   [disabled]="!(item.OfficiatingPositionId == 3)
+                                                   || item.IsHomeForfeit || item.IsVisitorForfeit"                                                  
                                                    
                                                    (change)="child.NotPresent=!child.NotPresent"    
                                                    
@@ -305,7 +322,7 @@
                                                    id="VPlayerofNote{{ i }}" 
                                                    
                                                    [disabled]="!(item.OfficiatingPositionId == 3) || 
-                                                   child.NotPresent"
+                                                   child.NotPresent || item.IsHomeForfeit || item.IsVisitorForfeit"
                                                       
                                                    [ngModel]="child.PlayerNote && !child.NotPresent"  
                                                    
@@ -328,7 +345,8 @@
                                                    
                                                    [(ngModel)]="child.Points" 
                                                    
-                                                   [disabled]="!(item.OfficiatingPositionId == 3) ||child.NotPresent"                                                   
+                                                   [disabled]="!(item.OfficiatingPositionId == 3) ||child.NotPresent
+                                                   || item.IsHomeForfeit || item.IsVisitorForfeit"                                                   
 
                                                    min="0" max="1000" pattern="[0-9]*" />
                                                 </td>
@@ -390,13 +408,15 @@
                                     </ul>
 
                                     <ul class="addList IncidentListClass" 
-                                    *ngIf="item.OfficiatingPositionId == 3" 
+                                    *ngIf="item.OfficiatingPositionId == 3 &&
+                                    !item.IsHomeForfeit && !item.IsVisitorForfeit" 
                                     id="IncidentListClass_{{ gameListIndex }}">
 
                                        <li class="Incidentclass uploadDiv" 
                                        id="Incidentclass_{{ gameListIndex }}">
                                           <input 
-                                          [disabled]="!(item.OfficiatingPositionId == 3)" 
+                                          
+                                          [disabled]="!(item.OfficiatingPositionId == 3)"                                         
                                           #imageInput type="file"                                             
                                           multiple accept="image/*" 
                                           (change)="processFile(imageInput, gameListIndex)" />
@@ -409,7 +429,7 @@
                               </div>
                            </div>
                         </div>
-                        <div class="marginTop10">
+                        <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
                            <ul class="reportlist">
                               <li>Incidents</li>
                            </ul>
@@ -445,8 +465,19 @@
                                              class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                                        </li>
                                     </ul>
-                                    <ul class="addList IncidentListClass">
-                                       <li (click)="addIncident(gameListIndex)" class="Incidentclass uploadDiv uploadIncident" id="Incidentclass_{{ gameListIndex }}">
+
+                                    <div *ngIf="officialService.IncidentReports.length==0
+                                    && item.IncidentReports.length==0 
+                                    && (item.IsHomeForfeit || item.IsVisitorForfeit)">
+                                    <b>No Incidents Added</b>
+                                    </div>
+
+                                    <ul *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit"  
+                                    class="addList IncidentListClass">
+                                       <li (click)="addIncident(gameListIndex)" 
+                                       class="Incidentclass uploadDiv uploadIncident" 
+                                       id="Incidentclass_{{ gameListIndex }}"                                       
+                                       >
                                           <span class="addHeading addIncident">Add<br class="breakAll" />
                                              Incident</span>
                                        </li>
@@ -459,7 +490,9 @@
                      display: item.OfficiatingPositionId == '3' ? '' : 'none'
                      }"
                            class="text-center">
-                           <button class="btn btn-success" [disabled]="!(item.OfficiatingPositionId == 3)" id="{{ item.OfficiatingPositionId }}"
+                           <button class="btn btn-success" 
+                           [disabled]="!(item.OfficiatingPositionId == 3)" 
+                           id="{{ item.OfficiatingPositionId }}"
                               type="submit" (click)="
                      onSubmit(
                      reportForm,

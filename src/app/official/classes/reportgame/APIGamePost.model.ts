@@ -3,7 +3,8 @@ export class APIGamePost {
   public SeasonId: string;
   public OfficialSeasonId: string;
   public OfficiatingPositionId: string;
-
+  public IsHomeForfeit:boolean;
+  public IsVisitorForfeit:boolean;
   public GameId: string;
   public GameName: string;
   public GameDate: string;

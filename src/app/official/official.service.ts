@@ -106,6 +106,8 @@ export class OfficialService {
     GameName: '',
     GameDate: '',
     Location: '',
+    IsHomeForfeit:null,
+    IsVisitorForfeit:null,
     GameStartTime: '',
     HomeTeam: '',
     VisitingTeam: '',

@@ -69,6 +69,8 @@ export class ReportGameComponent {
     GameName: '',
     GameDate: '',
     Location: '',
+    IsHomeForfeit:null,
+    IsVisitorForfeit:null,
     GameStartTime: '',
     HomeTeam: '',
     VisitingTeam: '',
@@ -222,39 +224,44 @@ export class ReportGameComponent {
   ) {
     console.log(form.value);
 
-    //this.uploadTemplate = uploadTemplate;
-    await this.makeScoreSheetArray().then((res) => {
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-        return el != null;
+    if (!form.value.homeForfeit && !form.value.visitingForfeit) {
+      //this.uploadTemplate = uploadTemplate;
+      await this.makeScoreSheetArray().then((res) => {
+        this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+          return el != null;
+        });
+        console.log(this.ScoreSheetImages);
       });
-      console.log(this.ScoreSheetImages);
-    });
 
-    if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
-      /*---------------------------------------------------------------------------*/
-      /*Bootstrap Modal shown in case home/visiting final score not entered by the user*/
-      /*---------------------------------------------------------------------------*/
-      const initialState = {
-        popupTitle: 'Invalid Final Scores',
-        popupMsg: 'Final Score can not be zero.'
-      };
+      if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
+        /*---------------------------------------------------------------------------*/
+        /*Bootstrap Modal shown in case home/visiting final score not entered by the user*/
+        /*---------------------------------------------------------------------------*/
+        const initialState = {
+          popupTitle: 'Invalid Final Scores',
+          popupMsg: 'Final Score can not be zero.'
+        };
 
-      this.bsModalRef = this.modalService.show(
-        ValidationModalComponent,
-        Object.assign({}, { class: 'customModalWidth75', initialState })
-      );
-    } else if (
-      this.checkFinalScore(
-        form,
-        gameListIndex
-      ) == true
-      //&&
-      //this.checkMinPON(form,gameListIndex) 
-      //&&
-      //this.checkFinalPON(gameListIndex)
-    ) {
-      this.prepareDatatoUpdate(form, gameListIndex);
+        this.bsModalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
+      } else if (
+        this.checkFinalScore(
+          form,
+          gameListIndex
+        ) == true
+        //&&
+        //this.checkMinPON(form,gameListIndex) 
+        //&&
+        //this.checkFinalPON(gameListIndex)
+      ) {
+        this.prepareDatatoUpdate(form, gameListIndex);
+      }
     }
+    this.prepareDatatoUpdate(form, gameListIndex);
+
+
   }
 
   tempSumHomePoint: number = 0;
@@ -532,6 +539,9 @@ export class ReportGameComponent {
     this.APIGamePost.OfficiatingPositionId = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
     ].OfficiatingPositionId;
+
+    this.APIGamePost.IsHomeForfeit = form.value.homeForfeit;
+    this.APIGamePost.IsVisitorForfeit = form.value.visitingForfeit;
 
     this.APIGamePost.Location = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
