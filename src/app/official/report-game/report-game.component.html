@@ -62,7 +62,7 @@
                                                 <tr>
                                                    <th>Team Name</th>
                                                    <th>Final Score</th>
-                                                   <th>Forfeit</th>
+                                                   <!-- <th>Forfeit</th> -->
                                                 </tr>
                                              </thead>
                                              <tbody>
@@ -77,12 +77,12 @@
                                                       value="{{ item.HomeTeamScore }}" 
                                                       (change)="dataChanged()" />
                                                    </td>
-                                                   <td>
+                                                   <!-- <td>
                                                       <input type="checkbox" name="homeForfeit"
                                                        [value]="item.IsHomeForfeit"
                                                        (ngModelChange)="homeForfeitToggle($event, gameListIndex)"                                                                                                                                                      
                                                        [(ngModel)]="item.IsHomeForfeit">
-                                                   </td>
+                                                   </td> -->
                                                 </tr>
                                                 <tr>
                                                    <td>{{ item.VisitingTeam }}</td>
@@ -94,12 +94,12 @@
                                                          value="{{ item.VisitingTeamScore }}" 
                                                          (change)="dataChanged()" />
                                                    </td>
-                                                   <td>
+                                                   <!-- <td>
                                                       <input type="checkbox" name="visitingForfeit" 
                                                       [value]="item.IsVisitorForfeit"
                                                       (ngModelChange)="visitorfeitToggle($event, gameListIndex)"                                                                                                 
                                                       [(ngModel)]="item.IsVisitorForfeit">
-                                                   </td>
+                                                   </td> -->
                                                 </tr>
                                              </tbody>
                                           </table>
