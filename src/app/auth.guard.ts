@@ -13,36 +13,36 @@ import { DataSharingService } from './data-sharing.service';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router, 
     private cookieService: CookieService,
-    private dataSharingService: DataSharingService,
+    private dss: DataSharingService,
     private loginService: LoginService) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.cookieService.check("sessionKey")) {
-      this.loginService.sessionKey = this.cookieService.get(
+      this.dss.sessionKey = this.cookieService.get(
         "sessionKey"
       );
-      this.loginService.userId = parseInt(
-        this.loginService.cookieService.get("userId")
+      this.dss.userId = parseInt(
+        this.dss.cookieService.get("userId")
       );
-      this.loginService.officialSeasonId = this.cookieService.get(
+      this.dss.officialSeasonId = this.cookieService.get(
         "officialSeasonId"
       );
-      this.loginService.seasonId = this.cookieService.get(
+      this.dss.seasonId = this.cookieService.get(
         "seasonId"
       );
-      this.loginService.roleId = this.cookieService.get("roleId");
-      this.loginService.leagueId = this.cookieService.get(
+      this.dss.roleId = this.cookieService.get("roleId");
+      this.dss.leagueId = this.cookieService.get(
         "leagueId"
       );
-      this.loginService.reportTagLabel = parseInt(
-        this.loginService.cookieService.get("reportTagLabel")
+      this.dss.reportTagLabel = parseInt(
+        this.dss.cookieService.get("reportTagLabel")
       );
-      this.loginService.roundThumbnail = this.cookieService.get(
+      this.dss.roundThumbnail = this.cookieService.get(
         "roundThumbnail"
       );
-      this.loginService.name = this.cookieService.get(
+      this.dss.name = this.cookieService.get(
         "name"
       );
-      this.dataSharingService.textSize = this.cookieService.get(
+      this.dss.textSize = this.cookieService.get(
         "textSize"
       );
       // logged in so return true

@@ -2,7 +2,8 @@
   "index": "/index.html",
   "assetGroups": [{
     "name": "app",
-    "installMode": "prefetch",
+    "installMode": "lazy",
+    "updateMode":"lazy",
     "resources": {
       "files": [
         "/favicon.ico",
@@ -11,16 +12,33 @@
         "/*.css",
         "/*.json",
         "/*.js"
+      ],
+      "urls":[
+
       ]
     }
   }, {
     "name": "assets",
     "installMode": "lazy",
-    "updateMode": "prefetch",
+    "updateMode": "lazy",
     "resources": {
       "files": [
         "/assets/**"
       ]
     }
-  }]
+  }],
+  "dataGroups":[
+    {
+      "name":"posts",
+      "urls":["https://fybaservice.sapplesystems.com/*",
+        "https://mobile.folsomyouthbasketball.com/*"
+      ],
+      "cacheConfig":{
+        "maxSize":10,
+        "maxAge":"30m",
+        "timeout":"30s",
+        "strategy":"freshness"
+      }
+    }
+  ]
 }

@@ -20,7 +20,6 @@ import { DeletedScoreSheetImages } from '../classes/reportgame/DeletedScoreSheet
 import { APIPlayerScorePost } from '../classes/reportgame/APIPlayerScorePost.model';
 import { DeleteIncidentReport } from './../classes/reportgame/APIGamePost.model';
 import { Http } from '@angular/http';
-import { LoginService } from './../../common/services/login.service';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ScoreSheetImages2 } from './../classes/reportgame/ScoreSheet2.model';
 import { DeletedScoreSheet2 } from './../classes/reportgame/DeletedScoreSheet2.model';
@@ -36,6 +35,7 @@ import { SuccessPopupComponent } from './success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EventEmitter } from 'protractor';
 //import { file } from '@rxweb/reactive-form-validators';
 //import {Message} from 'primeng/api';
 //import {MessageService} from 'primeng/components/common/messageservice';
@@ -70,6 +70,8 @@ export class ReportGameComponent {
     GameName: '',
     GameDate: '',
     Location: '',
+    IsHomeForfeit:null,
+    IsVisitorForfeit:null,
     GameStartTime: '',
     HomeTeam: '',
     VisitingTeam: '',
@@ -153,7 +155,6 @@ export class ReportGameComponent {
     //private messageService: MessageService,
     // private _lightbox: Lightbox,
     public fb: FormBuilder,
-    public loginService: LoginService,
     public elRef: ElementRef,
     public http: Http,
     public config: NgbAccordionConfig,
@@ -224,39 +225,47 @@ export class ReportGameComponent {
   ) {
     console.log(form.value);
 
-    //this.uploadTemplate = uploadTemplate;
-    await this.makeScoreSheetArray().then((res) => {
-      this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-        return el != null;
+    if (!form.value.homeForfeit && !form.value.visitingForfeit) {
+      //this.uploadTemplate = uploadTemplate;
+      await this.makeScoreSheetArray().then((res) => {
+        this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+          return el != null;
+        });
+        console.log(this.ScoreSheetImages);
       });
-      console.log(this.ScoreSheetImages);
-    });
 
-    if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
-      /*---------------------------------------------------------------------------*/
-      /*Bootstrap Modal shown in case home/visiting final score not entered by the user*/
-      /*---------------------------------------------------------------------------*/
-      const initialState = {
-        popupTitle: 'Invalid Final Scores',
-        popupMsg: 'Final Score can not be zero.'
-      };
+      if (form.value.HTeamScore.length <= 0 && form.value.VTeamScore.length <= 0) {
+        /*---------------------------------------------------------------------------*/
+        /*Bootstrap Modal shown in case home/visiting final score not entered by the user*/
+        /*---------------------------------------------------------------------------*/
+        const initialState = {
+          popupTitle: 'Invalid Final Scores',
+          popupMsg: 'Final Score can not be zero.'
+        };
 
-      this.bsModalRef = this.modalService.show(
-        ValidationModalComponent,
-        Object.assign({}, { class: 'customModalWidth75', initialState })
-      );
-    } else if (
-      this.checkFinalScore(
-        form,
-        gameListIndex
-      ) == true
-      //&&
-      //this.checkMinPON(form,gameListIndex) 
-      //&&
-      //this.checkFinalPON(gameListIndex)
-    ) {
+        this.bsModalRef = this.modalService.show(
+          ValidationModalComponent,
+          Object.assign({}, { class: 'customModalWidth75', initialState })
+        );
+      } else if (
+        this.checkFinalScore(
+          form,
+          gameListIndex
+        ) == true
+        //&&
+        //this.checkMinPON(form,gameListIndex) 
+        //&&
+        //this.checkFinalPON(gameListIndex)
+      ) {
+        this.prepareDatatoUpdate(form, gameListIndex);
+      }
+    }
+    else{
       this.prepareDatatoUpdate(form, gameListIndex);
     }
+    
+
+
   }
 
   tempSumHomePoint: number = 0;
@@ -528,12 +537,15 @@ export class ReportGameComponent {
 
     //console.log(this.VisitingTeamPlayerScores);
 
-    this.APIGamePost.Roleid = this.loginService.roleId;
-    this.APIGamePost.SeasonId = this.loginService.seasonId;
-    this.APIGamePost.OfficialSeasonId = this.loginService.officialSeasonId;
+    this.APIGamePost.Roleid = this.dss.roleId;
+    this.APIGamePost.SeasonId = this.dss.seasonId;
+    this.APIGamePost.OfficialSeasonId = this.dss.officialSeasonId;
     this.APIGamePost.OfficiatingPositionId = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
     ].OfficiatingPositionId;
+
+    this.APIGamePost.IsHomeForfeit = form.value.homeForfeit;
+    this.APIGamePost.IsVisitorForfeit = form.value.visitingForfeit;
 
     this.APIGamePost.Location = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
@@ -541,7 +553,7 @@ export class ReportGameComponent {
     this.APIGamePost.Division = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
     ].Division;
-    this.APIGamePost.LeagueId = this.loginService.leagueId;
+    this.APIGamePost.LeagueId = this.dss.leagueId;
 
     this.APIGamePost.GameId = this.officialService.reportGameJson['Value'].GameList[
       gameListIndex
@@ -1249,6 +1261,51 @@ export class ReportGameComponent {
   /* If the user wishes to delete an unsaved incident, the array is simply popped at that index. */
   /*************************************************************************** */   
     this.officialService.IncidentReports.splice(newIncidentIndex, 1);
+  }
+
+  homeForfeitToggle($event:Event,gamelistindex){
+    //console.log($event);
+    console.log("Before:");
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
+
+    if($event){
+      this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit=!($event);
+    }
+
+    // this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit=
+    // !this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit
+
+    console.log("After: ");
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
+  }
+
+  visitorfeitToggle($event:Event,gamelistindex){
+    //console.log($event);
+    console.log("Before:");     
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
+
+    if($event){
+      this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit=!($event);
+    }
+
+
+    // this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit=
+    // !this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit
+
+    console.log("After: ");
+    console.log("Home Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsHomeForfeit);
+    console.log("Visitor Forfeit:");
+    console.log(this.officialService.reportGameJson['Value'].GameList[gamelistindex].IsVisitorForfeit);
   }
 
   dataChanged() {

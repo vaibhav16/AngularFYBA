@@ -12,7 +12,6 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { Filter } from "../classes/selectgame/filter.model";
 import { NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
-import { LoginService } from "./../../common/services/login.service";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -50,7 +49,6 @@ export class SelectGameComponent implements OnInit {
     public officialService: OfficialService,
     public sanitizer: DomSanitizer,
     config: NgbAccordionConfig,
-    public loginService: LoginService,
     private modalService: BsModalService,
     public dss: DataSharingService
   ) {
@@ -67,16 +65,6 @@ export class SelectGameComponent implements OnInit {
     };
 
     this.officialService.postSelectGames(this.selectedFilter).then(res => {
-      // if(this.officialService.serviceError){
-      //   this.modalRef = this.modalService.show(ErrorModalComponent);
-      //   this.modalRef.content.closeBtnName = "Close";        
-      // }
-      // if (this.loginService.promptChangePassword != null) {
-      //   if (this.loginService.promptChangePassword.length > 1) {
-      //     this.modalRef = this.modalService.show(ModalContentComponent);
-      //     this.modalRef.content.closeBtnName = "Close";    
-      //   }       
-      // }
     });
   }
 

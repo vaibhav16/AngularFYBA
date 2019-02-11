@@ -15,7 +15,6 @@ import {
 import { PasswordValidation } from "./confirm-password.validator";
 import { FinalFilter } from "../../official/classes/selectgame/finalFilter.model";
 import { LoginService } from "./../services/login.service";
-import { ChangepwService } from "../services/changepw.service";
 import {
   RxwebValidators,
   RxFormBuilder
@@ -24,6 +23,7 @@ import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { Router } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
+import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
   selector: "app-changepassword",
@@ -51,9 +51,9 @@ export class ChangepasswordComponent implements OnInit {
   form: FormGroup;
 
   constructor(
+    public dss: DataSharingService,
     public fb: FormBuilder,
     public loginService: LoginService,
-    public changePwService: ChangepwService,
     private modalService: BsModalService,
     public router: Router,
     public cookieService: CookieService
@@ -87,9 +87,9 @@ export class ChangepasswordComponent implements OnInit {
     this.changePwModel.NewPassword = this.form.value.newPassword;
     this.changePwModel.ConfirmPassword = this.form.value.confirmPassword;
     this.apiModel.RequestedData = JSON.stringify(this.changePwModel);
-    this.apiModel.SessionKey = this.loginService.sessionKey;
-    this.apiModel.UserID = this.loginService.userId.toString();
-    this.changePwService
+    this.apiModel.SessionKey = this.dss.sessionKey;
+    this.apiModel.UserID = this.dss.userId.toString();
+    this.loginService
       .changePassword(JSON.stringify(this.apiModel))
       .then(res => {
         this.changeRequest = false;

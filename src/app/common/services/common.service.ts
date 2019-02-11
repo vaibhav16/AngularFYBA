@@ -19,7 +19,7 @@ import { CookieService } from "ngx-cookie-service";
 })
 export class CommonService {
   constructor(
-    public dataSharingService: DataSharingService,
+    public dss: DataSharingService,
     public cookieService: CookieService,
     public loginService: LoginService,
     public http: Http
@@ -41,8 +41,8 @@ export class CommonService {
     var currentTxtSize = this.cookieService.get("textSize");
     if (currentTxtSize == "Small") this.TextSizeModel.TextSize = "Large";
     else this.TextSizeModel.TextSize = "Small";
-    this.apiModel.UserID = this.loginService.userId.toString();
-    this.apiModel.SessionKey = this.loginService.sessionKey.toString();
+    this.apiModel.UserID = this.dss.userId.toString();
+    this.apiModel.SessionKey = this.dss.sessionKey.toString();
     this.apiModel.RequestedData = JSON.stringify(this.TextSizeModel);
 
     var body = JSON.stringify(this.apiModel);
@@ -64,7 +64,7 @@ export class CommonService {
       .then(x => {
         console.log(x);
         if (x["Error"] == "200") {
-          this.dataSharingService.textSize = this.TextSizeModel.TextSize;
+          this.dss.textSize = this.TextSizeModel.TextSize;
           //this.loginService.textSize = this.TextSizeModel.TextSize;
           this.cookieService.set("textSize", this.TextSizeModel.TextSize);
         }

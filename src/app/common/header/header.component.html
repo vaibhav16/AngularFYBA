@@ -47,14 +47,14 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
-          <div *ngIf="loginService.roundThumbnail == null" class="img_profile">
+          <div *ngIf="dss.roundThumbnail == null" class="img_profile">
             <img
               src="https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200524/68824656-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6"
               alt=""
             />
           </div>
-          <div *ngIf="loginService.roundThumbnail != null" class="img_profile">
-            <img src="{{ loginService.roundThumbnail }}" alt="" />
+          <div *ngIf="dss.roundThumbnail != null" class="img_profile">
+            <img src="{{ dss.roundThumbnail }}" alt="" />
           </div>
         </div>
 
@@ -73,13 +73,13 @@
                 <li style="padding-bottom:0%">
                   <p
                     (click)="toggleText()"
-                    *ngIf="dataSharingService.textSize == 'Small'"
+                    *ngIf="dss.textSize == 'Small'"
                   >
                     Classic Layout
                   </p>
                   <p
                     (click)="toggleText()"
-                    *ngIf="dataSharingService.textSize == 'Large'"
+                    *ngIf="dss.textSize == 'Large'"
                   >
                     Compact Layout
                   </p>
@@ -99,7 +99,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
           <div class="logo_text">
-            <a href="javascript:void(0);" alt="Logo Text">FYBA</a>
+            <a alt="Logo Text">FYBA</a>
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">

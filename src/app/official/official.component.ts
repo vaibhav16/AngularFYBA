@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { OfficialService } from "./official.service";
-import { LoginService } from "./../common/services/login.service";
+import { DataSharingService } from './../data-sharing.service';
 import { Router } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 //import * as $ from "jquery";
@@ -21,7 +21,7 @@ export class OfficialComponent implements OnInit {
     private _router: Router,
     private modalService: BsModalService,
     public officialService: OfficialService,
-    public loginService: LoginService
+    public dss: DataSharingService
   ) {
     //this.selectGameJson = this.officialService.getSelectGames();
   }
