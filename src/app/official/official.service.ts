@@ -633,6 +633,8 @@ export class OfficialService {
           this.postReportMsg = x['Message'].PopupMessage;
           this.postReportTitle = x['Message'].PopupHeading;
           this.postReportStatus = x['Status'];
+          this.dss.reportTagLabel = x['Value'];
+          this.cookieService.set('reportTagLabel', x['Value']);
         }
         return Promise.resolve();
       })

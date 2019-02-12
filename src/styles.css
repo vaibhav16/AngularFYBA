@@ -132,7 +132,8 @@ div {
    .bg-info {
     background-color:#ededed !important;
    }
-   .card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 6px; background: #ededed;}
+   .card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 6px; 
+    background: #ededed;}
    .card{border:0px;}
    .card .btn-link{color:#000000; font-weight:bold; padding:0px; font-size:16px; width: 100%; text-align:left;}
    .card-body{border:1px solid #bbc9da; border-top:0px; padding:10px;} 
@@ -140,7 +141,17 @@ div {
    .btn-link.focus, .btn-link:hover, .btn-link:focus {
     text-decoration: none;
    }
-   
+   table.leftTable > tbody > tr > td:nth-child(2), table.leftTable > tbody > tr > th:nth-child(2){padding:0px;border:0px;}
+   table.leftTable > tbody > tr > td:first-child, table.leftTable > tbody > tr > th:first-child{border-right:0px;}
+   /* table.leftTable > tbody > tr > th tr:first-child th{border-bottom:0px;} */
+   table.leftTable > tbody > tr > td tr:first-child td{border-top:0px;}
+   table.leftTable > tbody > tr > th:nth-child(2) tr th{min-width:75px;}
+   table.leftTable > tbody > tr > th:nth-child(2) tr th:first-child{min-width:100px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:75px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:100px;}
+
+
+
    .card h5{margin:0px;}
    
    .card-header:first-child {
@@ -969,8 +980,13 @@ div {
     transform: rotate(45deg);
   }
 
-  .paddLeft5{padding-left:5px;}
-  .paddRight5{padding-right:5px;}
+  .OffcProfile .card-header{background:#5B9BD5 !important; border: 1px solid #5B9BD5;} 
+  .OffcProfile .card-header h2.paidHead{color:#ffffff;}
+  .OffcProfile .card-header .btn-link{color: #ffffff;}
+  .paddLeft5{padding-left:5px; padding-right:0;}
+  .paddRight5{padding-right:5px; padding-left:0;}
+  .leftTable tr th, .leftTable tr td{text-align:left !important;color: #000;}
+  .leftTable tr th{vertical-align: bottom;}
 
   .header_img_text{font-size:28px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute;}
   .topheaderFixed{background-color:#000; padding:8px 0;}
