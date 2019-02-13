@@ -96,6 +96,11 @@ div {
     padding-left: 2px;
 }
 
+.font12{
+    font-size: 14px;
+    padding-top: 10px;
+}
+
    ul.addList li .glyphicon-remove-circle{position: absolute;
     top: -9px;
     right: -10px;
@@ -141,14 +146,18 @@ div {
    .btn-link.focus, .btn-link:hover, .btn-link:focus {
     text-decoration: none;
    }
+
+   
    table.leftTable > tbody > tr > td:nth-child(2), table.leftTable > tbody > tr > th:nth-child(2){padding:0px;border:0px;}
    table.leftTable > tbody > tr > td:first-child, table.leftTable > tbody > tr > th:first-child{border-right:0px;}
    /* table.leftTable > tbody > tr > th tr:first-child th{border-bottom:0px;} */
    table.leftTable > tbody > tr > td tr:first-child td{border-top:0px;}
-   table.leftTable > tbody > tr > th:nth-child(2) tr th{min-width:75px;}
+/*table.leftTable > tbody > tr > th:nth-child(2) tr th{min-width:63px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td:nth-child(3){min-width:53px;}
+   table.leftTable > tbody > tr > th:nth-child(2) tr th:nth-child(3){min-width:53px;}
    table.leftTable > tbody > tr > th:nth-child(2) tr th:first-child{min-width:100px;}
-   table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:75px;}
-   table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:100px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:63px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:100px;}*/
 
 
 
@@ -1128,6 +1137,13 @@ div {
     .small_font .staticStrip{font-size:14px !important;}
     .small_font .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px; height:60px; margin-right:20px !important;border:1px solid #000 !important;}
     .small_font .customLI span{font-size:11px;}
+    .small_font .font12{font-size: 12px}
+    .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th{min-width:53px;}
+    .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td:nth-child(3){min-width:43px;}
+    .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th:nth-child(3){min-width:43px;}
+    .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th:first-child{min-width:90px;}
+    .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:53px;}
+    .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:90px;}
 }
 
   /* ---- End Small Font Css --- */

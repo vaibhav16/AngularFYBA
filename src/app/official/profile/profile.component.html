@@ -28,7 +28,7 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                <div class="row-fluid signupPosition borderTopNone">
+                <div class="row-fluid signupPosition">
                   <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                     <strong>Address:</strong>
                   </div>
@@ -214,13 +214,12 @@
                 <tr>
                   <th>Div.</th>
                   <th>
-                    <table cellspacing="0" cellpadding="0" border="0"
-                    width="100%">
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
                       <tr>
-                          <th width="34%">Position</th>
-                          <th width="22%">Base Pay</th>
-                          <th width="22%">Incentive Pay*</th>
-                          <th width="22%">Total Pay*</th>
+                        <th width="34%">Position</th>
+                        <th width="22%">Base Pay</th>
+                        <th width="22%">Inc. Pay*</th>
+                        <th width="22%">Total Pay*</th>
                       </tr>
                     </table>
                   </th>
@@ -248,21 +247,20 @@
                       
                                  
                   </ng-container> -->
-                  <tbody>
-                <tr *ngFor="let item of profileSection.Value[0].DivisionsAndPayments">
-                  
-                  <td>{{item.Division}}</td>
-                           <td>
-                             <table cellspacing="0" cellpadding="0" border="0"
-                             width="100%">
-                                <tr *ngFor="let child of item.paymentRatesPerDivisions">
-                                    <td width="34%">{{child.OfficiatingPosition}}</td>
-                                    <td width="22%">{{child.BasePay}}</td>
-                                    <td width="22%">{{child.IncentivePay}}</td>
-                                    <td width="22%">{{child.TotalPay}}</td> 
-</tr>
-                             </table>
-                           </td>        
+                <tbody>
+                  <tr *ngFor="let item of profileSection.Value[0].DivisionsAndPayments">
+
+                    <td>{{item.Division}}</td>
+                    <td>
+                      <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr *ngFor="let child of item.paymentRatesPerDivisions">
+                          <td width="34%">{{child.OfficiatingPosition}}</td>
+                          <td width="22%">{{child.BasePay}}</td>
+                          <td width="22%">{{child.IncentivePay}}</td>
+                          <td width="22%">{{child.TotalPay}}</td>
+                        </tr>
+                      </table>
+                    </td>
                   </tr>
                 </tbody>
 
@@ -274,6 +272,8 @@
                 <td>{{child.TotalPay}}</td>              
               </tr> -->
               </table>
+              <div class="font12">
+                *Assuming all Game Reports are filed correctly and on time.</div>
             </div>
           </ng-template>
         </ngb-panel>
