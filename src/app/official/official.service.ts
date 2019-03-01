@@ -26,7 +26,7 @@ import { Profile } from './classes/profile/profile.model';
 import { UploadProfileImage } from './classes/profile/uploadProfileImg.model';
 import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
-import { Constants } from '../common/models/constants';
+import { Constants } from './../constants';
 import { DataSharingService } from './../data-sharing.service';
 
 @Injectable({

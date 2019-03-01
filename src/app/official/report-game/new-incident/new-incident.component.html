@@ -5,10 +5,11 @@
       <p>Filed by:</p>
       <h4>{{name}}</h4>
       <p>Filed Date/Time:</p>
-       <h4>{{today | date:'short'}}</h4>
+      <h4>{{today | date:'M/d/yy h:m a'}}</h4>
       <!-- <h4>1/5/2019 4:23 PM</h4> -->
       <p>Incident Type:</p>
       <select class="reportFacilities" formControlName="incidentType" (change)="incidentSelected()">
+        <!-- <option style="background-color: #DCDCDC" selected>Select Incident Type</option> -->
         <option *ngFor="let item of incidentTypes" value={{item.DependentDropdownName}}>{{item.Item}}</option>
       </select>
 

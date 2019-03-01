@@ -15,7 +15,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 import { Observable } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
-import { Constants } from "./../models/constants";
+import { Constants } from "./../../constants";
 import { IUserData } from './../models/IUser.model';
 import { dataUri } from "@rxweb/reactive-form-validators";
 
