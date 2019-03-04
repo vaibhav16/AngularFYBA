@@ -605,6 +605,7 @@ export class ReportGameComponent {
       //   this.modalRef = this.modalService.show(ErrorModalComponent);
       //   this.modalRef.content.closeBtnName = 'Close';
       // }
+     
       this.formChange = false;
       this.tempIndex = 0;
       this.deletedIndex=0;      
@@ -632,7 +633,9 @@ export class ReportGameComponent {
 
   /* - On clicking save button, a message is shown to the user. 
   We hide the message if the user clicks on a new panel - */
+  incidentCount=0;
   panelChange($event: NgbPanelChangeEvent) {
+    //this.incidentIndex = this.officialService.reportGameJson
     console.log($event);
     if (this.checkBtnClick > 0 || this.formChange) {
       $event.preventDefault();
@@ -650,8 +653,7 @@ export class ReportGameComponent {
 
         console.log($e);
         if (!$e) {
-          this.formChange = false;
-          this.tempIndex = 0;
+          this.formChange = false;          
           this.checkBtnClick = 0;
           this.ScoreSheetImages = [];
           this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
@@ -672,6 +674,8 @@ export class ReportGameComponent {
           this.deletedIndex=0;
           this.tempIndex=0;
           this.config.closeOthers = true;
+          //this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
+          //this.incidentCount = 0;
         }
 
       })
@@ -683,6 +687,8 @@ export class ReportGameComponent {
       this.homePON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalHomePON;
       this.visitingPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalVisitingPON;
       this.maxPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalGamePON;
+      this.incidentCount = this.officialService.reportGameJson['Value'].GameList[gameListId].IncidentReports.length;
+      console.log("Incident index: ", this.incidentCount);
       //console.log(this.homePON, this.visitingPON, this.maxPON);
     }
 
@@ -911,6 +917,9 @@ export class ReportGameComponent {
   }
 
   showModal() {
+    console.log(this.tempGameIndex);
+    console.log(this.tempIndex);
+    console.log(this.incidentCount);
     //if (this.officialService.postReportMsg) {
     //console.log(this.officialService.postReportStatus)
     const initialState = {
@@ -937,6 +946,8 @@ export class ReportGameComponent {
         this.homePON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalHomePON;
         this.visitingPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalVisitingPON;
         this.maxPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalGamePON;
+        this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
+
         //console.log(this.homePON, this.visitingPON, this.maxPON);
       }
     })
@@ -1112,6 +1123,7 @@ export class ReportGameComponent {
 
   bsModalRef: BsModalRef;
   addIncident(gameIndex) {
+   
     //const config: ModalOptions = { class: 'modal-sm' };
     //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
 
@@ -1126,15 +1138,18 @@ export class ReportGameComponent {
       gameId: this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId,
       incidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentTypes,
       incidentSubDropDown: this.officialService.reportGameJson['Value'].GameList[gameIndex]
-        .IncidentSubDropDown
+        .IncidentSubDropDown,
+      locationId:this.officialService.reportGameJson['Value'].GameList[gameIndex].LocationId,
+      locationName:this.officialService.reportGameJson['Value'].GameList[gameIndex].LocationName,
+      incidentCount:this.incidentCount+this.officialService.IncidentReports.length+1
     };
     this.bsModalRef = this.modalService.show(
       NewIncidentComponent,
-      Object.assign({}, { class: 'customModalWidth75', initialState })
+      Object.assign({}, { class: 'customModalWidth90', initialState })
     );
 
 
-    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {      
     /*************************************************************************** */
     /* When user submits a new incident,
     the formchange variable will be set to true */
@@ -1162,12 +1177,13 @@ export class ReportGameComponent {
       allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex]
         .IncidentTypes,
       allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex]
-        .IncidentSubDropDown
+        .IncidentSubDropDown,
+        incidentCount: incidentIndex+1
     };
 
     this.bsModalRef = this.modalService.show(
       ShowIncidentComponent,
-      Object.assign({}, { class: 'customModalWidth75', initialState })
+      Object.assign({}, { class: 'customModalWidth90', initialState })
     );
 
     this.bsModalRef.content.saveStatus.subscribe(($e) => {
@@ -1217,6 +1233,7 @@ export class ReportGameComponent {
 
     await this.DeletedIncidentReports.push(s);
     console.log(this.DeletedIncidentReports);
+    this.incidentCount--;
   }
 
   showTempIncident(newIncidentIndex, gameIndex) {   
@@ -1233,12 +1250,13 @@ export class ReportGameComponent {
       allIncidentTypes: this.officialService.reportGameJson['Value'].GameList[gameIndex]
         .IncidentTypes,
       allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex]
-        .IncidentSubDropDown
+        .IncidentSubDropDown,
+        incidentCount: this.incidentCount+newIncidentIndex+1
     };
 
     this.bsModalRef = this.modalService.show(
       ShowNewIncidentComponent,
-      Object.assign({}, { class: 'customModalWidth75', initialState })
+      Object.assign({}, { class: 'customModalWidth90', initialState })
     );
     
     this.bsModalRef.content.saveStatus.subscribe(($e) => {

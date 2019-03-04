@@ -31,7 +31,7 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
-   
+
    .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:100px !important; height:100px !important; margin-right:20px !important;border:1px solid #000 !important;}
    .customLI span{left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%); font-size:14px !important; text-transform: uppercase;} 
    .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
@@ -488,7 +488,7 @@ div {
    ul.paymentdates{list-style:none; padding:0px; margin:0px;}
    ul.paymentdates li{display:block; font-size:20px; color:black; font-weight:bold; padding:2px 0;}
    .breakWord{display:none;}
-   .leftAlign tr td, .leftAlign tr th{text-align:left !important;}
+   .leftAlign tr td:first-child, .leftAlign tr th:first-child{text-align:left !important;}
    ul.addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; /*width:100%;*/}
    ul.addList li{float: left;
     width: 100px;
@@ -671,7 +671,8 @@ div {
    .slideDate .custom-dropdown select{font-size:12px;}
    
    @media only screen and (max-width : 767px) {
-
+    .addList .addListDiv.uploadDiv{ width: 60px !important; height: 60px !important;}
+    .addList .addListDiv{width: 60px !important; height: 60px !important;}
     .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important; margin-right:20px !important;border:1px solid #000 !important;}
    .customLI span{left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%); font-size:11px !important; text-transform: uppercase;} 
     .leftReportDate span{display:block; font-weight:normal;}
@@ -1090,7 +1091,9 @@ div {
     width:75%
   }
 
-
+  .customModalWidth75{
+    width:90%
+  }
 
   /*--------- END --------*/
 

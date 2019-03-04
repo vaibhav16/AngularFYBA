@@ -13,6 +13,71 @@ h1, a { margin-top: 1em; font-family: "Open Sans Light", "Open Sans", "Segoe UI"
 .info br + a {text-decoration:none}
 .unreported_game{ font-size: 10px;background: #ff0000;border-radius: 50%;height: 15px;width: 15px;text-align: center;line-height: 15px;color: #fff; display:inline-block;margin-top: 4px;float: right;}
 .report_status{ font-size: 10px;border-radius: 50%;height: 18px;width: 18px;text-align: center;line-height: 15px;color: #fff; display:inline-block;margin-top: 4px;float: right;}
-.incident_linebreak{line-height: 16px;padding-top: 8px;}
+.incident_linebreak{/*line-height: 16px;padding-top: 8px;*/}
 .incident_delete{background-color: #555 !important;border: 2px solid #ff0000 !important;}
 .customSpan span{display: block;font-weight: 400;}
+
+
+.addList .addListDiv .glyphicon-remove-circle{position: absolute;
+    top: -9px;
+    right: -10px;
+    color: #000;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 20px;
+   }
+
+   .addList .addListDiv .preFilledSS{position: absolute;
+    font-size: 11px;
+    padding-top: 0% !important;
+    margin-top: 0% !important;
+   }
+
+   .Incidentclass input[type="file"]{font-size: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;opacity:0;}
+    .Incidentclass{overflow:hidden;}
+
+    .addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; /*width:100%;*/}
+   .addList .addListDiv{float: left;
+    width: 100px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    height: 100px;
+    /*background: #999999;*/
+    text-align: center;
+    /*line-height: 100px;*/
+    color: #ffffff; position:relative; /*border:3px solid #3c98db;*/margin-top:10px;}
+
+    .addList.incidentLi .addListDiv{
+        background: #1e31ae;
+    }
+    
+    .addList .addListDiv.preFilledDiv{float: left;
+        width: 60px;
+        /*margin-left: 20px;*/
+        margin-right:0px;           
+        text-align: center;color: #ffffff; 
+        position:relative;
+        /* border:3px solid black !important; */
+         line-height:auto;line-height: inherit;
+        padding-top: 25px;overflow:hidden;} 
+    
+
+   .addList .addListDiv.uploadDiv{float: left;
+    width: 100px;
+    /*margin-left: 20px;*/
+    margin-right:0px;
+       background: #ff0000;
+    text-align: center;color: #ffffff; position:relative; border:3px solid #3c98db; line-height:auto;line-height: inherit;
+    padding-top: 25px;overflow:hidden; text-transform: uppercase;} 
+
+    .addList .addListDiv.uploadIncident{background: #3c98db; border:1px solid #1e31ae;}
+
+    .addList .addListDiv > div{position: absolute;    left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        font-size: 14px !important;
+        text-transform: uppercase; font-size:11px !important;}

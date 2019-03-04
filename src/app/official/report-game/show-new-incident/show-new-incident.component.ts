@@ -13,6 +13,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class ShowNewIncidentComponent implements OnInit {
   @Output() saveStatus = new EventEmitter<boolean>();
+  public incidentCount: number;
   public incident;
   public name: string;
   public gameid: string;
@@ -101,41 +102,47 @@ export class ShowNewIncidentComponent implements OnInit {
     //   this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
     // });
 
-
-    for (var i = 0; i < this.allIncidentTypes.length; ++i) {
-      if (this.allIncidentTypes[i]['Item'] == incidentType) {
-        this.incidentTypeId = this.allIncidentTypes[i]['Id'];
-        incidentDropdownName = this.allIncidentTypes[i]['DependentDropdownName'];
-        console.log(incidentDropdownName);
-        console.log(this.dependentIncidentDropdown);
-        //console.log("Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
-
-        if(incidentDropdownName!='Other'){          
-          //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
-          this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
-          this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
-          this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();          
-          this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
-          console.log(incidentDropdownName+" Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
+    if(incidentType!='Select Incident Type'){
+      for (var i = 0; i < this.allIncidentTypes.length; ++i) {
+        if (this.allIncidentTypes[i]['Item'] == incidentType) {
+          this.incidentTypeId = this.allIncidentTypes[i]['Id'];
+          incidentDropdownName = this.allIncidentTypes[i]['DependentDropdownName'];
+          console.log(incidentDropdownName);
+          console.log(this.dependentIncidentDropdown);
+          //console.log("Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
+  
+          if(incidentDropdownName!='Other'){          
+            //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+            this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
+            this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
+            this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();          
+            this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
+            console.log(incidentDropdownName+" Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
+          }
+          else{
+            
+            //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([]);
+            this.dependentIncidentDropdown = [];
+            this.editIncidentForm.get('incidentSubDropDown').clearValidators();
+            this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
+            this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);          
+            console.log(incidentDropdownName+" Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
+          }
+  
         }
-        else{
-          
-          //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([]);
-          this.dependentIncidentDropdown = [];
-          this.editIncidentForm.get('incidentSubDropDown').clearValidators();
-          this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
-          this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);          
-          console.log(incidentDropdownName+" Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
-        }
-
       }
+  
+      // console.log(incidentType);
+      // console.log(this.allDependentDropdowns);
+      //this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
+  
+      return this.incidentTypeId;
     }
 
-    // console.log(incidentType);
-    // console.log(this.allDependentDropdowns);
-    //this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
-
-    return this.incidentTypeId;
+    else{
+      this.editIncidentForm.setErrors({ 'invalid': true });
+      this.editIncidentForm.controls['incidentType'].setValidators([Validators.required]);    
+    }   
   }
 
   incidentTypeId;

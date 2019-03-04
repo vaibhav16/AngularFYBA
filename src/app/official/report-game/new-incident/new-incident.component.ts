@@ -13,6 +13,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class NewIncidentComponent implements OnInit {
   @Output() saveStatus = new EventEmitter<boolean>();
+  public incidentCount: number;
   incidentForm: FormGroup;
   public incidentTypes;
   public incidentSubDropDown;
@@ -20,6 +21,8 @@ export class NewIncidentComponent implements OnInit {
   public gameId;
   public incidentId: number;
   public subDropDownId: number;
+  public locationId:number;
+  public locationName: string;
   today = new Date();
   name: string;
   private readonly notifier: NotifierService;
@@ -32,58 +35,81 @@ export class NewIncidentComponent implements OnInit {
     public cookieService: CookieService
   ) {
     this.notifier = notifierService;
-  }
 
-
-  ngOnInit() {
-    //console.log(this.gameId);
-    //console.log(this.incidentTypes);
-    //console.log(this.incidentSubDropDown);
-    // console.log(this.depedentIncidentDropdown);
-    //console.log(this.name);
-    // this.name= this.cookieService.get("name");
     this.incidentForm = this.fb.group({
-      incidentType: ["", Validators.required],
+      incidentType: ["Select Incident Type",Validators.required],
       incidentSubDropDown: [{ value: "", disabled: true }, Validators.required],
       note: [{ value: "", disabled: true }, Validators.required]
-    });
+    });   
+    
+    console.log(this.incidentForm.valid);
+
+    //this.incidentForm.controls['incidentType'].setValue("Select Incident Type", {onlySelf: true});
+
+  }
+
+  submitBtnDisable: boolean = true;
+  ngOnInit() {
+    console.log(this.incidentTypes);     
   }
 
   incidentSelected() {
+    this.submitBtnDisable=false;
     this.depedentIncidentDropdown = [];
     const incidentType = this.incidentForm.get('incidentType').value;
+    console.log(incidentType);
 
-    
-    
-    // subscribe(() => {
-    //   this.incidentForm.controls['incidentSubDropDown'].setValue([]);
-    // });
+    if(incidentType){
+      if(incidentType!='Select Incident Type'){
+        if (incidentType!='Other') {
+          
+          if(incidentType=='Facilities'){            
+            for (var i = 0; i < this.incidentTypes.length; ++i) {
+              if (this.incidentTypes[i]['DependentDropdownName'] == incidentType) {
+                this.incidentId = this.incidentTypes[i]['Id'];
+              }
+            }
 
-    if (incidentType!='Other') {
-      for (var i = 0; i < this.incidentTypes.length; ++i) {
-        if (this.incidentTypes[i]['DependentDropdownName'] == incidentType) {
-          this.incidentId = this.incidentTypes[i]['Id'];
+            this.depedentIncidentDropdown = this.incidentSubDropDown[incidentType];
+            this.incidentForm.controls['incidentSubDropDown'].enable();
+            this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);         
+            this.depedentIncidentDropdown.forEach(element => {              
+              if(element["Id"]==this.locationId){
+               
+                this.subDropDownId = element["Id"];
+                this.incidentForm.patchValue({'incidentSubDropDown':element["Item"]});
+              }
+            });                   
+          }
+          else{
+            for (var i = 0; i < this.incidentTypes.length; ++i) {
+              if (this.incidentTypes[i]['DependentDropdownName'] == incidentType) {
+                this.incidentId = this.incidentTypes[i]['Id'];
+              }
+            }
+            console.log(incidentType);
+            this.depedentIncidentDropdown = this.incidentSubDropDown[incidentType];
+            this.incidentForm.controls['incidentSubDropDown'].enable();
+            this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);          
+            this.incidentForm.controls['incidentSubDropDown'].setValue([]);
+          }
+          
         }
+        else {
+          console.log(incidentType);       
+          this.depedentIncidentDropdown = [];
+          this.incidentForm.get('incidentSubDropDown').clearValidators();
+          this.incidentForm.get('incidentSubDropDown').updateValueAndValidity(); 
+          this.incidentForm.controls['incidentSubDropDown'].setValue([undefined]);
+        }
+        this.incidentForm.controls['note'].enable();
+        console.log(this.depedentIncidentDropdown);
       }
-      console.log(incidentType);
-      this.depedentIncidentDropdown = this.incidentSubDropDown[incidentType];
-      this.incidentForm.controls['incidentSubDropDown'].enable();
-      this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
-      //this.incidentForm.controls['incidentSubDropDown'].markAsPending;
-      this.incidentForm.controls['incidentSubDropDown'].setValue([]);
-      //this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
-      //this.incidentForm.get('incidentSubDropDown').updateValueAndValidity(); 
+      else{        
+        this.incidentForm.setErrors({ 'invalid': true });
+      }
+     
     }
-    else {
-      console.log(incidentType);
-      //this.incidentForm.controls['incidentSubDropDown'].setValidators([]);
-      this.depedentIncidentDropdown = [];
-      this.incidentForm.get('incidentSubDropDown').clearValidators();
-      this.incidentForm.get('incidentSubDropDown').updateValueAndValidity(); 
-      this.incidentForm.controls['incidentSubDropDown'].setValue([undefined]);
-    }
-    this.incidentForm.controls['note'].enable();
-    console.log(this.depedentIncidentDropdown);
 
   }
 
