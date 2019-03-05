@@ -1196,12 +1196,13 @@ export class ReportGameComponent {
       this.dataChanged();
 
       console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
-        incidentIndex]);
+        incidentIndex]); 
 
-      // delete this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
-      //   incidentIndex];
+       //this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.splice(incidentIndex,1);
 
-       this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.splice(incidentIndex,1);
+       console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex]);       
+
+       //this.incidentCount--;
 
         console.log("Incident count in Json after deletion: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.length)
 
