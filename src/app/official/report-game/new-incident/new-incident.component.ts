@@ -151,6 +151,7 @@ export class NewIncidentComponent implements OnInit {
     // this.incident.Notes = this.incidentForm.get('note').value;
     //console.log(this.incident);
     this.officialService.IncidentReports.push(newIncident);
+    this.officialService.NewIncidents.push(newIncident);
     //this.officialService.IncidentReports = this.officialService.IncidentReports.slice();
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();

@@ -62,7 +62,7 @@
                                              <tr>
                                                 <th>Team Name</th>
                                                 <th>Final Score</th>
-                                                <th>Forfeit</th>
+                                                <th style="text-align: left !important">Forfeit</th>
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -359,7 +359,7 @@
                                  </ng-container>
                        
                                     <div class="addListDiv" 
-                                    *ngFor="let item of officialService.IncidentReports;  let newIncidentIndex = index">
+                                    *ngFor="let item of officialService.NewIncidents;  let newIncidentIndex = index">
                                        <!-- <div class="incident_linebreak" (click)="showTempIncident(newIncidentIndex,gameListIndex)">
                                           New <br class="breakAll" />Incident <br class="breakAll" />{{newIncidentIndex+1}}
                                        </div> -->

@@ -48,6 +48,7 @@ import { EventEmitter } from 'protractor';
 export class ReportGameComponent {
   //@ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
 
+  initialJson: JSON = null;
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
   ScoreSheetImages: ScoreSheetImages[] = [];
@@ -170,29 +171,19 @@ export class ReportGameComponent {
 
   newRequest: boolean = null;
   ngOnInit() {
-    //console.log("Report Games On Init");
-    //this.officialService.requestSuccess = false;
-    //this.officialService.requestFailure = false;
     this.asyncReport();
   }
 
 
   ngAfterViewInit() {
-    // $(document).on('click', '.glyphicon', (e) => {
-    //   var targetid = e.target.id;
-    //   e.target.parentNode.remove();
-    //   this.ScoreSheetImages.splice(targetid, 1);
-    //   this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-    //     return el != null;
-    //   });
-    //   console.log("Scoreheet Images: "+ this.ScoreSheetImages);
-    // });
+    
   }
 
   async asyncReport() {
     //console.log(this.tempGameIndex);
     await this.officialService.getReportData().then((res) => {
-      //this.checkInitialPON();
+      this.initialJson = this.officialService.reportGameJson;
+      
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
@@ -621,6 +612,8 @@ export class ReportGameComponent {
         return el != null;
       });
       this.officialService.IncidentReports = [];
+      this.officialService.ModifiedIncidents = [];
+      this.officialService.NewIncidents = [];
       console.log("Incident Reports:" + this.officialService.IncidentReports);
       this.DeletedIncidentReports = [];
       this.TempScoreSheets = [];
@@ -666,6 +659,8 @@ export class ReportGameComponent {
             return el != null;
           });
           this.officialService.IncidentReports = [];
+          this.officialService.ModifiedIncidents = [];
+          this.officialService.NewIncidents = [];
           this.DeletedIncidentReports = [];
           this.TempScoreSheets = []
           this.homePON = 0;
@@ -674,6 +669,9 @@ export class ReportGameComponent {
           this.deletedIndex=0;
           this.tempIndex=0;
           this.config.closeOthers = true;
+          console.log(this.initialJson['Value']);
+          this.officialService.reportGameJson['Value'] = this.initialJson['Value'];
+          console.log(this.officialService.reportGameJson['Value'])
           //this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
           //this.incidentCount = 0;
         }
@@ -1202,7 +1200,37 @@ export class ReportGameComponent {
 
        console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex]);       
 
+       console.log("modified incidents array"+this.officialService.ModifiedIncidents);       
+       console.log("json incident type: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex].IncidentType);       
+       console.log("first modified incident type: "+this.officialService.ModifiedIncidents[0].IncidentType);       
+
+       for(var i=0; i<this.officialService.ModifiedIncidents.length;++i ){
+         if(this.officialService.ModifiedIncidents[i].GameId==this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId){     
+           console.log("matched");
+           console.log(this.officialService.ModifiedIncidents[i]);
+           console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex]);
+           this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+            incidentIndex
+          ].IncidentId=this.officialService.ModifiedIncidents[i].IncidentId;
+          this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+            incidentIndex
+          ].IncidentType=this.officialService.ModifiedIncidents[i].IncidentType;
+          this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+            incidentIndex
+          ].IncidentValue=this.officialService.ModifiedIncidents[i].IncidentValue;
+          this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+            incidentIndex
+          ].Notes=this.officialService.ModifiedIncidents[i].Notes;
+         }
+       }
+
        //this.incidentCount--;
+
+       console.log(
+        this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+        incidentIndex
+        ]
+      );
 
         console.log("Incident count in Json after deletion: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.length)
 
@@ -1289,11 +1317,21 @@ export class ReportGameComponent {
 
   deleteTempIncident(newIncidentIndex) {
     this.dataChanged();
+    console.log("New Incidents: "+this.officialService.NewIncidents.length);
+    console.log("Incident Reports: "+this.officialService.IncidentReports.length);
   /*************************************************************************** */
   /* Incident Reports array in maintained in officialService. */
   /* If the user wishes to delete an unsaved incident, the array is simply popped at that index. */
   /*************************************************************************** */   
-    this.officialService.IncidentReports.splice(newIncidentIndex, 1);
+  
+  for(var i=0; i<this.officialService.IncidentReports.length; ++i){
+    if(this.officialService.IncidentReports[i].GameId==this.officialService.NewIncidents[newIncidentIndex].GameId){
+      this.officialService.IncidentReports.splice(i, 1);    
+      this.officialService.NewIncidents.splice(newIncidentIndex, 1); 
+      console.log("New Incidents: "+this.officialService.NewIncidents.length);
+      console.log("Incident Reports: "+this.officialService.IncidentReports.length);
+    }
+  }  
   }
 
   homeForfeitToggle($event:Event,gamelistindex){

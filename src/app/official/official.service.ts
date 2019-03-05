@@ -178,6 +178,8 @@ export class OfficialService {
   };
 
   IncidentReports: IncidentReports[] = [];
+  NewIncidents: IncidentReports[] = [];
+  ModifiedIncidents: IncidentReports[] = [];
 
   APIPlayerScorePost: APIPlayerScorePost = {
     GameId: '',

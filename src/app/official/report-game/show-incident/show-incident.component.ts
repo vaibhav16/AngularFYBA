@@ -244,7 +244,30 @@ export class ShowIncidentComponent implements OnInit {
     //console.log(this.incident);
 
     this.officialService.IncidentReports.push(changedIncident);
+
+    var flag;
+
+    if(this.officialService.ModifiedIncidents.length>0){
+      for(var i=0; i<this.officialService.ModifiedIncidents.length;++i){       
+        if (this.officialService.ModifiedIncidents[i].GameId==changedIncident.GameId){
+          flag=true;
+          this.officialService.ModifiedIncidents[i].IncidentId=changedIncident.IncidentId;
+          this.officialService.ModifiedIncidents[i].IncidentType=changedIncident.IncidentType;
+          this.officialService.ModifiedIncidents[i].IncidentValue = changedIncident.IncidentValue;
+          this.officialService.ModifiedIncidents[i].Notes = changedIncident.Notes;
+        }
+        else{
+          flag=false;
+        }
+      }
+    }
+
+    if(!flag){
+      this.officialService.ModifiedIncidents.push(changedIncident);
+    }
+   
     console.log(this.officialService.IncidentReports);
+    console.log(this.officialService.ModifiedIncidents);
     this.bsModalRef.hide();
     this.saveStatus.emit(false);
   }

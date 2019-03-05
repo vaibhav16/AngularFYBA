@@ -123,7 +123,7 @@ export class ShowNewIncidentComponent implements OnInit {
 
               this.dependentIncidentDropdown.forEach(element => {
                 if (element["Id"] == this.locationId) {
-                  this.incidentTypeId = element["Id"];
+                  this.dependentDropdownId = element["Id"];
                   this.editIncidentForm.patchValue({ 'incidentSubDropDown': element["Item"] });
                 }
               });
@@ -189,17 +189,21 @@ export class ShowNewIncidentComponent implements OnInit {
   submitForm() {
     console.log(this.editIncidentForm.value);
     this.notifier.notify('success', 'Be sure to save the Game Report to complete the incident reporting');
-    //this.changedIncident.GameId = parseInt(this.gameid);
-    this.officialService.IncidentReports[this.index].IncidentId = this.incident.IncidentId;
-    // this.officialService.IncidentReports[this.index].IncidentType = this.incidentTypeId;
-    // this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropdownId;
-    this.officialService.IncidentReports[this.index].IncidentType = this.incidentSelected();
-    this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropDownSelected();
-    this.officialService.IncidentReports[this.index].Notes = this.editIncidentForm.get('note').value;
-    //console.log(this.incident);
-    //for(var i=0; i<)
-    //this.officialService.IncidentReports[this.index].
-    //this.officialService.IncidentReports.push(this.changedIncident);
+    
+    this.officialService.NewIncidents[this.index].IncidentId = this.incident.IncidentId;    
+    this.officialService.NewIncidents[this.index].IncidentType = this.incidentSelected();
+    this.officialService.NewIncidents[this.index].IncidentValue = this.dependentDropDownSelected();
+    this.officialService.NewIncidents[this.index].Notes = this.editIncidentForm.get('note').value;
+
+    for (var i = 0; i < this.officialService.IncidentReports.length; ++i) {
+      if (this.officialService.IncidentReports[i].GameId == parseInt(this.gameid)) {
+        this.officialService.IncidentReports[this.index].IncidentId = this.incident.IncidentId;
+        this.officialService.IncidentReports[this.index].IncidentType = this.incidentSelected();
+        this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropDownSelected();
+        this.officialService.IncidentReports[this.index].Notes = this.editIncidentForm.get('note').value;
+      }
+    }
+    
     console.log(this.officialService.IncidentReports);
     this.bsModalRef.hide();
     this.saveStatus.emit(false);
