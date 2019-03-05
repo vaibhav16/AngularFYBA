@@ -21,6 +21,7 @@ export class ShowNewIncidentComponent implements OnInit {
   public allDependentDropdowns;
   public dependentIncidentDropdown = [];
   public dependentDropDownName;
+  locationId: number;
   index: number;
   today = new Date();
   private readonly notifier: NotifierService;
@@ -36,9 +37,9 @@ export class ShowNewIncidentComponent implements OnInit {
 
   editIncidentForm: FormGroup;
   ngOnInit() {
-    console.log(this.incident);
-    console.log(this.allIncidentTypes);
-    console.log(this.allDependentDropdowns);
+    // console.log(this.incident);
+    // console.log(this.allIncidentTypes);
+    // console.log(this.allDependentDropdowns);
     this.name = this.incident.FiledByName;
     this.gameid = this.incident.GameId;
     this.editIncidentForm = this.fb.group({
@@ -47,8 +48,10 @@ export class ShowNewIncidentComponent implements OnInit {
       note: [this.incident.Notes, Validators.required]
     });
 
+    console.log(this.editIncidentForm.value);
+
     // console.log(this.dependentDropDownName);
-   
+
     //console.log(this.editIncidentForm.value);
   }
 
@@ -64,21 +67,21 @@ export class ShowNewIncidentComponent implements OnInit {
       if (this.allIncidentTypes[i]['Id'] == this.incident.IncidentType) {
         selectedValue = this.allIncidentTypes[i]['Item'];
         this.dependentDropDownName = this.allIncidentTypes[i]['DependentDropdownName'];
-        if(this.dependentDropDownName!='Other'){
+        if (this.dependentDropDownName != 'Other') {
           this.dependentIncidentDropdown = this.allDependentDropdowns[this.dependentDropDownName];
         }
       }
     }
-   
+
     console.log(this.dependentIncidentDropdown);
     // console.log(this.dependentIncidentDropdown);
     // console.log(this.dependentDropDownName);
-    return selectedValue? selectedValue:'Other';
+    return selectedValue ? selectedValue : 'Other';
   }
 
   returnIncidentSubDropdown() {
     let selectedValue;
-    if(this.allDependentDropdowns[this.dependentDropDownName]){
+    if (this.allDependentDropdowns[this.dependentDropDownName]) {
       for (var i = 0; i < this.allDependentDropdowns[this.dependentDropDownName].length; ++i) {
         if (
           this.allDependentDropdowns[this.dependentDropDownName][i]['Id'] ==
@@ -91,7 +94,7 @@ export class ShowNewIncidentComponent implements OnInit {
       return selectedValue;
     }
     return [];
-  
+
   }
 
   incidentSelected() {
@@ -102,7 +105,7 @@ export class ShowNewIncidentComponent implements OnInit {
     //   this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
     // });
 
-    if(incidentType!='Select Incident Type'){
+    if (incidentType != 'Select Incident Type') {
       for (var i = 0; i < this.allIncidentTypes.length; ++i) {
         if (this.allIncidentTypes[i]['Item'] == incidentType) {
           this.incidentTypeId = this.allIncidentTypes[i]['Id'];
@@ -110,39 +113,53 @@ export class ShowNewIncidentComponent implements OnInit {
           console.log(incidentDropdownName);
           console.log(this.dependentIncidentDropdown);
           //console.log("Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
-  
-          if(incidentDropdownName!='Other'){          
-            //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
-            this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
-            this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
-            this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();          
-            this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
-            console.log(incidentDropdownName+" Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
+
+          if (incidentDropdownName != 'Other') {
+            if (incidentDropdownName == 'Facilities') {
+
+              this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
+              this.editIncidentForm.controls['incidentSubDropDown'].enable();
+              this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+
+              this.dependentIncidentDropdown.forEach(element => {
+                if (element["Id"] == this.locationId) {
+                  this.incidentTypeId = element["Id"];
+                  this.editIncidentForm.patchValue({ 'incidentSubDropDown': element["Item"] });
+                }
+              });
+            }
+            else {
+              //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+              this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
+              this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
+              this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
+              this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
+              console.log(incidentDropdownName + " Dependent Dropdown Length: " + this.dependentIncidentDropdown.length);
+            }
           }
-          else{
-            
+          else {
             //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([]);
             this.dependentIncidentDropdown = [];
             this.editIncidentForm.get('incidentSubDropDown').clearValidators();
             this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
-            this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);          
-            console.log(incidentDropdownName+" Dependent Dropdown Length: "+this.dependentIncidentDropdown.length);
+            this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
+            console.log(incidentDropdownName + "Dependent Dropdown Length: " + this.dependentIncidentDropdown.length);
           }
-  
+
         }
       }
-  
+
       // console.log(incidentType);
       // console.log(this.allDependentDropdowns);
       //this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
-  
+
       return this.incidentTypeId;
     }
 
-    else{
+    else {
       this.editIncidentForm.setErrors({ 'invalid': true });
-      this.editIncidentForm.controls['incidentType'].setValidators([Validators.required]);    
-    }   
+      this.editIncidentForm.controls['incidentType'].setValidators([Validators.required]);
+    }
   }
 
   incidentTypeId;
@@ -150,7 +167,7 @@ export class ShowNewIncidentComponent implements OnInit {
 
   dependentDropDownSelected() {
     console.log(this.dependentIncidentDropdown);
-    if(this.dependentIncidentDropdown){
+    if (this.dependentIncidentDropdown) {
       for (var i = 0; i < this.dependentIncidentDropdown.length; ++i) {
         if (
           this.dependentIncidentDropdown[i]['Item'] ==
@@ -160,23 +177,23 @@ export class ShowNewIncidentComponent implements OnInit {
           console.log(this.dependentDropdownId);
         }
       }
-      
+
       return (this.dependentDropdownId);
     }
 
     return null;
-    
+
   }
 
 
   submitForm() {
     console.log(this.editIncidentForm.value);
-    this.notifier.notify( 'success', 'Be sure to save the Game Report to complete the incident reporting' );
+    this.notifier.notify('success', 'Be sure to save the Game Report to complete the incident reporting');
     //this.changedIncident.GameId = parseInt(this.gameid);
     this.officialService.IncidentReports[this.index].IncidentId = this.incident.IncidentId;
     // this.officialService.IncidentReports[this.index].IncidentType = this.incidentTypeId;
     // this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropdownId;
-    this.officialService.IncidentReports[this.index].IncidentType =  this.incidentSelected();
+    this.officialService.IncidentReports[this.index].IncidentType = this.incidentSelected();
     this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropDownSelected();
     this.officialService.IncidentReports[this.index].Notes = this.editIncidentForm.get('note').value;
     //console.log(this.incident);

@@ -170,7 +170,7 @@ export class ReportGameComponent {
 
   newRequest: boolean = null;
   ngOnInit() {
-    console.log("Report Games On Init");
+    //console.log("Report Games On Init");
     //this.officialService.requestSuccess = false;
     //this.officialService.requestFailure = false;
     this.asyncReport();
@@ -636,7 +636,7 @@ export class ReportGameComponent {
   incidentCount=0;
   panelChange($event: NgbPanelChangeEvent) {
     //this.incidentIndex = this.officialService.reportGameJson
-    console.log($event);
+    //console.log($event);
     if (this.checkBtnClick > 0 || this.formChange) {
       $event.preventDefault();
       const initialState = {
@@ -688,7 +688,7 @@ export class ReportGameComponent {
       this.visitingPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalVisitingPON;
       this.maxPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalGamePON;
       this.incidentCount = this.officialService.reportGameJson['Value'].GameList[gameListId].IncidentReports.length;
-      console.log("Incident index: ", this.incidentCount);
+      //console.log("Incident index: ", this.incidentCount);
       //console.log(this.homePON, this.visitingPON, this.maxPON);
     }
 
@@ -1160,6 +1160,7 @@ export class ReportGameComponent {
   }
 
   showIncident(incidentIndex, gameIndex) {
+    console.log("Incident count in Json before deletion: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.length)
     console.log(
       this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
       incidentIndex
@@ -1178,7 +1179,8 @@ export class ReportGameComponent {
         .IncidentTypes,
       allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex]
         .IncidentSubDropDown,
-        incidentCount: incidentIndex+1
+        incidentCount: incidentIndex+1,
+        locationId:this.officialService.reportGameJson['Value'].GameList[gameIndex].LocationId
     };
 
     this.bsModalRef = this.modalService.show(
@@ -1192,6 +1194,17 @@ export class ReportGameComponent {
     the formchange variable will be set to true */
     /*************************************************************************** */
       this.dataChanged();
+
+      console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+        incidentIndex]);
+
+      // delete this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
+      //   incidentIndex];
+
+       this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.splice(incidentIndex,1);
+
+        console.log("Incident count in Json after deletion: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.length)
+
     })
   }
 
@@ -1251,7 +1264,8 @@ export class ReportGameComponent {
         .IncidentTypes,
       allDependentDropdowns: this.officialService.reportGameJson['Value'].GameList[gameIndex]
         .IncidentSubDropDown,
-        incidentCount: this.incidentCount+newIncidentIndex+1
+        incidentCount: this.incidentCount+newIncidentIndex+1,
+        locationId:this.officialService.reportGameJson['Value'].GameList[gameIndex].LocationId
     };
 
     this.bsModalRef = this.modalService.show(

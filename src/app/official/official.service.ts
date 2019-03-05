@@ -564,7 +564,7 @@ export class OfficialService {
     this.finalFilter.SessionKey = this.dss.sessionKey;
     this.finalFilter.UserID = this.dss.userId.toString();
     var body = JSON.stringify(this.finalFilter);
-    console.log(JSON.stringify(this.finalFilter));
+    //console.log(JSON.stringify(this.finalFilter));
 
     var headerOptions = new Headers({ 'Content-Type': 'application/json' });
     var requestOptions = new RequestOptions({

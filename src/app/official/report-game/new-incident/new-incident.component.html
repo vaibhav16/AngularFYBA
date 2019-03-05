@@ -25,7 +25,7 @@
         (change)="dependentDropDownSelected()" class="reportFacilities" >
         <option style="background-color: #DCDCDC" 
         *ngIf="!incidentForm.valid"
-        [ngValue]="undefined" selected disabled>Select</option>
+        [ngValue]="undefined" selected>Select</option>
 
         <option *ngFor="let item of depedentIncidentDropdown"   
         value={{item.Item}}>{{item.Item}}</option>
