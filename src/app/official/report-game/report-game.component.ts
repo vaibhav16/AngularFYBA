@@ -48,7 +48,7 @@ import { EventEmitter } from 'protractor';
 export class ReportGameComponent {
   //@ViewChild('imgTemplate') imgTemplate: TemplateRef<any>;
 
-  initialJson: JSON = null;
+  initialJson: string = null;
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
   ScoreSheetImages: ScoreSheetImages[] = [];
@@ -182,7 +182,7 @@ export class ReportGameComponent {
   async asyncReport() {
     //console.log(this.tempGameIndex);
     await this.officialService.getReportData().then((res) => {
-      this.initialJson = this.officialService.reportGameJson;
+      this.initialJson = JSON.stringify(this.officialService.reportGameJson);
       
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
@@ -195,7 +195,7 @@ export class ReportGameComponent {
   async makeScoreSheetArray() {
     console.log(this.ScoreSheetImages);
     console.log(this.ScoreSheetImages2);   
-    console.log(this.tempIndex);
+    //console.log(this.tempIndex);
     
     for (var i = 0; i < this.ScoreSheetImages2.length; ++i) {
       console.log(this.ScoreSheetImages2.length);
@@ -297,7 +297,7 @@ export class ReportGameComponent {
         let hpoint = 'HPoints' + i;
         if (form.value[hpoint] != null && parseInt(form.value[hpoint]) > 0) {
           this.tempSumHomePoint += parseInt(form.value[hpoint]);
-          console.log(form.value[hpoint]);
+          //console.log(form.value[hpoint]);
         }
 
         let hpon = 'HPlayerNote' + i;
@@ -581,11 +581,10 @@ export class ReportGameComponent {
     this.APIGamePost.DeletedScoreSheetImages = this.DeletedScoreSheetImages;
     this.APIGamePost.IncidentReports = this.officialService.IncidentReports;
     this.APIGamePost.DeleteIncidentReport = this.DeletedIncidentReports;
-    console.log(this.APIGamePost);
+    //console.log(this.APIGamePost);
     this.officialService.postReportData(this.APIGamePost).then((res) => {
       if (this.officialService.postReportMsg) {
-        console.log(this.officialService.postReportMsg);
-        //console.log
+        
         this.showModal();
       }
       if (this.officialService.serviceError) {
@@ -614,7 +613,7 @@ export class ReportGameComponent {
       this.officialService.IncidentReports = [];
       this.officialService.ModifiedIncidents = [];
       this.officialService.NewIncidents = [];
-      console.log("Incident Reports:" + this.officialService.IncidentReports);
+      //console.log("Incident Reports:" + this.officialService.IncidentReports);
       this.DeletedIncidentReports = [];
       this.TempScoreSheets = [];
       this.homePON = 0;
@@ -644,7 +643,7 @@ export class ReportGameComponent {
 
       newPanelModal.content.saveStatus.subscribe(($e) => {
 
-        console.log($e);
+        //console.log($e);
         if (!$e) {
           this.formChange = false;          
           this.checkBtnClick = 0;
@@ -669,9 +668,11 @@ export class ReportGameComponent {
           this.deletedIndex=0;
           this.tempIndex=0;
           this.config.closeOthers = true;
-          console.log(this.initialJson['Value']);
-          this.officialService.reportGameJson['Value'] = this.initialJson['Value'];
-          console.log(this.officialService.reportGameJson['Value'])
+          //console.log(this.initialJson);
+          //console.log(JSON.parse(this.initialJson));
+          //this.officialService.reportGameJson['Value'] = JSON.parse(this.initialJson['Value']);
+          this.officialService.reportGameJson = JSON.parse(this.initialJson);
+          //console.log(this.officialService.reportGameJson['Value'])
           //this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
           //this.incidentCount = 0;
         }
@@ -693,7 +694,7 @@ export class ReportGameComponent {
   }
 
   checkMinPON(form, gameListIndex: number) {
-    console.log(form.value);
+    //console.log(form.value);
     let homeTeamName = this.officialService.reportGameJson['Value'].GameList[gameListIndex]
       .HomeTeam;
 
@@ -790,17 +791,17 @@ export class ReportGameComponent {
 
   checkMaxPON(e, gameIndex, teamType: string) {
 
-    console.log(e.target);
+    //console.log(e.target);
 
     if (e.target.checked && this.maxPON < 6) {
-      console.log("MaxPon Checked")
+      //console.log("MaxPon Checked")
       this.maxPON++;
       if (teamType == 'home' && this.homePON <= 2) {
         this.homePON++;
-        console.log("HomePon Checked");
+        //console.log("HomePon Checked");
       }
       else if (teamType == 'visiting' && this.visitingPON <= 2) {
-        console.log("VisitingPon Checked");
+        //console.log("VisitingPon Checked");
         this.visitingPON++;
       }
 
@@ -890,17 +891,17 @@ export class ReportGameComponent {
     //   }
     // }
 
-    if (this.checkBtnClick > 0) {
-      //console.log(this.checkBtnClick, this.maxPON);
+    // if (this.checkBtnClick > 0) {
+    //   //console.log(this.checkBtnClick, this.maxPON);
 
-    }
+    // }
 
-    console.log(this.homePON, this.visitingPON, this.maxPON);
+    //console.log(this.homePON, this.visitingPON, this.maxPON);
   }
 
 
   onChange(e: Event) {
-    console.log(e);
+    //console.log(e);
   }
 
   formChange: boolean;
@@ -909,47 +910,32 @@ export class ReportGameComponent {
     this.dataChanged();
     const pattern = /^([0-9][0-9]{0,2}|1000)$/;
     if (!pattern.test(event.target.value)) {
-      console.log(event.target.value);
+      //console.log(event.target.value);
       event.target.value = '';
     }
   }
 
   showModal() {
-    console.log(this.tempGameIndex);
-    console.log(this.tempIndex);
-    console.log(this.incidentCount);
-    //if (this.officialService.postReportMsg) {
-    //console.log(this.officialService.postReportStatus)
+  
     const initialState = {
       status: this.officialService.postReportStatus,
       popupTitle: this.officialService.postReportTitle,
       popupMsg: this.officialService.postReportMsg
     };
 
-    //console.log(this.officialService.postReportStatus);
-    // if (!this.officialService.postReportStatus) {
-    //   this.modalRef = this.modalService.show(
-    //     ValidationModalComponent,
-    //     Object.assign({}, { class: 'customModalWidth75', initialState })
-    //   );
-    // } else {
+  
     this.modalRef = this.modalService.show(
       SuccessPopupComponent,
       Object.assign({}, { class: 'customModalWidth75', initialState })
     );
-    this.modalRef.content.click.subscribe(($e) => {
-      //console.log("Btn Click Status:" + $e);
-      //console.log(this.tempGameIndex);
+    this.modalRef.content.click.subscribe(($e) => {     
       if ($e) {
         this.homePON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalHomePON;
         this.visitingPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalVisitingPON;
         this.maxPON = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].TotalGamePON;
-        this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
-
-        //console.log(this.homePON, this.visitingPON, this.maxPON);
+        this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;      
       }
     })
-    //}
 
   }
 
@@ -1034,7 +1020,7 @@ export class ReportGameComponent {
     this.dataChanged();
     //console.log($event);
     //console.log(tempSSIndex);
-    console.log(this.ScoreSheetImages2);
+    //console.log(this.ScoreSheetImages2);
     this.ScoreSheetImages2.splice(tempSSIndex, 1);
     this.ScoreSheetImages2 = this.ScoreSheetImages2.filter(function (el) {
       return el != null;
@@ -1044,15 +1030,14 @@ export class ReportGameComponent {
     this.TempScoreSheets = this.TempScoreSheets.filter(function (el) {
       return el != null;
     });
-    console.log(this.ScoreSheetImages);
+    //console.log(this.ScoreSheetImages);
 
   }
 
   /* - Code to Delete Image - */
   deletedIndex = 0;
   deleteImage(e: any, url: string, ssIndex: string) {
-    this.dataChanged();
-    console.log('delete server image');
+    this.dataChanged();    
     var tempId = this.elRef.nativeElement.querySelector('#' + ssIndex);
     this.renderer.setProperty(tempId, 'style', 'display:none');
 
@@ -1060,7 +1045,7 @@ export class ReportGameComponent {
       return el != null;
     });
 
-    console.log(this.DeletedScoreSheetImages);
+    //console.log(this.DeletedScoreSheetImages);
 
     this.DeletedScoreSheetImages[this.deletedIndex] = new DeletedScoreSheetImages();
     this.DeletedScoreSheetImages[this.deletedIndex].ImageURL = url;
@@ -1079,8 +1064,8 @@ export class ReportGameComponent {
   /* - Code to check if Player Not Present. If the user says the Player is not present, then
   his score will be changed to zero.*/
   checkNP(e: Event, teamType: string, playerofNote: string, id: string, form: any) {
-    console.log(e.target);
-    console.log(form.value);
+    //console.log(e.target);
+    //console.log(form.value);
     for (var i = 0; i < 10; ++i) {
       let hpon = 'HPlayerNote' + i;
       let hnp = 'HNotPresent' + i;
@@ -1089,22 +1074,22 @@ export class ReportGameComponent {
       if (form.value[hnp] && form.value[hpon] && this.homePON <= 3) {
         this.homePON--;
         this.maxPON--;
-        console.log(this.homePON, this.maxPON)
+       //console.log(this.homePON, this.maxPON)
       }
       if (form.value[vpon] && form.value[vnp] && this.visitingPON <= 3) {
         this.visitingPON--;
         this.maxPON--;
-        console.log(this.visitingPON, this.maxPON)
+        //console.log(this.visitingPON, this.maxPON)
       }
       if (form.value[hnp] == false && form.value[hpon] == false && this.homePON >= 0 && this.homePON <= 2) {
         this.homePON++;
         this.maxPON++;
-        console.log(this.homePON, this.maxPON)
+        //console.log(this.homePON, this.maxPON)
       }
       if (form.value[vpon] == false && form.value[vnp] == false && this.visitingPON >= 0 && this.visitingPON <= 2) {
         this.visitingPON++;
         this.maxPON++;
-        console.log(this.visitingPON, this.maxPON)
+        //console.log(this.visitingPON, this.maxPON)
       }
 
     }
@@ -1158,12 +1143,7 @@ export class ReportGameComponent {
   }
 
   showIncident(incidentIndex, gameIndex) {
-    console.log("Incident count in Json before deletion: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.length)
-    console.log(
-      this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
-      incidentIndex
-      ]
-    );
+  
   /*************************************************************************** */
   /* initialState consists of Nav Params that consist of initial value of child component.*/
   /* It is being user here whenever multiple initial values are being passed. */
@@ -1191,24 +1171,12 @@ export class ReportGameComponent {
     /* When user submits change to a pre-existing incident from Database
     the formchange variable will be set to true */
     /*************************************************************************** */
-      this.dataChanged();
-
-      console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
-        incidentIndex]); 
-
-       //this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.splice(incidentIndex,1);
-
-       console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex]);       
-
-       console.log("modified incidents array"+this.officialService.ModifiedIncidents);       
-       console.log("json incident type: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[incidentIndex].IncidentType);       
-       console.log("first modified incident type: "+this.officialService.ModifiedIncidents[0].IncidentType);       
+      this.dataChanged();  
+       //this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.splice(incidentIndex,1);       
 
        for(var i=0; i<this.officialService.ModifiedIncidents.length;++i ){
          if(this.officialService.ModifiedIncidents[i].GameId==this.officialService.reportGameJson['Value'].GameList[gameIndex].GameId){     
-           console.log("matched");
-           console.log(this.officialService.ModifiedIncidents[i]);
-           console.log(this.officialService.reportGameJson['Value'].GameList[gameIndex]);
+           
            this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
             incidentIndex
           ].IncidentId=this.officialService.ModifiedIncidents[i].IncidentId;
@@ -1224,16 +1192,7 @@ export class ReportGameComponent {
          }
        }
 
-       //this.incidentCount--;
-
-       console.log(
-        this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports[
-        incidentIndex
-        ]
-      );
-
-        console.log("Incident count in Json after deletion: "+this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.length)
-
+     
     })
   }
 
@@ -1262,7 +1221,6 @@ export class ReportGameComponent {
     var s = this.setDeletedIncident();
 
     let reportGameJson = await this.officialService.reportGameJson['Value'];
-    console.log(reportGameJson.GameList[gameIndex].GameId);
     s['GameId'] = await reportGameJson.GameList[gameIndex].GameId;
     s['IncidentId'] = await
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].IncidentId;
@@ -1274,7 +1232,6 @@ export class ReportGameComponent {
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
 
     await this.DeletedIncidentReports.push(s);
-    console.log(this.DeletedIncidentReports);
     this.incidentCount--;
   }
 
@@ -1317,19 +1274,21 @@ export class ReportGameComponent {
 
   deleteTempIncident(newIncidentIndex) {
     this.dataChanged();
-    console.log("New Incidents: "+this.officialService.NewIncidents.length);
-    console.log("Incident Reports: "+this.officialService.IncidentReports.length);
   /*************************************************************************** */
   /* Incident Reports array in maintained in officialService. */
   /* If the user wishes to delete an unsaved incident, the array is simply popped at that index. */
   /*************************************************************************** */   
   
   for(var i=0; i<this.officialService.IncidentReports.length; ++i){
-    if(this.officialService.IncidentReports[i].GameId==this.officialService.NewIncidents[newIncidentIndex].GameId){
+    if(this.officialService.IncidentReports[i].IncidentType==this.officialService.NewIncidents[newIncidentIndex].IncidentType){
+      // console.log("Incident Reports:");
+      // console.log(this.officialService.IncidentReports[i]);
+      // console.log("New Incidents:");
+      // console.log(this.officialService.NewIncidents[newIncidentIndex]);
       this.officialService.IncidentReports.splice(i, 1);    
       this.officialService.NewIncidents.splice(newIncidentIndex, 1); 
-      console.log("New Incidents: "+this.officialService.NewIncidents.length);
-      console.log("Incident Reports: "+this.officialService.IncidentReports.length);
+      // console.log("New Incidents: "+this.officialService.NewIncidents.length);
+      // console.log("Incident Reports: "+this.officialService.IncidentReports.length);
     }
   }  
   }

@@ -61,15 +61,16 @@ export class NewIncidentComponent implements OnInit {
 
     if(incidentType){
       if(incidentType!='Select Incident Type'){
+        for (var i = 0; i < this.incidentTypes.length; ++i) {
+          if (this.incidentTypes[i]['DependentDropdownName'] == incidentType) {
+            this.incidentId = this.incidentTypes[i]['Id'];
+          }
+        }
+
         if (incidentType!='Other') {
           
           if(incidentType=='Facilities'){            
-            for (var i = 0; i < this.incidentTypes.length; ++i) {
-              if (this.incidentTypes[i]['DependentDropdownName'] == incidentType) {
-                this.incidentId = this.incidentTypes[i]['Id'];
-              }
-            }
-
+         
             this.depedentIncidentDropdown = this.incidentSubDropDown[incidentType];
             this.incidentForm.controls['incidentSubDropDown'].enable();
             this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);         
