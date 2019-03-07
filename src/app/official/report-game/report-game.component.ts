@@ -673,7 +673,7 @@ export class ReportGameComponent {
           //this.officialService.reportGameJson['Value'] = JSON.parse(this.initialJson['Value']);
           this.officialService.reportGameJson = JSON.parse(this.initialJson);
           //console.log(this.officialService.reportGameJson['Value'])
-          //this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
+          this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
           //this.incidentCount = 0;
         }
 
@@ -1215,8 +1215,8 @@ export class ReportGameComponent {
   /* After setting values, it is pushed to DeletedIncidentReports */
   /*************************************************************************** */
 
-  var tempId = this.elRef.nativeElement.querySelector('#' +"incident" + incidentIndex);
-  this.renderer.setProperty(tempId, 'style', 'display:none');
+  // var tempId = this.elRef.nativeElement.querySelector('#' +"incident" + incidentIndex);
+  // this.renderer.setProperty(tempId, 'style', 'display:none');
 
     var s = this.setDeletedIncident();
 
@@ -1232,6 +1232,9 @@ export class ReportGameComponent {
       reportGameJson.GameList[gameIndex].IncidentReports[incidentIndex].Notes;
 
     await this.DeletedIncidentReports.push(s);
+
+    await this.officialService.reportGameJson['Value'].GameList[gameIndex].IncidentReports.splice(incidentIndex,1);
+    
     this.incidentCount--;
   }
 

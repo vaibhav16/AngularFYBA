@@ -77,6 +77,7 @@
                                                 </td>
                                                 <td>
                                                    <input type="checkbox" name="homeForfeit"
+                                                   [disabled]="item.OfficiatingPositionId != 3"
                                                    [value]="item.IsHomeForfeit"
                                                    (ngModelChange)="homeForfeitToggle($event, gameListIndex)"
                                                    [(ngModel)]="item.IsHomeForfeit">
@@ -94,6 +95,7 @@
                                                 </td>
                                                 <td>
                                                    <input type="checkbox" name="visitingForfeit"
+                                                   [disabled]="item.OfficiatingPositionId != 3"
                                                    [value]="item.IsVisitorForfeit"
                                                    (ngModelChange)="visitorfeitToggle($event, gameListIndex)"
                                                    [(ngModel)]="item.IsVisitorForfeit">
@@ -366,7 +368,7 @@
 
                                        <div class="incident_linebreak" 
                                        (click)="showTempIncident(newIncidentIndex,gameListIndex)">
-                                             Incident <br class="breakAll" />{{incidentCount+newIncidentIndex+1}}
+                                             Incident {{incidentCount+newIncidentIndex+1}}
                                           </div>
                                        <span (click)="deleteTempIncident(newIncidentIndex)"
                                           class="glyphicon glyphicon-remove-circle"

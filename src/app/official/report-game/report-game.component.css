@@ -80,4 +80,4 @@ h1, a { margin-top: 1em; font-family: "Open Sans Light", "Open Sans", "Segoe UI"
         -webkit-transform: translateX(-50%) translateY(-50%);
         transform: translateX(-50%) translateY(-50%);
         font-size: 14px !important;
-        text-transform: uppercase; font-size:11px !important;}
+        text-transform: uppercase; font-size:11px !important;line-height:16px;}
