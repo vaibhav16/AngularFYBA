@@ -1,0 +1,358 @@
+<form [formGroup]="form" #reportForm="ngForm">
+  <div class="fms_time">
+    <div>
+      <ul class="reportlist">
+        <li>Final Team Scores</li>
+      </ul>
+      <div class="bgGrey inputfull">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="overflowAuto widthTableAuto">
+              <table class="scoreTable marginTop10 widthTable leftAlign" cellspacing="0" cellpadding="0" border="0"
+                width="100%">
+                <thead>
+                  <tr>
+                    <th>Team Name</th>
+                    <th>Final Score</th>
+                    <th style="text-align: left !important">Forfeit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ gameData.HomeTeam }}</td>
+                    <td>
+                      <input type="text" style="width:40px" formControlName="HomeTeamScore" (change)="dataChanged()" />
+                    </td>
+                    <td>
+                      <input type="checkbox" formControlName="IsHomeForfeit"
+                        (ngModelChange)="homeForfeitToggle($event)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>{{ gameData.VisitingTeam }}</td>
+                    <td>
+                      <input type="text" formControlName="VisitingTeamScore" style="width:40px" />
+                    </td>
+                    <td>
+                      <input type="checkbox" name="visitingForfeit" formControlName="IsVisitorForfeit"
+                        (ngModelChange)="visitorfeitToggle($event)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="marginTop10">
+    <ul class="reportlist">
+      <li>Individual Stats</li>
+    </ul>
+    <div class="bgGrey">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>
+            <strong>({{ gameData.Division }}) {{ gameData.HomeTeam }}</strong>
+          </h2>
+          <div class="overflowAuto">
+            <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
+              <thead>
+                <tr>
+                  <th width="5%">#</th>
+                  <th width="58%">Name</th>
+                  <th width="13%">
+                    NP
+                    <div class="tooltip_abc">
+                      <img class="info_icon" src="../../assets/images/info-icon.png" />
+                      <span class="tooltiptext tooltip-top">Not Present</span>
+                    </div>
+                  </th>
+                  <th width="13%">
+                    PON
+                    <div class="tooltip_abc">
+                      <img class="info_icon" src="../../assets/images/info-icon.png" />
+                      <span class="tooltiptext tooltip-top">Player Of Note</span>
+                    </div>
+                  </th>
+                  <th width="11%">
+                    PTS
+                    <div class="tooltip_abc">
+                      <img class="info_icon" src="../../assets/images/info-icon.png" />
+                      <span class="tooltiptext tooltip-top">Points Scored</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody formArrayName="HomeTeamPlayerScores">
+                <ng-container *ngFor="let child of form.controls.HomeTeamPlayerScores.controls; let i=index">
+                  <tr [formGroupName]="i">
+                    <!-- <td>{{ child.JersyNumber }}</td> -->
+                    <td>1</td>
+
+                    <td style="text-align:left;">
+                      <!-- <span value="child.PlayerName">{{child.PlayerName}}</span> -->
+                      <input type="text" formControlName="PlayerName" disabled />
+                    </td>
+                    <td>
+                      <input type="checkbox" formControlName="NotPresent" 
+                      (change)="toggleNotPresent($event,i)" />
+                    </td>
+                    <td>
+                      <input type="checkbox" [disabled]="child.NotPresent" formControlName="PlayerNote"
+                        [ngModel]="child.PlayerNote && !child.NotPresent" (change)="toggleHomePlayerNote($event)" />
+                    </td>
+                    <td>
+                      <input type="number" (input)="inputValidator($event)" [maxlength]="3" pattern="[0-9]*" min="0"
+                        max="999" formControlName="Points" />
+                    </td>
+                  </tr>
+                </ng-container>
+                <!-- <tr *ngFor="let child of gameData.HomeTeamPlayerScores;let i = index">
+                  <td>{{ child.JersyNumber }}</td>
+                  
+                  <td style="text-align:left;">
+                    <span value="child.PlayerName">{{child.PlayerName}}</span>
+                    </td>
+                  <td>
+                    <input type="checkbox"                                       
+                    (change)="toggleNotPresent($event)" />
+                  </td>
+                  <td>
+                    <input type="checkbox"
+                     [disabled]="child.NotPresent"                     
+                     [ngModel]="child.PlayerNote && !child.NotPresent" 
+                     (change)="toggleHomePlayerNote($event)"/>
+                  </td>
+                  <td>
+                    <input type="number" 
+                    (input)="inputValidator($event)" 
+                    [maxlength]="3"
+                    pattern="[0-9]*" min="0" max="999" 
+                    formControlName=""
+                      
+                      
+                      />
+                  </td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!----div class="row marginTop20">
+        <div class="col-md-12">
+          <h2>
+            <strong>({{ item.Division }})
+              {{ item.VisitingTeam }}</strong>
+          </h2>
+          <div class="overflowAuto">
+            <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
+              <thead>
+                <tr>
+                  <th width="5%">#</th>
+                  <th width="58%">Name</th>
+                  <th width="13%">NP</th>
+                  <th width="13%">PON</th>
+                  <th width="11%">PTS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                                             let child of item.VisitingTeamPlayerScores;
+                                             let i = index
+                                             ">
+                  <td style="display:none">
+                    <input type="number" value="child.GameId" name="VGameId{{ i }}" [(ngModel)]="child.GameId" />
+                  </td>
+                  <td style="display:none">
+                    <input type="text" value="child.PlayerName" name="VPlayerName{{ i }}"
+                      [(ngModel)]="child.PlayerName" />
+                  </td>
+                  <td style="display:none">
+                    <input type="number" value="child.PlayerSeasonalId" name="VPlayerSeasonalId{{ i }}"
+                      [(ngModel)]="child.PlayerSeasonalId" />
+                  </td>
+                  <td style="display:none">
+                    <input type="number" value="child.FoulId" name="VFoulId{{ i }}" [(ngModel)]="child.FoulId" />
+                  </td>
+                  <td style="display:none">
+                    <input type="number" value="child.TeamId" name="VTeamId{{ i }}" [(ngModel)]="child.TeamId" />
+                  </td>
+                  <td>{{ child.JersyNumber }}</td>
+                  <td style="text-align:left;">
+                    {{ child.PlayerName }}
+                  </td>
+                  <td>
+                    <input type="checkbox" [ngModel]="child.NotPresent" name="VNotPresent{{ i }}" [disabled]="!(item.OfficiatingPositionId == 3)
+                                                || item.IsHomeForfeit || item.IsVisitorForfeit"
+                      (change)="child.NotPresent=!child.NotPresent" (click)="dataChanged()" />
+                  </td>
+                  <td>
+                    <input type="checkbox" id="VPlayerofNote{{ i }}" [disabled]="!(item.OfficiatingPositionId == 3) || 
+                                                child.NotPresent || item.IsHomeForfeit || item.IsVisitorForfeit"
+                      [ngModel]="child.PlayerNote && !child.NotPresent" (change)="child.PlayerNote=!child.PlayerNote"
+                      (click)="dataChanged()" name="VPlayerNote{{ i }}" />
+                  </td>
+                  <td>
+                    <input type="number" id="VPoints{{ i }}" value="child.Points" (input)="inputValidator($event)"
+                      [maxlength]="3" name="VPoints{{ i }}" [(ngModel)]="child.Points" [disabled]="!(item.OfficiatingPositionId == 3) ||child.NotPresent
+                                                || item.IsHomeForfeit || item.IsVisitorForfeit" min="0" max="1000"
+                      pattern="[0-9]*" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div-->
+    </div>
+  </div>
+  <!----div class="marginTop10">
+    <ul class="reportlist">
+      <li>Scoresheets</li>
+    </ul>
+    <div class="bgGrey">
+      <div class="row">
+        <div class="col-md-12">
+          <input style="display: none" type="file" />
+          <ul class="addList" #Incidentlist>
+            <li *ngIf="item.PrePrintedScoresheetPdf" (click)="downloadPdf(item.PrePrintedScoresheetPdf)"
+              class="preFilledDiv customLI">
+              <span class="preFilledSS">
+                Pre-filled<br />
+                Score<br class="breakAll" />Sheet
+              </span>
+            </li>
+            <ng-container *ngIf="item.ScoreSheetImages.length > 0">
+              <li *ngFor="let child of item.ScoreSheetImages;
+                                          let ssIndex = index" id="scoresheet{{ ssIndex }}">
+                <img src="{{ child.ImageThumbnail }}" />
+                <span url="child.ImageURL" (click)="deleteImage($event,child.ImageURL,
+                                             'scoresheet' + ssIndex)" class="glyphicon glyphicon-remove-circle"
+                  aria-hidden="true"></span>
+              </li>
+            </ng-container>
+            <ng-container *ngIf="TempScoreSheets.length > 0">
+              <li *ngFor="let child of TempScoreSheets;
+                                          let tempSSIndex = index" id="tempSheet{{ tempSSIndex+1 }}">
+                <img [src]="child" />
+                <span (click)="deleteTempImage($event,tempSSIndex)" class="glyphicon glyphicon-remove-circle"
+                  aria-hidden="true"></span>
+              </li>
+            </ng-container>
+          </ul>
+          <ul class="addList IncidentListClass" *ngIf="item.OfficiatingPositionId == 3 &&
+                                    !item.IsHomeForfeit && !item.IsVisitorForfeit"
+            id="IncidentListClass_{{ gameListIndex }}">
+            <li class="Incidentclass uploadDiv" id="Incidentclass_{{ gameListIndex }}">
+              <input [disabled]="!(item.OfficiatingPositionId == 3)" #imageInput type="file" multiple accept="image/*"
+                (change)="processFile(imageInput, gameListIndex)" />
+              <span class="addHeading">Add<br />
+                Score<br class="breakAll" />Sheet</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div-->
+  <!----ng-container *ngIf="item.OfficiatingPositionId==3">
+    <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
+      <ul class="reportlist">
+        <li>Incidents</li>
+      </ul>
+      <div class="bgGrey">
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="addList incidentLi">
+              <ng-container *ngIf="item.IncidentReports.length > 0">
+                <div class="addListDiv" *ngFor="let child of item.IncidentReports;  let incidentIndex = index"
+                  id="incident{{ incidentIndex }}">
+                  <div (click)="showIncident(incidentIndex,gameListIndex)">
+                    Incident {{incidentIndex+1}}
+                  </div>
+                  <span (click)="deleteIncident(
+                                          incidentIndex,
+                                          gameListIndex                                
+                                          )" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                </div>
+              </ng-container>
+
+              <div class="addListDiv" *ngFor="let item of officialService.NewIncidents;  let newIncidentIndex = index">
+
+
+                <div class="incident_linebreak" (click)="showTempIncident(newIncidentIndex,gameListIndex)">
+                  Incident {{incidentCount+newIncidentIndex+1}}
+                </div>
+                <span (click)="deleteTempIncident(newIncidentIndex)" class="glyphicon glyphicon-remove-circle"
+                  aria-hidden="true"></span>
+              </div>
+
+
+
+              <div class="addListDiv IncidentListClass Incidentclass uploadDiv uploadIncident addList incidentLi"
+                (click)="addIncident(gameListIndex)" id="Incidentclass_{{ gameListIndex }}">
+                <span class="addHeading addIncident">Add<br class="breakAll" />
+                  Incident</span>
+              </div>
+            </div>
+
+
+            <div *ngIf="officialService.IncidentReports.length==0
+                                    && item.IncidentReports.length==0 
+                                    && (item.IsHomeForfeit || item.IsVisitorForfeit)">
+              <b>No Incidents Added</b>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container-->
+  <!----ng-container *ngIf="item.OfficiatingPositionId!=3">
+    <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
+      <ul class="reportlist">
+        <li>Incidents</li>
+      </ul>
+      <div *ngIf="officialService.IncidentReports.length==0">
+        <br />
+        <b>No Incidents Added</b>
+      </div>
+      <div class="bgGrey">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="addList incidentLi">
+              <ng-container *ngIf="item.IncidentReports.length > 0">
+                <div class="addListDiv" *ngFor="let child of item.IncidentReports;  let incidentIndex = index"
+                  id="incident{{ incidentIndex }}">
+                  <div>
+                    Incident {{incidentIndex+1}}
+                  </div>
+
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </ng-container-->
+
+  <!----div [ngStyle]="{
+                        display: item.OfficiatingPositionId == '3' ? '' : 'none'
+                        }" class="text-center">
+    <button class="btn btn-success" [disabled]="!(item.OfficiatingPositionId == 3)"
+      id="{{ item.OfficiatingPositionId }}" type="submit" (click)="
+                        onSubmit(
+                        reportForm,
+                        gameListIndex
+                        )
+                        ">
+      SAVE REPORT
+    </button>
+  </div> -->
+</form>

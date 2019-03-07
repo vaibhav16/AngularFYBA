@@ -46,6 +46,8 @@ import { ShowNewIncidentComponent } from './official/report-game/show-new-incide
 import { NotifierModule } from 'angular-notifier';
 import { SavedataPopupComponent } from './official/report-game/savedata-popup/savedata-popup.component';
 import { interval } from 'rxjs';
+import { ReportFormComponent } from './official/report-game/report-form/report-form.component';
+import { GamelistFormComponent } from './official/report-game/gamelist-form/gamelist-form.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { interval } from 'rxjs';
     SuccessPopupComponent,
     ShowNewIncidentComponent,
     SavedataPopupComponent,
-    StringSplit
+    StringSplit,
+    ReportFormComponent,
+    GamelistFormComponent
   ],
   imports: [
     HttpModule,
