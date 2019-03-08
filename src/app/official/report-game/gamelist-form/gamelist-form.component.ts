@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,  ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder,FormControl,Validator,Validators } from '@angular/forms';
 import { ScoreSheetImages } from '../../classes/reportgame/ScoreSheet.model';
 import { APIGamePost } from '../../classes/reportgame/APIGamePost.model';
 import { CookieService } from 'ngx-cookie-service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { APIPlayerScorePost } from '../../classes/reportgame/APIPlayerScorePost.model';
-import { DISABLED } from '@angular/forms/src/model';
-
 @Component({
   selector: 'app-gamelist-form',
   templateUrl: './gamelist-form.component.html',
@@ -18,7 +17,10 @@ export class GamelistFormComponent implements OnInit {
   form: FormGroup;
   dataChanged: boolean = false;
   constructor(public fb: FormBuilder,
-    private cookieService: CookieService) { }
+    public elRef: ElementRef,
+    public renderer: Renderer2,
+    private cookieService: CookieService,
+    private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.form = this.populateGameList(this.gameData);
@@ -74,8 +76,9 @@ export class GamelistFormComponent implements OnInit {
         LeagueId: this.cookieService.get('leagueId'),
         HomeTeamPlayerScores: this.patchPlayerScores(GameList.HomeTeamPlayerScores),
         VisitingTeamPlayerScores: this.patchPlayerScores(GameList.VisitingTeamPlayerScores),
-        ScoreSheetImages: this.patchScoreSheets(GameList.ScoreSheetImages),
-        //DeletedScoreSheetImages: this.fb.array([])
+        //ScoreSheetImages: this.patchScoreSheets(GameList.ScoreSheetImages),
+        ScoreSheetImages: this.fb.array([]),
+        DeletedScoreSheetImages: this.fb.array([])
       });
 
     return gameList;
@@ -266,6 +269,76 @@ export class GamelistFormComponent implements OnInit {
       console.log("Visiting Player Note equal to zero.");
     }
   }
+
+
+  async addImage(imageInput: any) {
+    console.log(imageInput);
+    await this.makeImageByteArray(imageInput);
+  }
+
+  async makeImageByteArray(imageInput: any) {
+    //console.log(imageInput);
+    for (var i = 0; i < imageInput.files.length; i++) {
+      if (imageInput.files[i]) {
+        var reader = await new FileReader();
+        reader.onload = await this._handleReaderLoaded.bind(this);
+        await reader.readAsBinaryString(imageInput.files[i]);
+      }
+    }
+  }
+
+  /*-----Array to showcase images added by the user in template----*/
+  TempScoreSheets: any[] = [];
+
+  async _handleReaderLoaded(readerEvt) {
+    var binaryString = null;
+    binaryString = await readerEvt.target.result;
+
+    const homeTeamArray = (<FormArray>this.form.controls['ScoreSheetImages']);
+    
+      homeTeamArray.push(
+        this.fb.group({
+          ImageURL: await '',
+          NewImageByteCode: await btoa(binaryString)     
+        })
+      );
+
+      var source_code = await this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+      + btoa(binaryString));
+    
+      await this.TempScoreSheets.push(source_code);
+    
+    //await this.tempIndex++;
+  }
+
+  /* - Image implementation ends - */
+
+  deleteImage(index){
+    console.log(index);
+    (<FormArray>this.form.controls['ScoreSheetImages']).removeAt(index);
+
+    this.TempScoreSheets.splice(index,1);    
+    this.TempScoreSheets = this.TempScoreSheets.filter(function (el) {
+      return el != null;
+    });
+  }
+
+  async deleteSavedImage(e: any, url: string, ssIndex: string) {
+    
+    var tempId = this.elRef.nativeElement.querySelector('#' + ssIndex);
+    this.renderer.setProperty(tempId, 'style', 'display:none');
+
+    const deleteImageArray = (<FormArray>this.form.controls['DeletedScoreSheetImages']);
+    
+    deleteImageArray.push(
+      this.fb.group({
+        ImageURL: await url,
+        NewImageByteCode: await ''     
+      })
+    );
+   
+  }
+
 
   onSubmit(gameForm){
     console.log(gameForm);

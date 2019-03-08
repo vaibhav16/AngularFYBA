@@ -171,25 +171,39 @@
               </span>
             </li>
             <ng-container *ngIf="gameData.ScoreSheetImages.length > 0">
-              <li *ngFor="let child of item.ScoreSheetImages; let ssIndex = index">
+              <li *ngFor="let child of gameData.ScoreSheetImages; let ssIndex = index"
+              id="scoresheet{{ ssIndex }}">
                 <img src="{{ child.ImageThumbnail }}" />
                 <span class="glyphicon glyphicon-remove-circle" url="child.ImageURL" 
-                (click)="deleteImage($event,child.ImageURL,'scoresheet' + ssIndex)" 
+                (click)="deleteSavedImage($event,child.ImageURL,'scoresheet' + ssIndex)" 
                 aria-hidden="true"></span>
               </li>
             </ng-container>
-            <!-- <ng-container *ngIf="TempScoreSheets.length > 0">
-              <li *ngFor="let child of TempScoreSheets;
-                                          let tempSSIndex = index" id="tempSheet{{ tempSSIndex+1 }}">
-                <img [src]="child" />
-                <span (click)="deleteTempImage($event,tempSSIndex)" class="glyphicon glyphicon-remove-circle"
+
+            <ng-container *ngIf="TempScoreSheets.length > 0">
+                <li *ngFor="let child of TempScoreSheets;
+                   let tempSSIndex = index">                
+                   <img [src]="child" />
+                   <span (click)="deleteImage(tempSSIndex)"
+                      class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                </li>
+             </ng-container>
+
+            <!-- <ng-container formArrayName="ScoreSheetImages" >
+              <li *ngFor="let child of form.controls.ScoreSheetImages.controls; let i=index">
+                <ng-container [formGroupName]="i">
+                <img src={{child.NewImageByteCode}} />
+                <span (click)="deleteImage(i)" 
+                class="glyphicon glyphicon-remove-circle"
                   aria-hidden="true"></span>
+                </ng-container>
               </li>
             </ng-container> -->
           </ul>
           <ul class="addList IncidentListClass">
             <li class="Incidentclass uploadDiv">
-              <input type="file" multiple accept="image/*" (change)="processFile(imageInput, gameListIndex)" />
+              <input #imageInput type="file" multiple accept="image/*" 
+              (change)="addImage(imageInput)" />
               <span class="addHeading">
                 Add<br />Score<br class="breakAll" />Sheet</span>
             </li>
