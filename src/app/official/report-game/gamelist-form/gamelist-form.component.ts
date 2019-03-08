@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder,FormControl,Validator,Validators } from '@angular/forms';
 import { ScoreSheetImages } from '../../classes/reportgame/ScoreSheet.model';
 import { APIGamePost } from '../../classes/reportgame/APIGamePost.model';
 import { CookieService } from 'ngx-cookie-service';
 import { APIPlayerScorePost } from '../../classes/reportgame/APIPlayerScorePost.model';
+import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-gamelist-form',
@@ -39,7 +40,7 @@ export class GamelistFormComponent implements OnInit {
     console.log(this.form.value);
     this.form.valueChanges.subscribe(()=>{
       this.dataChanged=true;
-      console.log("Value Changed");
+      //console.log("Value Changed");
 
 
   
@@ -87,7 +88,7 @@ export class GamelistFormComponent implements OnInit {
       homeTeamArray.push(
         this.fb.group({
           GameId: PlayerScores[i]['GameId'],
-          PlayerName: PlayerScores[i]['PlayerName'],
+          PlayerName: (PlayerScores[i]['PlayerName']),
           PlayerSeasonalId: PlayerScores[i]['PlayerSeasonalId'],
           FoulId: PlayerScores[i]['FoulId'],
           Points: PlayerScores[i]['Points'],
@@ -116,31 +117,35 @@ export class GamelistFormComponent implements OnInit {
     return homeTeamArray;
   }
 
-  homeForfeitToggle($event:Event){
-    if($event){
+  homeForfeitToggle($event:any){
+    if($event.currentTarget.checked){ 
+      //this.form.reset();
       this.form.disable();
       this.form.controls['IsHomeForfeit'].enable();
+      //this.form.controls['IsHomeForfeit'].setValue(true);
       this.form.controls['IsVisitorForfeit'].enable();
       this.form.controls['IsVisitorForfeit'].setValue(false);
-      // if(this.form.controls['IsHomeForfeit'].value==true)
-      // this.form.disable();
- 
-      // if(this.form.controls['IsVisitorForfeit'].value==true)
-      // this.form.disable();
+    }
+    else{
+      this.form.enable();
+      this.form.controls['IsHomeForfeit'].enable();
+      this.form.controls['IsVisitorForfeit'].enable();
     }
   }
 
-  visitorfeitToggle($event:Event){
-    if($event){
+  visitorfeitToggle($event:any){
+    if($event.currentTarget.checked){ 
+      //this.form.reset();
       this.form.disable();
       this.form.controls['IsVisitorForfeit'].enable();
+      //this.form.controls['IsVisitorForfeit'].setValue(true);
       this.form.controls['IsHomeForfeit'].enable();    
       this.form.controls['IsHomeForfeit'].setValue(false); 
-      // if(this.form.controls['IsHomeForfeit'].value==true)
-      // this.form.disable();
- 
-      // if(this.form.controls['IsVisitorForfeit'].value==true)
-      // this.form.disable();
+    }
+    else{
+      this.form.enable();
+      this.form.controls['IsHomeForfeit'].enable();
+      this.form.controls['IsVisitorForfeit'].enable();
     }
   }
 
@@ -152,23 +157,119 @@ export class GamelistFormComponent implements OnInit {
     }
   }
 
-  toggleNotPresent($event:Event,index){
-    if($event){
-      //this.form.disable();
-      this.form.controls['IsVisitorForfeit'].enable();
-      this.form.controls['IsHomeForfeit'].enable();   
-      var x = (<FormArray>this.form.controls['HomeTeamPlayerScores']).at(index).setValidators([]);
-      console.log(x);
-      (<FormArray>this.form.controls['HomeTeamPlayerScores']).at(index).setValue('')
+  toggleHomeNotPresent($event:any,index){
+    //console.log($event);
+    if($event.currentTarget.checked){ 
+      //(<FormArray>this.form.controls['HomeTeamPlayerScores']).at(index).disable();
+      (<FormArray>this.form.get('HomeTeamPlayerScores'))
+      .controls
+      .forEach(group => {       
+        //console.log(group.value);
+        let control = group.get('NotPresent') as FormControl;
+        let playerNoteControl = group.get('PlayerNote') as FormControl;
+        //console.log(control.value);
+        if(control.value){
+          group.disable();
+          control.enable();
+          playerNoteControl.setValue(false);
+        }
+      })
+
+    }
+
+    else{
+      console.log("Not Checked");
+      (<FormArray>this.form.get('HomeTeamPlayerScores'))
+      .controls
+      .forEach(group => {             
+        let control = group.get('NotPresent') as FormControl;
+        let nameControl = group.get('PlayerName') as FormControl;
+       
+        //console.log(control.value);
+        if(!control.value){        
+          group.enable();
+          nameControl.disable();     
+          
+        }
+      })
     }
   }
 
-  toggleHomePlayerNote($event){
-    if($event){
-     
+  toggleVisitingNotPresent($event:any,index){
+    //console.log($event);
+    if($event.currentTarget.checked){ 
+      //(<FormArray>this.form.controls['HomeTeamPlayerScores']).at(index).disable();
+      (<FormArray>this.form.get('VisitingTeamPlayerScores'))
+      .controls
+      .forEach(group => {       
+        //console.log(group.value);
+        let control = group.get('NotPresent') as FormControl;
+        let playerNoteControl = group.get('PlayerNote') as FormControl;
+        //console.log(control.value);
+        if(control.value){
+          group.disable();
+          control.enable();
+          playerNoteControl.setValue(false);
+        }
+      })
+
+    }
+
+    else{
+      console.log("Not Checked");
+      (<FormArray>this.form.get('VisitingTeamPlayerScores'))
+      .controls
+      .forEach(group => {       
+        //console.log(group.value);
+        let control = group.get('NotPresent') as FormControl;
+        let nameControl = group.get('PlayerName') as FormControl;
+        //console.log(control.value);
+        if(!control.value){        
+          group.enable();
+          nameControl.disable();         
+        }
+      })
     }
   }
 
+
+  homePON:number=0;
+  toggleHomePlayerNote($event:any){
+    if($event.currentTarget.checked){ 
+     this.homePON++;
+    }
+    else{
+      this.homePON--;
+    }
+
+    if(this.homePON>=3){
+      console.log("Home Player Note is equal to three")
+    }
+
+    else if(this.homePON<=0){
+      console.log("Home Player Note is equal to zero");
+    }
+  }
+
+  visitingPON:number=0;
+  toggleVisitingPlayerNote($event: any){
+    if($event.currentTarget.checked){
+      this.visitingPON++;
+    }
+    else{
+      this.visitingPON--;
+    }
+    if(this.visitingPON>=3){
+      console.log("Visiting Player Note greater than three.");
+    }
+    else if(this.visitingPON==0){
+      console.log("Visiting Player Note equal to zero.");
+    }
+  }
+
+  onSubmit(gameForm){
+    console.log(gameForm);
+  }
 
   }
 

@@ -1,4 +1,4 @@
-<form [formGroup]="form" #reportForm="ngForm">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
   <div class="fms_time">
     <div>
       <ul class="reportlist">
@@ -21,11 +21,10 @@
                   <tr>
                     <td>{{ gameData.HomeTeam }}</td>
                     <td>
-                      <input type="text" style="width:40px" formControlName="HomeTeamScore" (change)="dataChanged()" />
+                      <input type="text" style="width:40px" formControlName="HomeTeamScore" />
                     </td>
                     <td>
-                      <input type="checkbox" formControlName="IsHomeForfeit"
-                        (ngModelChange)="homeForfeitToggle($event)">
+                      <input type="checkbox" formControlName="IsHomeForfeit" (change)="homeForfeitToggle($event)">
                     </td>
                   </tr>
                   <tr>
@@ -35,7 +34,7 @@
                     </td>
                     <td>
                       <input type="checkbox" name="visitingForfeit" formControlName="IsVisitorForfeit"
-                        (ngModelChange)="visitorfeitToggle($event)">
+                        (change)="visitorfeitToggle($event)">
                     </td>
                   </tr>
                 </tbody>
@@ -92,16 +91,13 @@
                     <td>1</td>
 
                     <td style="text-align:left;">
-                      <!-- <span value="child.PlayerName">{{child.PlayerName}}</span> -->
-                      <input type="text" formControlName="PlayerName" disabled />
+                      <span> {{child.get("PlayerName").value}}</span>
                     </td>
                     <td>
-                      <input type="checkbox" formControlName="NotPresent" 
-                      (change)="toggleNotPresent($event,i)" />
+                      <input type="checkbox" formControlName="NotPresent" (change)="toggleHomeNotPresent($event,i)" />
                     </td>
                     <td>
-                      <input type="checkbox" [disabled]="child.NotPresent" formControlName="PlayerNote"
-                        [ngModel]="child.PlayerNote && !child.NotPresent" (change)="toggleHomePlayerNote($event)" />
+                      <input type="checkbox" formControlName="PlayerNote" (change)="toggleHomePlayerNote($event)" />
                     </td>
                     <td>
                       <input type="number" (input)="inputValidator($event)" [maxlength]="3" pattern="[0-9]*" min="0"
@@ -109,43 +105,16 @@
                     </td>
                   </tr>
                 </ng-container>
-                <!-- <tr *ngFor="let child of gameData.HomeTeamPlayerScores;let i = index">
-                  <td>{{ child.JersyNumber }}</td>
-                  
-                  <td style="text-align:left;">
-                    <span value="child.PlayerName">{{child.PlayerName}}</span>
-                    </td>
-                  <td>
-                    <input type="checkbox"                                       
-                    (change)="toggleNotPresent($event)" />
-                  </td>
-                  <td>
-                    <input type="checkbox"
-                     [disabled]="child.NotPresent"                     
-                     [ngModel]="child.PlayerNote && !child.NotPresent" 
-                     (change)="toggleHomePlayerNote($event)"/>
-                  </td>
-                  <td>
-                    <input type="number" 
-                    (input)="inputValidator($event)" 
-                    [maxlength]="3"
-                    pattern="[0-9]*" min="0" max="999" 
-                    formControlName=""
-                      
-                      
-                      />
-                  </td>
-                </tr> -->
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <!----div class="row marginTop20">
+      <div class="row marginTop20">
         <div class="col-md-12">
           <h2>
-            <strong>({{ item.Division }})
-              {{ item.VisitingTeam }}</strong>
+            <strong>({{ gameData.Division }})
+              {{ gameData.VisitingTeam }}</strong>
           </h2>
           <div class="overflowAuto">
             <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -158,58 +127,34 @@
                   <th width="11%">PTS</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="
-                                             let child of item.VisitingTeamPlayerScores;
-                                             let i = index
-                                             ">
-                  <td style="display:none">
-                    <input type="number" value="child.GameId" name="VGameId{{ i }}" [(ngModel)]="child.GameId" />
-                  </td>
-                  <td style="display:none">
-                    <input type="text" value="child.PlayerName" name="VPlayerName{{ i }}"
-                      [(ngModel)]="child.PlayerName" />
-                  </td>
-                  <td style="display:none">
-                    <input type="number" value="child.PlayerSeasonalId" name="VPlayerSeasonalId{{ i }}"
-                      [(ngModel)]="child.PlayerSeasonalId" />
-                  </td>
-                  <td style="display:none">
-                    <input type="number" value="child.FoulId" name="VFoulId{{ i }}" [(ngModel)]="child.FoulId" />
-                  </td>
-                  <td style="display:none">
-                    <input type="number" value="child.TeamId" name="VTeamId{{ i }}" [(ngModel)]="child.TeamId" />
-                  </td>
-                  <td>{{ child.JersyNumber }}</td>
-                  <td style="text-align:left;">
-                    {{ child.PlayerName }}
-                  </td>
-                  <td>
-                    <input type="checkbox" [ngModel]="child.NotPresent" name="VNotPresent{{ i }}" [disabled]="!(item.OfficiatingPositionId == 3)
-                                                || item.IsHomeForfeit || item.IsVisitorForfeit"
-                      (change)="child.NotPresent=!child.NotPresent" (click)="dataChanged()" />
-                  </td>
-                  <td>
-                    <input type="checkbox" id="VPlayerofNote{{ i }}" [disabled]="!(item.OfficiatingPositionId == 3) || 
-                                                child.NotPresent || item.IsHomeForfeit || item.IsVisitorForfeit"
-                      [ngModel]="child.PlayerNote && !child.NotPresent" (change)="child.PlayerNote=!child.PlayerNote"
-                      (click)="dataChanged()" name="VPlayerNote{{ i }}" />
-                  </td>
-                  <td>
-                    <input type="number" id="VPoints{{ i }}" value="child.Points" (input)="inputValidator($event)"
-                      [maxlength]="3" name="VPoints{{ i }}" [(ngModel)]="child.Points" [disabled]="!(item.OfficiatingPositionId == 3) ||child.NotPresent
-                                                || item.IsHomeForfeit || item.IsVisitorForfeit" min="0" max="1000"
-                      pattern="[0-9]*" />
-                  </td>
-                </tr>
+              <tbody formArrayName="VisitingTeamPlayerScores">
+                <ng-container *ngFor="let child of form.controls.VisitingTeamPlayerScores.controls; let j=index">
+                  <tr [formGroupName]="j">
+                    <td>1</td>
+                    <td style="text-align:left;">
+                      {{ child.get("PlayerName").value}}
+                    </td>
+                    <td>
+                      <input type="checkbox" formControlName="NotPresent"
+                        (change)="toggleVisitingNotPresent($event,j)" />
+                    </td>
+                    <td>
+                      <input type="checkbox" formControlName="PlayerNote" (change)="toggleVisitingPlayerNote($event)" />
+                    </td>
+                    <td>
+                      <input type="number" (input)="inputValidator($event)" formControlName="Points" [maxlength]="3"
+                        pattern="[0-9]*" min="0" max="999" />
+                    </td>
+                  </tr>
+                </ng-container>
               </tbody>
             </table>
           </div>
         </div>
-      </div-->
+      </div>
     </div>
   </div>
-  <!----div class="marginTop10">
+  <div class="marginTop10">
     <ul class="reportlist">
       <li>Scoresheets</li>
     </ul>
@@ -218,45 +163,41 @@
         <div class="col-md-12">
           <input style="display: none" type="file" />
           <ul class="addList" #Incidentlist>
-            <li *ngIf="item.PrePrintedScoresheetPdf" (click)="downloadPdf(item.PrePrintedScoresheetPdf)"
+            <li *ngIf="gameData.PrePrintedScoresheetPdf" (click)="downloadPdf(gameData.PrePrintedScoresheetPdf)"
               class="preFilledDiv customLI">
               <span class="preFilledSS">
                 Pre-filled<br />
                 Score<br class="breakAll" />Sheet
               </span>
             </li>
-            <ng-container *ngIf="item.ScoreSheetImages.length > 0">
-              <li *ngFor="let child of item.ScoreSheetImages;
-                                          let ssIndex = index" id="scoresheet{{ ssIndex }}">
+            <ng-container *ngIf="gameData.ScoreSheetImages.length > 0">
+              <li *ngFor="let child of item.ScoreSheetImages; let ssIndex = index">
                 <img src="{{ child.ImageThumbnail }}" />
-                <span url="child.ImageURL" (click)="deleteImage($event,child.ImageURL,
-                                             'scoresheet' + ssIndex)" class="glyphicon glyphicon-remove-circle"
-                  aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove-circle" url="child.ImageURL" 
+                (click)="deleteImage($event,child.ImageURL,'scoresheet' + ssIndex)" 
+                aria-hidden="true"></span>
               </li>
             </ng-container>
-            <ng-container *ngIf="TempScoreSheets.length > 0">
+            <!-- <ng-container *ngIf="TempScoreSheets.length > 0">
               <li *ngFor="let child of TempScoreSheets;
                                           let tempSSIndex = index" id="tempSheet{{ tempSSIndex+1 }}">
                 <img [src]="child" />
                 <span (click)="deleteTempImage($event,tempSSIndex)" class="glyphicon glyphicon-remove-circle"
                   aria-hidden="true"></span>
               </li>
-            </ng-container>
+            </ng-container> -->
           </ul>
-          <ul class="addList IncidentListClass" *ngIf="item.OfficiatingPositionId == 3 &&
-                                    !item.IsHomeForfeit && !item.IsVisitorForfeit"
-            id="IncidentListClass_{{ gameListIndex }}">
-            <li class="Incidentclass uploadDiv" id="Incidentclass_{{ gameListIndex }}">
-              <input [disabled]="!(item.OfficiatingPositionId == 3)" #imageInput type="file" multiple accept="image/*"
-                (change)="processFile(imageInput, gameListIndex)" />
-              <span class="addHeading">Add<br />
-                Score<br class="breakAll" />Sheet</span>
+          <ul class="addList IncidentListClass">
+            <li class="Incidentclass uploadDiv">
+              <input type="file" multiple accept="image/*" (change)="processFile(imageInput, gameListIndex)" />
+              <span class="addHeading">
+                Add<br />Score<br class="breakAll" />Sheet</span>
             </li>
           </ul>
         </div>
       </div>
     </div>
-  </div-->
+  </div>
   <!----ng-container *ngIf="item.OfficiatingPositionId==3">
     <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
       <ul class="reportlist">
@@ -342,17 +283,12 @@
 
   </ng-container-->
 
-  <!----div [ngStyle]="{
-                        display: item.OfficiatingPositionId == '3' ? '' : 'none'
-                        }" class="text-center">
-    <button class="btn btn-success" [disabled]="!(item.OfficiatingPositionId == 3)"
-      id="{{ item.OfficiatingPositionId }}" type="submit" (click)="
-                        onSubmit(
-                        reportForm,
-                        gameListIndex
-                        )
-                        ">
+  <div [ngStyle]="{display: gameData.OfficiatingPositionId == '3' ? '' : 'none'}" 
+  class="text-center">
+    <button class="btn btn-success" [disabled]="!(gameData.OfficiatingPositionId == 3)"
+    type="submit" (click)="onSubmit(reportForm,gameListIndex)">
       SAVE REPORT
     </button>
-  </div> -->
+  </div>
+
 </form>
