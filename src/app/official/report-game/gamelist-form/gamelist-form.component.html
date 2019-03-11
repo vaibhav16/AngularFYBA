@@ -220,36 +220,29 @@
 
             <div class="addList incidentLi">
 
-              <!-- <ng-container formArrayName="IncidentReports">
+              <ng-container formArrayName="IncidentReports">
                 <div class="addListDiv"
                   *ngFor="let child of form.controls.IncidentReports.controls;  let incidentIndex = index"
                   id="incident{{ incidentIndex }}">
                   <ng-container [formGroupName]="incidentIndex">
-                    <div (click)="showIncident(incidentIndex,gameListIndex)">
+                    <div (click)="showIncident(incidentIndex)">
                       Incident {{incidentIndex+1}}
                     </div>
                     <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"
-                     (click)="deleteIncident(
-                                              incidentIndex,
-                                              gameListIndex                                
-                                              )" ></span>
+                     (click)="deleteIncident(incidentIndex)" ></span>
                   </ng-container>
                 </div>
 
-              </ng-container> -->
+              </ng-container>
 
               <ng-container *ngIf="gameData.IncidentReports.length > 0">
-                <div class="addListDiv" 
-                *ngFor="let child of gameData.IncidentReports;  let incidentIndex = index"
-                  id="incident{{ incidentIndex }}">
-                  <div (click)="showIncident(incidentIndex,gameListIndex)">
+                <div class="addListDiv" *ngFor="let child of gameData.IncidentReports;  let incidentIndex = index"
+                  id="incident {{ incidentIndex }}">
+                  <div (click)="showIncident(incidentIndex)">
                     Incident {{incidentIndex+1}}
                   </div>
-                  <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"
-                   (click)="deleteIncident(
-                                          incidentIndex,
-                                          gameListIndex                                
-                                          )" ></span>
+                  <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" 
+                  (click)="deleteIncident(incidentIndex)"></span>
                 </div>
               </ng-container>
 
@@ -266,10 +259,11 @@
 
 
               <div class="addListDiv IncidentListClass Incidentclass uploadDiv uploadIncident addList incidentLi"
-                (click)="addIncident(gameListIndex)" id="Incidentclass_{{ gameListIndex }}">
+                (click)="addIncident()" id="Incidentclass_{{ gameListIndex }}">
                 <span class="addHeading addIncident">Add<br class="breakAll" />
                   Incident</span>
               </div>
+              <div class="clearfix"></div>
             </div>
 
 
