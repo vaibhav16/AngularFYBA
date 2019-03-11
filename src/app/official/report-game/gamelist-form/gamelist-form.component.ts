@@ -37,6 +37,7 @@ export class GamelistFormComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.gameData);
+    this.incidentCount = this.gameData.IncidentReports.length;
     this.form = this.populateGameList(this.gameData);
     if (this.gameData.OfficiatingPositionId == '3') {
       this.isScorekeeper = true;
@@ -463,18 +464,14 @@ export class GamelistFormComponent implements OnInit {
 
       (<FormArray>this.form.get('VisitingTeamPlayerScores'))
       .controls
-      .forEach(group => {
-        //console.log(group.value);
+      .forEach(group => {      
         let notPresentControl = group.get('NotPresent') as FormControl;
         let playerNoteControl = group.get('PlayerNote') as FormControl;
         notPresentControl.enable();
-        //console.log(control.value);
         if (notPresentControl.value) {
           group.disable();
           notPresentControl.enable();
-          playerNoteControl.setValue(false);
-          //notPresentControl.enable();          
-          //playerNoteControl.disable();         
+          playerNoteControl.setValue(false); 
         }
 
         if(playerNoteControl.value){
@@ -482,7 +479,6 @@ export class GamelistFormComponent implements OnInit {
           playerNoteControl.enable();
         }
       });
-
     }
 
     else if (this.visitingPON <= 3) {
@@ -509,7 +505,6 @@ export class GamelistFormComponent implements OnInit {
   }
 
   async makeImageByteArray(imageInput: any) {
-    //console.log(imageInput);
     for (var i = 0; i < imageInput.files.length; i++) {
       if (imageInput.files[i]) {
         var reader = await new FileReader();
@@ -568,10 +563,7 @@ export class GamelistFormComponent implements OnInit {
         NewImageByteCode: await ''
       })
     );
-
   }
-
-
 
 
   bsModalRef: BsModalRef;
@@ -687,22 +679,145 @@ export class GamelistFormComponent implements OnInit {
 
 
   deleteTempIncident(newIncidentIndex) {
+    console.log(this.officialService.NewIncidents);
     //(<FormArray> this.form.controls['IncidentReports']).removeAt(newIncidentIndex);
 
-    for (var i = 0; i < this.gameData.IncidentReports.length; ++i) {
-      if (this.gameData.IncidentReports[i].IncidentType == this.officialService.NewIncidents[newIncidentIndex].IncidentType) {
+    for (var i = 0; i < this.officialService.IncidentReports.length; ++i) {
+      if (this.officialService.IncidentReports[i].IncidentType == this.officialService.NewIncidents[newIncidentIndex].IncidentType) {
 
         this.officialService.IncidentReports.splice(i, 1);
         this.officialService.NewIncidents.splice(newIncidentIndex, 1);
+        console.log(this.officialService.NewIncidents);
 
       }
     }
   }
 
 
-  onSubmit(gameForm) {
-    console.log(gameForm);
+  async onSubmit(gameForm) {
+   await console.log(gameForm);
+   await this.prepareScoresforSubmission();
+   await this.prepareFinalData();
   }
+
+  HomeTeamPlayerScores: APIPlayerScorePost[] = [];
+  VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
+  APIGamePost = new APIGamePost();
+
+  async prepareScoresforSubmission(){
+
+    this.HomeTeamPlayerScores = await [];
+    this.VisitingTeamPlayerScores = await [];
+    const homeTeamArray = await <FormArray>this.form.get('HomeTeamPlayerScores');
+
+    for(let group of homeTeamArray.controls){
+      let point = await group.get('Points').value;
+      let playername = await group.get('PlayerName').value;
+      let gameid = await group.get('GameId').value;
+      let playerseasonalId = await group.get('PlayerSeasonalId').value;
+      let fouldId = await group.get('FoulId').value;
+      let playernote = await group.get('PlayerNote').value;
+      let notpresent = await group.get('NotPresent').value;
+      let rebound = await group.get('Rebound').value;
+      let teamid = await group.get('TeamId').value;
+
+      await this.HomeTeamPlayerScores.push(
+       {
+        GameId: gameid,
+        PlayerName: playername,
+        PlayerSeasonalId: playerseasonalId,
+        FoulId: fouldId,
+        Points: point,
+        PlayerNote:  playernote,
+        NotPresent: notpresent,
+        Rebound: rebound,
+        TeamId: teamid,
+        TeamName:this.gameData.HomeTeam
+       })
+      
+    }
+
+    await console.log(this.HomeTeamPlayerScores);
+
+    const visitingTeamArray = await <FormArray>this.form.get('VisitingTeamPlayerScores');
+    for(let group of visitingTeamArray.controls){
+      let point = await group.get('Points').value;
+      let playername = await group.get('PlayerName').value;
+      let gameid = await group.get('GameId').value;
+      let playerseasonalId = await group.get('PlayerSeasonalId').value;
+      let fouldId = await group.get('FoulId').value;
+      let playernote = await group.get('PlayerNote').value;
+      let notpresent = await group.get('NotPresent').value;
+      let rebound = await group.get('Rebound').value;
+      let teamid = await group.get('TeamId').value;
+
+      await this.VisitingTeamPlayerScores.push(
+       {
+        GameId: gameid,
+        PlayerName: playername,
+        PlayerSeasonalId: playerseasonalId,
+        FoulId: fouldId,
+        Points: point,
+        PlayerNote:  playernote,
+        NotPresent: notpresent,
+        Rebound: rebound,
+        TeamId: teamid,
+        TeamName:this.gameData.HomeTeam
+       })
+      
+    }
+  }
+
+  prepareFinalData(){
+    
+    //this.APIGamePost.Roleid = this.dss.roleId;
+    //this.APIGamePost.SeasonId = this.dss.seasonId;
+    this.APIGamePost.OfficialSeasonId = this.gameData.OfficialSeasonId;
+    this.APIGamePost.OfficiatingPositionId = this.gameData.OfficiatingPositionId;
+
+    this.APIGamePost.IsHomeForfeit = (<FormControl> this.form.get('IsHomeForfeit')).value();
+    this.APIGamePost.IsVisitorForfeit = (<FormControl> this.form.get('IsVisitorForfeit')).value();;
+
+    console.log(this.APIGamePost.IsHomeForfeit);
+    console.log(this.APIGamePost.IsVisitorForfeit);
+
+    // this.APIGamePost.Location = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].Location;
+    // this.APIGamePost.Division = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].Division;
+    // this.APIGamePost.LeagueId = this.dss.leagueId;
+
+    // this.APIGamePost.GameId = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].GameId;
+    // this.APIGamePost.GameName = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].GameName;
+    // this.APIGamePost.GameDate = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].GameDate;
+    // this.APIGamePost.GameStartTime = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].GameStartTime;
+
+    // this.APIGamePost.HomeTeam = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].HomeTeam;
+    // this.APIGamePost.VisitingTeam = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].VisitingTeam;
+    // this.APIGamePost.HomeTeamId = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].HomeTeamId;
+    // this.APIGamePost.VisitingTeamId = this.officialService.reportGameJson['Value'].GameList[
+    //   gameListIndex
+    // ].VisitingTeamId;
+
+    }
+
+
 
 }
 

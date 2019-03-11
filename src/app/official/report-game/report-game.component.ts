@@ -526,8 +526,6 @@ export class ReportGameComponent {
       //this.VisitingTeamPlayerScores[i].TeamName = form.value[teamname];
     }
 
-    //console.log(this.VisitingTeamPlayerScores);
-
     this.APIGamePost.Roleid = this.dss.roleId;
     this.APIGamePost.SeasonId = this.dss.seasonId;
     this.APIGamePost.OfficialSeasonId = this.dss.officialSeasonId;
@@ -591,10 +589,6 @@ export class ReportGameComponent {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
       }
-      // if (this.dss.initialFetchError) {
-      //   this.modalRef = this.modalService.show(ErrorModalComponent);
-      //   this.modalRef.content.closeBtnName = 'Close';
-      // }
      
       this.formChange = false;
       this.tempIndex = 0;

@@ -220,7 +220,7 @@
 
             <div class="addList incidentLi">
 
-              <ng-container formArrayName="IncidentReports">
+              <!-- <ng-container formArrayName="IncidentReports">
                 <div class="addListDiv"
                   *ngFor="let child of form.controls.IncidentReports.controls;  let incidentIndex = index"
                   id="incident{{ incidentIndex }}">
@@ -233,7 +233,7 @@
                   </ng-container>
                 </div>
 
-              </ng-container>
+              </ng-container> -->
 
               <ng-container *ngIf="gameData.IncidentReports.length > 0">
                 <div class="addListDiv" *ngFor="let child of gameData.IncidentReports;  let incidentIndex = index"
@@ -241,20 +241,19 @@
                   <div (click)="showIncident(incidentIndex)">
                     Incident {{incidentIndex+1}}
                   </div>
-                  <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" 
-                  (click)="deleteIncident(incidentIndex)"></span>
+                  <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"
+                    (click)="deleteIncident(incidentIndex)"></span>
                 </div>
               </ng-container>
 
-              <!-- <div class="addListDiv" *ngFor="let item of officialService.NewIncidents;  let newIncidentIndex = index">
-
+              <div class="addListDiv" *ngFor="let item of officialService.NewIncidents;  let newIncidentIndex = index">
 
                 <div class="incident_linebreak" (click)="showTempIncident(newIncidentIndex,gameListIndex)">
                   Incident {{incidentCount+newIncidentIndex+1}}
                 </div>
                 <span (click)="deleteTempIncident(newIncidentIndex)" class="glyphicon glyphicon-remove-circle"
                   aria-hidden="true"></span>
-              </div> -->
+              </div>
 
 
 
