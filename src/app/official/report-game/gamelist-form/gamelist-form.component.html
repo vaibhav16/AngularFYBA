@@ -171,23 +171,21 @@
               </span>
             </li>
             <ng-container *ngIf="gameData.ScoreSheetImages.length > 0">
-              <li *ngFor="let child of gameData.ScoreSheetImages; let ssIndex = index"
-              id="scoresheet{{ ssIndex }}">
+              <li *ngFor="let child of gameData.ScoreSheetImages; let ssIndex = index" id="scoresheet{{ ssIndex }}">
                 <img src="{{ child.ImageThumbnail }}" />
-                <span class="glyphicon glyphicon-remove-circle" url="child.ImageURL" 
-                (click)="deleteSavedImage($event,child.ImageURL,'scoresheet' + ssIndex)" 
-                aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-remove-circle" url="child.ImageURL"
+                  (click)="deleteSavedImage($event,child.ImageURL,'scoresheet' + ssIndex)" aria-hidden="true"></span>
               </li>
             </ng-container>
 
             <ng-container *ngIf="TempScoreSheets.length > 0">
-                <li *ngFor="let child of TempScoreSheets;
-                   let tempSSIndex = index">                
-                   <img [src]="child" />
-                   <span (click)="deleteImage(tempSSIndex)"
-                      class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                </li>
-             </ng-container>
+              <li *ngFor="let child of TempScoreSheets;
+                   let tempSSIndex = index">
+                <img [src]="child" />
+                <span (click)="deleteImage(tempSSIndex)" class="glyphicon glyphicon-remove-circle"
+                  aria-hidden="true"></span>
+              </li>
+            </ng-container>
 
             <!-- <ng-container formArrayName="ScoreSheetImages" >
               <li *ngFor="let child of form.controls.ScoreSheetImages.controls; let i=index">
@@ -202,8 +200,7 @@
           </ul>
           <ul class="addList IncidentListClass">
             <li class="Incidentclass uploadDiv">
-              <input #imageInput type="file" multiple accept="image/*" 
-              (change)="addImage(imageInput)" />
+              <input #imageInput type="file" multiple accept="image/*" (change)="addImage(imageInput)" />
               <span class="addHeading">
                 Add<br />Score<br class="breakAll" />Sheet</span>
             </li>
@@ -212,8 +209,8 @@
       </div>
     </div>
   </div>
-  <!----ng-container *ngIf="item.OfficiatingPositionId==3">
-    <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
+  <ng-container>
+    <div class="marginTop10">
       <ul class="reportlist">
         <li>Incidents</li>
       </ul>
@@ -222,20 +219,41 @@
           <div class="col-md-12">
 
             <div class="addList incidentLi">
-              <ng-container *ngIf="item.IncidentReports.length > 0">
-                <div class="addListDiv" *ngFor="let child of item.IncidentReports;  let incidentIndex = index"
+
+              <!-- <ng-container formArrayName="IncidentReports">
+                <div class="addListDiv"
+                  *ngFor="let child of form.controls.IncidentReports.controls;  let incidentIndex = index"
+                  id="incident{{ incidentIndex }}">
+                  <ng-container [formGroupName]="incidentIndex">
+                    <div (click)="showIncident(incidentIndex,gameListIndex)">
+                      Incident {{incidentIndex+1}}
+                    </div>
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"
+                     (click)="deleteIncident(
+                                              incidentIndex,
+                                              gameListIndex                                
+                                              )" ></span>
+                  </ng-container>
+                </div>
+
+              </ng-container> -->
+
+              <ng-container *ngIf="gameData.IncidentReports.length > 0">
+                <div class="addListDiv" 
+                *ngFor="let child of gameData.IncidentReports;  let incidentIndex = index"
                   id="incident{{ incidentIndex }}">
                   <div (click)="showIncident(incidentIndex,gameListIndex)">
                     Incident {{incidentIndex+1}}
                   </div>
-                  <span (click)="deleteIncident(
+                  <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"
+                   (click)="deleteIncident(
                                           incidentIndex,
                                           gameListIndex                                
-                                          )" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                                          )" ></span>
                 </div>
               </ng-container>
 
-              <div class="addListDiv" *ngFor="let item of officialService.NewIncidents;  let newIncidentIndex = index">
+              <!-- <div class="addListDiv" *ngFor="let item of officialService.NewIncidents;  let newIncidentIndex = index">
 
 
                 <div class="incident_linebreak" (click)="showTempIncident(newIncidentIndex,gameListIndex)">
@@ -243,7 +261,7 @@
                 </div>
                 <span (click)="deleteTempIncident(newIncidentIndex)" class="glyphicon glyphicon-remove-circle"
                   aria-hidden="true"></span>
-              </div>
+              </div> -->
 
 
 
@@ -255,17 +273,17 @@
             </div>
 
 
-            <div *ngIf="officialService.IncidentReports.length==0
+            <!-- <div *ngIf="officialService.IncidentReports.length==0
                                     && item.IncidentReports.length==0 
                                     && (item.IsHomeForfeit || item.IsVisitorForfeit)">
               <b>No Incidents Added</b>
-            </div>
+            </div> -->
 
           </div>
         </div>
       </div>
     </div>
-  </ng-container-->
+  </ng-container>
   <!----ng-container *ngIf="item.OfficiatingPositionId!=3">
     <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
       <ul class="reportlist">
@@ -297,10 +315,9 @@
 
   </ng-container-->
 
-  <div [ngStyle]="{display: gameData.OfficiatingPositionId == '3' ? '' : 'none'}" 
-  class="text-center">
-    <button class="btn btn-success" [disabled]="!(gameData.OfficiatingPositionId == 3)"
-    type="submit" (click)="onSubmit(reportForm,gameListIndex)">
+  <div [ngStyle]="{display: gameData.OfficiatingPositionId == '3' ? '' : 'none'}" class="text-center">
+    <button class="btn btn-success" [disabled]="!(gameData.OfficiatingPositionId == 3)" type="submit"
+      (click)="onSubmit(reportForm,gameListIndex)">
       SAVE REPORT
     </button>
   </div>
