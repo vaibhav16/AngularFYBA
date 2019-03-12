@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validator, Validators } from '@angular/forms';
 import { ScoreSheetImages } from '../../classes/reportgame/ScoreSheet.model';
+import { DeletedScoreSheetImages } from './../../classes/reportgame/DeletedScoreSheetImages';
 import { APIGamePost, DeleteIncidentReport } from '../../classes/reportgame/APIGamePost.model';
+import { IndividualGame } from './../../classes/reportgame/IndividualGame.model';
 import { CookieService } from 'ngx-cookie-service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { APIPlayerScorePost } from '../../classes/reportgame/APIPlayerScorePost.model';
@@ -9,9 +11,11 @@ import { IncidentReports } from './../../classes/reportgame/Incident.model';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { NewIncidentComponent } from './../new-incident/new-incident.component';
 import { ShowIncidentComponent } from './../show-incident/show-incident.component';
+import { ShowNewIncidentComponent } from './../show-new-incident/show-new-incident.component';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { OfficialService } from './../../official.service';
 import { ValidationModalComponent } from './../validation-modal/validation-modal.component';
+
 
 @Component({
   selector: 'app-gamelist-form',
@@ -20,13 +24,15 @@ import { ValidationModalComponent } from './../validation-modal/validation-modal
 })
 export class GamelistFormComponent implements OnInit {
 
-  @Input() gameData: APIGamePost;
+  @Input() gameData: IndividualGame;
+  @Input() gameIndex: number;
   isScorekeeper: boolean;
   form: FormGroup;
   dataChanged: boolean = false;
   incidentCount: number = 0;
-  homePON:number = 0;
-  visitingPON:number = 0;
+  homePON: number = 0;
+  visitingPON: number = 0;
+  
   constructor(public fb: FormBuilder,
     public elRef: ElementRef,
     public renderer: Renderer2,
@@ -42,15 +48,17 @@ export class GamelistFormComponent implements OnInit {
     if (this.gameData.OfficiatingPositionId == '3') {
       this.isScorekeeper = true;
       this.form.enable();
+      this.homePON = this.gameData.TotalHomePON;
+      this.visitingPON = this.gameData.TotalVisitingPON;
       this.disablePointsAndPON();
+      if(this.homePON>=3 || this.visitingPON>=3)
+      this.disablePONCheckboxes();
       //this.setInitialPON();
-
     }
     else {
       this.isScorekeeper = false;
       this.form.disable();
     }
-
   }
 
   ngAfterViewInit() {
@@ -73,12 +81,12 @@ export class GamelistFormComponent implements OnInit {
           group.disable();
           control.enable();
           playerNoteControl.setValue(false);
-         
+
         }
 
-        if(playerNoteControl.value){
-          this.homePON++;
-        }
+        // if (playerNoteControl.value) {
+        //   this.homePON++;
+        // }
       });
 
     (<FormArray>this.form.get('VisitingTeamPlayerScores'))
@@ -93,11 +101,36 @@ export class GamelistFormComponent implements OnInit {
           control.enable();
           playerNoteControl.setValue(false);
         }
-        if(playerNoteControl.value){
-          this.visitingPON++;
+        // if (playerNoteControl.value) {
+        //   this.visitingPON++;
+        // }
+      });
+  }
+
+  disablePONCheckboxes(){
+    if(this.homePON>=3){
+      (<FormArray>this.form.get('HomeTeamPlayerScores'))
+      .controls
+      .forEach(group => {                
+        let playerNoteControl = group.get('PlayerNote') as FormControl;        
+
+        if (!playerNoteControl.value) {
+          playerNoteControl.disable();
         }
       });
+    }
 
+    if(this.visitingPON>=3){
+      (<FormArray>this.form.get('VisitingTeamPlayerScores'))
+      .controls
+      .forEach(group => {                
+        let playerNoteControl = group.get('PlayerNote') as FormControl;        
+
+        if (!playerNoteControl.value) {
+          playerNoteControl.disable();
+        }
+      });
+    }
 
   }
 
@@ -263,27 +296,27 @@ export class GamelistFormComponent implements OnInit {
           if (control.value) {
             group.disable();
             control.enable();
-            if(playerNoteControl.value){
+            if (playerNoteControl.value) {
               this.homePON--;
-              if(this.homePON<3){
+              if (this.homePON < 3) {
                 (<FormArray>this.form.get('HomeTeamPlayerScores')).enable();
 
                 (<FormArray>this.form.get('HomeTeamPlayerScores'))
-                .controls
-                .forEach(innerGroup => {
-                  let notPresentControl = innerGroup.get('NotPresent') as FormControl;
-                  let playerNoteControl = innerGroup.get('PlayerNote') as FormControl;
-                  let pointsControl = innerGroup.get('Points') as FormControl;
+                  .controls
+                  .forEach(innerGroup => {
+                    let notPresentControl = innerGroup.get('NotPresent') as FormControl;
+                    let playerNoteControl = innerGroup.get('PlayerNote') as FormControl;
+                    let pointsControl = innerGroup.get('Points') as FormControl;
 
-                  if(notPresentControl.value){
-                    playerNoteControl.disable();
-                    pointsControl.disable();
-                  }                
-                })      
+                    if (notPresentControl.value) {
+                      playerNoteControl.disable();
+                      pointsControl.disable();
+                    }
+                  })
               }
               playerNoteControl.setValue(false);
             }
-            else{
+            else {
               playerNoteControl.setValue(false);
             }
             pointsControl.setValue(0);
@@ -301,11 +334,11 @@ export class GamelistFormComponent implements OnInit {
           let nameControl = group.get('PlayerName') as FormControl;
 
           //console.log(control.value);
-          if (!notPresentControl.value && this.homePON<3) {
+          if (!notPresentControl.value && this.homePON < 3) {
             group.enable();
             nameControl.disable();
           }
-          
+
         })
     }
   }
@@ -322,27 +355,27 @@ export class GamelistFormComponent implements OnInit {
           if (control.value) {
             group.disable();
             control.enable();
-            if(playerNoteControl.value){
+            if (playerNoteControl.value) {
               this.visitingPON--;
-              if(this.visitingPON<3){
+              if (this.visitingPON < 3) {
                 (<FormArray>this.form.get('VisitingTeamPlayerScores')).enable();
 
                 (<FormArray>this.form.get('VisitingTeamPlayerScores'))
-                .controls
-                .forEach(innerGroup => {
-                  let notPresentControl = innerGroup.get('NotPresent') as FormControl;
-                  let playerNoteControl = innerGroup.get('PlayerNote') as FormControl;
-                  let pointsControl = innerGroup.get('Points') as FormControl;
+                  .controls
+                  .forEach(innerGroup => {
+                    let notPresentControl = innerGroup.get('NotPresent') as FormControl;
+                    let playerNoteControl = innerGroup.get('PlayerNote') as FormControl;
+                    let pointsControl = innerGroup.get('Points') as FormControl;
 
-                  if(notPresentControl.value){
-                    playerNoteControl.disable();
-                    pointsControl.disable();
-                  }                
-                })      
+                    if (notPresentControl.value) {
+                      playerNoteControl.disable();
+                      pointsControl.disable();
+                    }
+                  })
               }
               playerNoteControl.setValue(false);
             }
-            else{
+            else {
               playerNoteControl.setValue(false);
             }
             pointsControl.setValue(0);
@@ -352,19 +385,19 @@ export class GamelistFormComponent implements OnInit {
 
     else {
       (<FormArray>this.form.get('VisitingTeamPlayerScores'))
-      .controls
-      .forEach(group => {
-        let playerNoteControl = group.get('PlayerNote') as FormControl;
-        let notPresentControl = group.get('NotPresent') as FormControl;
-        let nameControl = group.get('PlayerName') as FormControl;
+        .controls
+        .forEach(group => {
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
+          let notPresentControl = group.get('NotPresent') as FormControl;
+          let nameControl = group.get('PlayerName') as FormControl;
 
-        //console.log(control.value);
-        if (!notPresentControl.value && this.homePON<3) {
-          group.enable();
-          nameControl.disable();
-        }
-        
-      })
+          //console.log(control.value);
+          if (!notPresentControl.value && this.homePON < 3) {
+            group.enable();
+            nameControl.disable();
+          }
+
+        })
     }
   }
 
@@ -396,43 +429,43 @@ export class GamelistFormComponent implements OnInit {
       (<FormArray>this.form.get('HomeTeamPlayerScores')).disable();
 
       (<FormArray>this.form.get('HomeTeamPlayerScores'))
-      .controls
-      .forEach(group => {
-        //console.log(group.value);
-        let notPresentControl = group.get('NotPresent') as FormControl;
-        let playerNoteControl = group.get('PlayerNote') as FormControl;
-        notPresentControl.enable();
-        //console.log(control.value);
-        if (notPresentControl.value) {
-          group.disable();
+        .controls
+        .forEach(group => {
+          //console.log(group.value);
+          let notPresentControl = group.get('NotPresent') as FormControl;
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
           notPresentControl.enable();
-          playerNoteControl.setValue(false);
-          //notPresentControl.enable();          
-          //playerNoteControl.disable();         
-        }
+          //console.log(control.value);
+          if (notPresentControl.value) {
+            group.disable();
+            notPresentControl.enable();
+            playerNoteControl.setValue(false);
+            //notPresentControl.enable();          
+            //playerNoteControl.disable();         
+          }
 
-        if(playerNoteControl.value){
-          console.log(playerNoteControl.value);
-          playerNoteControl.enable();
-        }
-      });
+          if (playerNoteControl.value) {
+            console.log(playerNoteControl.value);
+            playerNoteControl.enable();
+          }
+        });
 
     }
 
     else if (this.homePON <= 3) {
       (<FormArray>this.form.get('HomeTeamPlayerScores')).enable();
-      
+
       (<FormArray>this.form.get('HomeTeamPlayerScores'))
-      .controls
-      .forEach(group => {
-        let notPresentControl = group.get('NotPresent') as FormControl;
-        let playerNoteControl = group.get('PlayerNote') as FormControl;
-        if (notPresentControl.value) {
-          group.disable();
-          playerNoteControl.setValue(false);
-          notPresentControl.enable();               
-        }
-      });
+        .controls
+        .forEach(group => {
+          let notPresentControl = group.get('NotPresent') as FormControl;
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
+          if (notPresentControl.value) {
+            group.disable();
+            playerNoteControl.setValue(false);
+            notPresentControl.enable();
+          }
+        });
     }
   }
 
@@ -463,38 +496,38 @@ export class GamelistFormComponent implements OnInit {
       (<FormArray>this.form.get('VisitingTeamPlayerScores')).disable();
 
       (<FormArray>this.form.get('VisitingTeamPlayerScores'))
-      .controls
-      .forEach(group => {      
-        let notPresentControl = group.get('NotPresent') as FormControl;
-        let playerNoteControl = group.get('PlayerNote') as FormControl;
-        notPresentControl.enable();
-        if (notPresentControl.value) {
-          group.disable();
+        .controls
+        .forEach(group => {
+          let notPresentControl = group.get('NotPresent') as FormControl;
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
           notPresentControl.enable();
-          playerNoteControl.setValue(false); 
-        }
+          if (notPresentControl.value) {
+            group.disable();
+            notPresentControl.enable();
+            playerNoteControl.setValue(false);
+          }
 
-        if(playerNoteControl.value){
-          console.log(playerNoteControl.value);
-          playerNoteControl.enable();
-        }
-      });
+          if (playerNoteControl.value) {
+            console.log(playerNoteControl.value);
+            playerNoteControl.enable();
+          }
+        });
     }
 
     else if (this.visitingPON <= 3) {
       (<FormArray>this.form.get('VisitingTeamPlayerScores')).enable();
-      
+
       (<FormArray>this.form.get('VisitingTeamPlayerScores'))
-      .controls
-      .forEach(group => {
-        let notPresentControl = group.get('NotPresent') as FormControl;
-        let playerNoteControl = group.get('PlayerNote') as FormControl;
-        if (notPresentControl.value) {
-          group.disable();
-          playerNoteControl.setValue(false);
-          notPresentControl.enable();               
-        }
-      });
+        .controls
+        .forEach(group => {
+          let notPresentControl = group.get('NotPresent') as FormControl;
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
+          if (notPresentControl.value) {
+            group.disable();
+            playerNoteControl.setValue(false);
+            notPresentControl.enable();
+          }
+        });
     }
   }
 
@@ -568,16 +601,6 @@ export class GamelistFormComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   addIncident() {
-
-    //const config: ModalOptions = { class: 'modal-sm' };
-    //this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-
-
-    /*************************************************************************** */
-    /*initialState consists of Nav Params that consist of initial value of child component.*/
-    /* It is being user here whenever multiple initial values are being passed. */
-    /*************************************************************************** */
-
     const initialState = {
       name: this.gameData['UserName'],
       gameId: this.gameData.GameId,
@@ -595,11 +618,6 @@ export class GamelistFormComponent implements OnInit {
 
 
   showIncident(incidentIndex) {
-
-    /*************************************************************************** */
-    /* initialState consists of Nav Params that consist of initial value of child component.*/
-    /* It is being user here whenever multiple initial values are being passed. */
-    /*************************************************************************** */
     const initialState = {
       gameId: this.gameData.GameId,
       incident: this.gameData.IncidentReports[
@@ -687,7 +705,7 @@ export class GamelistFormComponent implements OnInit {
 
         this.officialService.IncidentReports.splice(i, 1);
         this.officialService.NewIncidents.splice(newIncidentIndex, 1);
-        console.log(this.officialService.NewIncidents);
+        //console.log(this.officialService.NewIncidents);
 
       }
     }
@@ -695,22 +713,63 @@ export class GamelistFormComponent implements OnInit {
 
 
   async onSubmit(gameForm) {
-   await console.log(gameForm);
-   await this.prepareScoresforSubmission();
-   await this.prepareFinalData();
+    await console.log(gameForm);
+    await this.prepareScoresforSubmission();
+    await this.prepareScoreSheetsforSubmission();
+    await this.prepareDeletedScoreSheetsforSubmission();
+    await this.prepareDeletedIncidents();
+    await this.prepareFinalData();
+    await console.log(this.APIGamePost);
+    await this.officialService.postReportData(this.APIGamePost)
+    .then(()=> {
+      this.officialService.getReportData().then(()=>{
+        console.log(this.gameIndex);
+        this.gameData = this.officialService.reportGameJson['Value'].GameList[this.gameIndex];
+        console.log(this.officialService.reportGameJson['Value'].GameList[this.gameIndex]);
+        this.officialService.IncidentReports = [];
+        this.officialService.ModifiedIncidents = [];
+        this.officialService.NewIncidents = [];
+      });      
+    })
   }
 
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
   VisitingTeamPlayerScores: APIPlayerScorePost[] = [];
+  ScoreSheets: ScoreSheetImages[] = [];
+  DeletedSheets: DeletedScoreSheetImages[] = [];
+  DeletedIncidents: DeleteIncidentReport[] = [];
   APIGamePost = new APIGamePost();
 
-  async prepareScoresforSubmission(){
+  showTempIncident(newIncidentIndex, gameIndex) {
 
+    const initialState = {
+      index: newIncidentIndex,
+      gameId: this.gameData.GameId,
+      incident: this.officialService.IncidentReports[newIncidentIndex],
+      allIncidentTypes: this.gameData['IncidentTypes'],
+      allDependentDropdowns: this.gameData['IncidentSubDropDown'],
+      incidentCount: this.incidentCount + newIncidentIndex + 1,
+      locationId: this.gameData['LocationId']
+    };
+
+    this.bsModalRef = this.modalService.show(
+      ShowNewIncidentComponent,
+      Object.assign({}, { class: 'customModalWidth90', initialState })
+    );
+
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {
+      this.dataChanged = true;
+    });
+  }
+
+
+
+  async prepareScoresforSubmission() {
     this.HomeTeamPlayerScores = await [];
     this.VisitingTeamPlayerScores = await [];
     const homeTeamArray = await <FormArray>this.form.get('HomeTeamPlayerScores');
 
-    for(let group of homeTeamArray.controls){
+    for (let group of homeTeamArray.controls) {
       let point = await group.get('Points').value;
       let playername = await group.get('PlayerName').value;
       let gameid = await group.get('GameId').value;
@@ -722,25 +781,25 @@ export class GamelistFormComponent implements OnInit {
       let teamid = await group.get('TeamId').value;
 
       await this.HomeTeamPlayerScores.push(
-       {
-        GameId: gameid,
-        PlayerName: playername,
-        PlayerSeasonalId: playerseasonalId,
-        FoulId: fouldId,
-        Points: point,
-        PlayerNote:  playernote,
-        NotPresent: notpresent,
-        Rebound: rebound,
-        TeamId: teamid,
-        TeamName:this.gameData.HomeTeam
-       })
-      
+        {
+          GameId: gameid,
+          PlayerName: playername,
+          PlayerSeasonalId: playerseasonalId,
+          FoulId: fouldId,
+          Points: point,
+          PlayerNote: playernote,
+          NotPresent: notpresent,
+          Rebound: rebound,
+          TeamId: teamid,
+          TeamName: this.gameData.HomeTeam
+        })
+
     }
 
     await console.log(this.HomeTeamPlayerScores);
 
     const visitingTeamArray = await <FormArray>this.form.get('VisitingTeamPlayerScores');
-    for(let group of visitingTeamArray.controls){
+    for (let group of visitingTeamArray.controls) {
       let point = await group.get('Points').value;
       let playername = await group.get('PlayerName').value;
       let gameid = await group.get('GameId').value;
@@ -752,72 +811,117 @@ export class GamelistFormComponent implements OnInit {
       let teamid = await group.get('TeamId').value;
 
       await this.VisitingTeamPlayerScores.push(
-       {
-        GameId: gameid,
-        PlayerName: playername,
-        PlayerSeasonalId: playerseasonalId,
-        FoulId: fouldId,
-        Points: point,
-        PlayerNote:  playernote,
-        NotPresent: notpresent,
-        Rebound: rebound,
-        TeamId: teamid,
-        TeamName:this.gameData.HomeTeam
-       })
-      
+        {
+          GameId: gameid,
+          PlayerName: playername,
+          PlayerSeasonalId: playerseasonalId,
+          FoulId: fouldId,
+          Points: point,
+          PlayerNote: playernote,
+          NotPresent: notpresent,
+          Rebound: rebound,
+          TeamId: teamid,
+          TeamName: this.gameData.HomeTeam
+        })
+
     }
   }
 
-  prepareFinalData(){
-    
-    //this.APIGamePost.Roleid = this.dss.roleId;
-    //this.APIGamePost.SeasonId = this.dss.seasonId;
+  prepareFinalData() {
+
+    this.APIGamePost.Roleid = this.cookieService.get('roleId');
+    this.APIGamePost.SeasonId = this.cookieService.get('seasonId');
     this.APIGamePost.OfficialSeasonId = this.gameData.OfficialSeasonId;
     this.APIGamePost.OfficiatingPositionId = this.gameData.OfficiatingPositionId;
 
-    this.APIGamePost.IsHomeForfeit = (<FormControl> this.form.get('IsHomeForfeit')).value();
-    this.APIGamePost.IsVisitorForfeit = (<FormControl> this.form.get('IsVisitorForfeit')).value();;
+    this.APIGamePost.IsHomeForfeit = this.form.get('IsHomeForfeit').value;
+    this.APIGamePost.IsVisitorForfeit = this.form.get('IsVisitorForfeit').value;
 
     console.log(this.APIGamePost.IsHomeForfeit);
     console.log(this.APIGamePost.IsVisitorForfeit);
 
-    // this.APIGamePost.Location = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].Location;
-    // this.APIGamePost.Division = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].Division;
-    // this.APIGamePost.LeagueId = this.dss.leagueId;
+    this.APIGamePost.Location = this.gameData.Location;
+    this.APIGamePost.Division = this.gameData.Division;
+    this.APIGamePost.LeagueId = this.cookieService.get('leagueId');
 
-    // this.APIGamePost.GameId = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].GameId;
-    // this.APIGamePost.GameName = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].GameName;
-    // this.APIGamePost.GameDate = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].GameDate;
-    // this.APIGamePost.GameStartTime = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].GameStartTime;
+    this.APIGamePost.GameId = this.gameData.GameId;
+    this.APIGamePost.GameName = this.gameData.GameName;
+    this.APIGamePost.GameDate = this.gameData.GameDate;
+    this.APIGamePost.GameStartTime = this.gameData.GameStartTime;
 
-    // this.APIGamePost.HomeTeam = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].HomeTeam;
-    // this.APIGamePost.VisitingTeam = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].VisitingTeam;
-    // this.APIGamePost.HomeTeamId = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].HomeTeamId;
-    // this.APIGamePost.VisitingTeamId = this.officialService.reportGameJson['Value'].GameList[
-    //   gameListIndex
-    // ].VisitingTeamId;
+    this.APIGamePost.HomeTeam = this.gameData.HomeTeam;
+    this.APIGamePost.VisitingTeam = this.gameData.VisitingTeam;
+    this.APIGamePost.HomeTeamId = this.gameData.HomeTeamId;
+    this.APIGamePost.VisitingTeamId = this.gameData.VisitingTeamId;
+
+
+    this.APIGamePost.HomeTeamScore = this.form.get('HomeTeamScore').value;
+    this.APIGamePost.VisitingTeamScore = this.form.get('VisitingTeamScore').value;
+    this.APIGamePost.HomeTeamPlayerScores = this.HomeTeamPlayerScores;
+    this.APIGamePost.VisitingTeamPlayerScores = this.VisitingTeamPlayerScores;
+    this.APIGamePost.ScoreSheetImages = this.ScoreSheets;
+    this.APIGamePost.DeletedScoreSheetImages = this.DeletedSheets;
+    this.APIGamePost.IncidentReports = this.officialService.IncidentReports;
+    this.APIGamePost.DeleteIncidentReport = this.DeletedIncidents;
+
+  }
+
+  async prepareScoreSheetsforSubmission() {
+    this.ScoreSheets = await [];
+    const scoreSheetArray = <FormArray>this.form.controls['ScoreSheetImages'];
+
+    for (let group of scoreSheetArray.controls) {
+      let url = await group.get('ImageURL').value;
+      let newImageByteCode = await group.get('NewImageByteCode').value;
+
+      await this.ScoreSheets.push(
+        {
+          ImageURL: url,
+          NewImageByteCode: newImageByteCode
+        })
 
     }
+  }
 
 
+  async prepareDeletedScoreSheetsforSubmission() {
+    this.DeletedSheets = await [];
+    const deletedSheetArray = <FormArray>this.form.controls['DeletedScoreSheetImages'];
+
+    for (let group of deletedSheetArray.controls) {
+      let url = await group.get('ImageURL').value;
+      let newImageByteCode = await group.get('NewImageByteCode').value;
+
+      await this.DeletedSheets.push(
+        {
+          ImageURL: url,
+          NewImageByteCode: newImageByteCode
+        })
+
+    }
+  }
+
+  async prepareDeletedIncidents(){
+    this.DeletedIncidents = [];
+    const deletedIncidentArray = <FormArray>this.form.controls['DeleteIncidentReport'];
+
+    for (let group of deletedIncidentArray.controls) {
+      let incidentId = await group.get('IncidentId').value;
+      let incidentType = await group.get('IncidentType').value;
+      let incidentValue = await group.get('IncidentValue').value;
+      let notes = await group.get('Notes').value;
+
+      await this.DeletedIncidents.push(
+        {
+          IncidentId: incidentId,
+          GameId: parseInt(this.gameData.GameId),
+          IncidentType:incidentType,
+          IncidentValue:incidentValue,
+          Notes:notes
+        })
+
+    }
+  }
 
 }
 
