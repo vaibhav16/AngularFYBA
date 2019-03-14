@@ -13,12 +13,12 @@
       <select class="reportFacilities" formControlName="incidentType" (change)="incidentSelected()">
         <option *ngFor="let item of allIncidentTypes" value="{{item.Item}}">{{item.Item}}</option>
       </select>
-      <ng-container *ngIf="depedentIncidentDropdown">
-        <select  *ngIf="depedentIncidentDropdown.length>0" formControlName="incidentSubDropDown" class="reportFacilities"
+      <ng-container *ngIf="dependentIncidentDropdown">
+        <select  *ngIf="dependentIncidentDropdown.length>0" formControlName="incidentSubDropDown" class="reportFacilities"
           (change)="dependentDropDownSelected()">
           <!-- <option style="background-color: #DCDCDC" 
           *ngIf="!editIncidentForm.valid" [ngValue]="undefined" selected>Select</option> -->
-          <option *ngFor="let item of depedentIncidentDropdown"          
+          <option *ngFor="let item of dependentIncidentDropdown"          
            value={{item.Item}}>{{item.Item}}</option>
         </select>
       </ng-container>

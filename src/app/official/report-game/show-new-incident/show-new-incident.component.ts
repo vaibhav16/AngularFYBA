@@ -42,6 +42,8 @@ export class ShowNewIncidentComponent implements OnInit {
     // console.log(this.allDependentDropdowns);
     this.name = this.incident.FiledByName;
     this.gameid = this.incident.GameId;
+    this.incidentTypeId = this.incident.IncidentType;
+    this.dependentDropdownId = this.incident.IncidentValue;
     this.editIncidentForm = this.fb.group({
       incidentType: [this.returnIncidentType(), Validators.required],
       incidentSubDropDown: [this.returnIncidentSubDropdown()],
