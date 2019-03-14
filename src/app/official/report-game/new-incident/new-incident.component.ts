@@ -48,12 +48,28 @@ export class NewIncidentComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    // this.incidentForm.valueChanges.subscribe(() => {
+    //   console.log(this.subDropDownId);
+    //   if (this.subDropDownId == 0) {
+    //     //this.incidentForm.setErrors({ 'invalid': true });
+    //     //this.incidentForm.controls['incidentSubDropDown'].setValue([null]);    
+    //     this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);    
+    //     this.incidentForm.controls['note'].setValidators([Validators.required]);    
+    //   }
+    //   else {
+    //     this.incidentForm.clearValidators();
+    //   }
+    // })
+  }
+
   submitBtnDisable: boolean = true;
   ngOnInit() {
     console.log(this.incidentTypes);     
   }
 
   incidentSelected() {
+    this.subDropDownId=null;
     this.submitBtnDisable=false;
     this.depedentIncidentDropdown = [];
     const incidentType = this.incidentForm.get('incidentType').value;
@@ -67,8 +83,7 @@ export class NewIncidentComponent implements OnInit {
           }
         }
 
-        if (incidentType!='Other') {
-          
+        if (incidentType!='Other') {          
           if(incidentType=='Facilities'){            
          
             this.depedentIncidentDropdown = this.incidentSubDropDown[incidentType];
@@ -93,10 +108,16 @@ export class NewIncidentComponent implements OnInit {
             this.incidentForm.controls['incidentSubDropDown'].enable();
             this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);          
             this.incidentForm.controls['incidentSubDropDown'].setValue([]);
+            //Below line will patch the "select 'Player/Coach/etc'" statement to the Dependent Dropdown
+            console.log(this.depedentIncidentDropdown[0]['Item']);
+            this.incidentForm.patchValue({'incidentSubDropDown': this.depedentIncidentDropdown[0]['Item']});
+            this.subDropDownId=0;
+            this.incidentForm.setErrors({ 'invalid': true });
           }
           
         }
         else {
+          this.subDropDownId=null;
           console.log(incidentType);       
           this.depedentIncidentDropdown = [];
           this.incidentForm.get('incidentSubDropDown').clearValidators();
@@ -108,16 +129,28 @@ export class NewIncidentComponent implements OnInit {
       }
       else{        
         this.incidentForm.setErrors({ 'invalid': true });
-      }
-     
+      }     
     }
-
   }
 
   dependentDropDownSelected() {
     for (var i = 0; i < this.depedentIncidentDropdown.length; ++i) {
       if (this.depedentIncidentDropdown[i]['Item'] == this.incidentForm.get('incidentSubDropDown').value) {
-        this.subDropDownId = this.depedentIncidentDropdown[i]['Id'];
+        console.log(this.depedentIncidentDropdown[i]['Id']);
+        if(this.depedentIncidentDropdown[i]['Id'] == 0){
+          this.subDropDownId=0;
+          this.incidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+          //this.incidentForm.setErrors({ 'invalid': true });
+          this.incidentForm.controls['note'].setValidators([Validators.required]);    
+          console.log(this.subDropDownId);
+          return null;                
+        }
+        else{
+          this.subDropDownId = this.depedentIncidentDropdown[i]['Id'];        
+          this.incidentForm.clearValidators();
+          this.incidentForm.controls['note'].setValidators([Validators.required]);         
+          console.log(this.subDropDownId);          
+        }
       }
     }
   }

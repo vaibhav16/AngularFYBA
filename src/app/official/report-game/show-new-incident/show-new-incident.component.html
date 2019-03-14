@@ -15,16 +15,16 @@
       <ng-container *ngIf="dependentIncidentDropdown">
         <select *ngIf="dependentIncidentDropdown.length>0" formControlName="incidentSubDropDown" class="reportFacilities"
           (change)="dependentDropDownSelected()">
-          <option style="background-color: #DCDCDC" 
+          <!-- <option style="background-color: #DCDCDC" 
           *ngIf="!editIncidentForm.valid"
-           [ngValue]="undefined" selected>Select</option>
+           [ngValue]="undefined" selected>Select</option> -->
           <option *ngFor="let item of dependentIncidentDropdown" value={{item.Item}}>{{item.Item}}</option>
         </select>
       </ng-container>
       <p>Notes:</p>
       <textarea formControlName="note" class="textareaIncident"></textarea>
       <div class="footerBtnIncident">
-        <button [disabled]="!editIncidentForm.valid" class="btn btn-success" type="submit">
+        <button [disabled]="!editIncidentForm.valid || dependentDropdownId==0" class="btn btn-success" type="submit">
           SAVE
         </button>
         &nbsp;

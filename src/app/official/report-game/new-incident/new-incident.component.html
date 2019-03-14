@@ -16,24 +16,29 @@
         <!-- <option style="background-color: #DCDCDC" [ngValue]="undefined" disabled selected>Select Incident
           Type</option>           -->
           <!-- <option class="placeholder" selected disabled value="">Select 
-            language</option> -->                 
-       
+            language</option> -->                        
 
       <select *ngIf="depedentIncidentDropdown.length>0" 
         formControlName="incidentSubDropDown" 
         placeholder="Select..."
         (change)="dependentDropDownSelected()" class="reportFacilities" >
-        <option style="background-color: #DCDCDC" 
+
+        <!-- <option style="background-color: #DCDCDC" 
         *ngIf="!incidentForm.valid"
-        [ngValue]="undefined" selected>Select</option>
+        [ngValue]="undefined" selected>Select</option> -->
 
         <option *ngFor="let item of depedentIncidentDropdown"   
         value={{item.Item}}>{{item.Item}}</option>
+
       </select>
+
       <p>Notes:</p>
       <textarea formControlName="note" class="textareaIncident"></textarea>
       <div class="footerBtnIncident">
-        <button [disabled]="incidentForm.invalid || !incidentForm.controls['incidentType'].touched" 
+        <button [disabled]="incidentForm.invalid 
+        || !incidentForm.controls['incidentType'].touched
+        || subDropDownId==0
+        "
         class="btn btn-success" type="submit">
           SAVE
         </button>

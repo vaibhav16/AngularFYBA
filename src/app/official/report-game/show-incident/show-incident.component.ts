@@ -13,6 +13,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class ShowIncidentComponent implements OnInit {
   @Output() saveStatus = new EventEmitter<boolean>();
+  public filedDate:string;
   public incidentCount: number;
   public incident;
   public name: string;
@@ -146,9 +147,7 @@ export class ShowIncidentComponent implements OnInit {
 
         if (incidentType == 'Facilities Issue') {
 
-
           this.depedentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
-
           this.editIncidentForm.controls['incidentSubDropDown'].enable();
           this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
           this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
@@ -167,13 +166,19 @@ export class ShowIncidentComponent implements OnInit {
 
         else {
           this.depedentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
+          this.dependentDropdownId = 0;
           this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
           this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
-          this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
+          //this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
+
+          this.editIncidentForm.patchValue({'incidentSubDropDown': this.depedentIncidentDropdown[0]['Item']});       
+          this.editIncidentForm.setErrors({ 'invalid': true });
+          console.log(incidentDropdownName + " Dependent Dropdown Length: " + this.depedentIncidentDropdown.length);
         }
       }
 
       else {
+        this.dependentDropdownId=undefined;
         this.depedentIncidentDropdown = [];
         this.editIncidentForm.get('incidentSubDropDown').clearValidators();
         this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
@@ -196,14 +201,26 @@ export class ShowIncidentComponent implements OnInit {
   dependentDropdownId;
 
   dependentDropDownSelected() {
+
     console.log(this.editIncidentForm.get('incidentSubDropDown').value);
     if (this.depedentIncidentDropdown) {
       for (var i = 0; i < this.depedentIncidentDropdown.length; ++i) {
         if (
-          this.depedentIncidentDropdown[i]['Item'] ==
+          this.depedentIncidentDropdown[i]['Item'] == 
           this.editIncidentForm.get('incidentSubDropDown').value
         ) {
-          this.dependentDropdownId = this.depedentIncidentDropdown[i]['Id'];
+          console.log(this.depedentIncidentDropdown[i]['Id']);
+          if(this.depedentIncidentDropdown[i]['Id']==0){
+            console.log(this.depedentIncidentDropdown[i]['Id']);
+            this.dependentDropdownId=0;
+            this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+            this.editIncidentForm.setErrors({ 'invalid': true });            
+          }
+          else{   
+            console.log(this.depedentIncidentDropdown[i]['Id']);         
+            this.dependentDropdownId = this.depedentIncidentDropdown[i]['Id'];
+          }
+          
           //  console.log(this.dependentDropdownId);
         }
       }
@@ -229,8 +246,8 @@ export class ShowIncidentComponent implements OnInit {
     const changedIncident = IncidentReports.create({
       GameId: this.gameid,
       IncidentId: this.incident.IncidentId,
-      IncidentType: this.incidentSelected(),
-      IncidentValue: this.dependentDropDownSelected(),
+      IncidentType:this.incidentTypeId,
+      IncidentValue: this.dependentDropdownId,
       Notes: this.editIncidentForm.get('note').value
     })
 

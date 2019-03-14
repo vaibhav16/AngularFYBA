@@ -9,12 +9,17 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { APIPlayerScorePost } from '../../classes/reportgame/APIPlayerScorePost.model';
 import { IncidentReports } from './../../classes/reportgame/Incident.model';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { } from './../../../official/official.component';
 import { NewIncidentComponent } from './../new-incident/new-incident.component';
 import { ShowIncidentComponent } from './../show-incident/show-incident.component';
 import { ShowNewIncidentComponent } from './../show-new-incident/show-new-incident.component';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { OfficialService } from './../../official.service';
 import { ValidationModalComponent } from './../validation-modal/validation-modal.component';
+import { ErrorModalComponent } from './../../../common/error-modal/error-modal.component';
+import { SuccessPopupComponent } from './../success-popup/success-popup.component';
+import { PlatformLocation } from '@angular/common';
+import { DataSharingService } from './../../../data-sharing.service';
 
 
 @Component({
@@ -32,18 +37,28 @@ export class GamelistFormComponent implements OnInit {
   incidentCount: number = 0;
   homePON: number = 0;
   visitingPON: number = 0;
-  
+  finalHomeScore: number = 0;
+  finalVisitingScore: number = 0;
+
   constructor(public fb: FormBuilder,
     public elRef: ElementRef,
     public renderer: Renderer2,
     private cookieService: CookieService,
     private _sanitizer: DomSanitizer,
     private modalService: BsModalService,
-    private officialService: OfficialService) { }
+    public officialService: OfficialService,
+    public dss: DataSharingService,
+    public location: PlatformLocation) {
+      this.dss.isBackButtonClicked=false;
+
+  }
+
 
   ngOnInit() {
     console.log(this.gameData);
     this.incidentCount = this.gameData.IncidentReports.length;
+    this.finalHomeScore = parseInt(this.gameData.HomeTeamScore);
+    this.finalVisitingScore = parseInt(this.gameData.VisitingTeamScore);
     this.form = this.populateGameList(this.gameData);
     if (this.gameData.OfficiatingPositionId == '3') {
       this.isScorekeeper = true;
@@ -51,22 +66,68 @@ export class GamelistFormComponent implements OnInit {
       this.homePON = this.gameData.TotalHomePON;
       this.visitingPON = this.gameData.TotalVisitingPON;
       this.disablePointsAndPON();
-      if(this.homePON>=3 || this.visitingPON>=3)
-      this.disablePONCheckboxes();
+      if (this.homePON >= 3 || this.visitingPON >= 3)
+        this.disablePONCheckboxes();
+
+      if (this.gameData.IsHomeForfeit || this.gameData.IsVisitorForfeit) {
+        this.form.disable();
+        this.form.controls['IsHomeForfeit'].enable();
+        this.form.controls['IsVisitorForfeit'].enable();
+      }
       //this.setInitialPON();
     }
     else {
       this.isScorekeeper = false;
       this.form.disable();
     }
+
+    //console.log(this.form.value);
   }
 
+  ngAfterViewChecked() {
+    //console.log(this.form);
+  }
+
+
   ngAfterViewInit() {
-    console.log(this.form.value);
+
+    this.location.onPopState(() => {
+      //Hides the bsModal incase the back button is pressed by user
+      if(this.bsModalRef['content'].gameId){
+        console.log(this.bsModalRef['content']);
+        this.bsModalRef.hide();
+        console.log("back button clicked");
+        this.dss.isBackButtonClicked = true;
+        this.bsModalRef= null;
+        return false;
+      }   
+     
+    });
+
     this.form.valueChanges.subscribe(() => {
       this.dataChanged = true;
-      //console.log("Value Changed");
     })
+
+    this.form.controls.HomeTeamPlayerScores.valueChanges.subscribe((change) => {
+      const calculateAmount = (HomeTeamPlayerScores: any[]): number => {
+        return HomeTeamPlayerScores.reduce((acc, current) => {
+          // also handling case when a new pay off is added with amount of null
+          return acc + parseFloat(current.Points || 0);
+        }, 0);
+      }
+      this.finalHomeScore = (calculateAmount(this.form.controls.HomeTeamPlayerScores.value));
+      //console.log(calculateAmount(this.form.controls.HomeTeamPlayerScores.value));
+    });
+
+    this.form.controls.VisitingTeamPlayerScores.valueChanges.subscribe((change) => {
+      const calculateAmount = (VisitingTeamPlayerScores: any[]): number => {
+        return VisitingTeamPlayerScores.reduce((acc, current) => {
+          // also handling case when a new pay off is added with amount of null
+          return acc + parseFloat(current.Points || 0);
+        }, 0);
+      }
+      this.finalVisitingScore = (calculateAmount(this.form.controls.VisitingTeamPlayerScores.value));
+    });
   }
 
   disablePointsAndPON() {
@@ -107,29 +168,29 @@ export class GamelistFormComponent implements OnInit {
       });
   }
 
-  disablePONCheckboxes(){
-    if(this.homePON>=3){
+  disablePONCheckboxes() {
+    if (this.homePON >= 3) {
       (<FormArray>this.form.get('HomeTeamPlayerScores'))
-      .controls
-      .forEach(group => {                
-        let playerNoteControl = group.get('PlayerNote') as FormControl;        
+        .controls
+        .forEach(group => {
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
 
-        if (!playerNoteControl.value) {
-          playerNoteControl.disable();
-        }
-      });
+          if (!playerNoteControl.value) {
+            playerNoteControl.disable();
+          }
+        });
     }
 
-    if(this.visitingPON>=3){
+    if (this.visitingPON >= 3) {
       (<FormArray>this.form.get('VisitingTeamPlayerScores'))
-      .controls
-      .forEach(group => {                
-        let playerNoteControl = group.get('PlayerNote') as FormControl;        
+        .controls
+        .forEach(group => {
+          let playerNoteControl = group.get('PlayerNote') as FormControl;
 
-        if (!playerNoteControl.value) {
-          playerNoteControl.disable();
-        }
-      });
+          if (!playerNoteControl.value) {
+            playerNoteControl.disable();
+          }
+        });
     }
 
   }
@@ -177,6 +238,7 @@ export class GamelistFormComponent implements OnInit {
       if (PlayerScores[i]['NotPresent'] == true) {
         homeTeamArray.push(
           this.fb.group({
+            JersyNumber: PlayerScores[i]['JersyNumber'],
             GameId: PlayerScores[i]['GameId'],
             PlayerName: PlayerScores[i]['PlayerName'],
             PlayerSeasonalId: PlayerScores[i]['PlayerSeasonalId'],
@@ -193,6 +255,7 @@ export class GamelistFormComponent implements OnInit {
       else {
         homeTeamArray.push(
           this.fb.group({
+            JersyNumber: PlayerScores[i]['JersyNumber'],
             GameId: PlayerScores[i]['GameId'],
             PlayerName: (PlayerScores[i]['PlayerName']),
             PlayerSeasonalId: PlayerScores[i]['PlayerSeasonalId'],
@@ -434,7 +497,9 @@ export class GamelistFormComponent implements OnInit {
           //console.log(group.value);
           let notPresentControl = group.get('NotPresent') as FormControl;
           let playerNoteControl = group.get('PlayerNote') as FormControl;
+          let pointsControl = group.get('Points') as FormControl;
           notPresentControl.enable();
+          pointsControl.enable();
           //console.log(control.value);
           if (notPresentControl.value) {
             group.disable();
@@ -500,6 +565,8 @@ export class GamelistFormComponent implements OnInit {
         .forEach(group => {
           let notPresentControl = group.get('NotPresent') as FormControl;
           let playerNoteControl = group.get('PlayerNote') as FormControl;
+          let pointsControl = group.get('Points') as FormControl;
+          pointsControl.enable();
           notPresentControl.enable();
           if (notPresentControl.value) {
             group.disable();
@@ -614,10 +681,13 @@ export class GamelistFormComponent implements OnInit {
       NewIncidentComponent,
       Object.assign({}, { class: 'customModalWidth90', initialState })
     );
+
+    console.log(this.bsModalRef.content.gameId);
   }
 
 
   showIncident(incidentIndex) {
+    
     const initialState = {
       gameId: this.gameData.GameId,
       incident: this.gameData.IncidentReports[
@@ -626,7 +696,8 @@ export class GamelistFormComponent implements OnInit {
       allIncidentTypes: this.gameData['IncidentTypes'],
       allDependentDropdowns: this.gameData['IncidentSubDropDown'],
       incidentCount: incidentIndex + 1,
-      locationId: this.gameData['LocationId']
+      locationId: this.gameData['LocationId'],
+      filedDate: this.gameData.IncidentReports[incidentIndex]['FiledDate']
     };
 
     this.bsModalRef = this.modalService.show(
@@ -712,25 +783,153 @@ export class GamelistFormComponent implements OnInit {
   }
 
 
-  async onSubmit(gameForm) {
-    await console.log(gameForm);
-    await this.prepareScoresforSubmission();
-    await this.prepareScoreSheetsforSubmission();
-    await this.prepareDeletedScoreSheetsforSubmission();
-    await this.prepareDeletedIncidents();
-    await this.prepareFinalData();
-    await console.log(this.APIGamePost);
-    await this.officialService.postReportData(this.APIGamePost)
-    .then(()=> {
-      this.officialService.getReportData().then(()=>{
-        console.log(this.gameIndex);
-        this.gameData = this.officialService.reportGameJson['Value'].GameList[this.gameIndex];
-        console.log(this.officialService.reportGameJson['Value'].GameList[this.gameIndex]);
-        this.officialService.IncidentReports = [];
-        this.officialService.ModifiedIncidents = [];
-        this.officialService.NewIncidents = [];
-      });      
-    })
+
+
+  onSubmit() {
+    console.log(this.form);
+    // await this.prepareScoresforSubmission();
+    // await this.prepareScoreSheetsforSubmission();
+    // await this.prepareDeletedScoreSheetsforSubmission();
+    // await this.prepareDeletedIncidents();
+    // await this.prepareFinalData();
+
+    if (this.form.get('IsVisitorForfeit').value == true || this.form.get('IsHomeForfeit').value == true) {
+      this.prepareScoresforSubmission().then(() => {
+        this.prepareScoreSheetsforSubmission().then(() => {
+          this.prepareDeletedScoreSheetsforSubmission()
+            .then(() => {
+              this.prepareDeletedScoreSheetsforSubmission().then(() => {
+                this.prepareDeletedIncidents().then(() => {
+                  this.prepareFinalData().then(() => {
+                    console.log(this.APIGamePost);
+                    this.officialService.postReportData(this.APIGamePost)
+                      .then(() => {
+                        if (this.officialService.postReportMsg) {
+                          this.showModal();
+                        }
+                        if (this.officialService.serviceError) {
+                          this.bsModalRef = this.modalService.show(ErrorModalComponent);
+                          this.bsModalRef.content.closeBtnName = 'Close';
+                        }
+                      })
+                  })
+                })
+              })
+            })
+        })
+      });
+    }
+
+    else {
+      if (this.homePON > 0 && this.visitingPON > 0) {
+        if (this.finalHomeScore == this.form.get('HomeTeamScore').value
+          &&
+          this.finalVisitingScore == this.form.get('VisitingTeamScore').value
+        ) {
+
+          this.prepareScoresforSubmission().then(() => {
+            this.prepareScoreSheetsforSubmission().then(() => {
+              this.prepareDeletedScoreSheetsforSubmission()
+                .then(() => {
+                  this.prepareDeletedScoreSheetsforSubmission().then(() => {
+                    this.prepareDeletedIncidents().then(() => {
+                      this.prepareFinalData().then(() => {
+                        console.log(this.APIGamePost);
+                        this.officialService.postReportData(this.APIGamePost)
+                          .then(() => {
+                            if (this.officialService.postReportMsg) {
+                              this.showModal();
+                            }
+                            if (this.officialService.serviceError) {
+                              this.bsModalRef = this.modalService.show(ErrorModalComponent);
+                              this.bsModalRef.content.closeBtnName = 'Close';
+                            }
+                          })
+                      })
+                    })
+                  })
+                })
+            })
+          });
+
+        }
+
+
+        else {
+          console.log("Home Score" + this.finalHomeScore);
+          console.log("Form home Score" + this.form.get('HomeTeamScore').value);
+
+          if (this.finalHomeScore != this.form.get('HomeTeamScore').value) {
+            const initialState = {
+              popupTitle: 'Error',
+              popupMsg:
+                ' The sum of the scores of the players in Team ' +
+                this.gameData.HomeTeam +
+                ' must be equal to the final score.'
+            };
+
+            this.bsModalRef = this.modalService.show(
+              ValidationModalComponent,
+              Object.assign({}, { class: 'customModalWidth75', initialState })
+            );
+          }
+
+
+          if (this.finalVisitingScore != this.form.get('VisitingTeamScore').value) {
+            console.log("Visiting Score" + this.finalVisitingScore);
+            console.log("Form visiting Score" + this.form.get('VisitingTeamScore').value);
+            const initialState = {
+              popupTitle: 'Error',
+              popupMsg:
+                ' The sum of the scores of the players in Team ' +
+                this.gameData.VisitingTeam +
+                ' must be equal to the final score.'
+            };
+
+            this.bsModalRef = this.modalService.show(
+              ValidationModalComponent,
+              Object.assign({}, { class: 'customModalWidth75', initialState })
+            );
+          }
+
+        }
+      }
+
+      else {
+
+        if (this.homePON == 0) {
+          const initialState = {
+            popupTitle: 'Error',
+            popupMsg:
+              'The players of note in Team ' +
+              this.gameData.HomeTeam +
+              ' can not be Zero.'
+          };
+
+          this.bsModalRef = this.modalService.show(
+            ValidationModalComponent,
+            Object.assign({}, { class: 'customModalWidth75', initialState })
+          );
+        }
+
+        else if (this.visitingPON == 0) {
+          const initialState = {
+            popupTitle: 'Error',
+            popupMsg:
+              'The players of note in Team ' +
+              this.gameData.VisitingTeam +
+              ' can not be Zero.'
+          };
+
+          this.bsModalRef = this.modalService.show(
+            ValidationModalComponent,
+            Object.assign({}, { class: 'customModalWidth75', initialState })
+          );
+        }
+      }
+    }
+
+
   }
 
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
@@ -770,29 +969,53 @@ export class GamelistFormComponent implements OnInit {
     const homeTeamArray = await <FormArray>this.form.get('HomeTeamPlayerScores');
 
     for (let group of homeTeamArray.controls) {
+
       let point = await group.get('Points').value;
+      let playernote = await group.get('PlayerNote').value;
+      let notpresent = await group.get('NotPresent').value;
+
       let playername = await group.get('PlayerName').value;
       let gameid = await group.get('GameId').value;
       let playerseasonalId = await group.get('PlayerSeasonalId').value;
       let fouldId = await group.get('FoulId').value;
-      let playernote = await group.get('PlayerNote').value;
-      let notpresent = await group.get('NotPresent').value;
+
       let rebound = await group.get('Rebound').value;
       let teamid = await group.get('TeamId').value;
 
-      await this.HomeTeamPlayerScores.push(
-        {
-          GameId: gameid,
-          PlayerName: playername,
-          PlayerSeasonalId: playerseasonalId,
-          FoulId: fouldId,
-          Points: point,
-          PlayerNote: playernote,
-          NotPresent: notpresent,
-          Rebound: rebound,
-          TeamId: teamid,
-          TeamName: this.gameData.HomeTeam
-        })
+      if (this.form.get('IsVisitorForfeit').value == false && this.form.get('IsHomeForfeit').value == false) {
+        await this.HomeTeamPlayerScores.push(
+          {
+            GameId: gameid,
+            PlayerName: playername,
+            PlayerSeasonalId: playerseasonalId,
+            FoulId: fouldId,
+            Points: point,
+            PlayerNote: playernote,
+            NotPresent: notpresent,
+            Rebound: rebound,
+            TeamId: teamid,
+            TeamName: this.gameData.HomeTeam
+          })
+
+      }
+
+      else {
+        await this.HomeTeamPlayerScores.push(
+          {
+            GameId: gameid,
+            PlayerName: playername,
+            PlayerSeasonalId: playerseasonalId,
+            FoulId: fouldId,
+            Points: 0,
+            PlayerNote: false,
+            NotPresent: false,
+            Rebound: rebound,
+            TeamId: teamid,
+            TeamName: this.gameData.HomeTeam
+          })
+      }
+
+
 
     }
 
@@ -810,24 +1033,46 @@ export class GamelistFormComponent implements OnInit {
       let rebound = await group.get('Rebound').value;
       let teamid = await group.get('TeamId').value;
 
-      await this.VisitingTeamPlayerScores.push(
-        {
-          GameId: gameid,
-          PlayerName: playername,
-          PlayerSeasonalId: playerseasonalId,
-          FoulId: fouldId,
-          Points: point,
-          PlayerNote: playernote,
-          NotPresent: notpresent,
-          Rebound: rebound,
-          TeamId: teamid,
-          TeamName: this.gameData.HomeTeam
-        })
+
+      if (this.form.get('IsVisitorForfeit').value == false && this.form.get('IsHomeForfeit').value == false) {
+        await this.VisitingTeamPlayerScores.push(
+          {
+            GameId: gameid,
+            PlayerName: playername,
+            PlayerSeasonalId: playerseasonalId,
+            FoulId: fouldId,
+            Points: point,
+            PlayerNote: playernote,
+            NotPresent: notpresent,
+            Rebound: rebound,
+            TeamId: teamid,
+            TeamName: this.gameData.HomeTeam
+          })
+      }
+
+      else {
+        await this.VisitingTeamPlayerScores.push(
+          {
+            GameId: gameid,
+            PlayerName: playername,
+            PlayerSeasonalId: playerseasonalId,
+            FoulId: fouldId,
+            Points: 0,
+            PlayerNote: false,
+            NotPresent: false,
+            Rebound: rebound,
+            TeamId: teamid,
+            TeamName: this.gameData.HomeTeam
+          })
+      }
+
+
+
 
     }
   }
 
-  prepareFinalData() {
+  async prepareFinalData() {
 
     this.APIGamePost.Roleid = this.cookieService.get('roleId');
     this.APIGamePost.SeasonId = this.cookieService.get('seasonId');
@@ -855,8 +1100,15 @@ export class GamelistFormComponent implements OnInit {
     this.APIGamePost.VisitingTeamId = this.gameData.VisitingTeamId;
 
 
-    this.APIGamePost.HomeTeamScore = this.form.get('HomeTeamScore').value;
-    this.APIGamePost.VisitingTeamScore = this.form.get('VisitingTeamScore').value;
+    if (this.form.get('IsVisitorForfeit').value == false && this.form.get('IsHomeForfeit').value == false) {
+      this.APIGamePost.HomeTeamScore = this.form.get('HomeTeamScore').value;
+      this.APIGamePost.VisitingTeamScore = this.form.get('VisitingTeamScore').value;
+    }
+    else {
+      this.APIGamePost.HomeTeamScore = "0";
+      this.APIGamePost.VisitingTeamScore = "0";
+    }
+
     this.APIGamePost.HomeTeamPlayerScores = this.HomeTeamPlayerScores;
     this.APIGamePost.VisitingTeamPlayerScores = this.VisitingTeamPlayerScores;
     this.APIGamePost.ScoreSheetImages = this.ScoreSheets;
@@ -901,7 +1153,7 @@ export class GamelistFormComponent implements OnInit {
     }
   }
 
-  async prepareDeletedIncidents(){
+  async prepareDeletedIncidents() {
     this.DeletedIncidents = [];
     const deletedIncidentArray = <FormArray>this.form.controls['DeleteIncidentReport'];
 
@@ -915,13 +1167,71 @@ export class GamelistFormComponent implements OnInit {
         {
           IncidentId: incidentId,
           GameId: parseInt(this.gameData.GameId),
-          IncidentType:incidentType,
-          IncidentValue:incidentValue,
-          Notes:notes
+          IncidentType: incidentType,
+          IncidentValue: incidentValue,
+          Notes: notes
         })
 
     }
   }
+
+
+  showModal() {
+
+    const initialState = {
+      status: this.officialService.postReportStatus,
+      popupTitle: this.officialService.postReportTitle,
+      popupMsg: this.officialService.postReportMsg
+    };
+
+
+    this.bsModalRef = this.modalService.show(
+      SuccessPopupComponent,
+      Object.assign({}, { class: 'customModalWidth75', initialState })
+    );
+    this.bsModalRef.content.click.subscribe(($e) => {
+      if ($e) {
+
+        console.log(this.gameIndex);
+        console.log(this.officialService.reportGameJson['Value'].GameList[this.gameIndex]);
+        this.gameData = this.officialService.reportGameJson['Value'].GameList[this.gameIndex];
+        this.homePON = this.gameData.TotalHomePON;
+        this.visitingPON = this.gameData.TotalVisitingPON;
+        this.incidentCount = this.gameData.IncidentReports.length;
+        this.officialService.IncidentReports = [];
+        this.officialService.ModifiedIncidents = [];
+        this.officialService.NewIncidents = [];
+
+        // this.officialService.getReportData().then(()=>{
+
+        // })
+
+      }
+    })
+
+  }
+
+  pdfUrl: string;
+  downloadRequest: boolean;
+  downloadPdf(url) {
+    /*************************************************************************** */
+    /* Download Pre-printed Scoresheet. */
+    /*************************************************************************** */
+
+    this.downloadRequest = true;
+    var downLoadUrl;
+    this.officialService
+      .getPdfUrl(url)
+      .subscribe(res => {
+        console.log(res);
+        console.log(res["_body"]);
+        var x = JSON.parse(res["_body"]);
+        downLoadUrl = x["Value"].AbsoluteUrl;
+        this.downloadRequest = false;
+        window.location.href = downLoadUrl;
+      });
+  }
+
 
 }
 

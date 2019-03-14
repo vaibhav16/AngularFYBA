@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import {
   Router,
   CanActivate,
+  CanDeactivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from "@angular/router";
@@ -9,7 +10,7 @@ import { CookieService } from "ngx-cookie-service";
 import { DataSharingService } from './data-sharing.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate{
   constructor(private router: Router, 
     private cookieService: CookieService,
     private dss: DataSharingService) {}
@@ -49,5 +50,5 @@ export class AuthGuard implements CanActivate {
     // not logged in so redirect to login page with the return url
     this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
     return false;
-  }
+  }  
 }

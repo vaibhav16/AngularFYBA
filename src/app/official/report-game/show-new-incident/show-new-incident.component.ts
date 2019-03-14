@@ -128,16 +128,22 @@ export class ShowNewIncidentComponent implements OnInit {
                 }
               });
             }
-            else {
-              //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+            else {              
               this.dependentIncidentDropdown = this.allDependentDropdowns[incidentDropdownName];
               this.editIncidentForm.get('incidentSubDropDown').setValidators([Validators.required]);
               this.editIncidentForm.get('incidentSubDropDown').updateValueAndValidity();
               this.editIncidentForm.controls['incidentSubDropDown'].setValue([]);
+
+              console.log(this.dependentIncidentDropdown[0]['Item']);
+              this.editIncidentForm.patchValue({'incidentSubDropDown': this.dependentIncidentDropdown[0]['Item']});
+              this.dependentDropdownId=0;
+              this.editIncidentForm.setErrors({ 'invalid': true });
+
               console.log(incidentDropdownName + " Dependent Dropdown Length: " + this.dependentIncidentDropdown.length);
             }
           }
           else {
+            this.dependentDropdownId=undefined;
             //this.editIncidentForm.controls['incidentSubDropDown'].setValidators([]);
             this.dependentIncidentDropdown = [];
             this.editIncidentForm.get('incidentSubDropDown').clearValidators();
@@ -173,7 +179,16 @@ export class ShowNewIncidentComponent implements OnInit {
           this.dependentIncidentDropdown[i]['Item'] ==
           this.editIncidentForm.get('incidentSubDropDown').value
         ) {
-          this.dependentDropdownId = this.dependentIncidentDropdown[i]['Id'];
+          if(this.dependentIncidentDropdown[i]['Id']==0){
+            this.dependentDropdownId = 0;
+            this.editIncidentForm.controls['incidentSubDropDown'].setValidators([Validators.required]);
+            this.editIncidentForm.setErrors({ 'invalid': true });
+            return 0;
+          }
+          else{
+            this.dependentDropdownId = this.dependentIncidentDropdown[i]['Id'];
+          }
+         
           console.log(this.dependentDropdownId);
         }
       }
@@ -191,15 +206,15 @@ export class ShowNewIncidentComponent implements OnInit {
     this.notifier.notify('success', 'Be sure to save the Game Report to complete the incident reporting');
     
     this.officialService.NewIncidents[this.index].IncidentId = this.incident.IncidentId;    
-    this.officialService.NewIncidents[this.index].IncidentType = this.incidentSelected();
-    this.officialService.NewIncidents[this.index].IncidentValue = this.dependentDropDownSelected();
+    this.officialService.NewIncidents[this.index].IncidentType =this.incidentTypeId;
+    this.officialService.NewIncidents[this.index].IncidentValue = this.dependentDropdownId;
     this.officialService.NewIncidents[this.index].Notes = this.editIncidentForm.get('note').value;
 
     for (var i = 0; i < this.officialService.IncidentReports.length; ++i) {
       if (this.officialService.IncidentReports[i].GameId == parseInt(this.gameid)) {
         this.officialService.IncidentReports[this.index].IncidentId = this.incident.IncidentId;
-        this.officialService.IncidentReports[this.index].IncidentType = this.incidentSelected();
-        this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropDownSelected();
+        this.officialService.IncidentReports[this.index].IncidentType = this.incidentTypeId;
+        this.officialService.IncidentReports[this.index].IncidentValue = this.dependentDropdownId;
         this.officialService.IncidentReports[this.index].Notes = this.editIncidentForm.get('note').value;
       }
     }

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="fms_time">
     <div>
       <ul class="reportlist">
@@ -21,7 +21,7 @@
                   <tr>
                     <td>{{ gameData.HomeTeam }}</td>
                     <td>
-                      <input type="text" style="width:40px" formControlName="HomeTeamScore" />
+                      <input type="number" style="width:40px" formControlName="HomeTeamScore" />
                     </td>
                     <td>
                       <input type="checkbox" formControlName="IsHomeForfeit" (change)="homeForfeitToggle($event)">
@@ -30,7 +30,7 @@
                   <tr>
                     <td>{{ gameData.VisitingTeam }}</td>
                     <td>
-                      <input type="text" formControlName="VisitingTeamScore" style="width:40px" />
+                      <input type="number" formControlName="VisitingTeamScore" style="width:40px" />
                     </td>
                     <td>
                       <input type="checkbox" name="visitingForfeit" formControlName="IsVisitorForfeit"
@@ -85,10 +85,10 @@
                 </tr>
               </thead>
               <tbody formArrayName="HomeTeamPlayerScores">
-                <ng-container *ngFor="let child of form.controls.HomeTeamPlayerScores.controls; let i=index">
+                <ng-container *ngFor="let child of form.controls.HomeTeamPlayerScores['controls']; let i=index">
                   <tr [formGroupName]="i">
-                    <!-- <td>{{ child.JersyNumber }}</td> -->
-                    <td>1</td>
+                   <td>{{child.get("JersyNumber").value}}</td>
+                    <!-- <td>{{ child.get("JersyNumber").value}}</td> -->
 
                     <td style="text-align:left;">
                       <span> {{child.get("PlayerName").value}}</span>
@@ -128,9 +128,10 @@
                 </tr>
               </thead>
               <tbody formArrayName="VisitingTeamPlayerScores">
-                <ng-container *ngFor="let child of form.controls.VisitingTeamPlayerScores.controls; let j=index">
+                <ng-container *ngFor="let child of form.controls.VisitingTeamPlayerScores['controls']; let j=index">
                   <tr [formGroupName]="j">
-                    <td>1</td>
+                    <!-- <td>2</td> -->
+                    <td>{{ child.get("JersyNumber").value}}</td>
                     <td style="text-align:left;">
                       {{ child.get("PlayerName").value}}
                     </td>
@@ -156,7 +157,7 @@
   </div>
   <div class="marginTop10">
     <ul class="reportlist">
-      <li>Scoresheets</li>
+      <li>Scoresheets</li>  
     </ul>
     <div class="bgGrey">
       <div class="row">
@@ -258,7 +259,7 @@
 
 
               <div class="addListDiv IncidentListClass Incidentclass uploadDiv uploadIncident addList incidentLi"
-                (click)="addIncident()" id="Incidentclass_{{ gameListIndex }}">
+                (click)="addIncident()">
                 <span class="addHeading addIncident">Add<br class="breakAll" />
                   Incident</span>
               </div>
@@ -309,8 +310,7 @@
   </ng-container-->
 
   <div [ngStyle]="{display: gameData.OfficiatingPositionId == '3' ? '' : 'none'}" class="text-center">
-    <button class="btn btn-success" [disabled]="!(gameData.OfficiatingPositionId == 3)" type="submit"
-      (click)="onSubmit(reportForm,gameListIndex)">
+    <button class="btn btn-success" type="submit">
       SAVE REPORT
     </button>
   </div>

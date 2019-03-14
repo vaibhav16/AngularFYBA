@@ -21,6 +21,7 @@ export class IndividualGame {
   public TotalGamePON:number;
   public TotalHomePON:number;
   public TotalVisitingPON: number;
+  public PrePrintedScoresheetPdf:string;
   public HomeTeamPlayerScores: HomeTeamPlayerScores[];
   public VisitingTeamPlayerScores: VisitingTeamPlayerScores[];
   public ScoreSheetImages: ScoreSheetImages[];
@@ -75,6 +76,7 @@ export class DeleteIncidentReport {
   }
 }
 export class HomeTeamPlayerScores {
+  public JersyNumber:string;
   public GameId: string;
   public PlayerName?: string;
   public PlayerSeasonalId: string;
@@ -101,6 +103,7 @@ export class HomeTeamPlayerScores {
 }
 
 export class VisitingTeamPlayerScores {
+  public JersyNumber:string;
   public GameId: string;
   public PlayerName?: string;
   public PlayerSeasonalId: string;
