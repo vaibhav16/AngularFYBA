@@ -31,6 +31,7 @@ export class GamelistFormComponent implements OnInit {
 
   @Input() gameData: IndividualGame;
   @Input() gameIndex: number;
+  @Input() changeStatus: boolean;
   isScorekeeper: boolean;
   form: FormGroup;
   dataChanged: boolean = false;
@@ -55,6 +56,7 @@ export class GamelistFormComponent implements OnInit {
 
 
   ngOnInit() {
+    this.officialService.dataChanged=false;
     console.log(this.gameData);
     this.incidentCount = this.gameData.IncidentReports.length;
     this.finalHomeScore = parseInt(this.gameData.HomeTeamScore);
@@ -105,7 +107,7 @@ export class GamelistFormComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe(() => {
-      this.dataChanged = true;
+      this.officialService.dataChanged=true;
     })
 
     this.form.controls.HomeTeamPlayerScores.valueChanges.subscribe((change) => {
@@ -668,6 +670,7 @@ export class GamelistFormComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   addIncident() {
+    
     const initialState = {
       name: this.gameData['UserName'],
       gameId: this.gameData.GameId,
@@ -681,6 +684,11 @@ export class GamelistFormComponent implements OnInit {
       NewIncidentComponent,
       Object.assign({}, { class: 'customModalWidth90', initialState })
     );
+
+
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {      
+        this.officialService.dataChanged=true;
+      })
 
     console.log(this.bsModalRef.content.gameId);
   }
@@ -733,6 +741,11 @@ export class GamelistFormComponent implements OnInit {
         }
       }
     })
+
+    this.bsModalRef.content.saveStatus.subscribe(($e) => {      
+      this.officialService.dataChanged=true;
+    })
+
   }
 
   // setDeletedIncident() {
@@ -820,7 +833,7 @@ export class GamelistFormComponent implements OnInit {
       });
     }
 
-    else {
+    else{
       if (this.homePON > 0 && this.visitingPON > 0) {
         if (this.finalHomeScore == this.form.get('HomeTeamScore').value
           &&
@@ -853,8 +866,6 @@ export class GamelistFormComponent implements OnInit {
           });
 
         }
-
-
         else {
           console.log("Home Score" + this.finalHomeScore);
           console.log("Form home Score" + this.form.get('HomeTeamScore').value);
@@ -928,8 +939,6 @@ export class GamelistFormComponent implements OnInit {
         }
       }
     }
-
-
   }
 
   HomeTeamPlayerScores: APIPlayerScorePost[] = [];
@@ -1232,6 +1241,38 @@ export class GamelistFormComponent implements OnInit {
       });
   }
 
+
+  nonScorekeeperSubmit(form){
+    console.log(form);
+    if(this.gameData.OfficiatingPositionId!='3'){
+      console.log(this.gameData.OfficiatingPositionId);
+      this.prepareScoresforSubmission().then(() => {
+        this.prepareScoreSheetsforSubmission().then(() => {
+          this.prepareDeletedScoreSheetsforSubmission()
+            .then(() => {
+              this.prepareDeletedScoreSheetsforSubmission().then(() => {
+                this.prepareDeletedIncidents().then(() => {
+                  this.prepareFinalData().then(() => {
+                    console.log(this.APIGamePost);
+                    this.officialService.postReportData(this.APIGamePost)
+                      .then(() => {
+                        if (this.officialService.postReportMsg) {
+                          this.showModal();
+                        }
+                        if (this.officialService.serviceError) {
+                          this.bsModalRef = this.modalService.show(ErrorModalComponent);
+                          this.bsModalRef.content.closeBtnName = 'Close';
+                        }
+                      })
+                  })
+                })
+              })
+            })
+        })
+      });
+    }
+
+  }
 
 }
 

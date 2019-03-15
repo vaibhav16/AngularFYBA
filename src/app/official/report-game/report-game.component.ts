@@ -621,9 +621,11 @@ export class ReportGameComponent {
   We hide the message if the user clicks on a new panel - */
   incidentCount=0;
   panelChange($event: NgbPanelChangeEvent) {
-    //this.incidentIndex = this.officialService.reportGameJson
-    //console.log($event);
-    if (this.checkBtnClick > 0 || this.formChange) {
+    console.log($event);
+    console.log(this.officialService.dataChanged);
+
+    if(this.officialService.dataChanged==true){
+     
       $event.preventDefault();
       const initialState = {
         popupTitle: 'Save Game Data',
@@ -637,53 +639,80 @@ export class ReportGameComponent {
 
       newPanelModal.content.saveStatus.subscribe(($e) => {
 
-        //console.log($e);
-        if (!$e) {
-          this.formChange = false;          
-          this.checkBtnClick = 0;
-          this.ScoreSheetImages = [];
-          this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
-            return el != null;
-          });
-          this.ScoreSheetImages2 = [];
-          //this.DeletedScoreSheet2 = [];
-          this.DeletedScoreSheetImages = [];
-          this.DeletedScoreSheetImages = this.DeletedScoreSheetImages.filter(function (el) {
-            return el != null;
-          });
+        console.log("Should it be saved?" + $e);
+        console.log(this.officialService.reportGameJson["Value"]);
+        if ($e==false) {
+          console.log("Should it be saved?" + $e);
           this.officialService.IncidentReports = [];
-          this.officialService.ModifiedIncidents = [];
           this.officialService.NewIncidents = [];
-          this.DeletedIncidentReports = [];
-          this.TempScoreSheets = []
-          this.homePON = 0;
-          this.visitingPON = 0;
-          this.maxPON = 0;
-          this.deletedIndex=0;
-          this.tempIndex=0;
-          this.config.closeOthers = true;
-          //console.log(this.initialJson);
-          //console.log(JSON.parse(this.initialJson));
-          //this.officialService.reportGameJson['Value'] = JSON.parse(this.initialJson['Value']);
+          this.officialService.ModifiedIncidents = [];
+          this.officialService.dataChanged = false;
           this.officialService.reportGameJson = JSON.parse(this.initialJson);
-          //console.log(this.officialService.reportGameJson['Value'])
-          this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
-          //this.incidentCount = 0;
         }
-
-      })
-
-    } else {
-      let gameListId = parseInt($event.panelId);
-      this.tempGameIndex = gameListId;
-      //console.log(this.tempGameIndex);
-      this.homePON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalHomePON;
-      this.visitingPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalVisitingPON;
-      this.maxPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalGamePON;
-      this.incidentCount = this.officialService.reportGameJson['Value'].GameList[gameListId].IncidentReports.length;
-      //console.log("Incident index: ", this.incidentCount);
-      //console.log(this.homePON, this.visitingPON, this.maxPON);
+      });
     }
+
+    // if (this.checkBtnClick > 0 || this.formChange) {
+    //   $event.preventDefault();
+    //   const initialState = {
+    //     popupTitle: 'Save Game Data',
+    //     popupMsg: 'Please save your previous game data else it will not be saved.'
+    //   };
+
+    //   const newPanelModal = this.modalService.show(
+    //     SavedataPopupComponent,
+    //     Object.assign({}, { class: 'customModalWidth75', initialState })
+    //   );
+
+    //   newPanelModal.content.saveStatus.subscribe(($e) => {
+
+    //     //console.log($e);
+    //     if (!$e) {
+    //       this.formChange = false;          
+    //       this.checkBtnClick = 0;
+    //       this.ScoreSheetImages = [];
+    //       this.ScoreSheetImages = this.ScoreSheetImages.filter(function (el) {
+    //         return el != null;
+    //       });
+    //       this.ScoreSheetImages2 = [];
+    //       //this.DeletedScoreSheet2 = [];
+    //       this.DeletedScoreSheetImages = [];
+    //       this.DeletedScoreSheetImages = this.DeletedScoreSheetImages.filter(function (el) {
+    //         return el != null;
+    //       });
+    //       this.officialService.IncidentReports = [];
+    //       this.officialService.ModifiedIncidents = [];
+    //       this.officialService.NewIncidents = [];
+    //       this.DeletedIncidentReports = [];
+    //       this.TempScoreSheets = []
+    //       this.homePON = 0;
+    //       this.visitingPON = 0;
+    //       this.maxPON = 0;
+    //       this.deletedIndex=0;
+    //       this.tempIndex=0;
+    //       this.config.closeOthers = true;
+    //       //console.log(this.initialJson);
+    //       //console.log(JSON.parse(this.initialJson));
+    //       //this.officialService.reportGameJson['Value'] = JSON.parse(this.initialJson['Value']);
+    //       this.officialService.reportGameJson = JSON.parse(this.initialJson);
+    //       //console.log(this.officialService.reportGameJson['Value'])
+    //       this.incidentCount = this.officialService.reportGameJson['Value'].GameList[this.tempGameIndex].IncidentReports.length;
+    //       //this.incidentCount = 0;
+    //     }
+
+    //   })
+
+    // } else {
+    //   let gameListId = parseInt($event.panelId);
+    //   this.tempGameIndex = gameListId;
+    //   //console.log(this.tempGameIndex);
+    //   this.homePON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalHomePON;
+    //   this.visitingPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalVisitingPON;
+    //   this.maxPON = this.officialService.reportGameJson['Value'].GameList[gameListId].TotalGamePON;
+    //   this.incidentCount = this.officialService.reportGameJson['Value'].GameList[gameListId].IncidentReports.length;
+    //   //console.log("Incident index: ", this.incidentCount);
+    //   //console.log(this.homePON, this.visitingPON, this.maxPON);
+    // }
 
   }
 

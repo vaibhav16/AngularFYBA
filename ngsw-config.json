@@ -34,8 +34,8 @@
         "https://mobile.folsomyouthbasketball.com/*"
       ],
       "cacheConfig":{
-        "maxSize":10,
-        "maxAge":"30m",
+        "maxSize":5,
+        "maxAge":"10m",
         "timeout":"30s",
         "strategy":"freshness"
       }

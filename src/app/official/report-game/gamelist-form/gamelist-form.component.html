@@ -218,24 +218,7 @@
       <div class="bgGrey">
         <div class="row">
           <div class="col-md-12">
-
             <div class="addList incidentLi">
-
-              <!-- <ng-container formArrayName="IncidentReports">
-                <div class="addListDiv"
-                  *ngFor="let child of form.controls.IncidentReports.controls;  let incidentIndex = index"
-                  id="incident{{ incidentIndex }}">
-                  <ng-container [formGroupName]="incidentIndex">
-                    <div (click)="showIncident(incidentIndex)">
-                      Incident {{incidentIndex+1}}
-                    </div>
-                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"
-                     (click)="deleteIncident(incidentIndex)" ></span>
-                  </ng-container>
-                </div>
-
-              </ng-container> -->
-
               <ng-container *ngIf="gameData.IncidentReports.length > 0">
                 <div class="addListDiv" *ngFor="let child of gameData.IncidentReports;  let incidentIndex = index"
                   id="incident {{ incidentIndex }}">
@@ -255,8 +238,6 @@
                 <span (click)="deleteTempIncident(newIncidentIndex)" class="glyphicon glyphicon-remove-circle"
                   aria-hidden="true"></span>
               </div>
-
-
 
               <div class="addListDiv IncidentListClass Incidentclass uploadDiv uploadIncident addList incidentLi"
                 (click)="addIncident()">
@@ -312,6 +293,12 @@
   <div [ngStyle]="{display: gameData.OfficiatingPositionId == '3' ? '' : 'none'}" class="text-center">
     <button class="btn btn-success" type="submit">
       SAVE REPORT
+    </button>
+  </div>
+
+  <div *ngIf="gameData.OfficiatingPositionId != '3'" class="text-center">
+    <button class="btn btn-success" (click)="nonScorekeeperSubmit(form)" type="button" >
+      SAVE INCIDENTS
     </button>
   </div>
 

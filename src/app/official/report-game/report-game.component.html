@@ -42,7 +42,9 @@
                   </ng-template>
                   <ng-template ngbPanelContent>
                      
-                     <app-gamelist-form [gameData]="item" [gameIndex]="gameListIndex" >
+                     <app-gamelist-form [gameData]="item" [gameIndex]="gameListIndex" 
+                     [changeStatus]="officialService.dataChanged"
+                     >
 
                      </app-gamelist-form>
 

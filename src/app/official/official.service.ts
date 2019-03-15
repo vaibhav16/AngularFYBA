@@ -41,6 +41,7 @@ export class OfficialService {
   //requestFailure: boolean = false;
   numberOfSelectGameClicks: number = 0;
   initialData: Filter;
+  dataChanged: boolean;
 
   headerOptions;
   postRequestOptions;
@@ -599,6 +600,14 @@ export class OfficialService {
   postReportMsg: string;
   postReportStatus: boolean;
   postReportData(gameListObj: any) {
+    console.log(gameListObj);
+    var trailingUrl;
+    if(gameListObj.OfficiatingPositionId==3){
+      trailingUrl = '/api/savereportgames';
+    }
+    else{
+      trailingUrl = '/api/SaveReportGamesNonScoreKeeper'
+    }
     this.reportRequest=true;
     this.postReportMsg = null;
     this.finalFilter.RequestedData = JSON.stringify(gameListObj);
@@ -614,7 +623,7 @@ export class OfficialService {
       headers: headerOptions
     });
     return this.http
-      .post(Constants.apiURL + '/api/savereportgames', body, requestOptions)
+      .post(Constants.apiURL + trailingUrl, body, requestOptions)
       .pipe(
         map((data: Response) => {
           return data.json();

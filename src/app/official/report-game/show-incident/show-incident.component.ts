@@ -232,11 +232,11 @@ export class ShowIncidentComponent implements OnInit {
   //   Notes: ''
   // };
 
-  submitForm() {
+  async submitForm() {
     console.log(this.editIncidentForm.value);
-    this.notifier.notify('success', 'Be sure to save the Game Report to complete the incident reporting');
+    await this.notifier.notify('success', 'Be sure to save the Game Report to complete the incident reporting');
 
-    const changedIncident = IncidentReports.create({
+    const changedIncident = await IncidentReports.create({
       GameId: this.gameid,
       IncidentId: this.incident.IncidentId,
       IncidentType:this.incidentTypeId,
@@ -244,7 +244,7 @@ export class ShowIncidentComponent implements OnInit {
       Notes: this.editIncidentForm.get('note').value
     })
 
-    console.log(changedIncident);
+    await console.log(changedIncident);
 
     // this.changedIncident.GameId = this.gameid;
     // this.changedIncident.IncidentId = this.incident.IncidentId;
@@ -253,32 +253,32 @@ export class ShowIncidentComponent implements OnInit {
     // this.changedIncident.Notes = this.editIncidentForm.get('note').value;
     //console.log(this.incident);
 
-    this.officialService.IncidentReports.push(changedIncident);
+    await this.officialService.IncidentReports.push(changedIncident);
 
     var flag;
 
-    if(this.officialService.ModifiedIncidents.length>0){
+    if(await this.officialService.ModifiedIncidents.length>0){
       for(var i=0; i<this.officialService.ModifiedIncidents.length;++i){       
-        if (this.officialService.ModifiedIncidents[i].GameId==changedIncident.GameId){
-          flag=true;
-          this.officialService.ModifiedIncidents[i].IncidentId=changedIncident.IncidentId;
-          this.officialService.ModifiedIncidents[i].IncidentType=changedIncident.IncidentType;
-          this.officialService.ModifiedIncidents[i].IncidentValue = changedIncident.IncidentValue;
-          this.officialService.ModifiedIncidents[i].Notes = changedIncident.Notes;
+        if (await this.officialService.ModifiedIncidents[i].GameId==changedIncident.GameId){
+          flag = await true;
+          this.officialService.ModifiedIncidents[i].IncidentId = await changedIncident.IncidentId;
+          this.officialService.ModifiedIncidents[i].IncidentType = await changedIncident.IncidentType;
+          this.officialService.ModifiedIncidents[i].IncidentValue = await changedIncident.IncidentValue;
+          this.officialService.ModifiedIncidents[i].Notes = await changedIncident.Notes;
         }
         else{
-          flag=false;
+          flag = await false;
         }
       }
     }
 
-    if(!flag){
-      this.officialService.ModifiedIncidents.push(changedIncident);
+    if(await !flag){
+      await this.officialService.ModifiedIncidents.push(changedIncident);
     }
    
     console.log(this.officialService.IncidentReports);
     console.log(this.officialService.ModifiedIncidents);
-    this.bsModalRef.hide();
-    this.saveStatus.emit(false);
+    await this.bsModalRef.hide();
+    await this.saveStatus.emit(false);
   }
 }
