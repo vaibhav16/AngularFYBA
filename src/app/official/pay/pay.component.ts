@@ -11,13 +11,11 @@ import { IPaidSection } from './../classes/pay/pay.model';
 })
 export class PayComponent implements OnInit {
   modalRef: BsModalRef;
-  constructor(
-    public modalService: BsModalService,
-    public officialService: OfficialService
-  ) {}
+  constructor(public modalService: BsModalService, public officialService: OfficialService) {}
 
   public paidSection: IPaidSection;
   initialFetchError = null;
+  errorMsg: string;
   paidRequest: boolean;
   ngOnInit() {
     this.paidRequest = true;
@@ -35,9 +33,10 @@ export class PayComponent implements OnInit {
       (err) => {
         this.paidRequest = false;
         this.initialFetchError = true;
-        console.log(err);
+        this.errorMsg = err;
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
+        this.modalRef.content.errorMsg = err;
       },
       () => {
         this.paidRequest = false;
@@ -45,5 +44,4 @@ export class PayComponent implements OnInit {
       }
     );
   }
-
 }

@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   public profileSection: IProfileSection = null;
   profileRequest: boolean = null;
   initialFetchError: boolean = null;
+  errorMsg: string;
   imgUrl: string = '';
   modalRef: BsModalRef;
   template: TemplateRef<any>;
@@ -45,9 +46,11 @@ export class ProfileComponent implements OnInit {
       (err) => {
         this.profileRequest = false;
         this.initialFetchError = true;
+        this.errorMsg = err;
         console.log(err);
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
+        this.modalRef.content.errorMsg = err;
       },
       () => {
         if (this.profileSection.Value[0].PersonalInfo.profilePhotos.length > 0) {

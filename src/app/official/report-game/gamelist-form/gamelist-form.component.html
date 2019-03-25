@@ -199,7 +199,7 @@
               </li>
             </ng-container> -->
           </ul>
-          <ul class="addList IncidentListClass">
+          <ul *ngIf="gameData.OfficiatingPositionId == '3'" class="addList IncidentListClass">
             <li class="Incidentclass uploadDiv">
               <input #imageInput type="file" multiple accept="image/*" (change)="addImage(imageInput)" />
               <span class="addHeading">
@@ -210,6 +210,7 @@
       </div>
     </div>
   </div>
+
   <ng-container>
     <div class="marginTop10">
       <ul class="reportlist">
@@ -246,51 +247,14 @@
               </div>
               <div class="clearfix"></div>
             </div>
-
-
-            <!-- <div *ngIf="officialService.IncidentReports.length==0
-                                    && item.IncidentReports.length==0 
-                                    && (item.IsHomeForfeit || item.IsVisitorForfeit)">
-              <b>No Incidents Added</b>
-            </div> -->
-
           </div>
         </div>
       </div>
     </div>
   </ng-container>
-  <!----ng-container *ngIf="item.OfficiatingPositionId!=3">
-    <div *ngIf="!item.IsHomeForfeit && !item.IsVisitorForfeit" class="marginTop10">
-      <ul class="reportlist">
-        <li>Incidents</li>
-      </ul>
-      <div *ngIf="officialService.IncidentReports.length==0">
-        <br />
-        <b>No Incidents Added</b>
-      </div>
-      <div class="bgGrey">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="addList incidentLi">
-              <ng-container *ngIf="item.IncidentReports.length > 0">
-                <div class="addListDiv" *ngFor="let child of item.IncidentReports;  let incidentIndex = index"
-                  id="incident{{ incidentIndex }}">
-                  <div>
-                    Incident {{incidentIndex+1}}
-                  </div>
+ 
 
-                </div>
-              </ng-container>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-  </ng-container-->
-
-  <div [ngStyle]="{display: gameData.OfficiatingPositionId == '3' ? '' : 'none'}" class="text-center">
+  <div *ngIf="gameData.OfficiatingPositionId == '3'"class="text-center">
     <button class="btn btn-success" type="submit">
       SAVE REPORT
     </button>
@@ -303,3 +267,7 @@
   </div>
 
 </form>
+
+<!--Loader-->
+<app-fybaloader *ngIf="downloadRequest"></app-fybaloader>
+<!--Loader-->

@@ -1,32 +1,23 @@
-import {
-  Component,
-  TemplateRef,
-  OnInit,
-  ViewEncapsulation
-} from "@angular/core";
-import { OfficialService } from "../official.service";
-import {
-  NgbActiveModal,
-  NgbAccordionConfig,
-  NgbModal
-} from "@ng-bootstrap/ng-bootstrap";
-import { Filter } from "../classes/selectgame/filter.model";
-import { NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
-import { BsModalService } from "ngx-bootstrap/modal";
-import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
-import { DomSanitizer } from "@angular/platform-browser";
-import { saveAs } from "file-saver";
-import { map, switchMap, tap, mergeMap, catchError } from "rxjs/operators";
-import { ModalContentComponent } from "./../official.component";
-import { Observable } from "rxjs";
+import { Component, TemplateRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { OfficialService } from '../official.service';
+import { NgbActiveModal, NgbAccordionConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Filter } from '../classes/selectgame/filter.model';
+import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { saveAs } from 'file-saver';
+import { map, switchMap, tap, mergeMap, catchError } from 'rxjs/operators';
+import { ModalContentComponent } from './../official.component';
+import { Observable } from 'rxjs';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import { DataSharingService } from './../../data-sharing.service';
 
 @Component({
-  selector: "app-select-game",
-  templateUrl: "./select-game.component.html",
+  selector: 'app-select-game',
+  templateUrl: './select-game.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ["./select-game.component.css"],
+  styleUrls: ['./select-game.component.css'],
   providers: [NgbAccordionConfig]
 })
 export class SelectGameComponent implements OnInit {
@@ -36,11 +27,11 @@ export class SelectGameComponent implements OnInit {
   settings = {};
 
   selectedFilter: Filter = {
-    Division: "",
-    Location: "",
-    StartTime: "",
-    EndTime: "",
-    Position: "",
+    Division: '',
+    Location: '',
+    StartTime: '',
+    EndTime: '',
+    Position: '',
     ShowSignedGames: null,
     ShowPastGames: null
   };
@@ -53,18 +44,25 @@ export class SelectGameComponent implements OnInit {
     public dss: DataSharingService
   ) {
     config.closeOthers = false;
-    config.type = "info";
+    config.type = 'info';
   }
 
   template: TemplateRef<any>;
 
   ngOnInit() {
     this.settings = {
-      text: "Select....",
-      classes: "myclass custom-class"
+      text: 'Select....',
+      classes: 'myclass custom-class'
     };
 
-    this.officialService.postSelectGames(this.selectedFilter).then(res => {
+    this.officialService.postSelectGames(this.selectedFilter).then(() => {
+      if (this.officialService.serviceError) {
+        this.modalRef = this.modalService.show(ErrorModalComponent);
+        if (this.officialService.timeoutError) {
+          this.modalRef.content.errorMsg = 'Timeout has occured!';
+        }
+        this.modalRef.content.closeBtnName = 'Close';
+      }
     });
   }
 
@@ -79,11 +77,11 @@ export class SelectGameComponent implements OnInit {
     console.log(value);
     this.filterRequest = true;
     this.selectedFilter = {
-      Division: "",
-      Location: "",
-      StartTime: "",
-      EndTime: "",
-      Position: "",
+      Division: '',
+      Location: '',
+      StartTime: '',
+      EndTime: '',
+      Position: '',
       ShowSignedGames: null,
       ShowPastGames: null
     };
@@ -92,7 +90,7 @@ export class SelectGameComponent implements OnInit {
       if (value.DivisionSelect != null) {
         for (let i = 0; i < value.DivisionSelect.length; ++i) {
           {
-            this.selectedFilter.Division += value.DivisionSelect[i].id + ",";
+            this.selectedFilter.Division += value.DivisionSelect[i].id + ',';
           }
         }
       }
@@ -100,7 +98,7 @@ export class SelectGameComponent implements OnInit {
       if (value.LocationSelect != null) {
         for (let i = 0; i < value.LocationSelect.length; ++i) {
           {
-            this.selectedFilter.Location += value.LocationSelect[i].id + ",";
+            this.selectedFilter.Location += value.LocationSelect[i].id + ',';
           }
         }
       }
@@ -108,7 +106,7 @@ export class SelectGameComponent implements OnInit {
       if (value.PositionSelect != null) {
         for (let i = 0; i < value.PositionSelect.length; ++i) {
           {
-            this.selectedFilter.Position += value.PositionSelect[i].id + ",";
+            this.selectedFilter.Position += value.PositionSelect[i].id + ',';
           }
         }
       }
@@ -116,7 +114,7 @@ export class SelectGameComponent implements OnInit {
       if (value.TimeSelect != null) {
         for (let i = 0; i < value.TimeSelect.length; ++i) {
           {
-            this.selectedFilter.StartTime += value.TimeSelect[i].id + ",";
+            this.selectedFilter.StartTime += value.TimeSelect[i].id + ',';
           }
         }
       }
@@ -126,7 +124,7 @@ export class SelectGameComponent implements OnInit {
 
     this.selectedFilter.ShowSignedGames = value.signedGames;
 
-    this.officialService.postFilterData(this.selectedFilter).then(res => {
+    this.officialService.postFilterData(this.selectedFilter).then((res) => {
       this.filterRequest = false;
     });
   }
@@ -151,23 +149,18 @@ export class SelectGameComponent implements OnInit {
     this.tempGameId = gameId;
     this.tempPositionId = positionId;
     this.tempForCancelSignUp = ForCancelSignUp;
-    this.officialService
-      .postSignUp(groupId, gameId, positionId, ForCancelSignUp)
-      .then(res => {
-        this.signUpRequest = false;
-        if (this.officialService.signUpResponse == "Registered")
-        {
-          this.modalRef = this.modalService.show(template, {
-            class: "modal-sm"
-          });
-        }
-        else
-        {
-          this.modalRef = this.modalService.show(standardTemplate, {
-            class: "modal-sm"
-          });
-        }
-      });
+    this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp).then((res) => {
+      this.signUpRequest = false;
+      if (this.officialService.signUpResponse == 'Registered') {
+        this.modalRef = this.modalService.show(template, {
+          class: 'modal-sm'
+        });
+      } else {
+        this.modalRef = this.modalService.show(standardTemplate, {
+          class: 'modal-sm'
+        });
+      }
+    });
   }
 
   /* - Sends Cancel SignUp request to service - */
@@ -183,14 +176,12 @@ export class SelectGameComponent implements OnInit {
     this.tempGameId = gameId;
     this.tempPositionId = positionId;
     this.tempForCancelSignUp = ForCancelSignUp;
-    this.officialService
-      .postSignUp(groupId, gameId, positionId, ForCancelSignUp)
-      .then(res => {
-        this.signUpRequest = false;
-        this.modalRef = this.modalService.show(cancelTemplate, {
-          class: "modal-sm"
-        });
+    this.officialService.postSignUp(groupId, gameId, positionId, ForCancelSignUp).then((res) => {
+      this.signUpRequest = false;
+      this.modalRef = this.modalService.show(cancelTemplate, {
+        class: 'modal-sm'
       });
+    });
   }
 
   /* - Implementing ngx-modal from ngx-bootstrap - */
@@ -234,7 +225,7 @@ export class SelectGameComponent implements OnInit {
   gameLocation: string;
   openMapModal(location: string, mapTemplate: TemplateRef<any>) {
     this.gameLocation = location;
-    this.modalRef = this.modalService.show(mapTemplate, { class: "modal-sm" });
+    this.modalRef = this.modalService.show(mapTemplate, { class: 'modal-sm' });
     console.log(this.modalRef);
   }
 
@@ -250,18 +241,15 @@ export class SelectGameComponent implements OnInit {
   downloadRequest: boolean;
   downloadPdf(url) {
     this.downloadRequest = true;
-    var downLoadUrl;    
-    this.officialService
-      .getPdfUrl(url)      
-      .subscribe(res => {
-        console.log(res);
-        console.log(res["_body"]);
-        var x = JSON.parse(res["_body"]);
-        downLoadUrl = x["Value"].AbsoluteUrl;
-        this.downloadRequest = false;
-        window.location.href = downLoadUrl;
-        
-      });
+    var downLoadUrl;
+    this.officialService.getPdfUrl(url).subscribe((res) => {
+      console.log(res);
+      console.log(res['_body']);
+      var x = JSON.parse(res['_body']);
+      downLoadUrl = x['Value'].AbsoluteUrl;
+      this.downloadRequest = false;
+      window.location.href = downLoadUrl;
+    });
   }
 
   // downloadPdf2(url) {

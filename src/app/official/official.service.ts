@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, timeout } from 'rxjs/operators';
 import { Filter } from './classes/selectgame/filter.model';
 import { FinalFilter } from './classes/selectgame/finalFilter.model';
 import { IPaidSection } from './classes/pay/pay.model';
@@ -15,16 +15,16 @@ import {
   RequestMethod,
   ResponseContentType
 } from '@angular/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, TimeoutError } from 'rxjs';
 import { SignUpRequestedData } from './classes/selectgame/signUp_rd.model';
 import { IntialFilter } from './classes/selectgame/initialFilter.model';
 import { ReportGameData } from './classes/reportgame/reportGame.model';
-import { APIGamePost } from './classes/reportgame/APIGamePost.model';
-import { APIPlayerScorePost } from './classes/reportgame/APIPlayerScorePost.model';
-import { SignUpEmail } from './classes/reportgame/signupEmail.model';
+//import { APIGamePost } from './classes/reportgame/APIGamePost.model';
+//import { APIPlayerScorePost } from './classes/reportgame/APIPlayerScorePost.model';
+//import { SignUpEmail } from './classes/reportgame/signupEmail.model';
 import { Profile } from './classes/profile/profile.model';
 import { UploadProfileImage } from './classes/profile/uploadProfileImg.model';
-import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
+//import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
 import { Constants } from './../constants';
 import { DataSharingService } from './../data-sharing.service';
@@ -41,7 +41,7 @@ export class OfficialService {
   //requestFailure: boolean = false;
   numberOfSelectGameClicks: number = 0;
   initialData: Filter;
-  dataChanged: boolean;
+  dataChanged: boolean = null;
 
   headerOptions;
   postRequestOptions;
@@ -74,13 +74,6 @@ export class OfficialService {
   selectedLocations = [];
   selectedTimes = [];
 
-  signUpEmailModel: SignUpEmail = {
-    Email: '',
-    LeagueId: '',
-    SeasonId: '',
-    Randomkey: ''
-  };
-
   signUpRD: SignUpRequestedData = {
     GameIds: '',
     GroupId: '',
@@ -98,102 +91,102 @@ export class OfficialService {
     OfficialSeasonId: ''
   };
 
-  APIGamePost: APIGamePost = {
-    Roleid: '',
-    SeasonId: '',
-    OfficialSeasonId: '',
-    OfficiatingPositionId: '',
-    GameId: '',
-    GameName: '',
-    GameDate: '',
-    Location: '',
-    IsHomeForfeit:null,
-    IsVisitorForfeit:null,
-    GameStartTime: '',
-    HomeTeam: '',
-    VisitingTeam: '',
-    HomeTeamId: '',
-    VisitingTeamId: '',
-    HomeTeamScore: '',
-    VisitingTeamScore: '',
-    Division: '',
-    LeagueId: '',
-    HomeTeamPlayerScores: [
-      {
-        GameId: '',
-        PlayerName: '',
-        PlayerSeasonalId: '',
-        FoulId: '',
-        Points: null,
-        PlayerNote: null,
-        NotPresent: null,
-        Rebound: '',
-        TeamId: '',
-        TeamName: ''
-      }
-    ],
-    VisitingTeamPlayerScores: [
-      {
-        GameId: '',
-        PlayerName: '',
-        PlayerSeasonalId: '',
-        FoulId: '',
-        Points: null,
-        PlayerNote: null,
-        NotPresent: null,
-        Rebound: '',
-        TeamId: '',
-        TeamName: ''
-      }
-    ],
-    ScoreSheetImages: [
-      {
-        ImageURL: '',
-        NewImageByteCode: ''
-      }
-    ],
-    DeletedScoreSheetImages: [
-      {
-        ImageURL: '',
-        NewImageByteCode: ''
-      }
-    ],
-    IncidentReports: [
-      {
-        GameId: null,
-        IncidentId: null,
-        IncidentType: null,
-        IncidentValue: null,
-        Notes: ''
-      }
-    ],
-    DeleteIncidentReport: [
-      {
-        GameId: null,
-        IncidentId: null,
-        IncidentType: null,
-        IncidentValue: null,
-        Notes: ''
-      }
-    ]
-  };
+  // APIGamePost: APIGamePost = {
+  //   Roleid: '',
+  //   SeasonId: '',
+  //   OfficialSeasonId: '',
+  //   OfficiatingPositionId: '',
+  //   GameId: '',
+  //   GameName: '',
+  //   GameDate: '',
+  //   Location: '',
+  //   IsHomeForfeit: null,
+  //   IsVisitorForfeit: null,
+  //   GameStartTime: '',
+  //   HomeTeam: '',
+  //   VisitingTeam: '',
+  //   HomeTeamId: '',
+  //   VisitingTeamId: '',
+  //   HomeTeamScore: '',
+  //   VisitingTeamScore: '',
+  //   Division: '',
+  //   LeagueId: '',
+  //   HomeTeamPlayerScores: [
+  //     {
+  //       GameId: '',
+  //       PlayerName: '',
+  //       PlayerSeasonalId: '',
+  //       FoulId: '',
+  //       Points: null,
+  //       PlayerNote: null,
+  //       NotPresent: null,
+  //       Rebound: '',
+  //       TeamId: '',
+  //       TeamName: ''
+  //     }
+  //   ],
+  //   VisitingTeamPlayerScores: [
+  //     {
+  //       GameId: '',
+  //       PlayerName: '',
+  //       PlayerSeasonalId: '',
+  //       FoulId: '',
+  //       Points: null,
+  //       PlayerNote: null,
+  //       NotPresent: null,
+  //       Rebound: '',
+  //       TeamId: '',
+  //       TeamName: ''
+  //     }
+  //   ],
+  //   ScoreSheetImages: [
+  //     {
+  //       ImageURL: '',
+  //       NewImageByteCode: ''
+  //     }
+  //   ],
+  //   DeletedScoreSheetImages: [
+  //     {
+  //       ImageURL: '',
+  //       NewImageByteCode: ''
+  //     }
+  //   ],
+  //   IncidentReports: [
+  //     {
+  //       GameId: null,
+  //       IncidentId: null,
+  //       IncidentType: null,
+  //       IncidentValue: null,
+  //       Notes: ''
+  //     }
+  //   ],
+  //   DeleteIncidentReport: [
+  //     {
+  //       GameId: null,
+  //       IncidentId: null,
+  //       IncidentType: null,
+  //       IncidentValue: null,
+  //       Notes: ''
+  //     }
+  //   ]
+  // };
 
   IncidentReports: IncidentReports[] = [];
   NewIncidents: IncidentReports[] = [];
   ModifiedIncidents: IncidentReports[] = [];
 
-  APIPlayerScorePost: APIPlayerScorePost = {
-    GameId: '',
-    PlayerName: '',
-    PlayerSeasonalId: '',
-    FoulId: '',
-    Points: null,
-    PlayerNote: null,
-    NotPresent: null,
-    TeamId: '',
-    TeamName: '',
-    Rebound: ''
-  };
+  // APIPlayerScorePost: APIPlayerScorePost = {
+  //   GameId: '',
+  //   PlayerName: '',
+  //   PlayerSeasonalId: '',
+  //   FoulId: '',
+  //   Points: null,
+  //   PlayerNote: null,
+  //   NotPresent: null,
+  //   TeamId: '',
+  //   TeamName: '',
+  //   Rebound: ''
+  // };
 
   /* Profile Section Definitions */
 
@@ -209,12 +202,12 @@ export class OfficialService {
     FileName: ''
   };
 
-  deleteProfileImg: DeleteProfileImage = {
-    LeagueId: '',
-    SeasonId: '',
-    FileName: '',
-    Page: ''
-  };
+  // deleteProfileImg: DeleteProfileImage = {
+  //   LeagueId: '',
+  //   SeasonId: '',
+  //   FileName: '',
+  //   Page: ''
+  // };
 
   constructor(
     private httpClient: HttpClient,
@@ -251,6 +244,7 @@ export class OfficialService {
     return this.http
       .post(Constants.apiURL + '/api/officialgames', body, requestOptions)
       .pipe(
+        timeout(60000),
         map((data: Response) => {
           return data.json();
         })
@@ -270,12 +264,15 @@ export class OfficialService {
   }
 
   serviceError: boolean;
+  timeoutError: boolean;
   private handleError(error: any) {
+    console.log(error);
+    if (error instanceof TimeoutError) {
+      this.timeoutError = true;
+    }
     this.serviceError = true;
     this.fetchSelectGames = false;
     this.reportRequest = false;
-    //this.fetchProfileRequest = false;
-    //this.paidRequest = false;
     console.log('A Server Error has occured!', error);
   }
 
@@ -577,6 +574,7 @@ export class OfficialService {
     return this.http
       .post(Constants.apiURL + '/api/loadreportgames', body, requestOptions)
       .pipe(
+        timeout(60000),
         map((data: Response) => {
           return data.json();
         })
@@ -602,13 +600,12 @@ export class OfficialService {
   postReportData(gameListObj: any) {
     console.log(gameListObj);
     var trailingUrl;
-    if(gameListObj.OfficiatingPositionId==3){
+    if (gameListObj.OfficiatingPositionId == 3) {
       trailingUrl = '/api/savereportgames';
+    } else {
+      trailingUrl = '/api/SaveReportGamesNonScoreKeeper';
     }
-    else{
-      trailingUrl = '/api/SaveReportGamesNonScoreKeeper'
-    }
-    this.reportRequest=true;
+    this.reportRequest = true;
     this.postReportMsg = null;
     this.finalFilter.RequestedData = JSON.stringify(gameListObj);
     this.finalFilter.SessionKey = this.dss.sessionKey;
@@ -632,14 +629,13 @@ export class OfficialService {
       .toPromise()
       .then((x) => {
         console.log(x);
-        this.reportRequest=false;
+        this.reportRequest = false;
         if (x['Status']) {
           this.postReportMsg = x['Message'].PopupMessage;
           this.postReportTitle = x['Message'].PopupHeading;
           this.postReportStatus = x['Status'];
           this.dss.reportTagLabel = x['Value'];
           this.cookieService.set('reportTagLabel', x['Value']);
-
         } else {
           this.postReportMsg = x['Message'].PopupMessage;
           this.postReportTitle = x['Message'].PopupHeading;
@@ -650,7 +646,7 @@ export class OfficialService {
         return Promise.resolve();
       })
       .catch((err) => {
-        this.reportRequest=false;
+        this.reportRequest = false;
         this.handleError(err);
       });
   }
@@ -660,7 +656,7 @@ export class OfficialService {
   /**************************/
 
   /* - This function is used to fetch the initial data to populate the Get Paid section. - */
- 
+
   fetchGetPaidData(): Observable<any> {
     this.reportGameData.SeasonId = this.dss.seasonId;
     this.reportGameData.OfficialSeasonId = this.dss.officialSeasonId;
@@ -672,6 +668,7 @@ export class OfficialService {
     console.log(JSON.stringify(this.finalFilter));
 
     return this.http.post(Constants.apiURL + '/api/GetPaid', body, this.postRequestOptions).pipe(
+      timeout(60000),
       map((res) => <any>res.json()),
       catchError(this.handleError1)
     );
@@ -704,6 +701,7 @@ export class OfficialService {
     return this.http
       .post(Constants.apiURL + '/api/OfficiatingProfile', body, this.postRequestOptions)
       .pipe(
+        timeout(60000),
         map((res) => <any>res.json()),
         catchError(this.handleError1)
       );
@@ -802,8 +800,7 @@ export class OfficialService {
     let newUrl = url;
     console.log(newUrl);
     const headers = new Headers({
-      'Content-Type': 'application/pdf',
-      
+      'Content-Type': 'application/pdf'
     });
 
     return this.http
@@ -822,5 +819,4 @@ export class OfficialService {
         })
       );
   }
-
 }

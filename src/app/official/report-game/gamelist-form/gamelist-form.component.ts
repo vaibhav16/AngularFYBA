@@ -31,7 +31,6 @@ export class GamelistFormComponent implements OnInit {
 
   @Input() gameData: IndividualGame;
   @Input() gameIndex: number;
-  @Input() changeStatus: boolean;
   isScorekeeper: boolean;
   form: FormGroup;
   dataChanged: boolean = false;
