@@ -42,6 +42,7 @@ export class OfficialService {
   numberOfSelectGameClicks: number = 0;
   initialData: Filter;
   dataChanged: boolean = null;
+  initialJson: string;
 
   headerOptions;
   postRequestOptions;

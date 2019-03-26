@@ -78,7 +78,7 @@ export class ReportGameComponent {
 
   async asyncReport() {
     await this.officialService.getReportData().then(() => {
-      this.initialJson = JSON.stringify(this.officialService.reportGameJson);
+      this.officialService.initialJson = JSON.stringify(this.officialService.reportGameJson);
 
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
@@ -118,7 +118,7 @@ export class ReportGameComponent {
           this.officialService.NewIncidents = [];
           this.officialService.ModifiedIncidents = [];
           this.officialService.dataChanged = false;
-          this.officialService.reportGameJson = JSON.parse(this.initialJson);
+          this.officialService.reportGameJson = JSON.parse(this.officialService.initialJson);
         }
       });
     }

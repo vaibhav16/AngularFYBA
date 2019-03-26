@@ -1186,6 +1186,8 @@ export class GamelistFormComponent implements OnInit {
 
   showModal() {
 
+    this.officialService.initialJson = JSON.stringify(this.officialService.reportGameJson);
+
     const initialState = {
       status: this.officialService.postReportStatus,
       popupTitle: this.officialService.postReportTitle,
