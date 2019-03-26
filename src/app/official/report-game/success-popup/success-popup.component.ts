@@ -26,7 +26,7 @@ export class SuccessPopupComponent implements OnInit {
 
   ok(){
     this.modalRef.hide();
-    this.officialService.getReportData().then(res=>{
+    this.officialService.getReportData().then(()=>{
       this.click.emit(true);
     });
     

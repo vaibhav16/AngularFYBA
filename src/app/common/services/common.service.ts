@@ -6,7 +6,7 @@ import {
   RequestOptions,
   RequestMethod
 } from "@angular/http";
-import { Constants } from "../models/constants";
+import { Constants } from "../../constants";
 import { map } from "rxjs/operators";
 import { DataSharingService } from "./../../data-sharing.service";
 import { FinalFilter } from "../../official/classes/selectgame/finalFilter.model";

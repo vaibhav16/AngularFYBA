@@ -2,26 +2,25 @@ import { Injectable } from "@angular/core";
 import {
   Router,
   CanActivate,
+  CanDeactivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from "@angular/router";
-import { LoginService } from "./common/services/login.service";
 import { CookieService } from "ngx-cookie-service";
 import { DataSharingService } from './data-sharing.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate{
   constructor(private router: Router, 
     private cookieService: CookieService,
-    private dss: DataSharingService,
-    private loginService: LoginService) {}
+    private dss: DataSharingService) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.cookieService.check("sessionKey")) {
       this.dss.sessionKey = this.cookieService.get(
         "sessionKey"
       );
       this.dss.userId = parseInt(
-        this.dss.cookieService.get("userId")
+        this.cookieService.get("userId")
       );
       this.dss.officialSeasonId = this.cookieService.get(
         "officialSeasonId"
@@ -34,7 +33,7 @@ export class AuthGuard implements CanActivate {
         "leagueId"
       );
       this.dss.reportTagLabel = parseInt(
-        this.dss.cookieService.get("reportTagLabel")
+        this.cookieService.get("reportTagLabel")
       );
       this.dss.roundThumbnail = this.cookieService.get(
         "roundThumbnail"
@@ -51,5 +50,5 @@ export class AuthGuard implements CanActivate {
     // not logged in so redirect to login page with the return url
     this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
     return false;
-  }
+  }  
 }

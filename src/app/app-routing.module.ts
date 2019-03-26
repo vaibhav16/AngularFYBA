@@ -9,6 +9,7 @@ import { OfficialComponent } from "./official/official.component";
 import { CoachComponent } from "./coach/coach.component";
 import { PlayerComponent } from "./player/player.component";
 import { AuthGuard } from "./auth.guard";
+import { DeactivateGuard } from './deactivate-guard'
 //import { PreventLoggedInAccess } from './preventLogin.guard';
 import { LoginService } from "./common/services/login.service";
 import { FybaloaderComponent } from "./common/fybaloader/fybaloader.component";
@@ -24,13 +25,21 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: "", redirectTo: "SelectGameComponent", pathMatch: "full" },
-      { path: "SelectGameComponent", component: SelectGameComponent },
+      { 
+        path: "SelectGameComponent", 
+        component: SelectGameComponent
+       },
       { path: "PayComponent", component: PayComponent },
       { path: "ProfileComponent", component: ProfileComponent },
-      { path: "ReportGameComponent", component: ReportGameComponent }
+      { 
+        path: "ReportGameComponent", 
+        component: ReportGameComponent,
+        canDeactivate:[DeactivateGuard],
+        canActivate:[AuthGuard]
+       }
     ]
   },
-  { path: "coach", component: CoachComponent, canActivate: [AuthGuard] },
+  { path: "coach", component: CoachComponent, canActivate: [AuthGuard], },
   { path: "player", component: PlayerComponent, canActivate: [AuthGuard] },
   { path: "fybaloader", component: FybaloaderComponent },
   { path: "logout", component: LogoutComponent, canActivate: [AuthGuard] },

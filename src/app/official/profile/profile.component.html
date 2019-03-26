@@ -1,18 +1,12 @@
-<div
-  *ngIf="profileSection != null && initialFetchError!=true"
-  class="container paddingBottom50"
->
-  <div
-    class="row"
-    *ngIf="profileSection.Value != null; else noRecordDiv"
-  >
-    <div class="col-lg-12">
-      <h1 class="mainDate name_player">
+<div *ngIf="profileSection != null && initialFetchError!=true" class="container paddingBottom50">
+  <div class="row" *ngIf="profileSection.Value != null; else noRecordDiv">
+    <div class="col-lg-12 OffcProfile">
+      <!-- <h1 class="mainDate name_player">
         <strong>{{ profileSection.Value[0].ProfileName }}</strong>
         <span class="rating_player">{{
           profileSection.Value[0].ProfileRating
-        }}</span>
-      </h1>
+          }}</span>
+      </h1> -->
       <ngb-accordion>
         <ngb-panel>
           <ng-template ngbPanelTitle>
@@ -24,88 +18,82 @@
             <div class="data_module bgBlue">
               <div class="fms_time marginleftNone wordBreak">
                 <div class="row-fluid signupPosition borderTopNone">
-                  <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Name:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{
+                    profileSection.Value[0].ProfileName
+                    }}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                     <strong>Address:</strong>
                   </div>
-                  <div class="col-md-8 col-sm-8 col-xs-6 paddLeft5">
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
                     {{
-                      profileSection.Value[0].PersonalInfo.Address
+                    profileSection.Value[0].PersonalInfo.Address
                     }}
                   </div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="row-fluid signupPosition">
-                  <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                     <strong>Email:</strong>
                   </div>
-                  <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
                     {{
-                      profileSection.Value[0].PersonalInfo.Email
+                    profileSection.Value[0].PersonalInfo.Email
                     }}
                   </div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="row-fluid signupPosition">
-                  <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                     <strong>Home Phone:</strong>
                   </div>
-                  <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
                     {{
-                      profileSection.Value[0].PersonalInfo
-                        .HomePhone
+                    profileSection.Value[0].PersonalInfo
+                    .HomePhone
                     }}
                   </div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="row-fluid signupPosition">
-                  <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                     <strong>Mobile Phone:</strong>
                   </div>
-                  <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
                     {{
-                      profileSection.Value[0].PersonalInfo
-                        .MobilePhone
+                    profileSection.Value[0].PersonalInfo
+                    .MobilePhone
                     }}
                   </div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="row-fluid signupPosition">
-                  <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                     <strong>Profile Photo:</strong>
                   </div>
-                  <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
                     <ul class="addList">
                       <li id="serverLi" style="width:auto" *ngIf="imgUrl.length > 0">
-                        <img
-                          id="serverImg"
-                          src="{{ imgThumbnail }}"
-                          style="width:auto;"
-                        />
-                        <span
-                          (click)="deleteProfileImage(imgUrl)"
-                          class="glyphicon glyphicon-remove-circle"
-                          aria-hidden="true"                          
-                        ></span>
+                        <img id="serverImg" src="{{ imgThumbnail }}" style="width:auto;" />
+                        <span (click)="deleteProfileImage(imgUrl)" class="glyphicon glyphicon-remove-circle"
+                          aria-hidden="true"></span>
                       </li>
-                      <li
-                        *ngIf="
+                      <li *ngIf="
                           imgUrl == null ||
                           imgUrl == undefined ||
                           imgUrl.length <= 0
                         "
-                        class="Incidentclass"
-                        style="background-color: red"
-                      >
-                        <input
-                          #imageInput
-                          type="file"
-                          accept="image/*"
-                          (change)="processFile(imageInput, imgNotUploaded)"
-                        />
-                        <span class="addHeading"
-                          >Upload<br />
-                          Photo</span
-                        >
+                        class="Incidentclass" style="background-color: red">
+                        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput, imgNotUploaded)" />
+                        <span class="addHeading">Upload<br />
+                          Photo</span>
                       </li>
                       <!----li><input type="button" (click)="uploadPhoto()" value="Save"></li-->
                     </ul>
@@ -126,26 +114,26 @@
           <ng-template ngbPanelContent>
             <div class="fms_time marginleftNone">
               <div class="row-fluid signupPosition">
-                <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                   <strong>Max # Games/Day:</strong>
                 </div>
-                <div class="col-md-8 col-sm-8 col-xs-6 paddLeft5">
+                <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
                   {{
-                    profileSection.Value[0].LeagueSettings
-                      .MaxGamesPerDay
+                  profileSection.Value[0].LeagueSettings
+                  .MaxGamesPerDay
                   }}
                 </div>
                 <div class="clearfix"></div>
               </div>
               <div class="row-fluid signupPosition">
-                <div class="col-md-4 col-sm-4 col-xs-6 text-right paddRight5">
+                <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                   <strong>Max Season Earnings:</strong>
                 </div>
-                <div class="col-md-8 col-sm-8 col-xs-6 paddTop4 paddLeft5">
+                <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
                   $
                   {{
-                    profileSection.Value[0].LeagueSettings
-                      .MaxSeasonEarnings
+                  profileSection.Value[0].LeagueSettings
+                  .MaxSeasonEarnings
                   }}
                 </div>
                 <div class="clearfix"></div>
@@ -165,13 +153,8 @@
               <div class="row signupPosition">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="overflowAuto">
-                    <table
-                      class="scoreTable marginTop10 widthTable approved_style"
-                      cellspacing="0"
-                      cellpadding="0"
-                      border="0"
-                      width="100%"
-                    >
+                    <table class="scoreTable marginTop10 widthTable approved_style" cellspacing="0" cellpadding="0"
+                      border="0" width="100%">
                       <thead>
                         <tr>
                           <th>Division</th>
@@ -181,40 +164,32 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          *ngFor="
+                        <tr *ngFor="
                             let item of profileSection.Value[0]
                               .ApprovedOfficiatingDivisions
                               .approvedOfficiatingDivisionsLists
-                          "
-                        >
+                          ">
                           <td>{{ item.Division }}</td>
                           <td>
-                            <span
-                              [ngClass]="{
+                            <span [ngClass]="{
                                 glyphicon: item.Referee,
                                 'glyphicon-ok': item.Referee
                               }"
-                              aria-hidden="true"
-                            ></span>
+                              aria-hidden="true"></span>
                           </td>
                           <td>
-                            <span
-                              [ngClass]="{
+                            <span [ngClass]="{
                                 glyphicon: item.Umpire,
                                 'glyphicon-ok': item.Umpire
                               }"
-                              aria-hidden="true"
-                            ></span>
+                              aria-hidden="true"></span>
                           </td>
                           <td>
-                            <span
-                              [ngClass]="{
+                            <span [ngClass]="{
                                 glyphicon: item.Scorekeeper,
                                 'glyphicon-ok': item.Scorekeeper
                               }"
-                              aria-hidden="true"
-                            ></span>
+                              aria-hidden="true"></span>
                           </td>
                         </tr>
                       </tbody>
@@ -225,29 +200,102 @@
             </div>
           </ng-template>
         </ngb-panel>
+
         <ngb-panel>
           <ng-template ngbPanelTitle>
-            <div class="HeadCollapse"><h2 class="paidHead">Payments</h2></div>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Officiating Payment Rates</h2>
+            </div>
           </ng-template>
           <ng-template ngbPanelContent>
-            <div
-              *ngIf="
+            <div class="overflowAuto">
+              <table class="scoreTable marginTop10 widthTable leftTable" cellspacing="0" cellpadding="0" border="0"
+                width="100%">
+                <tr>
+                  <th>Div.</th>
+                  <th>
+                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <th width="34%">Position</th>
+                        <th width="22%">Base Pay</th>
+                        <th width="22%">Inc. Pay*</th>
+                        <th width="22%">Total Pay*</th>
+                      </tr>
+                    </table>
+                  </th>
+                </tr>
+
+                <!-- <ng-container *ngFor="let item of profileSection.Value[0].DivisionsAndPayments">
+                    <tr *ngFor="let child of item.paymentRatesPerDivisions">
+                      <td rowspan="3">3B</td>
+                    </tr>
+                      <tr>
+                          <td>{{child.OfficiatingPosition}}</td>
+                      </tr>
+                      <tr>
+                          <td>{{child.BasePay}}</td>
+                      </tr>
+                      
+                     <tr>
+                        <td>{{child.IncentivePay}}</td>
+                     </tr>
+
+                     <tr>
+                        <td>{{child.TotalPay}}</td>
+                     </tr>
+                      
+                      
+                                 
+                  </ng-container> -->
+                <tbody>
+                  <tr *ngFor="let item of profileSection.Value[0].DivisionsAndPayments">
+
+                    <td>{{item.Division}}</td>
+                    <td>
+                      <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr *ngFor="let child of item.paymentRatesPerDivisions">
+                          <td width="34%">{{child.OfficiatingPosition}}</td>
+                          <td width="22%">{{child.BasePay}}</td>
+                          <td width="22%">{{child.IncentivePay}}</td>
+                          <td width="22%">{{child.TotalPay}}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+
+                <!-- <tr *ngFor="let child of profileSection.Value[0].paymentRates">                
+                <th>{{child.Division}}</th>            
+                <td>{{child.OfficiatingPosition}}</td>
+                <td>{{child.BasePay}}</td>
+                <td>{{child.IncentivePay}}</td>
+                <td>{{child.TotalPay}}</td>              
+              </tr> -->
+              </table>
+              <div class="font12">
+                *Assuming all Game Reports are filed correctly and on time.</div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Payments</h2>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div *ngIf="
                 profileSection.Value[0].Payments.paymentLists
                   .length > 0;
                 else noPaymentDiv
               "
-              class="fms_time marginleftNone"
-            >
+              class="fms_time marginleftNone">
               <div class="row signupPosition">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="overflowAuto">
-                    <table
-                      class="scoreTable marginTop10 widthTable approved_style"
-                      cellspacing="0"
-                      cellpadding="0"
-                      border="0"
-                      width="100%"
-                    >
+                    <table class="scoreTable marginTop10 widthTable approved_style" cellspacing="0" cellpadding="0"
+                      border="0" width="100%">
                       <thead>
                         <tr>
                           <th>Check #</th>
@@ -256,12 +304,10 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          *ngFor="
+                        <tr *ngFor="
                             let item of profileSection.Value[0]
                               .Payments.paymentLists
-                          "
-                        >
+                          ">
                           <td>{{ item.Check }}</td>
                           <td>{{ item.IssueDate }}</td>
                           <td>$ {{ item.Amount }}</td>
@@ -301,10 +347,10 @@
 </ng-template>
 
 <div *ngIf="initialFetchError" #serverError>
-    <div class="noRecords">
-      <span class="spanError">Server Error.</span> Please try again later!
-    </div>
+  <div class="noRecords">
+    <span class="spanError">{{errorMsg}}</span> Please try again later!
   </div>
+</div>
 
 <!-- <div *ngIf="officialService.serviceError" #serverError>
   <div style="padding:5px" class="noRecords2">

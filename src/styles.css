@@ -31,7 +31,7 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
-   
+
    .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:100px !important; height:100px !important; margin-right:20px !important;border:1px solid #000 !important;}
    .customLI span{left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%); font-size:14px !important; text-transform: uppercase;} 
    .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}
@@ -96,6 +96,11 @@ div {
     padding-left: 2px;
 }
 
+.font12{
+    font-size: 14px;
+    padding-top: 10px;
+}
+
    ul.addList li .glyphicon-remove-circle{position: absolute;
     top: -9px;
     right: -10px;
@@ -132,7 +137,8 @@ div {
    .bg-info {
     background-color:#ededed !important;
    }
-   .card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 6px; background: #ededed;}
+   .card-header{padding:0px;border: 1px solid #bbc9da;margin-top: 6px; 
+    background: #ededed;}
    .card{border:0px;}
    .card .btn-link{color:#000000; font-weight:bold; padding:0px; font-size:16px; width: 100%; text-align:left;}
    .card-body{border:1px solid #bbc9da; border-top:0px; padding:10px;} 
@@ -140,7 +146,21 @@ div {
    .btn-link.focus, .btn-link:hover, .btn-link:focus {
     text-decoration: none;
    }
+
    
+   table.leftTable > tbody > tr > td:nth-child(2), table.leftTable > tbody > tr > th:nth-child(2){padding:0px;border:0px;}
+   table.leftTable > tbody > tr > td:first-child, table.leftTable > tbody > tr > th:first-child{border-right:0px;}
+   /* table.leftTable > tbody > tr > th tr:first-child th{border-bottom:0px;} */
+   table.leftTable > tbody > tr > td tr:first-child td{border-top:0px;}
+/*table.leftTable > tbody > tr > th:nth-child(2) tr th{min-width:63px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td:nth-child(3){min-width:53px;}
+   table.leftTable > tbody > tr > th:nth-child(2) tr th:nth-child(3){min-width:53px;}
+   table.leftTable > tbody > tr > th:nth-child(2) tr th:first-child{min-width:100px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:63px;}
+   table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:100px;}*/
+
+
+
    .card h5{margin:0px;}
    
    .card-header:first-child {
@@ -468,7 +488,7 @@ div {
    ul.paymentdates{list-style:none; padding:0px; margin:0px;}
    ul.paymentdates li{display:block; font-size:20px; color:black; font-weight:bold; padding:2px 0;}
    .breakWord{display:none;}
-   .leftAlign tr td, .leftAlign tr th{text-align:left !important;}
+   .leftAlign tr td:first-child, .leftAlign tr th:first-child{text-align:left !important;}
    ul.addList{list-style:none; padding:0px; margin:0px; margin-top:10px; display:inline-block; /*width:100%;*/}
    ul.addList li{float: left;
     width: 100px;
@@ -651,7 +671,8 @@ div {
    .slideDate .custom-dropdown select{font-size:12px;}
    
    @media only screen and (max-width : 767px) {
-
+    .addList .addListDiv.uploadDiv{ width: 60px !important; height: 60px !important;}
+    .addList .addListDiv{width: 60px !important; height: 60px !important;}
     .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important; margin-right:20px !important;border:1px solid #000 !important;}
    .customLI span{left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%); font-size:11px !important; text-transform: uppercase;} 
     .leftReportDate span{display:block; font-weight:normal;}
@@ -969,8 +990,13 @@ div {
     transform: rotate(45deg);
   }
 
-  .paddLeft5{padding-left:5px;}
-  .paddRight5{padding-right:5px;}
+  .OffcProfile .card-header{background:#5B9BD5 !important; border: 1px solid #5B9BD5;} 
+  .OffcProfile .card-header h2.paidHead{color:#ffffff;}
+  .OffcProfile .card-header .btn-link{color: #ffffff;}
+  .paddLeft5{padding-left:5px; padding-right:0;}
+  .paddRight5{padding-right:5px; padding-left:0;}
+  .leftTable tr th, .leftTable tr td{text-align:left !important;color: #000;}
+  .leftTable tr th{vertical-align: bottom;}
 
   .header_img_text{font-size:28px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute;}
   .topheaderFixed{background-color:#000; padding:8px 0;}
@@ -1065,7 +1091,9 @@ div {
     width:75%
   }
 
-
+  .customModalWidth75{
+    width:90%
+  }
 
   /*--------- END --------*/
 
@@ -1112,6 +1140,13 @@ div {
     .small_font .staticStrip{font-size:14px !important;}
     .small_font .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px; height:60px; margin-right:20px !important;border:1px solid #000 !important;}
     .small_font .customLI span{font-size:11px;}
+    .small_font .font12{font-size: 12px}
+    .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th{min-width:53px;}
+    .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td:nth-child(3){min-width:43px;}
+    .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th:nth-child(3){min-width:43px;}
+    .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th:first-child{min-width:90px;}
+    .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:53px;}
+    .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:90px;}
 }
 
   /* ---- End Small Font Css --- */

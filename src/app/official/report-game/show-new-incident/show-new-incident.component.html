@@ -1,12 +1,12 @@
 
 <div class="incidentBox">
   <form [formGroup]="editIncidentForm" (ngSubmit)="submitForm()">
-    <h3>Incident #1</h3>
+    <h3>Incident #{{incidentCount}}</h3>
     <div class="conIncidentBox">
       <p>Filed by:</p>
       <h4>{{name}}</h4>
       <p>Filed Date/Time:</p>
-       <h4>{{today | date:'short'}}</h4>
+      <h4>{{today | date:'M/d/yy h:mm a'}}</h4>
       <!-- <h4>1/5/2019 4:23 PM</h4> -->
       <p>Incident Type:</p>
       <select class="reportFacilities" formControlName="incidentType" (change)="incidentSelected()">
@@ -15,16 +15,16 @@
       <ng-container *ngIf="dependentIncidentDropdown">
         <select *ngIf="dependentIncidentDropdown.length>0" formControlName="incidentSubDropDown" class="reportFacilities"
           (change)="dependentDropDownSelected()">
-          <option style="background-color: #DCDCDC" 
+          <!-- <option style="background-color: #DCDCDC" 
           *ngIf="!editIncidentForm.valid"
-           [ngValue]="undefined" selected>Select</option>
+           [ngValue]="undefined" selected>Select</option> -->
           <option *ngFor="let item of dependentIncidentDropdown" value={{item.Item}}>{{item.Item}}</option>
         </select>
       </ng-container>
       <p>Notes:</p>
       <textarea formControlName="note" class="textareaIncident"></textarea>
       <div class="footerBtnIncident">
-        <button [disabled]="!editIncidentForm.valid" class="btn btn-success" type="submit">
+        <button [disabled]="!editIncidentForm.valid || dependentDropdownId==0" class="btn btn-success" type="submit">
           SAVE
         </button>
         &nbsp;

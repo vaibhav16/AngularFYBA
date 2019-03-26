@@ -36,6 +36,9 @@
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
             <h2 class="paidHead">{{ item.GameName }}
+                <span class="pull-right" style="text-align: right; font-weight: bold">
+                    {{item.TotalAmount}}
+                  </span>
               <div class="customSpan">
                 <span>
                   {{ item.LocationTime }}
@@ -44,8 +47,10 @@
                 <span> Game ID: {{item.GameId}}</span>
                 <span class="asCoach">as {{ item.OfficiatingPositionText }}
                   <span class="earnMore">{{ item.IncentiveText }}</span>
-                </span>
+                </span>              
+               
               </div>
+              
             </h2>
           </div>
 
@@ -79,6 +84,9 @@
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
             <h2 class="paidHead">{{ item.GameName }}
+              <span class="pull-right" style="text-align: right; font-weight: bold">
+                {{item.TotalAmount}}
+              </span>
               <div class="customSpan">
                 <span>
                   {{ item.LocationTime }}
@@ -88,6 +96,7 @@
                 <span class="asCoach">as {{ item.OfficiatingPositionText }}
                   <span class="earnMore">{{ item.IncentiveText }}</span>
                 </span>
+            
               </div>
             </h2>
           </div>
@@ -95,7 +104,7 @@
 
         <ng-template ngbPanelContent>
           <div class="matchInfo matchInfo2">
-            {{ item.OfficiatingPositionText }}
+            <!-- {{ item.OfficiatingPositionText }} -->
             <ul>
               <li>- Base Pay: {{ item.BaseAmount }}</li>
               <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
@@ -120,6 +129,9 @@
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
             <h2 class="paidHead">{{ item.GameName }}
+                <span class="pull-right" style="text-align: right; font-weight: bold">
+                    {{item.TotalAmount}}
+                  </span>
               <div class="customSpan">
                 <span>
                   {{ item.LocationTime }}
@@ -128,14 +140,14 @@
                 <span> Game ID: {{item.GameId}}</span>
                 <span class="asCoach">as {{ item.OfficiatingPositionText }}
                   <span class="earnMore">{{ item.IncentiveText }}</span>
-                </span>
-              </div>
+                </span>         
+              </div>              
             </h2>
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="matchInfo matchInfo2">
-            {{ item.OfficiatingPositionText }}
+            <!-- {{ item.OfficiatingPositionText }} -->
             <ul>
               <li>- Base Pay: {{ item.BaseAmount }}</li>
               <li *ngIf="item.OfficiatingPositionText == 'Scorekeeper'">
@@ -160,7 +172,7 @@
 
 <div *ngIf="initialFetchError" #serverError>
   <div class="noRecords">
-    <span class="spanError">Server Error.</span> Please try again later!
+    <span class="spanError">{{errorMsg}}</span> Please try again later!
   </div>
 </div>
 

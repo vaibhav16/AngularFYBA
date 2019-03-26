@@ -26,4 +26,5 @@ export class DataSharingService {
   promptChangePassword: string = null;
   name: string = null;
   email:string = null;
+  isBackButtonClicked:boolean = null;
 }
