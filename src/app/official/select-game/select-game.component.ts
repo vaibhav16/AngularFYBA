@@ -66,6 +66,10 @@ export class SelectGameComponent implements OnInit {
     });
   }
 
+  get selectGameData() {
+    return this.officialService.selectGameJson;
+  }
+
   /* - Panel Change Event Function - */
   public beforeChange($event: NgbPanelChangeEvent) {
     this.activeIds.push($event.panelId);

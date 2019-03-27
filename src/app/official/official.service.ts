@@ -19,12 +19,8 @@ import { Observable, throwError, TimeoutError } from 'rxjs';
 import { SignUpRequestedData } from './classes/selectgame/signUp_rd.model';
 import { IntialFilter } from './classes/selectgame/initialFilter.model';
 import { ReportGameData } from './classes/reportgame/reportGame.model';
-//import { APIGamePost } from './classes/reportgame/APIGamePost.model';
-//import { APIPlayerScorePost } from './classes/reportgame/APIPlayerScorePost.model';
-//import { SignUpEmail } from './classes/reportgame/signupEmail.model';
 import { Profile } from './classes/profile/profile.model';
 import { UploadProfileImage } from './classes/profile/uploadProfileImg.model';
-//import { DeleteProfileImage } from './classes/profile/deleteProfileImg.model';
 import { CookieService } from 'ngx-cookie-service';
 import { Constants } from './../constants';
 import { DataSharingService } from './../data-sharing.service';
@@ -35,38 +31,43 @@ import { DataSharingService } from './../data-sharing.service';
 export class OfficialService {
   selectGameJson: JSON = null;
   reportGameJson: JSON = null;
-  getPaidJson: JSON = null;
-  //requestStatus: number = 0;
-  //requestSuccess: boolean = false;
-  //requestFailure: boolean = false;
-  numberOfSelectGameClicks: number = 0;
-  initialData: Filter;
+  initialData = new Filter();
   dataChanged: boolean = null;
   initialJson: string;
+
+  IncidentReports: IncidentReports[] = [];
+  NewIncidents: IncidentReports[] = [];
+  ModifiedIncidents: IncidentReports[] = [];
+
+  selectedFilter = new Filter();
+  initialFilter = new IntialFilter();
+  finalFilter = new FinalFilter();
+  signUpRD = new SignUpRequestedData();
+  reportGameData = new ReportGameData();
 
   headerOptions;
   postRequestOptions;
 
-  selectedFilter: Filter = {
-    Division: '',
-    Location: '',
-    StartTime: '',
-    EndTime: '',
-    Position: '',
-    ShowSignedGames: null,
-    ShowPastGames: null
-  };
+  // selectedFilter: Filter = {
+  //   Division: '',
+  //   Location: '',
+  //   StartTime: '',
+  //   EndTime: '',
+  //   Position: '',
+  //   ShowSignedGames: null,
+  //   ShowPastGames: null
+  // };
 
-  initialFilter: IntialFilter = {
-    UserID: '',
-    SessionKey: ''
-  };
+  // initialFilter: IntialFilter = {
+  //   UserID: '',
+  //   SessionKey: ''
+  // };
 
-  finalFilter: FinalFilter = {
-    UserID: '',
-    SessionKey: '',
-    RequestedData: ''
-  };
+  // finalFilter: FinalFilter = {
+  //   UserID: '',
+  //   SessionKey: '',
+  //   RequestedData: ''
+  // };
 
   /* Select Game Definitions */
 
@@ -75,139 +76,37 @@ export class OfficialService {
   selectedLocations = [];
   selectedTimes = [];
 
-  signUpRD: SignUpRequestedData = {
-    GameIds: '',
-    GroupId: '',
-    PositionID: '',
-    OfficialSeasonId: '',
-    ForCancelSignUp: '',
-    SeasonId: '',
-    LeagueId: ''
-  };
+  // signUpRD: SignUpRequestedData = {
+  //   GameIds: '',
+  //   GroupId: '',
+  //   PositionID: '',
+  //   OfficialSeasonId: '',
+  //   ForCancelSignUp: '',
+  //   SeasonId: '',
+  //   LeagueId: ''
+  // };
 
   /* Report Game Definitions */
 
-  reportGameData: ReportGameData = {
-    SeasonId: '',
-    OfficialSeasonId: ''
-  };
-
-  // APIGamePost: APIGamePost = {
-  //   Roleid: '',
+  // reportGameData: ReportGameData = {
   //   SeasonId: '',
-  //   OfficialSeasonId: '',
-  //   OfficiatingPositionId: '',
-  //   GameId: '',
-  //   GameName: '',
-  //   GameDate: '',
-  //   Location: '',
-  //   IsHomeForfeit: null,
-  //   IsVisitorForfeit: null,
-  //   GameStartTime: '',
-  //   HomeTeam: '',
-  //   VisitingTeam: '',
-  //   HomeTeamId: '',
-  //   VisitingTeamId: '',
-  //   HomeTeamScore: '',
-  //   VisitingTeamScore: '',
-  //   Division: '',
-  //   LeagueId: '',
-  //   HomeTeamPlayerScores: [
-  //     {
-  //       GameId: '',
-  //       PlayerName: '',
-  //       PlayerSeasonalId: '',
-  //       FoulId: '',
-  //       Points: null,
-  //       PlayerNote: null,
-  //       NotPresent: null,
-  //       Rebound: '',
-  //       TeamId: '',
-  //       TeamName: ''
-  //     }
-  //   ],
-  //   VisitingTeamPlayerScores: [
-  //     {
-  //       GameId: '',
-  //       PlayerName: '',
-  //       PlayerSeasonalId: '',
-  //       FoulId: '',
-  //       Points: null,
-  //       PlayerNote: null,
-  //       NotPresent: null,
-  //       Rebound: '',
-  //       TeamId: '',
-  //       TeamName: ''
-  //     }
-  //   ],
-  //   ScoreSheetImages: [
-  //     {
-  //       ImageURL: '',
-  //       NewImageByteCode: ''
-  //     }
-  //   ],
-  //   DeletedScoreSheetImages: [
-  //     {
-  //       ImageURL: '',
-  //       NewImageByteCode: ''
-  //     }
-  //   ],
-  //   IncidentReports: [
-  //     {
-  //       GameId: null,
-  //       IncidentId: null,
-  //       IncidentType: null,
-  //       IncidentValue: null,
-  //       Notes: ''
-  //     }
-  //   ],
-  //   DeleteIncidentReport: [
-  //     {
-  //       GameId: null,
-  //       IncidentId: null,
-  //       IncidentType: null,
-  //       IncidentValue: null,
-  //       Notes: ''
-  //     }
-  //   ]
-  // };
-
-  IncidentReports: IncidentReports[] = [];
-  NewIncidents: IncidentReports[] = [];
-  ModifiedIncidents: IncidentReports[] = [];
-
-  // APIPlayerScorePost: APIPlayerScorePost = {
-  //   GameId: '',
-  //   PlayerName: '',
-  //   PlayerSeasonalId: '',
-  //   FoulId: '',
-  //   Points: null,
-  //   PlayerNote: null,
-  //   NotPresent: null,
-  //   TeamId: '',
-  //   TeamName: '',
-  //   Rebound: ''
+  //   OfficialSeasonId: ''
   // };
 
   /* Profile Section Definitions */
 
-  profileModel: Profile = {
-    LeagueId: '',
-    SeasonId: ''
-  };
+  profileModel = new Profile();
+  uploadProfileImg = new UploadProfileImage();
+  // profileModel: Profile = {
+  //   LeagueId: '',
+  //   SeasonId: ''
+  // };
 
-  uploadProfileImg: UploadProfileImage = {
-    LeagueId: '',
-    SeasonId: '',
-    Page: '',
-    FileName: ''
-  };
-
-  // deleteProfileImg: DeleteProfileImage = {
+  // uploadProfileImg: UploadProfileImage = {
   //   LeagueId: '',
   //   SeasonId: '',
-  //   FileName: '',
-  //   Page: ''
+  //   Page: '',
+  //   FileName: ''
   // };
 
   constructor(
@@ -264,18 +163,27 @@ export class OfficialService {
       });
   }
 
-  serviceError: boolean;
-  timeoutError: boolean;
-  private handleError(error: any) {
-    console.log(error);
-    if (error instanceof TimeoutError) {
-      this.timeoutError = true;
-    }
-    this.serviceError = true;
-    this.fetchSelectGames = false;
-    this.reportRequest = false;
-    console.log('A Server Error has occured!', error);
-  }
+  // postSelectGames1(): Observable<any> {
+  //   this.dss.initialFetchError = null;
+  //   this.serviceError = false;
+  //   this.fetchSelectGames = true;
+  //   this.initialFilter.SessionKey = this.dss.sessionKey;
+  //   this.initialFilter.UserID = JSON.stringify(this.dss.userId);
+  //   var body = JSON.stringify(this.initialFilter);
+  //   console.log(JSON.stringify(this.initialFilter));
+  //   var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+  //   var requestOptions = new RequestOptions({
+  //     method: RequestMethod.Post,
+  //     headers: headerOptions
+  //   });
+  //   return this.http.post(Constants.apiURL + '/api/officialgames', body, requestOptions).pipe(
+  //     timeout(60000),
+  //     map((data: Response) => {
+  //       data.json() as Observable<any>;
+  //     }),
+  //     catchError(this.handleError1)
+  //   );
+  // }
 
   /* - Used to refresh the Data in Select Games after some change - */
   refershSelectGameData(obj: Filter): any {
@@ -592,6 +500,31 @@ export class OfficialService {
       });
   }
 
+  // getReportData1(): Observable<any> {
+  //   this.dss.initialFetchError = null;
+  //   this.serviceError = false;
+  //   this.reportRequest = true;
+  //   this.reportGameData.SeasonId = this.dss.seasonId;
+  //   this.reportGameData.OfficialSeasonId = this.dss.officialSeasonId;
+  //   this.finalFilter.RequestedData = JSON.stringify(this.reportGameData);
+
+  //   this.finalFilter.SessionKey = this.dss.sessionKey;
+  //   this.finalFilter.UserID = this.dss.userId.toString();
+  //   var body = JSON.stringify(this.finalFilter);
+
+  //   var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+  //   var requestOptions = new RequestOptions({
+  //     method: RequestMethod.Post,
+  //     headers: headerOptions
+  //   });
+
+  //   return this.http.post(Constants.apiURL + '/api/loadreportgames', body, requestOptions).pipe(
+  //     timeout(60000),
+  //     map((res) => <any>res.json()),
+  //     catchError(this.handleError1)
+  //   );
+  // }
+
   /* - This function is used to post the entire gameList model to the API.
   It comes into play when the ScoreKeeper make any changes to the player scores in a specific game. 
   An updated model with all the scores is sent to the database and the records are updated. - */
@@ -675,16 +608,6 @@ export class OfficialService {
     );
   }
 
-  private handleError1(error: HttpErrorResponse) {
-    // TODO: seems we cannot use messageService from here...
-    let errMsg = error.message ? error.message : 'Server error';
-    console.error(errMsg);
-    if (error.status === 401) {
-      window.location.href = '/';
-    }
-    return throwError(errMsg);
-  }
-
   /**************************/
   /* - Profile Section - */
   /************************/
@@ -707,15 +630,6 @@ export class OfficialService {
         catchError(this.handleError1)
       );
   }
-
-  tempModel = {
-    UserID: '',
-    SessionKey: '',
-    SeasonId: '',
-    LeagueId: '',
-    Files: [],
-    Page: ''
-  };
 
   uploadProfileImage(newImgByteCode: string): Observable<any> {
     this.uploadProfileImg.SeasonId = this.dss.seasonId;
@@ -765,13 +679,6 @@ export class OfficialService {
     );
   }
 
-  // isNullorUndefined(x: any) {
-  //   if (x == null || x == undefined) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   public getPdfUrl(url: string): any {
     return this.http.get(url);
   }
@@ -819,5 +726,31 @@ export class OfficialService {
           return res;
         })
       );
+  }
+
+  /**************************/
+  /* - Error Handling - */
+  /************************/
+  private handleError1(error: HttpErrorResponse) {
+    // TODO: seems we cannot use messageService from here...
+    let errMsg = error.message ? error.message : 'Server error';
+    console.error(errMsg);
+    if (error.status === 401) {
+      window.location.href = '/';
+    }
+    return throwError(errMsg);
+  }
+
+  serviceError: boolean;
+  timeoutError: boolean;
+  private handleError(error: any) {
+    console.log(error);
+    if (error instanceof TimeoutError) {
+      this.timeoutError = true;
+    }
+    this.serviceError = true;
+    this.fetchSelectGames = false;
+    this.reportRequest = false;
+    console.log('A Server Error has occured!', error);
   }
 }

@@ -1,44 +1,14 @@
-import {
-  Component,
-  TemplateRef,
-  ElementRef,
-  Renderer2,
-  ViewChild,
-  AfterViewInit,
-  ChangeDetectionStrategy
-} from '@angular/core';
-import { saveAs } from 'file-saver';
-import { map, switchMap, tap, mergeMap, catchError } from 'rxjs/operators';
+import { Component, Renderer2 } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
-import { NgbAccordionConfig, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { OfficialService } from '../official.service';
-import { FormBuilder, FormGroup, FormArray, NgForm } from '@angular/forms';
-import { APIGamePost } from '../classes/reportgame/APIGamePost.model';
-import { ScoreSheetImages } from '../classes/reportgame/ScoreSheet.model';
-import { DeletedScoreSheetImages } from '../classes/reportgame/DeletedScoreSheetImages';
-import { APIPlayerScorePost } from '../classes/reportgame/APIPlayerScorePost.model';
-import { DeleteIncidentReport } from './../classes/reportgame/APIGamePost.model';
-import { Http } from '@angular/http';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { ScoreSheetImages2 } from './../classes/reportgame/ScoreSheet2.model';
-import { DeletedScoreSheet2 } from './../classes/reportgame/DeletedScoreSheet2.model';
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
-import * as $ from 'jquery';
 import { DataSharingService } from 'src/app/data-sharing.service';
-import { NewIncidentComponent } from './new-incident/new-incident.component';
-import { ShowIncidentComponent } from './show-incident/show-incident.component';
-import { ValidationModalComponent } from './validation-modal/validation-modal.component';
-import { SuccessPopupComponent } from './success-popup/success-popup.component';
-import { ShowNewIncidentComponent } from './show-new-incident/show-new-incident.component';
 import { SavedataPopupComponent } from './savedata-popup/savedata-popup.component';
-import { DomSanitizer } from '@angular/platform-browser';
-import { EventEmitter } from 'protractor';
-//import { file } from '@rxweb/reactive-form-validators';
-//import {Message} from 'primeng/api';
-//import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-report-game',
@@ -51,16 +21,10 @@ export class ReportGameComponent {
     public router: Router,
     public officialService: OfficialService,
     public renderer: Renderer2,
-    //private messageService: MessageService,
-    // private _lightbox: Lightbox,
-    public fb: FormBuilder,
-    public elRef: ElementRef,
-    public http: Http,
     public config: NgbAccordionConfig,
     private modalService: BsModalService,
     public dss: DataSharingService,
-    public notifierService: NotifierService,
-    private _sanitizer: DomSanitizer
+    public notifierService: NotifierService
   ) {
     this.notifier = notifierService;
     config.type = 'info';
@@ -76,9 +40,17 @@ export class ReportGameComponent {
 
   ngAfterViewInit() {}
 
+  get reportGameData() {
+    return this.officialService.reportGameJson;
+  }
+
+  set reportGameData(value) {
+    this.officialService.reportGameJson = value;
+  }
+
   async asyncReport() {
     await this.officialService.getReportData().then(() => {
-      this.officialService.initialJson = JSON.stringify(this.officialService.reportGameJson);
+      this.officialService.initialJson = JSON.stringify(this.reportGameData);
 
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
@@ -111,52 +83,16 @@ export class ReportGameComponent {
 
       newPanelModal.content.saveStatus.subscribe(($e) => {
         console.log('Should it be saved?' + $e);
-        console.log(this.officialService.reportGameJson['Value']);
+        console.log(this.reportGameData['Value']);
         if ($e == false) {
           console.log('Should it be saved?' + $e);
           this.officialService.IncidentReports = [];
           this.officialService.NewIncidents = [];
           this.officialService.ModifiedIncidents = [];
           this.officialService.dataChanged = false;
-          this.officialService.reportGameJson = JSON.parse(this.officialService.initialJson);
+          this.reportGameData = JSON.parse(this.officialService.initialJson);
         }
       });
     }
   }
-
-  //downloadRequest: boolean = false;
-  // async downloadScoresheet(url: string) {
-  //   this.downloadRequest = true;
-  //   console.log(url);
-
-  //   console.log(this.downloadRequest);
-  //   await this.downloadUrl(url);
-  //   console.log(this.downloadRequest);
-  //   ////////////////////////////////////////
-  // }
-
-  // this.officialService.downloadPdfReportGames(url)
-  //   .subscribe((data) => {
-  //     console.log(data);
-  //     const contentDisposition = data.headers.get('content-disposition') || '';
-  //     const matches = /filename=([^;]+)/ig.exec(contentDisposition);
-  //     var fileName = ((matches[1] || 'untitled').trim()).replace('.pdf','');
-  //     //fileName.replace('.pdf','');
-  //     //const finalName = fileName.substring(fileName.indexOf('.pdf')+1)
-  //     console.log(fileName);
-  //     const blob = new Blob([data.blob()], { type: 'application/pdf' });
-  //     console.log(blob);
-  //     saveAs(blob, fileName);
-  //   },
-  //     (err) => {
-  //       this.downloadRequest=false;
-  //       console.log(err);
-  //       this.modalRef = this.modalService.show(ErrorModalComponent);
-  //       this.modalRef.content.closeBtnName = 'Close';
-  //     },
-  //     () => {
-  //        this.downloadRequest=false;
-  //       //console.log("done");
-  //     }
-  //   );
 }

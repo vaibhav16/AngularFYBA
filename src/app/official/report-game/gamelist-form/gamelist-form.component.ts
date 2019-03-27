@@ -16,7 +16,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { APIPlayerScorePost } from '../../classes/reportgame/APIPlayerScorePost.model';
 import { IncidentReports } from './../../classes/reportgame/Incident.model';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {} from './../../../official/official.component';
 import { NewIncidentComponent } from './../new-incident/new-incident.component';
 import { ShowIncidentComponent } from './../show-incident/show-incident.component';
 import { ShowNewIncidentComponent } from './../show-new-incident/show-new-incident.component';
@@ -90,6 +89,10 @@ export class GamelistFormComponent implements OnInit {
 
   ngAfterViewChecked() {
     //console.log(this.form);
+  }
+
+  get reportGameData() {
+    return this.officialService.reportGameJson;
   }
 
   ngAfterViewInit() {
@@ -1088,7 +1091,7 @@ export class GamelistFormComponent implements OnInit {
   }
 
   showModal() {
-    this.officialService.initialJson = JSON.stringify(this.officialService.reportGameJson);
+    this.officialService.initialJson = JSON.stringify(this.reportGameData);
 
     const initialState = {
       status: this.officialService.postReportStatus,
@@ -1103,8 +1106,8 @@ export class GamelistFormComponent implements OnInit {
     this.bsModalRef.content.click.subscribe(($e) => {
       if ($e) {
         console.log(this.gameIndex);
-        console.log(this.officialService.reportGameJson['Value'].GameList[this.gameIndex]);
-        this.gameData = this.officialService.reportGameJson['Value'].GameList[this.gameIndex];
+        console.log(this.reportGameData['Value'].GameList[this.gameIndex]);
+        this.gameData = this.reportGameData['Value'].GameList[this.gameIndex];
         this.homePON = this.gameData.TotalHomePON;
         this.visitingPON = this.gameData.TotalVisitingPON;
         this.incidentCount = this.gameData.IncidentReports.length;

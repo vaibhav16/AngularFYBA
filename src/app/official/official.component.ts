@@ -1,18 +1,16 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { OfficialService } from "./official.service";
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { OfficialService } from './official.service';
 import { DataSharingService } from './../data-sharing.service';
-import { Router } from "@angular/router";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 //import * as $ from "jquery";
 
 @Component({
-  selector: "app-official",
-  templateUrl: "./official.component.html",
-  styleUrls: ["./official.component.css"]
+  selector: 'app-official',
+  templateUrl: './official.component.html',
+  styleUrls: ['./official.component.css']
 })
 export class OfficialComponent implements OnInit {
-  //selectedClass:string;
-  selectGameJson: JSON;
   isSelectGameActive: boolean = false;
   headerImg: string;
   bsModalRef: BsModalRef;
@@ -22,16 +20,14 @@ export class OfficialComponent implements OnInit {
     private modalService: BsModalService,
     public officialService: OfficialService,
     public dss: DataSharingService
-  ) {
-    //this.selectGameJson = this.officialService.getSelectGames();
-  }
+  ) {}
 
   ngOnInit() {
     /*if(!this.loginService.sessionKey){
       this._router.navigate(['login']);
     }*/
     this.isSelectGameActive = true;
-    this.headerImg = "official_header_img";
+    this.headerImg = 'official_header_img';
   }
 
   ngAfterViewInit() {
@@ -51,36 +47,29 @@ export class OfficialComponent implements OnInit {
   }
 
   toggleSelectClass() {
-    if (this.isSelectGameActive == true)
-      this.isSelectGameActive = !this.isSelectGameActive;
+    if (this.isSelectGameActive == true) this.isSelectGameActive = !this.isSelectGameActive;
   }
 }
 
 /* This is a component which we pass in modal*/
 
 @Component({
-  selector: "modal-content",
+  selector: 'modal-content',
   template: `
-  <div class="modal-header" style="background-color:red">
-  <h4 style="color:white" class="modal-title pull-left">{{ title }}</h4>
-     <button type="button" class="close pull-right" 
-
-  aria-label="Close" (click)="bsModalRef.hide()">
-
-    <span aria-hidden="true">&times;</span>
-
-  </button>
-</div>
-<div class="modal-body">Please change your password!</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="changePw()">
-    OK
-  </button>
-</div>
+    <div class="modal-header" style="background-color:red">
+      <h4 style="color:white" class="modal-title pull-left">{{ title }}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">Please change your password!</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="changePw()">OK</button>
+    </div>
   `
 })
 export class ModalContentComponent implements OnInit {
-  title: string = "Password Change Required";
+  title: string = 'Password Change Required';
   closeBtnName: string;
 
   constructor(public bsModalRef: BsModalRef, private _router: Router) {}
@@ -88,7 +77,7 @@ export class ModalContentComponent implements OnInit {
   ngOnInit() {}
 
   changePw() {
-    this._router.navigate(["changepassword"]);
+    this._router.navigate(['changepassword']);
     this.bsModalRef.hide();
   }
 }
