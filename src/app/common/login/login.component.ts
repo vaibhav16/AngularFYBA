@@ -46,7 +46,11 @@ export class LoginComponent implements OnInit {
     if (newVariable.standalone) this.iosStandalone = true;
 
     if (this.loginService.cookieService.check("sessionKey")) {
-      this.router.navigate(["official"]);
+     if(this.dss.isOfficial)
+     this.router.navigate(["player"]);
+
+     else if(this.dss.isPlayer)
+     this.router.navigate(["player"]);
     }
 
     //this.loginService.isLoggedIn=false;
@@ -103,7 +107,32 @@ export class LoginComponent implements OnInit {
       () => {
         this.loginRequest = false;
         if (this.userData.Status) {
-          this.router.navigate(["official"]);
+
+          if(this.userData.Value.OfficialIsOfficial){
+            this.router.navigate(["official"]);
+            this.cookieService.set(
+              "isOfficial","true" ,
+              365
+            );
+          }
+
+          if(this.userData.Value.CoachIsCoach){
+            
+            this.cookieService.set(
+              "isCoach","true" ,
+              365
+            );
+          }
+
+          if(this.userData.Value.PlayerIsPlayer){
+            this.router.navigate(["player"]);
+            this.cookieService.set(
+              "isPlayer","true" ,
+              365
+            );
+          }
+
+         
           this.cookieService.set("sessionKey", this.userData.SessionKey);
           this.cookieService.set(
             "userId",
@@ -146,6 +175,11 @@ export class LoginComponent implements OnInit {
             365
           );
 
+          
+
+
+         
+
           this.cookieService.set("email", this.userData.Value.Email, 365);
           //this.cookieService.set("name", this.userData.Value.FirstName + " " + this.userData.Value.LastName, 365);
           this.dss.textSize = this.userData.Value.Text_Size;
@@ -172,6 +206,9 @@ export class LoginComponent implements OnInit {
           this.dss.textSize = this.userData.Value.Text_Size;
           this.dss.promptChangePassword = this.userData.Value.PromptChangePassword;
           this.dss.name = this.userData.Value.FirstName + " " + this.userData.Value.LastName;
+          this.dss.isCoach = this.userData.Value.CoachIsCoach;
+          this.dss.isPlayer = this.userData.Value.PlayerIsPlayer;
+          this.dss.isOfficial = this.userData.Value.OfficialIsOfficial
 
         }
       }

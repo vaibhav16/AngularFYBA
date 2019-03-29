@@ -26,4 +26,7 @@ export class DataSharingService {
   email: string = null;
   isBackButtonClicked: boolean = null;
   currentRoute: string = null;
+  isCoach:boolean = null;
+  isOfficial:boolean = null;
+  isPlayer:boolean = null;
 }
