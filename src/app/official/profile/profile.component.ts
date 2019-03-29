@@ -6,6 +6,7 @@ import { ErrorModalComponent } from './../../common/error-modal/error-modal.comp
 import { IProfileSection } from './../classes/profile/IProfile.model';
 import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../data-sharing.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +27,8 @@ export class ProfileComponent implements OnInit {
     private modalService: BsModalService,
     public renderer: Renderer2,
     private cookieService: CookieService,
-    public dss: DataSharingService
+    public dss: DataSharingService,
+    public router: Router
   ) {}
 
   ngOnInit() {

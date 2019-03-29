@@ -7,7 +7,6 @@ ul.parentPlayer{
     padding: 0px 0;
     margin: 0px;
 }
-
 ul.parentPlayer li {
     float: left;
     display: inline-block;
@@ -15,11 +14,16 @@ ul.parentPlayer li {
     padding: 10px 7px;
     cursor: pointer;
     margin-left: 0px;
+    width: 33.33%;
+    max-width: 100px;
+    min-height: 100px;
+    
 }
 
 ul.parentPlayer li span {
     display: block;
     padding-top: 5px;
+    font-size:15px;
 }
 
 ul.parentPlayer li.active {
@@ -27,3 +31,15 @@ ul.parentPlayer li.active {
     border-radius: 10px 10px;
     border-top: 2px solid #1e31ae;
 }
+
+
+@media only screen and (max-width : 767px) {
+ul.parentPlayer li span {
+    font-size: 12px;
+}
+
+ul.parentPlayer li {
+    min-height: 68px;
+}
+}
+

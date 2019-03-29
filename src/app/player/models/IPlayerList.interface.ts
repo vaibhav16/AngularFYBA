@@ -9,5 +9,5 @@ export interface PlayerList {
   PlayerId: number;
   PlayerFirstName: string;
   PlayerLastName: string;
-  PlayerImage: string;
+  PlayerPhoto: string;
 }

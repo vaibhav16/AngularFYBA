@@ -26,6 +26,7 @@ export class OfficialComponent implements OnInit {
     /*if(!this.loginService.sessionKey){
       this._router.navigate(['login']);
     }*/
+    this.dss.currentRoute = 'official';
     this.isSelectGameActive = true;
     this.headerImg = 'official_header_img';
   }

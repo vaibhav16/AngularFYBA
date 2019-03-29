@@ -144,7 +144,9 @@
   <div class="container official_header_img_paddNone">
     <div class="row">
       <div class="col-md-12 text-center">
-        <div #imageClass><span class="header_img_text">Officials</span></div>
+        <div #imageClass><span *ngIf="dss.currentRoute=='official'" class="header_img_text">Officials</span></div>
+        <div #imageClass><span *ngIf="dss.currentRoute=='player'" class="header_img_text" >Players</span></div>
+        <div #imageClass><span *ngIf="dss.currentRoute=='coach'" class="header_img_text" >Coaches</span></div>
       </div>
     </div>
   </div>

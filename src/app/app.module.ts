@@ -48,6 +48,8 @@ import { SavedataPopupComponent } from './official/report-game/savedata-popup/sa
 import { interval } from 'rxjs';
 import { ReportFormComponent } from './official/report-game/report-form/report-form.component';
 import { GamelistFormComponent } from './official/report-game/gamelist-form/gamelist-form.component';
+import { PlayerDataComponent } from './player/player-data/player-data.component';
+import { PlayerTabComponent } from './player/player-tab/player-tab.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import { GamelistFormComponent } from './official/report-game/gamelist-form/game
     SavedataPopupComponent,
     StringSplit,
     ReportFormComponent,
-    GamelistFormComponent
+    GamelistFormComponent,
+    PlayerDataComponent,
+    PlayerTabComponent
   ],
   imports: [
     HttpModule,

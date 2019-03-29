@@ -1094,14 +1094,14 @@ div {
   .customModalWidth75{
     width:90%
   }
+  
 
   /*--------- END --------*/
 
 
    /* ---- Start Small Font Css --- */
 
-  @media only screen and (max-width : 991px) {
-    
+  @media only screen and (max-width : 991px) {    
     .small_font .header_img_text{font-size:26px;}
     .small_font .card .btn-link{font-size:14px;}
     .small_font .card-body .btn-success{font-size:14px;padding: 5px 10px; margin-left:0px;}
@@ -1147,6 +1147,11 @@ div {
     .small_font table.leftTable > tbody > tr > th:nth-child(2) tr th:first-child{min-width:90px;}
     .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td{min-width:53px;}
     .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:90px;}
+    .small_font ul.parentPlayer li span { font-size: 14px !important;}
 }
 
   /* ---- End Small Font Css --- */
+
+  @media only screen and (max-width : 767px) {
+    .small_font ul.parentPlayer li span { font-size: 11px !important;}
+    }
