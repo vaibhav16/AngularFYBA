@@ -42,20 +42,25 @@ export class PlayerComponent implements OnInit {
   ngOnInit() {
     this.getPlayerData();
     this.dss.currentRoute = 'player';
-    this.playerData = this.playerLists[0];
   }
 
   getPlayerData() {
     this.playerService.getPlayerData().subscribe((res) => {
-      //console.log(res);
       this.playerSection = JSON.parse(res['_body']);
+
+      console.log(this.playerSection);
+      if (this.playerLists != null) this.playerData = this.playerLists[0];
       this.dataRequest = false;
       console.log(this.playerLists);
+      console.log(this.playerData);
     });
   }
 
   get playerLists() {
     return this.playerSection.Value[0]['playerList'];
+    // if (this.playerSection.Value[0]['playerList'].length > 0)
+    //   return this.playerSection.Value[0]['playerList'];
+    // else return null;
   }
 
   playerData: JSON;

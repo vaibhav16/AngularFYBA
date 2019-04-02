@@ -1,27 +1,27 @@
-import { Component, TemplateRef, OnInit, ViewChild } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { LoginService } from "../services/login.service";
-import { Login } from "./../models/login.model";
-import { Router } from "@angular/router";
-import { FybaloaderComponent } from "./../fybaloader/fybaloader.component";
-import { BsModalService } from "ngx-bootstrap/modal";
-import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
+import { Component, TemplateRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { LoginService } from '../services/login.service';
+import { Login } from './../models/login.model';
+import { Router } from '@angular/router';
+import { FybaloaderComponent } from './../fybaloader/fybaloader.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { IUserData } from './../models/IUser.model';
-import { CookieService } from "ngx-cookie-service";
+import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../data-sharing.service';
 
-const { detect } = require("detect-browser");
+const { detect } = require('detect-browser');
 const browser = detect();
 declare var require: any;
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   @ViewChild(FybaloaderComponent) loader;
-  browser = require("detect-browser");
+  browser = require('detect-browser');
   userData: IUserData;
   browserName;
   iosStandalone;
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private modalService: BsModalService,
     public cookieService: CookieService,
     public dss: DataSharingService
-  ) { }
+  ) {}
 
   modalRef: BsModalRef;
 
@@ -45,12 +45,9 @@ export class LoginComponent implements OnInit {
     //this.iosStandalone = window.navigator.standalone;
     if (newVariable.standalone) this.iosStandalone = true;
 
-    if (this.loginService.cookieService.check("sessionKey")) {
-     if(this.dss.isOfficial)
-     this.router.navigate(["player"]);
-
-     else if(this.dss.isPlayer)
-     this.router.navigate(["player"]);
+    if (this.loginService.cookieService.check('sessionKey')) {
+      if (this.dss.isOfficial) this.router.navigate(['player']);
+      else if (this.dss.isPlayer) this.router.navigate(['player']);
     }
 
     //this.loginService.isLoggedIn=false;
@@ -107,80 +104,39 @@ export class LoginComponent implements OnInit {
       () => {
         this.loginRequest = false;
         if (this.userData.Status) {
-
-          if(this.userData.Value.OfficialIsOfficial){
-            this.router.navigate(["official"]);
-            this.cookieService.set(
-              "isOfficial","true" ,
-              365
-            );
+          if (this.userData.Value.OfficialIsOfficial) {
+            this.router.navigate(['official']);
+            this.cookieService.set('isOfficial', 'true', 365);
           }
 
-          if(this.userData.Value.CoachIsCoach){
-            
-            this.cookieService.set(
-              "isCoach","true" ,
-              365
-            );
+          if (this.userData.Value.CoachIsCoach) {
+            this.cookieService.set('isCoach', 'true', 365);
           }
 
-          if(this.userData.Value.PlayerIsPlayer){
-            this.router.navigate(["player"]);
-            this.cookieService.set(
-              "isPlayer","true" ,
-              365
-            );
+          if (this.userData.Value.PlayerIsPlayer) {
+            this.router.navigate(['player']);
+            this.cookieService.set('isPlayer', 'true', 365);
           }
 
-         
-          this.cookieService.set("sessionKey", this.userData.SessionKey);
+          this.cookieService.set('sessionKey', this.userData.SessionKey);
+          this.cookieService.set('userId', this.userData.Value.UserId.toString(), 365);
+          this.cookieService.set('officialSeasonId', this.userData.Value.OfficialSeasonalId, 365);
+          this.cookieService.set('seasonId', this.userData.Value.SeasonId.toString(), 365);
+          this.cookieService.set('roleId', this.userData.Value.RoleId.toString(), 365);
+          this.cookieService.set('leagueId', this.userData.Value.LeagueId.toString(), 365);
           this.cookieService.set(
-            "userId",
-            this.userData.Value.UserId.toString(),
-            365
-          );
-          this.cookieService.set(
-            "officialSeasonId",
-            this.userData.Value.OfficialSeasonalId,
-            365
-          );
-          this.cookieService.set(
-            "seasonId",
-            this.userData.Value.SeasonId.toString(),
-            365
-          );
-          this.cookieService.set(
-            "roleId",
-            this.userData.Value.RoleId.toString(),
-            365
-          );
-          this.cookieService.set(
-            "leagueId",
-            this.userData.Value.LeagueId.toString(),
-            365
-          );
-          this.cookieService.set(
-            "reportTagLabel",
+            'reportTagLabel',
             this.userData.Value.tagsLables.ReportCount.toString(),
             365
           );
+          this.cookieService.set('textSize', this.userData.Value.Text_Size, 365);
           this.cookieService.set(
-            "textSize",
-            this.userData.Value.Text_Size,
-            365
-          );
-          this.cookieService.set(
-            "name",
+            'name',
             this.userData.Value.FirstName + this.userData.Value.LastName,
             365
           );
 
-          
-
-
-         
-
-          this.cookieService.set("email", this.userData.Value.Email, 365);
+          this.cookieService.set('email', this.userData.Value.Email, 365);
           //this.cookieService.set("name", this.userData.Value.FirstName + " " + this.userData.Value.LastName, 365);
           this.dss.textSize = this.userData.Value.Text_Size;
           //console.log
@@ -188,14 +144,10 @@ export class LoginComponent implements OnInit {
             this.userData.Value.RoundThumbnail != null &&
             this.userData.Value.RoundThumbnail.length > 0
           ) {
-            this.cookieService.set(
-              "roundThumbnail",
-              this.userData.Value.RoundThumbnail,
-              365
-            );
+            this.cookieService.set('roundThumbnail', this.userData.Value.RoundThumbnail, 365);
           }
 
-          this.dss.userId = this.userData.Value.UserId;          
+          this.dss.userId = this.userData.Value.UserId;
           this.dss.officialSeasonId = this.userData.Value.OfficialSeasonalId;
           //console.log(this.officialSeasonId);
           this.dss.seasonId = this.userData.Value.SeasonId.toString();
@@ -205,14 +157,13 @@ export class LoginComponent implements OnInit {
           this.dss.email = this.userData.Value.Email;
           this.dss.textSize = this.userData.Value.Text_Size;
           this.dss.promptChangePassword = this.userData.Value.PromptChangePassword;
-          this.dss.name = this.userData.Value.FirstName + " " + this.userData.Value.LastName;
+          this.dss.name = this.userData.Value.FirstName + ' ' + this.userData.Value.LastName;
           this.dss.isCoach = this.userData.Value.CoachIsCoach;
           this.dss.isPlayer = this.userData.Value.PlayerIsPlayer;
-          this.dss.isOfficial = this.userData.Value.OfficialIsOfficial
-
+          this.dss.isOfficial = this.userData.Value.OfficialIsOfficial;
         }
       }
-    )
+    );
   }
 
   closeErrorModal() {

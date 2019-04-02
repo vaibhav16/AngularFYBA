@@ -6,9 +6,11 @@
     <div class="row official_header_img_paddNone">
       <div class="col-lg-12 col-md-12">
         <ul class="parentPlayer">
-          <li *ngFor="let player of playerLists" (click)="filterPlayer(player.PlayerId)" >
-            <img style="height:50px; width:50px" src={{player.PlayerPhoto}} />
-            <span>{{player.PlayerFirstName}} {{player.PlayerLastName}} </span>
+          <li *ngFor="let player of playerLists" (click)="filterPlayer(player.PlayerId)">
+            <img style="height:30px; width:30px" src={{player.PlayerPhoto}} />
+            <span>{{player.PlayerFirstName}}
+              <br class="breakWord" />
+              {{player.PlayerLastName}} </span>
           </li>
 
           <!-- <player-tab [tabTitle]="'Title 1'">
@@ -51,18 +53,18 @@
       <div class="col-lg-12">
         <ul class="game_select">
           <li class="tab-link current active" data-tab="tab3-1">
-            <img [src]="calender_icon" alt="Calender" /><span>Calender</span>
+            <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
           </li>
           <li class="tab-link" data-tab="tab3-2">
-            <img [src]="team_icon" alt="Team" /><span class="wordLimit">Team <span
+            <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team <span
                 class="spaceBorder">Info</span></span>
           </li>
           <li class="tab-link" data-tab="tab3-3">
-            <img [src]="share_icon" alt="Share Icon" /><span>Share <span class="spaceBorder">&nbsp;</span></span>
+            <img src="assets/images/share_icon.png" alt="Share Icon" /><span>Share <span class="spaceBorder">&nbsp;</span></span>
           </li>
           <!----li class="tab-link" data-tab="tab3-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
           <li class="tab-link" data-tab="tab3-5">
-            <img [src]="officiating" alt="Profile" /><span>Profile <span class="spaceBorder">&nbsp;</span></span>
+            <img src="assets/images/officiating.png" alt="Profile" /><span>Profile <span class="spaceBorder">&nbsp;</span></span>
           </li>
         </ul>
       </div>
