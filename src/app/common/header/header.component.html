@@ -115,7 +115,7 @@
 
   <div class="clearfix"></div>
 
-  <ul class="tab_main tabsMain">
+  <ul class="tab_main tabsMain" *ngIf="dss.isOfficial && dss.isPlayer">
     <li class="tab-link" data-tab="tabMain-1" routerLink="/player" routerLinkActive="active">
       <div class="bg_img_style player_img"></div><span>PLAYER</span>
     </li>
