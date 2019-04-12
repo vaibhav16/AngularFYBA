@@ -7,7 +7,7 @@ import {
   RequestMethod,
   ResponseContentType
 } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable, ObservableLike } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Constants } from './../constants';
 import { GetPlayer } from './models/getPlayer.model';
@@ -39,5 +39,19 @@ export class PlayerService {
     var body = JSON.stringify(getPlayerModel);
     console.log(body);
     return this.http.post(Constants.apiURL + '/api/Player', body, this.postRequestOptions);
+  }
+
+  getPlayerProfile():Observable<any>{
+    var getPlayerModel = new GetPlayer();
+    getPlayerModel.UserID = this.dss.userId;
+    getPlayerModel.SessionKey = this.dss.sessionKey;
+    getPlayerModel.RequestedData = JSON.stringify({
+      LeagueId: this.dss.leagueId,
+      SeasonId: this.dss.seasonId
+    });
+    var body = JSON.stringify(getPlayerModel);
+    console.log(body);
+    return this.http.post(Constants.apiURL + '/api/PlayerDetails', body, this.postRequestOptions)
+
   }
 }

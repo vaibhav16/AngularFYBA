@@ -1,0 +1,9 @@
+ul.inputCheck{
+    list-style: none;
+    margin:0px;
+    padding:0px;
+}
+ul.inputCheck li{
+    display:block;
+}
+.data_module input[type="text"]{width:100%;}
