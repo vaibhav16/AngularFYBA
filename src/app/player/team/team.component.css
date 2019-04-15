@@ -1,5 +1,11 @@
 div.container {
-    display: flex;
-    justify-content: center;
-    width:85%;
-  }
+  display: flex;
+  justify-content: center;
+  width:85%;
+}
+
+table.teamInfoPage{width:100%;}
+table.teamInfoPage tr td, table.teamInfoPage tr th{padding:2px;vertical-align: middle; border:1px solid #dddddd; font-size:12px;} 
+.borderNone{border:0px !important;}
+span.nameInfo{display:block;margin-top:3px;}
+

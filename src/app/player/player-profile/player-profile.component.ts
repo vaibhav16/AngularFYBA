@@ -15,12 +15,16 @@ export class PlayerProfileComponent implements OnInit {
 
   }
 
-  get personalInfo(){
-    return this.profileSection.Value.playerPersonalInfo
+  get parentInfo(){
+    return this.profileSection.Value.parentInfo;
   }
 
   get registrationStatus(){
-    return this.profileSection.Value.registrationStatus
+    return this.profileSection.Value.registrationStatus;
+  }
+
+  get apparel(){
+    return this.profileSection.Value.apparel;
   }
 
   ngOnInit() {
