@@ -30,19 +30,21 @@
             <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
           </li>
           <li class="tab-link" data-tab="tab3-2">
-            <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team <span
-                class="spaceBorder">Info</span></span>
+            <a routerLink="/player/team" routerLinkActive="active">
+              <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team 
+                  <br class="breakAll" />Info</span>
+            </a>
           </li>
           <li class="tab-link" data-tab="tab3-3">
             <img src="assets/images/share_icon.png" alt="Share Icon" /><span>Share <span
                 class="spaceBorder">&nbsp;</span></span>
           </li>
           <!----li class="tab-link" data-tab="tab3-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
-          <li class="tab-link" data-tab="tab3-5" >
+          <li class="tab-link" data-tab="tab3-5">
             <a routerLink="/player/profile" routerLinkActive="active">
-            <img src="assets/images/officiating.png" alt="Profile" />
-            <span>Profile <span class="spaceBorder">&nbsp;</span></span>
-          </a>
+              <img src="assets/images/officiating.png" alt="Profile" />
+              <span>Profile <span class="spaceBorder">&nbsp;</span></span>
+            </a>
           </li>
         </ul>
       </div>

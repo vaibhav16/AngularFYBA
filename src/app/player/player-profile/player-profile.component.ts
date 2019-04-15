@@ -9,10 +9,18 @@ import { PlayerService } from './../player.service';
 export class PlayerProfileComponent implements OnInit {
 
   fetchingData:boolean;
-  playerData;
+  profileSection=null;
 
   constructor(public playerService: PlayerService) { 
 
+  }
+
+  get personalInfo(){
+    return this.profileSection.Value.playerPersonalInfo
+  }
+
+  get registrationStatus(){
+    return this.profileSection.Value.registrationStatus
   }
 
   ngOnInit() {
@@ -20,8 +28,9 @@ export class PlayerProfileComponent implements OnInit {
     this.playerService.getPlayerProfile()
     .subscribe(
       (res)=>{
-        console.log(res);
-        this.playerData=res;
+        console.log(res);        
+        this.profileSection=JSON.parse(res["_body"]);
+        console.log(this.profileSection);
         this.fetchingData=false;
       }
     )

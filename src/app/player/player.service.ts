@@ -46,6 +46,7 @@ export class PlayerService {
     getPlayerModel.UserID = this.dss.userId;
     getPlayerModel.SessionKey = this.dss.sessionKey;
     getPlayerModel.RequestedData = JSON.stringify({
+      PlayerId: 7167,
       LeagueId: this.dss.leagueId,
       SeasonId: this.dss.seasonId
     });
