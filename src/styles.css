@@ -1150,6 +1150,7 @@ div {
     .small_font table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:90px;}
     .small_font ul.parentPlayer li span { font-size: 14px !important;}
     .small_font table.teamInfoPage tr td{font-size:11px !important;}
+    .small_font .fontSize12 .col-md-4, .small_font .fontSize12 .col-md-8{font-size:11px !important;}
 }
 
   /* ---- End Small Font Css --- */
