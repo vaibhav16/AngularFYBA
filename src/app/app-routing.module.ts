@@ -15,6 +15,8 @@ import { PlayerDataComponent } from '././player/player-data/player-data.componen
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 import { LogoutComponent } from './common/logout/logout.component';
 import { ChangepasswordComponent } from './common/changepassword/changepassword.component';
+import {  PlayerProfileComponent } from './player/player-profile/player-profile.component';
+import { TeamComponent } from './player/team/team.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -48,7 +50,17 @@ const routes: Routes = [
       {
         path: 'playerdata',
         component: PlayerDataComponent
+      },
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      {
+        path: 'profile',
+        component: PlayerProfileComponent
+      },
+      {
+        path: 'team',
+        component: TeamComponent
       }
+      
     ]
   },
   { path: 'fybaloader', component: FybaloaderComponent },

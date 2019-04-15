@@ -49,7 +49,8 @@ import { interval } from 'rxjs';
 import { ReportFormComponent } from './official/report-game/report-form/report-form.component';
 import { GamelistFormComponent } from './official/report-game/gamelist-form/gamelist-form.component';
 import { PlayerDataComponent } from './player/player-data/player-data.component';
-import { PlayerTabComponent } from './player/player-tab/player-tab.component';
+import { PlayerProfileComponent } from './player/player-profile/player-profile.component';
+import { TeamComponent } from './player/team/team.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { PlayerTabComponent } from './player/player-tab/player-tab.component';
     ReportFormComponent,
     GamelistFormComponent,
     PlayerDataComponent,
-    PlayerTabComponent
+    PlayerProfileComponent,
+    TeamComponent
   ],
   imports: [
     HttpModule,
