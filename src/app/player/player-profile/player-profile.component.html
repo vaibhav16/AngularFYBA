@@ -1,235 +1,224 @@
 <!-- *ngIf="profileSection != null && initialFetchError!=true" -->
 <!-- *ngIf="profileSection.Value != null; else noRecordDiv" -->
 <div *ngIf="profileSection != null" class="container paddingBottom50">
-    <div class="row">
-      <div class="col-lg-12 OffcProfile fontSize12">
-        <ngb-accordion>
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <div class="HeadCollapse">
-                <h2 class="paidHead">Parent Info</h2>
+  <div class="row">
+    <div class="col-lg-12 OffcProfile fontSize12">
+        <h1 class="mainDate name_player"><strong>{{profileSection.Value.PlayerName}}</strong></h1>
+      <ngb-accordion>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Personal Info</h2>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="data_module bgBlue bgHeadGray">
+              <div *ngFor="let item of parentInfo" class="fms_time marginleftNone wordBreak">
+                
+                <div *ngIf="item.Parent_Relationship.length>0" class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Relation:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                   {{item.Parent_Relationship}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                
+                <div *ngIf="item.Parent_Name.length>0" class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Name:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{item.Parent_Name}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div *ngIf="item.Parent_Email.length>0" class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Email:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                    {{item.Parent_Email}}
+                  </div>
+                  <div style="margin-bottom: 3%;" class="clearfix"></div>
+                </div> 
+
+                <div *ngIf="item.Parent_HomePhone.length>0" class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Home Phone:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                   {{item.Parent_HomePhone}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                
+                <div *ngIf="item.Parent_WorkPhone.length>0" class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Work Phone:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                   {{item.Parent_WorkPhone}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                
+                <div *ngIf="item.Parent_MobilePhone.length>0" class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Mobile Phone:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                   {{item.Parent_MobilePhone}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="clearfix"></div>
               </div>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="data_module bgBlue">
-                <div *ngFor="let item of parentInfo" class="fms_time marginleftNone wordBreak">
-                  <div class="row-fluid signupPosition borderTopNone">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Relation:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                     {{item.Parent_Relationship}}
-                    </div>
-                    <div class="clearfix"></div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Registration Status</h2>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="data_module bgBlue">
+              <div class="fms_time marginleftNone wordBreak">
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Season:</strong>
                   </div>
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Name:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      {{item.Parent_Name}}
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                  {{registrationStatus.SeasonName}}
                   </div>
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Home Phone:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                     {{item.Parent_HomePhone}}
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Registration Status:</strong>
                   </div>
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Work Phone:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                     {{item.Parent_WorkPhone}}
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                 {{registrationStatus.Status}}
                   </div>
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Mobile Phone:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                     {{item.Parent_MobilePhone}}
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Registration Date & Time:</strong>
                   </div>
-  
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Email:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                      {{item.Parent_Email}}
-                    </div>
-                    <div style="margin-bottom: 5%;" class="clearfix"></div>
-                  </div>  
-  
-  
-                  <!-- <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Texting Options:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                      <ul class="inputCheck">
-                        <li>
-                          <input type="checkbox" value={{personalInfo.Parent_TextingOption}}/>
-                        </li>                     
-                      </ul>
-  
-                    </div>
-                    <div class="clearfix"></div>
-                  </div> -->
-  
-  
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                  {{registrationStatus.RegistrationDateTime}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition ">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Registration Method:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{registrationStatus.RegistrationMode}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition ">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Amount Paid (Player Amt/Total Amt):</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                  {{registrationStatus.AmountPaid}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition ">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Payment Method:</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                   {{registrationStatus.PaymentMode}}
+                  </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <div class="HeadCollapse">
-                <h2 class="paidHead">Registration Status</h2>
-              </div>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="data_module bgBlue">
-                <div class="fms_time marginleftNone wordBreak">
-                  <div class="row-fluid signupPosition borderTopNone">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Season:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{registrationStatus.SeasonName}}
-                    </div>
-                    <div class="clearfix"></div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Apparel</h2>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="data_module bgBlue">
+              <div class="fms_time marginleftNone wordBreak">
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Short Size:</strong>
                   </div>
-  
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Registration Status:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                   {{registrationStatus.Status}}
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                   {{apparel.ShortSize}}
                   </div>
-  
-                  <div class="row-fluid signupPosition">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Registration Date & Time:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{registrationStatus.RegistrationDateTime}}
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-  
-                  <div class="row-fluid signupPosition ">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Registration Method:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      {{registrationStatus.RegistrationMode}}
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-  
-                  <div class="row-fluid signupPosition ">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Amount Paid (Player Amt/Total Amt):</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{registrationStatus.AmountPaid}}
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-  
-                  <div class="row-fluid signupPosition ">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Payment Method:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                     {{registrationStatus.PaymentMode}}
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
+                  <div class="clearfix"></div>
                 </div>
-              </div>
-            </ng-template>
-          </ngb-panel>
-  
-          <ngb-panel>
-            <ng-template ngbPanelTitle>
-              <div class="HeadCollapse">
-                <h2 class="paidHead">Apparel</h2>
-              </div>
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="data_module bgBlue">
-                <div class="fms_time marginleftNone wordBreak">
-                  <div class="row-fluid signupPosition borderTopNone">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Short Size:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                     {{apparel.ShortSize}}
-                    </div>
-                    <div class="clearfix"></div>
+
+                <div class="row-fluid signupPosition ">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Jersey Size:</strong>
                   </div>
-  
-                  <div class="row-fluid signupPosition ">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Jersey Size:</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      {{apparel.JerseySize}}
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{apparel.JerseySize}}
                   </div>
-  
-                  <div class="row-fluid signupPosition ">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Jersey # Request (1st choice):</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                  {{apparel.RequestedJersey1}}
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-  
-                  <div class="row-fluid signupPosition ">
-                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                      <strong>Jersey # Request (2nd choice):</strong>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                  {{apparel.RequestedJersey2}}
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-  
-                  
+                  <div class="clearfix"></div>
                 </div>
+
+                <div class="row-fluid signupPosition ">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Jersey # Request (1st choice):</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                {{apparel.RequestedJersey1}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition ">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Jersey # Request (2nd choice):</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                {{apparel.RequestedJersey2}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                
               </div>
-            </ng-template>
-          </ngb-panel>
-  
-        </ngb-accordion>
-      </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+
+      </ngb-accordion>
     </div>
   </div>
-  
-  <!-- <div *ngIf="initialFetchError" #serverError>
-    <div class="noRecords">
-      <span class="spanError">{{errorMsg}}</span> Please try again later!
-    </div>
-  </div> -->
-  
-  <!--##########loader###################-->
-  <app-fybaloader *ngIf="fetchingData"></app-fybaloader>
-  <!-- ###################################### -->
+</div>
+
+<!-- <div *ngIf="initialFetchError" #serverError>
+  <div class="noRecords">
+    <span class="spanError">{{errorMsg}}</span> Please try again later!
+  </div>
+</div> -->
+
+<!--##########loader###################-->
+<app-fybaloader *ngIf="fetchingData"></app-fybaloader>
+<!-- ###################################### -->

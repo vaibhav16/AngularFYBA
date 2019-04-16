@@ -20,6 +20,7 @@ import { DataSharingService } from './../data-sharing.service';
 export class PlayerService {
   headerOptions;
   postRequestOptions;
+  playerId;
   constructor(private http: Http, private dss: DataSharingService) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
     this.postRequestOptions = new RequestOptions({
@@ -41,6 +42,22 @@ export class PlayerService {
     return this.http.post(Constants.apiURL + '/api/Player', body, this.postRequestOptions);
   }
 
+  getTeamInfo():Observable<any>{
+    console.log(this.playerId);
+    var getPlayerModel = new GetPlayer();
+    getPlayerModel.UserID = 11199;
+    getPlayerModel.SessionKey = this.dss.sessionKey;
+    getPlayerModel.RequestedData = JSON.stringify({
+      PlayerId: 7167,
+      LeagueId: 1,
+      SeasonId: 23,
+      RoleId: 14
+    });
+    var body = JSON.stringify(getPlayerModel);
+    console.log(body);
+    return this.http.post(Constants.apiURL + '/api/TeamInfo', body, this.postRequestOptions);
+  }
+
   getPlayerProfile():Observable<any>{
     var getPlayerModel = new GetPlayer();
     getPlayerModel.UserID = this.dss.userId;
@@ -52,7 +69,7 @@ export class PlayerService {
     });
     var body = JSON.stringify(getPlayerModel);
     console.log(body);
-    return this.http.post(Constants.apiURL + '/api/PlayerDetails', body, this.postRequestOptions)
+    return this.http.post(Constants.apiURL + '/api/PlayerDetails', body, this.postRequestOptions);
 
   }
 }

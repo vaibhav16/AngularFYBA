@@ -301,7 +301,7 @@ div {
    ul.teamList li{background:#3c98db; border-radius:10px; margin:10px 0; cursor:pointer;}
    ul.teamList li:first-child{margin-top:20px;}
    ul.teamList li h3{color:#ffffff; font-size:18px; padding:10px; margin:0px; font-weight:bold;}
-   .signupPosition{font-size:16px; margin-top:10px;}
+   .signupPosition{font-size:16px; margin-top:5px;}
    a.signupRedBtn{background:#ff0000; padding:3px 12px; color:#ffffff; border-radius:0px; font-size:14px;}
    a.signupRedBtn:hover, a.signupRedBtn:focus{color:#ffffff; text-decoration:none;}
    a.cancelSignupBtn{background:#FFD700; padding:3px 12px; color:#000000; border-radius:0px; font-size:14px;}
@@ -1011,6 +1011,9 @@ div {
   .mobile_menu_div ul li:first-child{border-top:0px;}
 
   .fms_time .signupPosition:first-child{margin-top:0px;}
+  .bgHeadGray .signupPosition:first-child{margin-top:0px;background-color: #ededed; margin-bottom: 0;padding-bottom: 5px;}
+
+  .fms_time .signupPosition:nth-child(2){margin-top:0px;}
 
 
   .switch {

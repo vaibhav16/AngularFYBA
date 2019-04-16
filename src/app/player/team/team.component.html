@@ -1,147 +1,159 @@
-<div class="OffcProfile" style="margin-left:8%; margin-right:8%">
+<div *ngIf="teamInfo!=null" class="container">
+  <div class="row">
+    <div style="margin-bottom:5%;" class="col-lg-12">
+      <div class="OffcProfile">
+        <h1 class="mainDate name_player"><strong>Mighty Mermaids</strong></h1>
 
-
-    <!------Team Leaders----->
-    <ngb-accordion>
-      <ngb-panel>
-        <ng-template ngbPanelTitle>
-          <div class="HeadCollapse">
-            <h2 class="paidHead">Team Leaders</h2>
-          </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-         <div class="table-responsive borderNone"> 
-            <table class="teamInfoPage">
-              <tbody>
-                <tr>
-                  <td class="text-center"><img src="assets/images/player-2.png" /> <span class="nameInfo">(Coach)</span></td>
-                    <td><strong>Campbell, Bryan</strong></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  
-    <!------Team Roster----->
-  
-    <ngb-accordion>
-      <ngb-panel>
-        <ng-template ngbPanelTitle>
-          <div class="HeadCollapse">
-            <h2 class="paidHead">Team Roster</h2>
-          </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-  
-          <div class="table-responsive borderNone">
-            <table class="teamInfoPage">
-                <tbody>
+        <!------Team Leaders----->
+        <ngb-accordion>
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Team Leaders</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="table-responsive borderNone">
+                <table id="tl" class="teamInfoPage">
+                  <tbody *ngFor="let leader of TeamLeaders">
                     <tr>
-                      <td rowspan="2" class="text-center"><img src="assets/images/player-2.png" /></td>
-                        <td><strong>Adler, Juliette</strong></td></tr>
-                    <tr>
-                        <td><strong>#10</strong></td>
+                      <td style="height:50px; width:50px" class="text-center"><img src={{leader.Photo}} /></td>
+                      <td class="text-center"><strong>{{leader.VolunteerName}} <br>{{leader.VolunteerPosition}}</strong></td>
                     </tr>
-                    <tr>
-                        <td rowspan="3" class="text-center"><strong>Father</strong></td>
-                        <td>Adler, Garrett</td>
-                    </tr>
-                    <tr>
-                        <td>H: 916-365-5395<br> 
-                          M: 916-365-1397<br>
-                          W:</td>
-                    </tr>
-                    <tr><td>Gadler97@gmail.com</td></tr>
-                    <tr>
-                        <td rowspan="3" class="text-center"><strong>Mother</strong></td>
-                        <td>Adler, Suzanne</td>
-                    </tr>
-                    <tr>
-                        <td>H: 916-365-5395<br> 
-                          M: 916-365-5395<br>
-                          W:</td>
-                    </tr>
-                    <tr><td>skoveradler@gmail.com</td></tr>
                   </tbody>
-            </table>
-          </div>
-  
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  
-  
-    <!------Practices----->
-    <ngb-accordion>
-      <ngb-panel>
-        <ng-template ngbPanelTitle>
-          <div class="HeadCollapse">
-            <h2 class="paidHead">Practices</h2>
-          </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-  
-          <div class="table-responsive borderNone">
-            <table class="teamInfoPage">
-              <thead>
-                <tr>
-                  <th scope="col" class="">Date</th>
-                  <th scope="col" class="">Time</th>
-                  <th scope="col" class="">Location</th>
-                  <th scope="col" class="">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1/1/19</td>
-                  <td>10:30 pm</td>
-                  <td>London</td>
-                  <td>Scheduled</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  
-    <!------Games----->
-    <ngb-accordion>
-      <ngb-panel>
-        <ng-template ngbPanelTitle>
-          <div class="HeadCollapse">
-            <h2 class="paidHead">Games</h2>
-          </div>
-        </ng-template>
-        <ng-template ngbPanelContent>
-  
-          <div class="table-responsive borderNone">
-            <table class="teamInfoPage">
-              <thead>
-                <tr>
-                  <th scope="col" class="">Date</th>
-                  <th scope="col" class="">Time</th>
-                  <th scope="col" class="">Location</th>
-                  <th scope="col" class="c">Home</th>
-                  <th scope="col" class="">Visitior</th>
-                  <th scope="col" class="">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1/1/19</td>
-                  <td>10:30 pm</td>
-                  <td>London</td>
-                  <td>Home Team</td>
-                  <td>Visiting Team</td>
-                  <td>Scheduled</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
-  
+                  <!-- <tbody>
+                    <tr>
+                      <td class="text-center"><img src="assets/images/player-2.png" /></td>
+                      <td class="text-center"><strong>Campbell, Bryan <br>(Coach)</strong></td>
+                    </tr>
+                  </tbody>                 -->
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+
+        <!------Team Roster----->
+
+        <ngb-accordion>
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Team Roster</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="table-responsive borderNone">
+                <table class="teamInfoPage">
+                  <tbody *ngFor="let roster of TeamRoster">
+                    <tr class="bgGray" >
+                      <td rowspan="2" class="text-center"><img style="height:30px; width:30px" src={{roster.Photo}}/></td>
+                      <td><strong>{{roster.PlayerName}}</strong></td>
+                    </tr>
+                    <tr class="bgGray">
+                      <td><strong>{{roster.JerseyNumber}}</strong></td>
+                    </tr>
+                    <ng-container *ngFor="let parent of roster.Parents">
+                    <tr>
+                      <td rowspan="3" class="text-center"><strong>{{parent.ParentRelationship}}</strong></td>
+                      <td>{{parent.ParentName}}</td>
+                    </tr>
+                    <tr>
+                      <td>H: {{parent.ParentHomePhone}}<br>
+                        M: {{parent.ParentMobilePhone}}<br>
+                        W: {{parent.ParentWorkPhone}}</td>
+                    </tr>
+                    <tr>
+                      <td>{{parent.ParentEmail}}</td>
+                    </tr>
+                    
+                  </ng-container>
+                  </tbody>                
+                  
+                </table>
+              </div>
+
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+
+
+        <!------Practices----->
+        <ngb-accordion>
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Practices</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="table-responsive borderNone">
+                <table class="teamInfoPage">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="">Date</th>
+                      <th scope="col" class="">Time</th>
+                      <th scope="col" class="">Location</th>
+                      <th scope="col" class="">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let practice of TeamPractices">
+                      <td>{{practice.PracticeDate}}</td>
+                      <td>{{practice.PracticeTime}}</td>
+                      <td>{{practice.Location}}</td>
+                      <td>{{practice.PracticeStatus}}</td>
+                    </tr>                  
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+
+        <!------Games----->
+        <ngb-accordion>
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Games</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <div class="table-responsive borderNone">
+                <table class="teamInfoPage">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="">Date</th>
+                      <th scope="col" class="">Time</th>
+                      <th scope="col" class="">Location</th>
+                      <th scope="col" class="c">Home</th>
+                      <th scope="col" class="">Visitior</th>
+                      <th scope="col" class="">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let game of TeamGames">
+                      <td>{{game.GameDate}}</td>
+                      <td>{{game.GameTime}}</td>
+                      <td>{{game.Location}}</td>
+                      <td>{{game.HomeTeam}}</td>
+                      <td>{{game.VisitingTeam}}</td>
+                      <td>{{game.GameStatus}}</td>
+                    </tr>                  
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+
+      </div>
+    </div>
   </div>
+</div>
+
+<app-fybaloader *ngIf="dataRequest"></app-fybaloader>
