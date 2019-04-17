@@ -8,7 +8,7 @@ import {
   ResponseContentType
 } from '@angular/http';
 import { Observable, ObservableLike } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 import { Constants } from './../constants';
 import { GetPlayer } from './models/getPlayer.model';
 import { CookieService } from 'ngx-cookie-service';
@@ -42,20 +42,22 @@ export class PlayerService {
     return this.http.post(Constants.apiURL + '/api/Player', body, this.postRequestOptions);
   }
 
-  getTeamInfo():Observable<any>{
+  getTeamInfo(): Observable<any> {
     console.log(this.playerId);
     var getPlayerModel = new GetPlayer();
     getPlayerModel.UserID = 11199;
     getPlayerModel.SessionKey = this.dss.sessionKey;
-    getPlayerModel.RequestedData = JSON.stringify({
-      PlayerId: 7167,
-      LeagueId: 1,
-      SeasonId: 23,
-      RoleId: 14
-    });
-    var body = JSON.stringify(getPlayerModel);
-    console.log(body);
-    return this.http.post(Constants.apiURL + '/api/TeamInfo', body, this.postRequestOptions);
+    if (this.playerId != undefined) {
+      getPlayerModel.RequestedData = JSON.stringify({
+        PlayerId: this.playerId,
+        LeagueId: this.dss.leagueId,
+        SeasonId: this.dss.seasonId,
+        RoleId: this.dss.roleId
+      });
+      var body = JSON.stringify(getPlayerModel);
+      console.log(body);
+      return this.http.post(Constants.apiURL + '/api/TeamInfo', body, this.postRequestOptions);
+    }
   }
 
   getPlayerProfile():Observable<any>{
@@ -63,7 +65,7 @@ export class PlayerService {
     getPlayerModel.UserID = this.dss.userId;
     getPlayerModel.SessionKey = this.dss.sessionKey;
     getPlayerModel.RequestedData = JSON.stringify({
-      PlayerId: 7167,
+      PlayerId: this.playerId,
       LeagueId: this.dss.leagueId,
       SeasonId: this.dss.seasonId
     });

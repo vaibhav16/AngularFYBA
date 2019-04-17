@@ -3,6 +3,7 @@ import { PlayerService } from './player.service';
 import { IPlayerList } from './models/IPlayerList.interface';
 import { Router } from '@angular/router';
 import { DataSharingService } from './../data-sharing.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-player',
@@ -39,27 +40,32 @@ export class PlayerComponent implements OnInit {
     this.headerImg = 'player_header_img';
   }
 
-   async ngOnInit() {
-    await this.getPlayerData();
-    await console.log(this.playerData);
-    this.playerService.playerId = await this.playerData["PlayerId"];
-    
-    this.dss.currentRoute = await 'player';
+  ngOnInit() {
+    this.getPlayerData().then(() => {
+      this.dss.currentRoute = 'player';
+    }
+    );
 
   }
 
   async getPlayerData() {
     await this.playerService.getPlayerData().subscribe((res) => {
       this.playerSection = JSON.parse(res['_body']);
-
       console.log(this.playerSection);
       if (this.playerLists != null) this.playerData = this.playerLists[0];
-      this.dataRequest = false;      
-      console.log(this.playerLists);
-      console.log(this.playerData);
-      
+      this.playerService.playerId = this.playerData["PlayerId"];
+      this.dataRequest = false;
+      // console.log(this.playerLists);
+      // console.log(this.playerData);
+      console.log("Player Id:"+this.playerService.playerId);
+      console.log("Navigated");
+      this.router.navigate(["/player/profile"]);
+
     });
+
     
+
+
   }
 
   get playerLists() {

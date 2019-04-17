@@ -2,7 +2,7 @@
   <div class="row">
     <div style="margin-bottom:5%;" class="col-lg-12">
       <div class="OffcProfile">
-        <h1 class="mainDate name_player"><strong>Mighty Mermaids</strong></h1>
+        <h1 class="mainDate name_player"><strong>{{TeamName}}</strong></h1>
 
         <!------Team Leaders----->
         <ngb-accordion>
@@ -15,10 +15,10 @@
             <ng-template ngbPanelContent>
               <div class="table-responsive borderNone">
                 <table id="tl" class="teamInfoPage">
-                  <tbody *ngFor="let leader of TeamLeaders">
-                    <tr>
-                      <td style="height:50px; width:50px" class="text-center"><img src={{leader.Photo}} /></td>
-                      <td class="text-center"><strong>{{leader.VolunteerName}} <br>{{leader.VolunteerPosition}}</strong></td>
+                  <tbody>
+                    <tr *ngFor="let leader of TeamLeaders">
+                      <td class="leaderImg"><img src={{leader.Photo}} /></td>
+                      <td class="">{{leader.VolunteerName}} <br/><strong>{{leader.VolunteerPosition}}</strong></td>
                     </tr>
                   </tbody>
                   <!-- <tbody>

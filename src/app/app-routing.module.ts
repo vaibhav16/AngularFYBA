@@ -51,7 +51,7 @@ const routes: Routes = [
         path: 'playerdata',
         component: PlayerDataComponent
       },
-      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      // { path: '', redirectTo: 'profile', pathMatch: 'full' },
       {
         path: 'profile',
         component: PlayerProfileComponent

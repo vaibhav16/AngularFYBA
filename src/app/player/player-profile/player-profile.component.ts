@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from './../player.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-profile',
@@ -11,7 +12,8 @@ export class PlayerProfileComponent implements OnInit {
   fetchingData:boolean;
   profileSection=null;
 
-  constructor(public playerService: PlayerService) { 
+  constructor(public playerService: PlayerService,
+    public router: Router) { 
 
   }
 
@@ -28,11 +30,12 @@ export class PlayerProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.router.navigate(["/player/profile"]);
+    console.log("Player Id in profile:"+this.playerService.playerId);
     this.fetchingData=true;
     this.playerService.getPlayerProfile()
     .subscribe(
       (res)=>{
-        console.log(res);        
         this.profileSection=JSON.parse(res["_body"]);
         console.log(this.profileSection);
         this.fetchingData=false;
