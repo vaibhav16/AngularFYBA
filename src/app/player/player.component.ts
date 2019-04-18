@@ -41,6 +41,7 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataRequest=true;
     this.getPlayerData().then(() => {
       this.dss.currentRoute = 'player';
     }
@@ -55,11 +56,17 @@ export class PlayerComponent implements OnInit {
       if (this.playerLists != null) this.playerData = this.playerLists[0];
       this.playerService.playerId = this.playerData["PlayerId"];
       this.dataRequest = false;
-      // console.log(this.playerLists);
-      // console.log(this.playerData);
-      console.log("Player Id:"+this.playerService.playerId);
-      console.log("Navigated");
-      this.router.navigate(["/player/profile"]);
+
+      this.playerService.getPlayerProfile().subscribe(
+        (res)=>{
+          this.playerService.profileData = JSON.parse(res["_body"]);
+          this.dataRequest=false;
+          this.router.navigate(["/player/profile"]);
+        }
+      )
+      // console.log("Player Id:"+this.playerService.playerId);
+      // console.log("Navigated");
+     
 
     });
 
@@ -68,16 +75,26 @@ export class PlayerComponent implements OnInit {
 
   }
 
+
   get playerLists() {
     return this.playerSection.Value[0]['playerList'];
   }
 
   playerData: JSON;
   async filterPlayer(id: number) {    
+    this.dataRequest=true;
     this.playerData = await this.playerLists.filter((item) => item.PlayerId == id);
     this.playerData = this.playerData[0];
     this.playerService.playerId = await id;
-    await this.router.navigate(["/player/profile"]);
+    await this.playerService.getPlayerProfile().subscribe(
+      (res)=>{
+       
+        this.playerService.profileData = JSON.parse(res["_body"]);
+        this.dataRequest=false;
+        this.router.navigate(["/player/profile"]);
+      }
+    )
+
     // await this.router.navigateByUrl('/player', {skipLocationChange: true}).then(()=>
     // this.router.navigate(["/player/profile"])); 
 

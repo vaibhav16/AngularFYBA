@@ -21,6 +21,7 @@ export class PlayerService {
   headerOptions;
   postRequestOptions;
   playerId;
+  profileData = null;
   constructor(private http: Http, private dss: DataSharingService) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
     this.postRequestOptions = new RequestOptions({

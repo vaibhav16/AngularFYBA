@@ -10,12 +10,17 @@ import { Router } from '@angular/router';
 export class PlayerProfileComponent implements OnInit {
 
   fetchingData:boolean;
-  profileSection=null;
-
+  
   constructor(public playerService: PlayerService,
     public router: Router) { 
 
   }
+
+  
+  get profileSection(){
+    return this.playerService.profileData;
+  }
+
 
   get parentInfo(){
     return this.profileSection.Value.parentInfo;
@@ -29,18 +34,28 @@ export class PlayerProfileComponent implements OnInit {
     return this.profileSection.Value.apparel;
   }
 
-  ngOnInit() {
+   ngOnInit() {
+    console.log(this.playerService.profileData);
     //this.router.navigate(["/player/profile"]);
+    //this.fetchingData=true;
+  
     console.log("Player Id in profile:"+this.playerService.playerId);
-    this.fetchingData=true;
-    this.playerService.getPlayerProfile()
-    .subscribe(
-      (res)=>{
-        this.profileSection=JSON.parse(res["_body"]);
-        console.log(this.profileSection);
-        this.fetchingData=false;
-      }
-    )
+
+
+    //this.fetchingData=true;
+    
+    // this.playerService.getPlayerProfile()
+    // .subscribe(
+    //   (res)=>{
+    //     this.profileSection=JSON.parse(res["_body"]);
+    //     console.log(this.profileSection);
+    //     this.fetchingData=false;
+    //   }
+    // )
   }
+
+  // ngAfterViewInit(){
+  //   this.fetchingData=false;
+  // }
 
 }
