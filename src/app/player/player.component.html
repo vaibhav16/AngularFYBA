@@ -9,7 +9,7 @@
           <li *ngFor="let player of playerLists" 
           (click)="filterPlayer(player.PlayerId)"          
           [ngClass] = "playerData.PlayerId == player.PlayerId ? 'active' : ''">
-            <img style="height:30px; width:30px" src={{player.PlayerPhoto}} />
+            <img style="height:30px; width:30px;border-radius: 50%;" src={{player.PlayerPhoto}} />
             <span>{{player.PlayerFirstName}}
               <br class="breakWord" />
               {{player.PlayerLastName}} </span>
@@ -44,8 +44,9 @@
           <!----li class="tab-link" data-tab="tab3-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
           <li class="tab-link" data-tab="tab3-5">
             <a routerLink="/player/profile" routerLinkActive="active">
-              <img src="assets/images/officiating.png" alt="Profile" />
-              <span>Profile <span class="spaceBorder">&nbsp;</span></span>
+
+              <img src="assets/images/officiating.png" alt="Profile" /><span class="wordLimit">Player 
+                <br class="breakAll" />Profile</span>
             </a>
           </li>
         </ul>

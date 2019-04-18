@@ -1,12 +1,16 @@
 
 
 table.teamInfoPage{width:100%;}
-table:not(#tl).teamInfoPage tr td, table.teamInfoPage tr th{padding:2px;vertical-align: middle; border:1px solid #dddddd; font-size:12px;} 
+table:not(#tl).teamInfoPage tr td, table.teamInfoPage tr th{padding:2px;vertical-align: middle; border:1px solid #dddddd; font-size:16px;} 
+
 .borderNone{border:0px !important;}
 span.nameInfo{display:block;margin-top:3px;}
-#tl tr td {padding:3px;vertical-align: middle; border-bottom:1px solid #dddddd; font-size:12px;}
+#tl tr td {padding:3px;vertical-align: middle; border-bottom:1px solid #dddddd; font-size:16px;}
 .bgGray{background-color:#ededed;}
-
-td.leaderImg { text-align: left; }
-td.leaderImg img{height:20%; width:15%; margin-left: 5%}
+.teamRosterTable{background-color: #fff;
+    vertical-align: top !important;
+    text-align: center;
+    padding-top: 10px !important;}
+td.leaderImg img{height:32px;}
+.teamInfoTab .table-responsive{margin-bottom:0px;}
 

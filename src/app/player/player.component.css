@@ -1,5 +1,5 @@
 .parentBG {
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10px 0px 0px;
 }
 
 ul.parentPlayer{
@@ -9,14 +9,16 @@ ul.parentPlayer{
 }
 ul.parentPlayer li {
     float: left;
-    display: inline-block;
     text-align: center;
-    padding: 10px 7px;
+    padding: 5px 5px;
     cursor: pointer;
-    margin-left: 0px;
-    width: 20%;
+    margin-left: 5px;
+    width: 18%;
     max-width: 100px;
     min-height: 100px;
+    border: 1px solid #5B9BD5;
+    border-radius: 10px 10px 0 0;
+    border-bottom:0px;
     
 }
 
@@ -27,9 +29,11 @@ ul.parentPlayer li span {
 }
 
 ul.parentPlayer li.active {
-    background: #ededed;
-    border-radius: 10px 10px;
-    border-top: 2px solid #1e31ae;
+    background: #5B9BD5;
+}
+
+ul.parentPlayer li.active span{
+    color: #ffffff;
 }
 
 
