@@ -17,14 +17,17 @@
                 <table id="tl" class="teamInfoPage">
                   <thead>
                     <tr>
-                      <td class="text-center"><input type="checkbox" /></td>
+                      <td class="text-center">
+                          <!-- [checked]="isAllChecked()" (change)="checkAll($event)" -->
+                        <input class="chkbox" type="checkbox" />
+                      </td>
                       <td width="25%" class="text-center"><b>Photo</b></td>
                       <td><b>Name</b></td>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let leader of TeamLeaders">
-                      <td class="text-center"><input type="checkbox" /></td>
+                      <td class="text-center"><input  class="chkbox"  type="checkbox" /></td>
                       <td class="leaderImg text-center"><img src={{leader.Photo}} /></td>
                       <td class="">{{leader.VolunteerName}} <br /><strong>{{leader.VolunteerPosition}}</strong></td>
                     </tr>
@@ -60,9 +63,9 @@
                     <tr class="bgGray">
                       <td rowspan="2" *ngIf="roster.Parents.length==0">
                       </td>
-                      <td rowspan="5" *ngIf="roster.Parents.length==1" class="teamRosterTable"> <input type="checkbox">
+                      <td rowspan="5" *ngIf="roster.Parents.length==1" class="teamRosterTable"> <input  class="chkbox"  type="checkbox">
                       </td>
-                      <td rowspan="8" *ngIf="roster.Parents.length==2" class="teamRosterTable"> <input type="checkbox">
+                      <td rowspan="8" *ngIf="roster.Parents.length==2" class="teamRosterTable"> <input  class="chkbox"  type="checkbox">
                       </td>
 
                       <td class="text-center">

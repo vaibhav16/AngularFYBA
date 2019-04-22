@@ -34,6 +34,7 @@ export class PlayerProfileComponent implements OnInit {
     return this.profileSection.Value.apparel;
   }
 
+  
    ngOnInit() {
     console.log(this.playerService.profileData);
     //this.router.navigate(["/player/profile"]);

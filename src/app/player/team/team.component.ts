@@ -12,6 +12,8 @@ export class TeamComponent implements OnInit {
 
   teamInfo=null;
   dataRequest:boolean;
+
+
   ngOnInit() {
     this.dataRequest=true;
     this.playerService.getTeamInfo()

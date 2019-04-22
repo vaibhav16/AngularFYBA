@@ -87,10 +87,10 @@
           <ng-template ngbPanelContent>
 
             <ngb-accordion>
-              <ngb-panel *ngIf="registrationStatus">
+              <ngb-panel *ngFor="let status of registrationStatus">
                 <ng-template ngbPanelTitle>
                   <div class="HeadCollapse">
-                    <h2 class="paidHead"> {{registrationStatus.SeasonName}}</h2>
+                    <h2 class="paidHead"> {{status.SeasonName}}</h2>
                   </div>
                 </ng-template>
                 <ng-template ngbPanelContent>
@@ -111,7 +111,7 @@
                           <strong>Registration Status:</strong>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{registrationStatus.Status}}
+                          {{status.Status}}
                         </div>
                         <div class="clearfix"></div>
                       </div>
@@ -121,7 +121,7 @@
                           <strong>Registration Date & Time:</strong>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{registrationStatus.RegistrationDateTime}}
+                          {{status.TransactionDate}}
                         </div>
                         <div class="clearfix"></div>
                       </div>
@@ -131,7 +131,7 @@
                           <strong>Registration Method:</strong>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{registrationStatus.RegistrationMode}}
+                          {{status.RegistrationMode}}
                         </div>
                         <div class="clearfix"></div>
                       </div>
@@ -141,7 +141,7 @@
                           <strong>Amount Paid (Player Amt/Total Amt):</strong>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{registrationStatus.AmountPaid}}
+                          {{status.Amount}}
                         </div>
                         <div class="clearfix"></div>
                       </div>
@@ -151,7 +151,7 @@
                           <strong>Payment Method:</strong>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{registrationStatus.PaymentMode}}
+                          {{status.PaymentMode}}
                         </div>
                         <div class="clearfix"></div>
                       </div>
@@ -219,6 +219,9 @@
         </ngb-panel>
 
       </ngb-accordion>
+      <div id="submitDiv" style="text-align:center">
+        <button type="submit"  class="btn btn-success">Save</button>
+      </div>      
     </div>
   </div>
 </div>
