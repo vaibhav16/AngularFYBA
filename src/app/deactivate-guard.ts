@@ -8,6 +8,7 @@ import {
 } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
 import { DataSharingService } from './data-sharing.service';
+import { PlayerService } from './player/player.service';
 
 
 @Injectable({

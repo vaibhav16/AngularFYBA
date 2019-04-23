@@ -46,6 +46,7 @@ const routes: Routes = [
     path: 'player',
     component: PlayerComponent,
     canActivate: [AuthGuard],
+    canDeactivate: [DeactivateGuard],
     children: [
       {
         path: 'playerdata',
@@ -54,11 +55,13 @@ const routes: Routes = [
       // { path: '', redirectTo: 'profile', pathMatch: 'full' },
       {
         path: 'profile',
-        component: PlayerProfileComponent
+        component: PlayerProfileComponent,
+        canDeactivate: [DeactivateGuard]
       },
       {
         path: 'team',
-        component: TeamComponent
+        component: TeamComponent,
+        canDeactivate: [DeactivateGuard]
       }
       
     ]

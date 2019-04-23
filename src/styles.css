@@ -1169,6 +1169,7 @@ div {
     .small_font table.teamInfoPage tr td{font-size:14px !important;}
     .small_font .fontSize12 .col-md-4, .small_font .fontSize12 .col-md-8{font-size:14px !important;}
     .small_font #submitDiv button {font-size:14px !important;}
+    .small_font .withdrawDiv button {font-size:14px !important;}
 }
 
   /* ---- End Small Font Css --- */

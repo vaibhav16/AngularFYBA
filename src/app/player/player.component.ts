@@ -4,6 +4,8 @@ import { IPlayerList } from './models/IPlayerList.interface';
 import { Router } from '@angular/router';
 import { DataSharingService } from './../data-sharing.service';
 import { delay } from 'rxjs/operators';
+import { LocationStrategy } from '@angular/common';
+
 
 @Component({
   selector: 'app-player',
@@ -28,7 +30,8 @@ export class PlayerComponent implements OnInit {
   constructor(
     public playerService: PlayerService,
     public router: Router,
-    public dss: DataSharingService
+    public dss: DataSharingService,
+    public location: LocationStrategy
   ) {
     this.calender_icon = './assets/images/calender_icon.png';
     this.team_icon = './assets/images/team-icon.png';
@@ -38,6 +41,12 @@ export class PlayerComponent implements OnInit {
     this.player1 = './assets/images/player-1.png';
     this.player2 = './assets/images/player-2.png';
     this.headerImg = 'player_header_img';
+
+    this.location.onPopState(() => {
+      // set isBackButtonClicked to true.
+      this.dss.isBackButtonClicked=true;
+      return false;
+    });
   }
 
   ngOnInit() {
@@ -61,7 +70,7 @@ export class PlayerComponent implements OnInit {
         (res)=>{
           this.playerService.profileData = JSON.parse(res["_body"]);
           this.dataRequest=false;
-          this.router.navigate(["/player/profile"]);
+          this.router.navigate(["/player/team"]);
         }
       )
       // console.log("Player Id:"+this.playerService.playerId);

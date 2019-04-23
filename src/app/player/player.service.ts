@@ -22,6 +22,7 @@ export class PlayerService {
   postRequestOptions;
   playerId;
   profileData = null;
+  backClick = false;
   constructor(private http: Http, private dss: DataSharingService) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
     this.postRequestOptions = new RequestOptions({
@@ -75,4 +76,16 @@ export class PlayerService {
     return this.http.post(Constants.apiURL + '/api/PlayerDetails', body, this.postRequestOptions);
 
   }
+
+  // get backClicked(){
+  //   return this.backClick;
+  // }
+
+  // set backClicked(x){
+  //   this.backClick=x;
+  // }
+  
+  // setBackClicked(x){
+  //   this.backClicked=x;
+  // }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from './../player.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Form } from '@angular/forms';
 
 @Component({
   selector: 'app-player-profile',
@@ -9,42 +10,50 @@ import { Router } from '@angular/router';
 })
 export class PlayerProfileComponent implements OnInit {
 
-  fetchingData:boolean;
-  
+  fetchingData: boolean;
+  detailsForm;
+
   constructor(public playerService: PlayerService,
-    public router: Router) { 
+    public router: Router, private fb: FormBuilder) {
+
+    // this.detailsForm = this.fb.group({
+    //   email:this.fb.control([]),
+    //   homePhone:this.fb.control([]),
+    //   mobilePhone:this.fb.control([]),
+    //   workPhone:this.fb.control([])
+    // });
 
   }
 
-  
-  get profileSection(){
+
+  get profileSection() {
     return this.playerService.profileData;
   }
 
 
-  get parentInfo(){
+  get parentInfo() {
     return this.profileSection.Value.parentInfo;
   }
 
-  get registrationStatus(){
+  get registrationStatus() {
     return this.profileSection.Value.registrationStatus;
   }
 
-  get apparel(){
+  get apparel() {
     return this.profileSection.Value.apparel;
   }
 
-  
-   ngOnInit() {
+
+  ngOnInit() {
     console.log(this.playerService.profileData);
     //this.router.navigate(["/player/profile"]);
     //this.fetchingData=true;
-  
-    console.log("Player Id in profile:"+this.playerService.playerId);
+
+    console.log("Player Id in profile:" + this.playerService.playerId);
 
 
     //this.fetchingData=true;
-    
+
     // this.playerService.getPlayerProfile()
     // .subscribe(
     //   (res)=>{
@@ -53,6 +62,19 @@ export class PlayerProfileComponent implements OnInit {
     //     this.fetchingData=false;
     //   }
     // )
+  }
+
+  validEmail:boolean;
+
+  onChange(newValue) {
+    console.log(newValue);
+    const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (validEmailRegEx.test(newValue)) {
+        this.validEmail = true;
+    }else {
+      this.validEmail = false;
+    }
+
   }
 
   // ngAfterViewInit(){

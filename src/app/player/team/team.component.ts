@@ -8,7 +8,9 @@ import { PlayerService } from './../player.service';
 })
 export class TeamComponent implements OnInit {
 
-  constructor(public playerService: PlayerService) { }
+  constructor(public playerService: PlayerService) {
+      
+     }
 
   teamInfo=null;
   dataRequest:boolean;

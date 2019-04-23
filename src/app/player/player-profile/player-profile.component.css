@@ -10,8 +10,9 @@ ul.inputCheck li{
 
 .fontSize12 .col-md-4, .fontSize12 .col-md-8{font-size:14px;}
 
-#submitDiv { text-align: center}
-#submitDiv button{text-transform: uppercase; font-weight: bold; 
-    background: #70ad47; font-size: 16px;
-    margin-top: 2%;}
-
+#submitDiv { text-align: center; }
+#submitDiv button { text-transform: uppercase; font-weight: bold; 
+    background: #70ad47; font-size: 16px; margin-top: 2%;}
+    
+.withdrawDiv { text-align: center; }
+.withdrawDiv button{text-transform: uppercase; font-weight: bold; font-size: 16px; margin-top: 2%; width: auto;}
