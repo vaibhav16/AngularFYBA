@@ -46,8 +46,6 @@ export class PlayerProfileComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.playerService.profileData);
-    //this.router.navigate(["/player/profile"]);
-    //this.fetchingData=true;
 
     console.log("Player Id in profile:" + this.playerService.playerId);
 
@@ -64,21 +62,17 @@ export class PlayerProfileComponent implements OnInit {
     // )
   }
 
-  validEmail:boolean;
+  validEmail: boolean;
 
   onChange(newValue) {
     console.log(newValue);
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (validEmailRegEx.test(newValue)) {
-        this.validEmail = true;
-    }else {
+      this.validEmail = true;
+    } else {
       this.validEmail = false;
     }
 
   }
-
-  // ngAfterViewInit(){
-  //   this.fetchingData=false;
-  // }
 
 }

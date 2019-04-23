@@ -238,5 +238,5 @@
   </div> -->
 
 <!--##########loader###################-->
-<app-fybaloader *ngIf="fetchingData"></app-fybaloader>
+<app-fybaloader *ngIf="fetchingData || !this.playerService.profileData"></app-fybaloader>
 <!-- ###################################### -->

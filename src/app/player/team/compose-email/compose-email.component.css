@@ -1,8 +1,12 @@
-#composeEmailDiv *{
+#composeEmailDiv * :not(.btnMargin){
 display: block;
 }
 
 .btnMargin {
     font-weight: bold;
-    margin-top: 5%
+    margin-top: 5%;
+    display: inline-block;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
 }

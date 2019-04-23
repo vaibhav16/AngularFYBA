@@ -52,6 +52,7 @@ import { PlayerDataComponent } from './player/player-data/player-data.component'
 import { PlayerProfileComponent } from './player/player-profile/player-profile.component';
 import { TeamComponent } from './player/team/team.component';
 import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { ComposeEmailComponent } from './player/team/compose-email/compose-email
     NotifierModule,
     MatSnackBarModule,
     //GrowlModule,
+    CKEditorModule,
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
     ModalModule.forRoot(),
