@@ -17,6 +17,7 @@ import { LogoutComponent } from './common/logout/logout.component';
 import { ChangepasswordComponent } from './common/changepassword/changepassword.component';
 import {  PlayerProfileComponent } from './player/player-profile/player-profile.component';
 import { TeamComponent } from './player/team/team.component';
+import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -62,6 +63,10 @@ const routes: Routes = [
         path: 'team',
         component: TeamComponent,
         canDeactivate: [DeactivateGuard]
+      },
+      {
+        path:'compose-email',
+        component:ComposeEmailComponent
       }
       
     ]

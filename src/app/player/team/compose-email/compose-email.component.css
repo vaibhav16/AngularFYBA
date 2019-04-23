@@ -1,0 +1,8 @@
+#composeEmailDiv *{
+display: block;
+}
+
+.btnMargin {
+    font-weight: bold;
+    margin-top: 5%
+}

@@ -70,18 +70,12 @@ export class PlayerComponent implements OnInit {
         (res)=>{
           this.playerService.profileData = JSON.parse(res["_body"]);
           this.dataRequest=false;
-          this.router.navigate(["/player/team"]);
+          this.router.navigate(["/player/profile"]);
         }
       )
       // console.log("Player Id:"+this.playerService.playerId);
-      // console.log("Navigated");
-     
-
-    });
-
-    
-
-
+      // console.log("Navigated");  
+    });  
   }
 
 
@@ -103,9 +97,9 @@ export class PlayerComponent implements OnInit {
         this.router.navigate(["/player/profile"]);
       }
     )
-
     // await this.router.navigateByUrl('/player', {skipLocationChange: true}).then(()=>
     // this.router.navigate(["/player/profile"])); 
-
   }
+
+
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from './../player.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team',
@@ -8,7 +9,8 @@ import { PlayerService } from './../player.service';
 })
 export class TeamComponent implements OnInit {
 
-  constructor(public playerService: PlayerService) {
+  constructor(public playerService: PlayerService,
+    public router: Router) {
       
      }
 
@@ -46,6 +48,11 @@ export class TeamComponent implements OnInit {
 
   get TeamGames(){
     return this.teamInfo.Value.TeamGames;
+  }
+
+
+  sendEmail(){
+    this.router.navigate(["/player/compose-email"]);
   }
 
 }

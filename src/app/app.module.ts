@@ -51,6 +51,7 @@ import { GamelistFormComponent } from './official/report-game/gamelist-form/game
 import { PlayerDataComponent } from './player/player-data/player-data.component';
 import { PlayerProfileComponent } from './player/player-profile/player-profile.component';
 import { TeamComponent } from './player/team/team.component';
+import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { TeamComponent } from './player/team/team.component';
     GamelistFormComponent,
     PlayerDataComponent,
     PlayerProfileComponent,
-    TeamComponent
+    TeamComponent,
+    ComposeEmailComponent
   ],
   imports: [
     HttpModule,
