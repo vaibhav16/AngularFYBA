@@ -4,6 +4,7 @@ import { Router,NavigationExtras } from '@angular/router';
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { ComposeEmailComponent } from './compose-email/compose-email.component';
+import { Team } from './../models/team.model';
 
 @Component({
   selector: 'app-team',
@@ -14,6 +15,10 @@ import { ComposeEmailComponent } from './compose-email/compose-email.component';
 export class TeamComponent implements OnInit {
   
   modalRef: BsModalRef;
+  selectAll:boolean = false;
+  teamInfo : Team =null;
+  dataRequest:boolean;
+
   constructor(public playerService: PlayerService,
     public router: Router,
     private modalService: BsModalService) {
@@ -21,8 +26,6 @@ export class TeamComponent implements OnInit {
 
   }
 
-  teamInfo=null;
-  dataRequest:boolean;
 
 
   ngOnInit() {
@@ -75,6 +78,19 @@ export class TeamComponent implements OnInit {
     //   ComposeEmailComponent,
     //   Object.assign({}, { class: 'customModalWidth75', initialState })
     // );
+  }
+
+  updateAll(){
+    if(this.selectAll === true){
+      this.TeamLeaders.map((leader)=>{
+        leader.selected=true;
+      })
+    }
+    else{
+      this.TeamLeaders.map((leader)=>{
+        leader.selected=false;
+      })
+    }
   }
 
 }

@@ -19,7 +19,7 @@
                     <tr>
                       <td class="text-center">
                           <!-- [checked]="isAllChecked()" (change)="checkAll($event)" -->
-                        <input class="chkbox" type="checkbox" />
+                        <input class="chkbox" type="checkbox" (change)="updateAll()" [(ngModel)]="selectAll"/>
                       </td>
                       <td width="25%" class="text-center"><b>Photo</b></td>
                       <td><b>Name</b></td>
@@ -27,7 +27,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let leader of TeamLeaders">
-                      <td class="text-center"><input  class="chkbox"  type="checkbox" /></td>
+                      <td class="text-center"><input [(ngModel)]=leader.selected class="chkbox"  type="checkbox" /></td>
                       <td class="leaderImg text-center"><img src={{leader.Photo}} /></td>
                       <td class="">{{leader.VolunteerName}} <br /><strong>{{leader.VolunteerPosition}}</strong></td>
                     </tr>
