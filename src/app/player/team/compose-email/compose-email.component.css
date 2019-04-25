@@ -10,3 +10,7 @@ display: block;
     margin-left: 10%;
     margin-right: 10%;
 }
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 200px !important;
+}

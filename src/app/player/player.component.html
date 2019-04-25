@@ -32,7 +32,7 @@
             <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
           </li>
           <li class="tab-link" data-tab="tab3-2">
-            <a routerLink="/player/team" routerLinkActive="active">
+            <a routerLink="/player/team" routerLinkActive="active"  [ngClass]="playerService.emailFlag ? 'active':''">
               <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team 
                   <br class="breakAll" />Info</span>
             </a>
@@ -44,7 +44,6 @@
           <!----li class="tab-link" data-tab="tab3-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
           <li class="tab-link" data-tab="tab3-5">
             <a routerLink="/player/profile" routerLinkActive="active">
-
               <img src="assets/images/officiating.png" alt="Profile" /><span class="wordLimit">Player 
                 <br class="breakAll" />Profile</span>
             </a>

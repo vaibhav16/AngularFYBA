@@ -59,6 +59,8 @@ export class TeamComponent implements OnInit {
 
 
   sendEmail(){
+
+    this.playerService.emailFlag=true;
     
     this.router.navigate(["/player/compose-email"]);
 

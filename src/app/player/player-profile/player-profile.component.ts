@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from './../player.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Form } from '@angular/forms';
+import { FormBuilder, FormGroup, Form, FormArray, Validators, FormControl } from '@angular/forms';
+// import { format } from 'path';
+// import { Observable, of, interval, Subscription, timer, pipe } from 'rxjs';
+// import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-player-profile',
@@ -11,17 +14,33 @@ import { FormBuilder, FormGroup, Form } from '@angular/forms';
 export class PlayerProfileComponent implements OnInit {
 
   fetchingData: boolean;
-  detailsForm;
+  profileForm;
 
   constructor(public playerService: PlayerService,
     public router: Router, private fb: FormBuilder) {
 
-    // this.detailsForm = this.fb.group({
-    //   email:this.fb.control([]),
-    //   homePhone:this.fb.control([]),
-    //   mobilePhone:this.fb.control([]),
-    //   workPhone:this.fb.control([])
-    // });
+  }
+
+  initProfileDetailsArray() {
+    console.log(this.parentInfo);
+    const formArr = new FormArray([]);
+
+    for (var i in this.parentInfo) {
+      formArr.push(
+        this.fb.group({
+          parentName:this.parentInfo[i]["Parent_Name"],
+          relationship:this.parentInfo[i]["Parent_Relationship"],
+          email: new FormControl(this.parentInfo[i]["Parent_Email"],[Validators.email, Validators.required]),          
+          homePhone: new FormControl(this.parentInfo[i]["Parent_HomePhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7), Validators.maxLength(14)]),          
+          mobilePhone:new FormControl(this.parentInfo[i]["Parent_MobilePhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)]), 
+          workPhone:new FormControl(this.parentInfo[i]["Parent_WorkPhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)])
+         
+        })
+      )
+
+    }
+
+    return formArr;
 
   }
 
@@ -44,11 +63,31 @@ export class PlayerProfileComponent implements OnInit {
   }
 
 
+  subscription;
+  timesRun;
+  interval;
+  
   ngOnInit() {
+
+    this.fetchingData=true;
     console.log(this.playerService.profileData);
 
     console.log("Player Id in profile:" + this.playerService.playerId);
 
+    console.log(this.profileForm);
+
+      this.interval = setInterval( () => {
+      this.timesRun += 1;
+      console.log(this.playerService.profileData);
+      if (this.playerService.profileData) {
+        this.profileForm = this.fb.group({
+          ParentInfo: this.initProfileDetailsArray()
+        });
+        clearInterval(this.interval);
+        console.log(this.profileForm.value);
+        this.fetchingData=false;
+      }
+    }, 2000); 
 
     //this.fetchingData=true;
 
@@ -74,5 +113,6 @@ export class PlayerProfileComponent implements OnInit {
     }
 
   }
+
 
 }

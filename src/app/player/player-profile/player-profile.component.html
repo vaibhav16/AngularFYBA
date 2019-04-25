@@ -1,102 +1,110 @@
 <div *ngIf="playerService.profileData != null" class="container paddingBottom50">
-  <div class="row">
-    <div class="col-lg-12 OffcProfile fontSize12">
-      <h1 class="mainDate name_player"><strong>{{profileSection.Value.PlayerName}}</strong></h1>
-      <ngb-accordion>
-        <ngb-panel>
-          <ng-template ngbPanelTitle>
-            <div class="HeadCollapse">
-              <h2 class="paidHead">Personal Info</h2>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
+  <form *ngIf="profileForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
-            <ngb-accordion>
-              <ngb-panel *ngFor="let item of parentInfo">
-                <ng-template ngbPanelTitle>
-                  <div class="HeadCollapse">
-                    <h2 class="paidHead"> {{item.Parent_Relationship}}: {{item.Parent_Name}}</h2>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
+    <div class="row">
+      <div class="col-lg-12 OffcProfile fontSize12">
+        <h1 class="mainDate name_player"><strong>{{profileSection.Value.PlayerName}}</strong></h1>
+        <ngb-accordion>
+          <ngb-panel formArrayName="ParentInfo">
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Personal Info</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
 
-                  <div class="data_module bgBlue">
-                    <div class="fms_time marginleftNone wordBreak">
+              <ngb-accordion>     
+                  <ngb-panel *ngFor="let child of profileForm.controls.ParentInfo['controls']; let i=index">
+                    <ng-container >
+                      <ng-template ngbPanelTitle>
+                        <div class="HeadCollapse">
+                          <h2 class="paidHead"> {{child.get("relationship").value}}:
+                            {{child.get("parentName").value}}</h2>
+                        </div>
+                      </ng-template>
+                      <ng-template  ngbPanelContent >
+                        <ng-container [formGroupName]="i">
 
-                      <div *ngIf="item.Parent_Email.length>0" class="row-fluid signupPosition">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Email:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                          <input type="email" (change)="onChange($event.target.value)" value="{{item.Parent_Email}}">
-                        </div>
-                        <div style="margin-bottom: 3%;" class="clearfix"></div>
-                      </div>
+                        <div class="data_module bgBlue">
+                          <div class="fms_time marginleftNone wordBreak">
 
-                      <div *ngIf="item.Parent_HomePhone.length>0" class="row-fluid signupPosition">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Home Phone:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                          <input type="text" value="{{item.Parent_HomePhone}}">
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
+                            <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Email:</strong>
+                              </div>
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <input type="email" formControlName="email" (change)="onChange($event.target.value)" />
+                              </div>
+                              <div style="margin-bottom: 1%;" class="clearfix"></div>
+                            </div>
 
-                      <div *ngIf="item.Parent_WorkPhone.length>0" class="row-fluid signupPosition">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Work Phone:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                          <input type="text" value="{{item.Parent_WorkPhone}}">
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
+                            <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Home Phone:</strong>
+                              </div>
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <input type="text" formControlName="homePhone">
+                              </div>
+                              <div class="clearfix"></div>
+                            </div>
 
-                      <div *ngIf="item.Parent_MobilePhone.length>0" class="row-fluid signupPosition">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Mobile Phone:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                          <input type="text" value=" {{item.Parent_MobilePhone}}">
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
+                            <div  class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Work Phone:</strong>
+                              </div>
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <input type="text" formControlName="workPhone">
+                              </div>
+                              <div class="clearfix"></div>
+                            </div>
 
-                      <div class="clearfix"></div>
+                            <div class="row-fluid signupPosition">
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Mobile Phone:</strong>
+                              </div>
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <input type="text" formControlName="mobilePhone">
+                              </div>
+                              <div class="clearfix"></div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      </ng-template>
+                    </ng-container>
+                  </ngb-panel>
+         
+            
+              </ngb-accordion>
+
+              <div class="clearfix"></div>
+
+
+            </ng-template>
+          </ngb-panel>
+
+
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Registration Status</h2>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+
+              <ngb-accordion>
+                <ngb-panel *ngFor="let status of registrationStatus">
+                  <ng-template ngbPanelTitle>
+                    <div class="HeadCollapse">
+                      <h2 class="paidHead"> {{status.SeasonName}}</h2>
                     </div>
-                  </div>
-
-                </ng-template>
-              </ngb-panel>
-            </ngb-accordion>
-
-            <div class="clearfix"></div>
-
-
-          </ng-template>
-        </ngb-panel>
-
-
-        <ngb-panel>
-          <ng-template ngbPanelTitle>
-            <div class="HeadCollapse">
-              <h2 class="paidHead">Registration Status</h2>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-
-            <ngb-accordion>
-              <ngb-panel *ngFor="let status of registrationStatus">
-                <ng-template ngbPanelTitle>
-                  <div class="HeadCollapse">
-                    <h2 class="paidHead"> {{status.SeasonName}}</h2>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <div class="data_module bgBlue">
-                    <div class="fms_time marginleftNone wordBreak">
-                      <!-- <div class="row-fluid signupPosition borderTopNone">
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="data_module bgBlue">
+                      <div class="fms_time marginleftNone wordBreak">
+                        <!-- <div class="row-fluid signupPosition borderTopNone">
                         <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                           <strong>Season:</strong>
                         </div>
@@ -106,129 +114,130 @@
                         <div class="clearfix"></div>
                       </div> -->
 
-                      <div class="row-fluid signupPosition">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Registration Status:</strong>
+                        <div class="row-fluid signupPosition">
+                          <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                            <strong>Registration Status:</strong>
+                          </div>
+                          <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                            {{status.Status}}
+                          </div>
+                          <div class="clearfix"></div>
                         </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{status.Status}}
+
+                        <div class="row-fluid signupPosition">
+                          <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                            <strong>Registration Date & Time:</strong>
+                          </div>
+                          <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                            {{status.TransactionDate}}
+                          </div>
+                          <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
+
+                        <div class="row-fluid signupPosition ">
+                          <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                            <strong>Registration Method:</strong>
+                          </div>
+                          <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                            {{status.RegistrationMode}}
+                          </div>
+                          <div class="clearfix"></div>
+                        </div>
+
+                        <div class="row-fluid signupPosition ">
+                          <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                            <strong>Amount Paid (Player Amt/Total Amt):</strong>
+                          </div>
+                          <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                            {{status.Amount}}/{{status.AmountPaid}}
+                          </div>
+                          <div class="clearfix"></div>
+                        </div>
+
+                        <div class="row-fluid signupPosition ">
+                          <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                            <strong>Payment Method:</strong>
+                          </div>
+                          <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                            {{status.PaymentMode}}
+                          </div>
+                          <div class="clearfix"></div>
+                        </div>
+
+                        <div class="withdrawDiv" style="text-align:center">
+                          <button type="submit" class="btn btn-danger">Withdraw</button>
+                        </div>
+
                       </div>
-
-                      <div class="row-fluid signupPosition">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Registration Date & Time:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{status.TransactionDate}}
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
-
-                      <div class="row-fluid signupPosition ">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Registration Method:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{status.RegistrationMode}}
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>                     
-
-                      <div class="row-fluid signupPosition ">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Amount Paid (Player Amt/Total Amt):</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{status.Amount}}/{{status.AmountPaid}}
-                        </div>
-                        <div class="clearfix"></div>
-                      </div>
-
-                      <div class="row-fluid signupPosition ">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Payment Method:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{status.PaymentMode}}
-                        </div>
-                        <div class="clearfix"></div>                      
-                      </div>
-
-                      <div class="withdrawDiv" style="text-align:center">
-                        <button type="submit" class="btn btn-danger">Withdraw</button>
-                      </div>
-
                     </div>
-                  </div>
-                </ng-template>
-              </ngb-panel>
-            </ngb-accordion>
-          </ng-template>
-        </ngb-panel>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+            </ng-template>
+          </ngb-panel>
 
-        <ngb-panel>
-          <ng-template ngbPanelTitle>
-            <div class="HeadCollapse">
-              <h2 class="paidHead">Apparel</h2>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>           
-            <div class="data_module bgBlue">
-              <div class="fms_time marginleftNone wordBreak">
-                <div class="row-fluid signupPosition borderTopNone">
-                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                    <strong>Short Size:</strong>
-                  </div>
-                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{apparel.ShortSize}}
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-
-                <div class="row-fluid signupPosition ">
-                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                    <strong>Jersey Size:</strong>
-                  </div>
-                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{apparel.JerseySize}}
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-
-                <div class="row-fluid signupPosition ">
-                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                    <strong>Jersey # Request (1st choice):</strong>
-                  </div>
-                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{apparel.RequestedJersey1}}
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-
-                <div class="row-fluid signupPosition ">
-                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                    <strong>Jersey # Request (2nd choice):</strong>
-                  </div>
-                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                    {{apparel.RequestedJersey2}}
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-
-
+          <ngb-panel>
+            <ng-template ngbPanelTitle>
+              <div class="HeadCollapse">
+                <h2 class="paidHead">Apparel</h2>
               </div>
-            </div>
-          </ng-template>
-        </ngb-panel>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="data_module bgBlue">
+                <div class="fms_time marginleftNone wordBreak">
+                  <div class="row-fluid signupPosition borderTopNone">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Short Size:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{apparel.ShortSize}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
 
-      </ngb-accordion>
-      <div id="submitDiv" style="text-align:center">
-        <button type="submit" [disabled]="!validEmail"  class="btn btn-success">Save</button>
-      </div>      
+                  <div class="row-fluid signupPosition ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Jersey Size:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{apparel.JerseySize}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="row-fluid signupPosition ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Jersey # Request (1st choice):</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{apparel.RequestedJersey1}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="row-fluid signupPosition ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Jersey # Request (2nd choice):</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{apparel.RequestedJersey2}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+
+                </div>
+              </div>
+            </ng-template>
+          </ngb-panel>
+
+        </ngb-accordion>
+        <div id="submitDiv" style="text-align:center">
+          <button type="submit" [disabled]="profileForm.invalid" class="btn btn-success">Save</button>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
 </div>
 
 <!-- <div *ngIf="initialFetchError" #serverError>
