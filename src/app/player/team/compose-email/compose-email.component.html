@@ -1,13 +1,14 @@
+<div style="padding:0 15px;">
 <h2><strong>Send Email</strong></h2>
 <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
   <div id="composeEmailDiv" class="form-group">
-    <input class="form-control" formControlName="recepient" type="email" placeholder="To" />
-    <input class="form-control" formControlName="subject" type="text" placeholder="Subject" />
+    <input class="form-control" formControlName="recepient" style="margin-bottom: 2%;" type="email" placeholder="To" />
+    <input class="form-control" formControlName="subject" style="margin-bottom: 2%;" type="text"  placeholder="Subject" />
     <ckeditor [editor]="Editor" (ready)="onReady($event)"></ckeditor>
-    <div class="center-block;">
-      <button type="submit" class="btn btn-primary btnMargin">SEND</button>
-      <button type="button" (click)="cancel()" class="btn btn-danger btnMargin">CANCEL</button>
+    <div style="text-align:center; width: 100%" class="center-block;">
+      <button type="submit" class="btn btn-primary btnMargin btn-responsive">SEND</button>&nbsp;
+      <button type="button" (click)="cancel()" class="btn btn-danger btnMargin btn-responsive">CANCEL</button>
     </div>
-
   </div>
 </form>
+</div>

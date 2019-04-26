@@ -63,12 +63,23 @@ export class TeamComponent implements OnInit {
 
   sendEmail(){
 
-    this.playerService.emailFlag=true;
-    
-    this.router.navigate(["/player/compose-email"]);
+    this.playerService.emailFlag = true;
 
-    this.playerService.recepient = "sample@gmail.com"
- 
+    this.playerService.recepient = " ";
+
+    for(var i in this.emails){
+      this.playerService.recepient += this.emails[i] + ", ";    
+    }
+
+    this.playerService.recepient = this.playerService.recepient.slice(0, -2); 
+    
+    const interval = setInterval(()=>{   
+      console.log("email flag:", this.playerService.emailFlag)   ;
+      console.log(this.playerService.recepient);
+      this.router.navigate(["/player/compose-email"]);
+      clearInterval(interval);
+    },1000)
+
   
     // const initialState = {
     //   recepient: '1'
@@ -81,16 +92,40 @@ export class TeamComponent implements OnInit {
   }
 
   updateAll(){
+    this.emails = [];
     if(this.selectAll === true){
-      this.TeamLeaders.map((leader)=>{
-        leader.selected=true;
+      this.allowSendEmail=true;
+      this.TeamLeaders.map((leader)=>{       
+        if(leader.Email.length>1){
+          leader.selected=true;
+          this.emails.push(leader.Email);
+        }
+       
       })
     }
     else{
+      this.emails = [];
+      this.allowSendEmail=false;
       this.TeamLeaders.map((leader)=>{
         leader.selected=false;
       })
     }
+
+    console.log(this.emails);
+  }
+
+  emails: string[] = []
+  allowSendEmail:boolean;
+  checkboxChange(e: any, email ){
+    if(e.currentTarget.checked){
+      this.emails.push(email);
+      this.allowSendEmail = true;
+    }
+    else{
+      this.allowSendEmail = false;     
+      this.emails = this.emails.filter(item => item !== email);
+    }
+    console.log(this.emails);
   }
 
 }

@@ -32,9 +32,10 @@
             <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
           </li>
           <li class="tab-link" data-tab="tab3-2">
-            <a routerLink="/player/team" routerLinkActive="active"  [ngClass]="playerService.emailFlag ? 'active':''">
+            <a routerLink="/player/team" routerLinkActive="active" [ngClass]="{'active': playerService.emailFlag==true}">
               <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team 
-                  <br class="breakAll" />Info</span>
+                  <br class="breakAll" /> Info</span>
+                  
             </a>
           </li>
           <li class="tab-link" data-tab="tab3-3">

@@ -23,6 +23,7 @@ export interface TeamGames {
 }
 
   export interface TeamLeaders{
+    Email:string;
     Photo: string;
     VolunteerName: string;
     VolunteerPosition: string;

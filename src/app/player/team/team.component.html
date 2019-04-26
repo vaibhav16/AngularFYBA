@@ -27,13 +27,13 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let leader of TeamLeaders">
-                      <td class="text-center"><input [(ngModel)]=leader.selected class="chkbox"  type="checkbox" /></td>
+                      <td class="text-center"><input [(ngModel)]=leader.selected [disabled]="leader.Email.length<=1" (change)="checkboxChange($event,leader.Email)" class="chkbox"  type="checkbox" /></td>
                       <td class="leaderImg text-center"><img src={{leader.Photo}} /></td>
                       <td class="">{{leader.VolunteerName}} <br /><strong>{{leader.VolunteerPosition}}</strong></td>
                     </tr>
                     <tr>
                       <td colspan="3" class="borderNone" style="text-align: center;">
-                        <button type="submit" (click)="sendEmail()" class="btn btn-success marginTop10">Send Email</button>
+                        <button type="submit" [disabled]="!allowSendEmail" (click)="sendEmail()" class="btn btn-success marginTop10">Send Email</button>
 
                       </td>
                     </tr>
@@ -92,7 +92,7 @@
                   </tbody>
                   <tr>
                     <td colspan="3" class="borderNone" style="text-align: center">
-                      <button type="submit" class="btn btn-success marginTop10">Send Email</button>
+                      <button type="submit" (click)="sendEmail()" class="btn btn-success marginTop10">Send Email</button>
 
                     </td>
                   </tr>
