@@ -56,6 +56,10 @@ export class AuthGuard implements CanActivate{
       if((this.cookieService.get("isPlayer"))=="true"){
         this.dss.isPlayer = true;
       }
+
+      this.dss.email = this.cookieService.get(
+        "email"
+      );
       // logged in so return true
       return true;
     }

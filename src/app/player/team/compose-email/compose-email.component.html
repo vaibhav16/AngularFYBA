@@ -4,7 +4,7 @@
   <div id="composeEmailDiv" class="form-group">
     <input class="form-control" formControlName="recepient" style="margin-bottom: 2%;" type="email" placeholder="To" />
     <input class="form-control" formControlName="subject" style="margin-bottom: 2%;" type="text"  placeholder="Subject" />
-    <ckeditor [editor]="Editor" (ready)="onReady($event)"></ckeditor>
+    <ckeditor [editor]="Editor"  formControlName="body" (ready)="onReady($event)"></ckeditor>
     <div style="text-align:center; width: 100%" class="center-block;">
       <button type="submit" class="btn btn-primary btnMargin btn-responsive">SEND</button>&nbsp;
       <button type="button" (click)="cancel()" class="btn btn-danger btnMargin btn-responsive">CANCEL</button>
@@ -12,3 +12,5 @@
   </div>
 </form>
 </div>
+
+<app-fybaloader *ngIf="request"></app-fybaloader>

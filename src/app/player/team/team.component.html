@@ -5,7 +5,7 @@
         <h1 class="mainDate name_player"><strong>{{TeamName}}</strong></h1>
 
         <!------Team Leaders----->
-        <ngb-accordion>
+        <ngb-accordion >
           <ngb-panel>
             <ng-template ngbPanelTitle>
               <div class="HeadCollapse">
@@ -63,9 +63,11 @@
                     <tr class="bgGray">
                       <td rowspan="2" *ngIf="roster.Parents.length==0">
                       </td>
-                      <td rowspan="5" *ngIf="roster.Parents.length==1" class="teamRosterTable"> <input  class="chkbox"  type="checkbox">
+                      <td rowspan="5" *ngIf="roster.Parents.length==1" class="teamRosterTable"> 
+                        <input (change)="rosterCheckboxChange($event,roster.Parents[0].ParentEmail)" class="chkbox"  type="checkbox">
                       </td>
-                      <td rowspan="8" *ngIf="roster.Parents.length==2" class="teamRosterTable"> <input  class="chkbox"  type="checkbox">
+                      <td rowspan="8" *ngIf="roster.Parents.length==2" class="teamRosterTable"> 
+                        <input (change)="rosterCheckboxChange($event,roster.Parents[0].ParentEmail,$event,roster.Parents[1].ParentEmail)"  class="chkbox"  type="checkbox">
                       </td>
 
                       <td class="text-center">
@@ -92,7 +94,7 @@
                   </tbody>
                   <tr>
                     <td colspan="3" class="borderNone" style="text-align: center">
-                      <button type="submit" (click)="sendEmail()" class="btn btn-success marginTop10">Send Email</button>
+                      <button type="submit" (click)="rosterSendEmail()" class="btn btn-success marginTop10">Send Email</button>
 
                     </td>
                   </tr>

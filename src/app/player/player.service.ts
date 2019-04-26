@@ -13,6 +13,8 @@ import { Constants } from './../constants';
 import { GetPlayer } from './models/getPlayer.model';
 import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../data-sharing.service';
+import { IEmail } from './models/Iemail.model';
+import { EmailValidator } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,7 @@ export class PlayerService {
   backClick = false;
   recepient: string;
   emailFlag:boolean;
+  iEmail:IEmail;
   //recepeients:string[] = [];
   constructor(private http: Http, private dss: DataSharingService) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
@@ -80,6 +83,24 @@ export class PlayerService {
 
   }
 
+
+  sendEmail(subject,emailBody): Observable<any> {
+    var emailModel = new IEmail();
+    emailModel.UserID = this.dss.userId;
+    emailModel.SessionKey = this.dss.sessionKey;
+    emailModel.RequestedData = JSON.stringify({
+      ToEmailIds:this.recepient,
+      FromEmailId: this.dss.email,
+      Subject: subject,
+      Body: emailBody,
+      SeasonId: this.dss.seasonId,
+      LeagueId: this.dss.leagueId
+    });
+
+    var body = JSON.stringify(emailModel);
+    console.log(body);
+    return this.http.post(Constants.apiURL + '/api/SendMail', body, this.postRequestOptions);
+  }
   // get backClicked(){
   //   return this.backClick;
   // }
