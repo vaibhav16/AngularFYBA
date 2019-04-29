@@ -7,9 +7,9 @@ width: 100%;
     font-weight: bold;
     margin-top: 5%;
     display: inline-block;
-    margin-top: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-top: 15px;
+    /* margin-left: 10%;
+    margin-right: 10%; */
 }
 
 :host ::ng-deep .ck-editor__editable_inline {
@@ -23,5 +23,7 @@ width: 100%;
 .btn-responsive {
     white-space: normal !important;
     word-wrap: break-word;
-    width: 12%;
+    /* width: 12%; */
 }
+
+

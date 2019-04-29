@@ -7,6 +7,7 @@ import { PlayerService } from '../../player.service';
 import { RequestedData } from './../../models/Iemail.model';
 import { ValidationModalComponent } from './../../../official/report-game/validation-modal/validation-modal.component';
 //import { ValidationModalComponent } from './../validation-modal/validation-modal.component';
+import { RequestStatusPopupComponent } from './../../../common/request-status-popup/request-status-popup.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -47,9 +48,11 @@ export class ComposeEmailComponent implements OnInit {
           console.log(res);
           responseBody = JSON.parse(res["_body"]);
           console.log(responseBody);
-          this.modalRef = this.modalService.show(ValidationModalComponent);
-          this.modalRef.content.popupTitle = 'Close';
-          this.modalRef.content.popupMsg = "Success";
+          this.modalRef = this.modalService.show(RequestStatusPopupComponent);
+          this.modalRef.content.status = responseBody.Status;
+          this.modalRef.content.popupTitle = responseBody.Message.PopupHeading;
+          this.modalRef.content.popupMsg = responseBody.Message.PopupMessage;
+          this.modalRef.content.route = "/player/team";
         }
       )
   }

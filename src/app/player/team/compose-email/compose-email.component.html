@@ -1,16 +1,22 @@
-<div style="padding:0 15px;">
-<h2><strong>Send Email</strong></h2>
-<form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
-  <div id="composeEmailDiv" class="form-group">
-    <input class="form-control" formControlName="recepient" style="margin-bottom: 2%;" type="email" placeholder="To" />
-    <input class="form-control" formControlName="subject" style="margin-bottom: 2%;" type="text"  placeholder="Subject" />
-    <ckeditor [editor]="Editor"  formControlName="body" (ready)="onReady($event)"></ckeditor>
-    <div style="text-align:center; width: 100%" class="center-block;">
-      <button type="submit" class="btn btn-primary btnMargin btn-responsive">SEND</button>&nbsp;
-      <button type="button" (click)="cancel()" class="btn btn-danger btnMargin btn-responsive">CANCEL</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="composeHeading"><strong>Send Email</strong></h2>
+      <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+        <div id="composeEmailDiv" class="form-group">
+          <input class="form-control" formControlName="recepient" style="margin-bottom: 2%;" type="email"
+            placeholder="To" />
+          <input class="form-control" formControlName="subject" style="margin-bottom: 2%;" type="text"
+            placeholder="Subject" />
+          <ckeditor [editor]="Editor" formControlName="body" (ready)="onReady($event)"></ckeditor>
+          <div style="text-align:center; width: 100%" class="center-block;">
+            <button type="submit" class="btn btn-primary btnMargin btn-responsive">SEND</button>&nbsp;&nbsp;
+            <button type="button" (click)="cancel()" class="btn btn-danger btnMargin btn-responsive">CANCEL</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-</form>
 </div>
 
 <app-fybaloader *ngIf="request"></app-fybaloader>

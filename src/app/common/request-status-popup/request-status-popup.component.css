@@ -1,0 +1,11 @@
+.colorRed{
+    background-color: red;
+}
+
+.colorGreen{
+    background-color: green;
+}
+
+.padding10{padding:10px !important;}
+.customClose{color:#fff !important;text-shadow: 0 1px 0 #000; opacity:1;}
+

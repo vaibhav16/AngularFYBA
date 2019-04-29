@@ -686,6 +686,7 @@ div {
    .slideDate .custom-dropdown select{font-size:12px;}
    
    @media only screen and (max-width : 767px) {
+    .composeHeading { font-size: 18px;}
     .addList .addListDiv.uploadDiv{ width: 60px !important; height: 60px !important;}
     .addList .addListDiv{width: 60px !important; height: 60px !important;}
     .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:60px !important; height:60px !important; margin-right:20px !important;border:1px solid #000 !important;}
@@ -1170,6 +1171,7 @@ div {
     .small_font .fontSize12 .col-md-4, .small_font .fontSize12 .col-md-8{font-size:14px !important;}
     .small_font #submitDiv button {font-size:14px !important;}
     .small_font .withdrawDiv button {font-size:14px !important;}
+    .small_font .composeHeading { font-size: 16px !important;}
 }
 
   /* ---- End Small Font Css --- */

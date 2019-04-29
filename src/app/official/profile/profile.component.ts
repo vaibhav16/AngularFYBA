@@ -33,6 +33,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.profileRequest = true;
+
+ 
     this.officialService.fetchProfileData().subscribe(
       (data) => {
         if (data['Status']) {

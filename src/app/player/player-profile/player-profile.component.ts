@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PlayerService } from './../player.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Form, FormArray, Validators, FormControl } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { RequestStatusPopupComponent } from './../../common/request-status-popup/request-status-popup.component';
 // import { format } from 'path';
 // import { Observable, of, interval, Subscription, timer, pipe } from 'rxjs';
 // import { switchMap } from 'rxjs/operators';
@@ -17,7 +20,8 @@ export class PlayerProfileComponent implements OnInit {
   profileForm;
 
   constructor(public playerService: PlayerService,
-    public router: Router, private fb: FormBuilder) {
+    public router: Router, private fb: FormBuilder,
+    private modalService: BsModalService) {
 
   }
 
@@ -66,9 +70,9 @@ export class PlayerProfileComponent implements OnInit {
   subscription;
   timesRun;
   interval;
+  modalRef: BsModalRef;
   
   ngOnInit() {
-
     this.fetchingData=true;
     console.log(this.playerService.profileData);
 
