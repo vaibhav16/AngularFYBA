@@ -1,3 +1,4 @@
+<ng-container *ngIf="!playerService.emailFlag">
 <div *ngIf="teamInfo!=null" class="container teamInfoTab">
   <div class="row">
     <div style="margin-bottom:5%;" class="col-lg-12">
@@ -182,7 +183,10 @@
     </div>
   </div>
 </div>
+</ng-container>
 
 <app-fybaloader *ngIf="dataRequest"></app-fybaloader>
 
-<router-outlet></router-outlet>
+<app-compose-email *ngIf="playerService.emailFlag"></app-compose-email>
+
+<!-- <router-outlet *ngIf="playerService.emailFlag"></router-outlet> -->

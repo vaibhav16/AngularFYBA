@@ -64,6 +64,7 @@ export class TeamComponent implements OnInit {
   }
 
 
+  
   sendEmail(){
 
     this.playerService.emailFlag = true;
@@ -79,7 +80,7 @@ export class TeamComponent implements OnInit {
     const interval = setInterval(()=>{   
       console.log("email flag:", this.playerService.emailFlag)   ;
       console.log(this.playerService.recepient);
-      this.router.navigate(["/player/compose-email"]);
+      this.router.navigate(["/player/team/compose-email"]);
       clearInterval(interval);
     },1000)
 

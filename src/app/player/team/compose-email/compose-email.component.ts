@@ -48,17 +48,20 @@ export class ComposeEmailComponent implements OnInit {
           console.log(res);
           responseBody = JSON.parse(res["_body"]);
           console.log(responseBody);
+          this.playerService.emailFlag = false;
           this.modalRef = this.modalService.show(RequestStatusPopupComponent);
           this.modalRef.content.status = responseBody.Status;
           this.modalRef.content.popupTitle = responseBody.Message.PopupHeading;
           this.modalRef.content.popupMsg = responseBody.Message.PopupMessage;
           this.modalRef.content.route = "/player/team";
+          
         }
       )
   }
 
 
   cancel() {
+    this.playerService.emailFlag = false;
     this.router.navigate(["/player/team"]);
   }
 

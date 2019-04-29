@@ -6,9 +6,8 @@
     <div class="row official_header_img_paddNone">
       <div class="col-lg-12 col-md-12">
         <ul class="parentPlayer">
-          <li *ngFor="let player of playerLists" 
-          (click)="filterPlayer(player.PlayerId)"          
-          [ngClass] = "playerData.PlayerId == player.PlayerId ? 'active' : ''">
+          <li *ngFor="let player of playerLists" (click)="filterPlayer(player.PlayerId)"
+            [ngClass]="playerData.PlayerId == player.PlayerId ? 'active' : ''">
             <img style="height:30px; width:30px;border-radius: 50%;" src={{player.PlayerPhoto}} />
             <span>{{player.PlayerFirstName}}
               <br class="breakWord" />
@@ -28,24 +27,32 @@
     <div class="row">
       <div class="col-lg-12">
         <ul class="game_select">
+
+          <!--Calendar-->
           <li class="tab-link current active" data-tab="tab3-1">
             <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
           </li>
+
+            <!--Team Info-->
           <li class="tab-link" data-tab="tab3-2">
-            <a routerLink="/player/team" routerLinkActive="active" [ngClass]="{'active': playerService.emailFlag==true}">
-              <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team 
-                  <br class="breakAll" /> Info</span>
-                  
+            <a routerLink="/player/team" routerLinkActive="active" >
+             <!-- [ngClass]="{'active': playerService.emailFlag==true}" -->
+              <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team
+                <br class="breakAll" /> Info</span>
+
             </a>
           </li>
+
+            <!--Share-->
           <li class="tab-link" data-tab="tab3-3">
             <img src="assets/images/share_icon.png" alt="Share Icon" /><span>Share <span
                 class="spaceBorder">&nbsp;</span></span>
           </li>
-          <!----li class="tab-link" data-tab="tab3-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
+
+          <!--Player Profile-->
           <li class="tab-link" data-tab="tab3-5">
             <a routerLink="/player/profile" routerLinkActive="active">
-              <img src="assets/images/officiating.png" alt="Profile" /><span class="wordLimit">Player 
+              <img src="assets/images/officiating.png" alt="Profile" /><span class="wordLimit">Player
                 <br class="breakAll" />Profile</span>
             </a>
           </li>

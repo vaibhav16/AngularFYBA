@@ -62,12 +62,16 @@ const routes: Routes = [
       {
         path: 'team',
         component: TeamComponent,
-        canDeactivate: [DeactivateGuard]
-      },
-      {
-        path:'compose-email',
-        component:ComposeEmailComponent
+        canDeactivate: [DeactivateGuard],
+        children:[ {
+          path:'compose-email',
+          component:ComposeEmailComponent
+        }]
       }
+      // {
+      //   path:'compose-email',
+      //   component:ComposeEmailComponent
+      // }
       
     ]
   },
