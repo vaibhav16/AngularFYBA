@@ -4,7 +4,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Form, FormArray, Validators, FormControl } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { RequestStatusPopupComponent } from './../../common/request-status-popup/request-status-popup.component';
+import { WithdrawComponent } from './withdraw/withdraw.component';
+import { DataSharingService } from './../../data-sharing.service';
+import { MatSnackBar } from '@angular/material';
+//import { RequestStatusPopupComponent } from './../../common/request-status-popup/request-status-popup.component';
 // import { format } from 'path';
 // import { Observable, of, interval, Subscription, timer, pipe } from 'rxjs';
 // import { switchMap } from 'rxjs/operators';
@@ -21,7 +24,8 @@ export class PlayerProfileComponent implements OnInit {
 
   constructor(public playerService: PlayerService,
     public router: Router, private fb: FormBuilder,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private snackbar: MatSnackBar) {
 
   }
 
@@ -32,6 +36,7 @@ export class PlayerProfileComponent implements OnInit {
     for (var i in this.parentInfo) {
       formArr.push(
         this.fb.group({
+          userId: this.parentInfo[i]["UserId"],
           parentName:this.parentInfo[i]["Parent_Name"],
           relationship:this.parentInfo[i]["Parent_Relationship"],
           email: new FormControl(this.parentInfo[i]["Parent_Email"],[Validators.email, Validators.required]),          
@@ -41,11 +46,8 @@ export class PlayerProfileComponent implements OnInit {
          
         })
       )
-
     }
-
     return formArr;
-
   }
 
 
@@ -116,6 +118,50 @@ export class PlayerProfileComponent implements OnInit {
       this.validEmail = false;
     }
 
+  }
+
+
+  onSubmit(){
+    this.fetchingData=true;
+    console.log(this.profileForm.value);    
+    // for(var i=0; i<this.profileForm.controls['ParentInfo'].length; ++i){
+    //   console.log(i);
+    // }
+    var rd = "[";
+    (<FormArray>this.profileForm.get('ParentInfo')).controls.forEach((group) =>{
+      console.log(group.value);
+      rd += JSON.stringify({
+        UserId:group.value.userId,
+        Parent_HomePhone:group.value.homePhone,
+        Parent_MobilePhone:group.value.mobilePhone,
+        Parent_WorkPhone:group.value.workPhone,
+        Parent_Email:group.value.email
+      })+","
+    });
+    rd = rd.substring(0, rd.length - 1);
+    rd +="]"
+
+    console.log(JSON.stringify(rd));
+    this.playerService.saveProfileData(rd)
+    .subscribe((res)=>{
+      res = JSON.parse(res["_body"]);
+      
+      this.fetchingData=false;
+      this.snackbar.open(res.Message.PopupHeading,'',{duration:3000});
+      
+      //console.log(JSON.parse(res["_body"]));
+    }
+  );
+  }
+
+  modalRed: BsModalRef;
+  withdraw(){
+    console.log("Withdraw");
+    this.modalRef = this.modalService.show(WithdrawComponent);
+    // this.modalRef.content.status = responseBody.Status;
+    // this.modalRef.content.popupTitle = responseBody.Message.PopupHeading;
+    // this.modalRef.content.popupMsg = responseBody.Message.PopupMessage;
+    // this.modalRef.content.route = "/player/team";
   }
 
 

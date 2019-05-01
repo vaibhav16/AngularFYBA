@@ -101,6 +101,26 @@ export class PlayerService {
     console.log(body);
     return this.http.post(Constants.apiURL + '/api/SendMail', body, this.postRequestOptions);
   }
+
+  saveProfileData(requestedData):Observable<any>{
+    var saveProfileModel = new GetPlayer();
+    saveProfileModel.UserID = this.dss.userId;
+    saveProfileModel.SessionKey = this.dss.sessionKey;
+    saveProfileModel.RequestedData = requestedData;
+    var body = JSON.stringify(saveProfileModel);
+    console.log(body);
+    return this.http.post(Constants.apiURL + '/api/PlayerDetailsSave', body, this.postRequestOptions);
+  }
+
+  withdrawPlayer():Observable<any>{
+    var saveProfileModel = new GetPlayer();
+    saveProfileModel.UserID = this.dss.userId;
+    saveProfileModel.SessionKey = this.dss.sessionKey;
+    //saveProfileModel.RequestedData = requestedData;
+    var body = JSON.stringify(saveProfileModel);
+    console.log(body);
+    return this.http.post(Constants.apiURL + '/api/PlayerDetailsSave', body, this.postRequestOptions);
+  }
   // get backClicked(){
   //   return this.backClick;
   // }

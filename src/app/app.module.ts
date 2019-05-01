@@ -54,6 +54,7 @@ import { TeamComponent } from './player/team/team.component';
 import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { RequestStatusPopupComponent } from './common/request-status-popup/request-status-popup.component';
+import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { RequestStatusPopupComponent } from './common/request-status-popup/reque
     PlayerProfileComponent,
     TeamComponent,
     ComposeEmailComponent,
-    RequestStatusPopupComponent
+    RequestStatusPopupComponent,
+    WithdrawComponent
   ],
   imports: [
     HttpModule,
@@ -120,7 +122,8 @@ import { RequestStatusPopupComponent } from './common/request-status-popup/reque
     SuccessPopupComponent,
     ShowNewIncidentComponent,
     SavedataPopupComponent,
-    RequestStatusPopupComponent
+    RequestStatusPopupComponent,
+    WithdrawComponent
   ],
   providers: [
     //MessageService,
