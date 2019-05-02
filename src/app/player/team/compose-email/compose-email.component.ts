@@ -9,6 +9,7 @@ import { ValidationModalComponent } from './../../../official/report-game/valida
 //import { ValidationModalComponent } from './../validation-modal/validation-modal.component';
 import { RequestStatusPopupComponent } from './../../../common/request-status-popup/request-status-popup.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-compose-email',
@@ -53,7 +54,9 @@ export class ComposeEmailComponent implements OnInit {
           this.modalRef.content.status = responseBody.Status;
           this.modalRef.content.popupTitle = responseBody.Message.PopupHeading;
           this.modalRef.content.popupMsg = responseBody.Message.PopupMessage;
+          this.playerService.indicator.next(true);
           this.modalRef.content.route = "/player/team";
+          
           
         }
       )
@@ -62,6 +65,7 @@ export class ComposeEmailComponent implements OnInit {
 
   cancel() {
     this.playerService.emailFlag = false;
+    this.playerService.indicator.next(true);
     this.router.navigate(["/player/team"]);
   }
 
@@ -73,6 +77,9 @@ export class ComposeEmailComponent implements OnInit {
       return new UploadAdapter(loader);
     };
   }
+
+
+
 
 
 }

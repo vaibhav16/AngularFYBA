@@ -47,7 +47,7 @@
 
         <!------Team Roster----->
 
-        <ngb-accordion>
+        <ngb-accordion class="teamRosterPadd">
           <ngb-panel>
             <ng-template ngbPanelTitle>
               <div class="HeadCollapse">
@@ -57,7 +57,7 @@
             <ng-template ngbPanelContent>
 
               <div class="table-responsive borderNone">
-                <table class="teamInfoPage">
+                <table class="teamInfoPage"> 
 
                   <tbody *ngFor="let roster of TeamRoster">
 
@@ -65,10 +65,12 @@
                       <td rowspan="2" *ngIf="roster.Parents.length==0">
                       </td>
                       <td rowspan="5" *ngIf="roster.Parents.length==1" class="teamRosterTable"> 
-                        <input (change)="rosterCheckboxChange($event,roster.Parents[0].ParentEmail)" class="chkbox"  type="checkbox">
+                        <!-- {{roster | json}} -->
+                        <input (change)="rosterCheckboxChange($event,roster)" class="chkbox"  type="checkbox">
                       </td>
                       <td rowspan="8" *ngIf="roster.Parents.length==2" class="teamRosterTable"> 
-                        <input (change)="rosterCheckboxChange($event,roster.Parents[0].ParentEmail,$event,roster.Parents[1].ParentEmail)"  class="chkbox"  type="checkbox">
+                        <!-- {{roster | json}} -->
+                        <input (change)="rosterCheckboxChange($event,roster)"  class="chkbox"  type="checkbox">
                       </td>
 
                       <td class="text-center">
@@ -94,7 +96,7 @@
                   </tbody>
                   <tr>
                     <td colspan="3" class="borderNone" style="text-align: center">
-                      <button type="submit" (click)="rosterSendEmail()" class="btn btn-success marginTop10">Send Email</button>
+                      <button type="submit" [disabled]="!allowRosterSendEmail"  (click)="rosterSendEmail()" class="btn btn-success marginTop10">Send Email</button>
 
                     </td>
                   </tr>

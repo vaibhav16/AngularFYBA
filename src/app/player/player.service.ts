@@ -15,6 +15,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../data-sharing.service';
 import { IEmail } from './models/Iemail.model';
 import { EmailValidator } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class PlayerService {
   recepient: string;
   emailFlag:boolean;
   iEmail:IEmail;
+  public indicator = new Subject<boolean>();
   //recepeients:string[] = [];
   constructor(private http: Http, private dss: DataSharingService) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
@@ -121,6 +123,12 @@ export class PlayerService {
     console.log(body);
     return this.http.post(Constants.apiURL + '/api/PlayerDetailsSave', body, this.postRequestOptions);
   }
+
+  
+  get indicate() {
+    return this.indicator.asObservable();
+}
+
   // get backClicked(){
   //   return this.backClick;
   // }

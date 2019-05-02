@@ -31,7 +31,8 @@ body{
     url('./assets/fonts/glyphicons-halflings-regular.svg#glyphicons-halflings-regular') format('svg');
    }
 
-
+   .teamRosterPadd .card-body {padding: 0px !important;border: 0px !important;}
+   .teamInfoTab .card-body input[type="checkbox"]{height: 20px;width: 20px;margin: 0;}
    .customLI{padding-top:0px !important;background:#2ecc71 !important;border:0px !important;width:100px !important; height:100px !important; margin-right:20px !important;border:1px solid #000 !important;}
    .customLI span{left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%); font-size:14px !important; text-transform: uppercase;} 
    .leftReportDate{float:left; width:75%; text-align:left;padding-top: 0px; margin-right:5%;}

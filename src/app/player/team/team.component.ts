@@ -19,6 +19,7 @@ export class TeamComponent implements OnInit {
   selectAll:boolean = false;
   teamInfo : Team =null;
   dataRequest:boolean;
+  
 
   constructor(public playerService: PlayerService,
     public router: Router,public config: NgbAccordionConfig,
@@ -31,6 +32,8 @@ export class TeamComponent implements OnInit {
 
 
   ngOnInit() {
+    this.emails = [];
+    this.rosterEmails = [];
     //this.config.closeOthers = true;
     this.dataRequest=true;
     this.playerService.getTeamInfo()
@@ -40,7 +43,23 @@ export class TeamComponent implements OnInit {
         this.teamInfo = JSON.parse(res["_body"]);
         console.log(this.teamInfo);
       }
-    )
+    );
+
+    this.playerService.indicate.subscribe(
+      (value)=>{
+
+        console.log("In Subject");
+        console.log(value);
+       this.emails = [];
+       this.rosterEmails = [];
+      }
+     );
+
+  
+  }
+
+  ngAfterViewInit(){
+ 
   }
 
   get TeamLeaders(){
@@ -63,9 +82,10 @@ export class TeamComponent implements OnInit {
     return this.teamInfo.Value.TeamGames;
   }
 
-
   
   sendEmail(){
+    console.log(this.playerService.recepient);
+    console.log(this.emails);
 
     this.playerService.emailFlag = true;
 
@@ -96,6 +116,9 @@ export class TeamComponent implements OnInit {
   }
 
   rosterSendEmail(){
+
+    // console.log(this.playerService.recepient);
+    // console.log(this.rosterEmails);
 
     this.playerService.emailFlag = true;
 
@@ -141,40 +164,58 @@ export class TeamComponent implements OnInit {
   emails: string[] = [];
   rosterEmails: string[] = [];
   allowSendEmail:boolean;
-  checkboxChange(e: any, email,email2 ){
+  allowRosterSendEmail:boolean;
+  checkboxChange(e: any, email ){
     console.log(email);
     if(e.currentTarget.checked){
       this.emails.push(email);
-      if(email2){
-        this.emails.push(email);
-      }
+     
       this.allowSendEmail = true;
     }
     else{
-      this.allowSendEmail = false;     
+    
       this.emails = this.emails.filter(item => item !== email);
-      if(email2){
-        this.emails = this.emails.filter(item => item !== email2);
+
+      if(this.emails.length==0){
+        this.allowSendEmail = false;     
       }
+     
     }
     console.log(this.emails);
   }
 
-  rosterCheckboxChange(e: any, email,email2 ){
-    console.log(email);
+  rosterCheckboxChange(e: any, roster ){
+    console.log(roster);
+
     if(e.currentTarget.checked){
-      this.rosterEmails.push(email);
-      if(email2){
-        this.rosterEmails.push(email);
+
+      for(var i=0; i<roster.Parents.length; ++i){
+        this.rosterEmails.push(roster.Parents[i].ParentEmail)
       }
-      this.allowSendEmail = true;
+      // this.rosterEmails.push(email);
+      // if(email2){
+      //   this.rosterEmails.push(email);
+      // }
+      this.allowRosterSendEmail = true;
     }
     else{
-      this.allowSendEmail = false;     
-      this.rosterEmails = this.emails.filter(item => item !== email);
-      if(email2){
-        this.rosterEmails = this.emails.filter(item => item !== email2);
+
+      console.log("unchecked");
+      console.log(this.rosterEmails);
+      
+
+
+      for(var i=0; i<roster.Parents.length; ++i){
+
+        this.rosterEmails = this.rosterEmails.filter(item => item !== roster.Parents[i].ParentEmail);
+      
       }
+
+      if(this.rosterEmails.length==0){
+        this.allowRosterSendEmail = false;     
+      }
+
+  
     }
     console.log(this.rosterEmails);
   }
