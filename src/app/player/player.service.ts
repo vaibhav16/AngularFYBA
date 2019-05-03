@@ -30,7 +30,6 @@ export class PlayerService {
   emailFlag:boolean;
   iEmail:IEmail;
   public indicator = new Subject<boolean>();
-  //recepeients:string[] = [];
   constructor(private http: Http, private dss: DataSharingService) {
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
     this.postRequestOptions = new RequestOptions({
@@ -114,20 +113,26 @@ export class PlayerService {
     return this.http.post(Constants.apiURL + '/api/PlayerDetailsSave', body, this.postRequestOptions);
   }
 
-  withdrawPlayer():Observable<any>{
-    var saveProfileModel = new GetPlayer();
-    saveProfileModel.UserID = this.dss.userId;
-    saveProfileModel.SessionKey = this.dss.sessionKey;
-    //saveProfileModel.RequestedData = requestedData;
-    var body = JSON.stringify(saveProfileModel);
+  withdrawPlayer(playerId):Observable<any>{
+    var withdrawModel = new GetPlayer();
+    withdrawModel.UserID = this.dss.userId;
+    withdrawModel.SessionKey = this.dss.sessionKey;
+    withdrawModel.RequestedData = JSON.stringify({
+      PlayerId: playerId,
+      SeasonId: this.dss.seasonId,
+      LeagueId: this.dss.leagueId
+    })
+    var body = JSON.stringify(withdrawModel);
     console.log(body);
-    return this.http.post(Constants.apiURL + '/api/PlayerDetailsSave', body, this.postRequestOptions);
+    return this.http.post(Constants.apiURL + '/api/PlayerWithdraw', body, this.postRequestOptions);
   }
 
   
   get indicate() {
     return this.indicator.asObservable();
 }
+
+ 
 
   // get backClicked(){
   //   return this.backClick;

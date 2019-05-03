@@ -155,9 +155,12 @@ export class PlayerProfileComponent implements OnInit {
   }
 
   modalRed: BsModalRef;
-  withdraw(){
-    console.log("Withdraw");
+  withdraw(playerId : number,status :JSON){
+    console.log(status);
     this.modalRef = this.modalService.show(WithdrawComponent);
+    this.modalRef.content.playerId = playerId;
+    this.modalRef.content.details = status;
+
     // this.modalRef.content.status = responseBody.Status;
     // this.modalRef.content.popupTitle = responseBody.Message.PopupHeading;
     // this.modalRef.content.popupMsg = responseBody.Message.PopupMessage;

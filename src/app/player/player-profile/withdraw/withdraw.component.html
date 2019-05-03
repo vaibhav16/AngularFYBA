@@ -1,3 +1,5 @@
+
+<ng-container *ngIf="details">
 <div class="modal-header padding10" style="background-color:red">
   <h4 style="color:white" class="modal-title pull-left">Withdraw</h4>
   <button type="button" class="close pull-right customClose" aria-label="Close" (click)="modalRef.hide()">
@@ -12,7 +14,7 @@
       <ngb-panel>
         <ng-template ngbPanelTitle>
           <div class="HeadCollapse">
-            <h2 class="paidHead"> Withdrawal Information</h2>
+            <h2 class="paidHead" style="font-size:16px !important"> Withdrawal Information</h2>
           </div>
 
         </ng-template>
@@ -28,19 +30,21 @@
       </ngb-panel>
     </ngb-accordion>
     <br/>
-    <label>Current Player Status: </label>
-    <label>Registration Payment Method: </label>
-    <label>Refund Processing Date: </label>
-    <label>Refund Period: </label>
-    <label>Withdrawal Reason: </label>
-    <label>Withdrawal Explaination: </label>
+    <label>Current Player Status: {{details.Status}}</label>
+    <label>Registration Payment Method:  {{details.PaymentMode}}</label>
+    <label>Refund Processing Date:  </label>
+    <label>Refund Period:  </label>
+    <label>Withdrawal Reason:  </label>
+    <label>Withdrawal Explaination:  </label>
   </div>
 </div>
 <div style="text-align:center" class="modal-footer">
-  <button type="button" class="btn" (click)="modalRef.hide()">
+  <button type="button" class="btn btn-danger" (click)="withdraw()">
+    WITHDRAW
+  </button>&nbsp;
+  <button type="button" class="btn btn-primary" (click)="modalRef.hide()">
     CANCEL
   </button>
-  <button type="button" class="btn btn-danger" (click)="ok()">
-    OK
-  </button>
+
 </div>
+</ng-container>
