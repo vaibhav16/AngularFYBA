@@ -24,6 +24,9 @@ export class DataSharingService {
   promptChangePassword: string = null;
   name: string = null;
   email: string = null;
+  VolunteerId:string = null;
+  VolunteerSeasonalId: string = null;
+  VolunteerStatusId: string = null;
   isBackButtonClicked: boolean = null;
   currentRoute: string = null;
   isCoach:boolean = null;

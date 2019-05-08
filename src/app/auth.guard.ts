@@ -60,6 +60,16 @@ export class AuthGuard implements CanActivate{
       this.dss.email = this.cookieService.get(
         "email"
       );
+
+      this.dss.VolunteerId = this.cookieService.get(
+        "volunteerId"
+      );
+      this.dss.VolunteerSeasonalId = this.cookieService.get(
+        "volunteerSeasonId"
+      );
+      this.dss.VolunteerStatusId = this.cookieService.get(
+        "volunteerStatusId"
+      );
       // logged in so return true
       return true;
     }

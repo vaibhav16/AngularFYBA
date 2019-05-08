@@ -15,9 +15,10 @@ import { PlayerDataComponent } from '././player/player-data/player-data.componen
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 import { LogoutComponent } from './common/logout/logout.component';
 import { ChangepasswordComponent } from './common/changepassword/changepassword.component';
-import {  PlayerProfileComponent } from './player/player-profile/player-profile.component';
+import { PlayerProfileComponent } from './player/player-profile/player-profile.component';
 import { TeamComponent } from './player/team/team.component';
 import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
+import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -42,7 +43,20 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'coach', component: CoachComponent, canActivate: [AuthGuard] },
+  {
+    path: 'coach', component: CoachComponent, canActivate: [AuthGuard],
+    children: [
+      {
+        path: '', redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'profile', 
+        component: CoachProfileComponent
+      }
+
+    ]
+  },
   {
     path: 'player',
     component: PlayerComponent,
@@ -63,16 +77,16 @@ const routes: Routes = [
         path: 'team',
         component: TeamComponent,
         canDeactivate: [DeactivateGuard],
-        children:[ {
-          path:'compose-email',
-          component:ComposeEmailComponent
+        children: [{
+          path: 'compose-email',
+          component: ComposeEmailComponent
         }]
       }
       // {
       //   path:'compose-email',
       //   component:ComposeEmailComponent
       // }
-      
+
     ]
   },
   { path: 'fybaloader', component: FybaloaderComponent },
@@ -88,7 +102,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 
 export const routingComponents = [
   LoginComponent,

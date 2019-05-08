@@ -69,7 +69,7 @@ export class PlayerComponent implements OnInit {
       this.playerService.getPlayerProfile().subscribe(
         (res)=>{
           this.playerService.profileData = JSON.parse(res["_body"]);
-          this.dataRequest=false;
+          this.dataRequest = false;
           this.router.navigate(["/player/profile"]);
         }
       )

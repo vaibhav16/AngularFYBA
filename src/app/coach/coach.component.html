@@ -1,6 +1,6 @@
 <app-header [topImage]="headerImg"></app-header>
 
-<div class="parentBG">
+<!-- <div class="parentBG">
   <div class="container">
     <div class="row official_header_img_paddNone">
       <div class="col-lg-12 col-md-12">
@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!----div class="game_select_bg">
 	<div class="container">
@@ -44,26 +44,34 @@
       <div class="col-lg-12">
         <ul class="game_select">
           <li class="tab-link current active" data-tab="tab2-1">
-            <img [src]="calender_icon" alt="Calender" /><span>Calender</span>
+            <a routerLinkActive="active">
+              <img [src]="calender_icon" alt="Calender" /><span>Calender</span>
+            </a>
           </li>
           <li class="tab-link" data-tab="tab2-2">
-            <img [src]="team_icon" alt="Team" /><span class="wordLimit"
-              >Team <span class="spaceBorder">Info</span></span
-            >
+            <a  routerLinkActive="active">
+              <img [src]="team_icon" alt="Team" />
+              <span class="wordLimit">
+                Team <br class="breakAll" /> Info</span>
+            </a>
           </li>
           <li class="tab-link" data-tab="tab2-3">
-            <img [src]="game_icon" alt="Teach" /><span
-              >Teach <span class="spaceBorder">&nbsp;</span></span
-            >
+            <a routerLinkActive="active">
+              <img [src]="game_icon" alt="Teach" /><span>Teach <span class="spaceBorder">&nbsp;</span></span>
+            </a>
           </li>
           <!----li class="tab-link" data-tab="tab2-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->
           <li class="tab-link" data-tab="tab2-5">
-            <img [src]="officiating" alt="Profile" /><span
-              >Profile <span class="spaceBorder">&nbsp;</span></span
-            >
+            <a routerLink="/coach/profile" routerLinkActive="active">
+              <img [src]="officiating" alt="Profile" />
+              <span>Coach <br class="breakAll" />Profile </span>
+            </a>
           </li>
         </ul>
       </div>
     </div>
   </div>
 </div>
+
+<router-outlet></router-outlet>
+

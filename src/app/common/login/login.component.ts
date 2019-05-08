@@ -104,19 +104,22 @@ export class LoginComponent implements OnInit {
       () => {
         this.loginRequest = false;
         if (this.userData.Status) {
-          if (this.userData.Value.OfficialIsOfficial) {
-            this.router.navigate(['official']);
-            this.cookieService.set('isOfficial', 'true', 365);
-          }
-
-          if (this.userData.Value.CoachIsCoach) {
-            this.cookieService.set('isCoach', 'true', 365);
-          }
 
           if (this.userData.Value.PlayerIsPlayer) {
             this.router.navigate(['player']);
             this.cookieService.set('isPlayer', 'true', 365);
           }
+
+          if (this.userData.Value.CoachIsCoach) {
+            this.router.navigate(['coach']);
+            this.cookieService.set('isCoach', 'true', 365);
+          }
+
+          if (this.userData.Value.OfficialIsOfficial) {
+            this.router.navigate(['official']);
+            this.cookieService.set('isOfficial', 'true', 365);
+          }      
+        
 
           this.cookieService.set('sessionKey', this.userData.SessionKey);
           this.cookieService.set('userId', this.userData.Value.UserId.toString(), 365);
@@ -137,6 +140,9 @@ export class LoginComponent implements OnInit {
           );
 
           this.cookieService.set('email', this.userData.Value.Email, 365);
+          this.cookieService.set('volunteerId', this.userData.Value.VolunteerId.toString(), 365);
+          this.cookieService.set('volunteerSeasonId', this.userData.Value.VolunteerSeasonalId.toString(), 365);          
+          this.cookieService.set('volunteerStatusId', this.userData.Value.VolunteerStatusId.toString(), 365);
           //this.cookieService.set("name", this.userData.Value.FirstName + " " + this.userData.Value.LastName, 365);
           this.dss.textSize = this.userData.Value.Text_Size;
           //console.log
@@ -158,9 +164,13 @@ export class LoginComponent implements OnInit {
           this.dss.textSize = this.userData.Value.Text_Size;
           this.dss.promptChangePassword = this.userData.Value.PromptChangePassword;
           this.dss.name = this.userData.Value.FirstName + ' ' + this.userData.Value.LastName;
+          this.dss.VolunteerId = this.userData.Value.VolunteerId;
+          this.dss.VolunteerSeasonalId = this.userData.Value.VolunteerSeasonalId;
+          this.dss.VolunteerStatusId = this.userData.Value.VolunteerStatusId;
           this.dss.isCoach = this.userData.Value.CoachIsCoach;
           this.dss.isPlayer = this.userData.Value.PlayerIsPlayer;
           this.dss.isOfficial = this.userData.Value.OfficialIsOfficial;
+
         }
       }
     );

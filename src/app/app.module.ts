@@ -55,6 +55,7 @@ import { ComposeEmailComponent } from './player/team/compose-email/compose-email
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { RequestStatusPopupComponent } from './common/request-status-popup/request-status-popup.component';
 import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.component';
+import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.com
     TeamComponent,
     ComposeEmailComponent,
     RequestStatusPopupComponent,
-    WithdrawComponent
+    WithdrawComponent,
+    CoachProfileComponent
   ],
   imports: [
     HttpModule,

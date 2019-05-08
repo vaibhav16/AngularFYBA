@@ -38,6 +38,10 @@ export interface IUserData {
     Text_Size:string;
     UserId:number;
     tagsLables: tagsLables;
+    VolunteerId:string;
+    VolunteerSeasonalId:string;
+    VolunteerStatusId: string;
+
 
   }
 
