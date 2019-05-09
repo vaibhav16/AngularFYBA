@@ -4,6 +4,7 @@ import { CoachService }  from './../coach.service';
 import { Router } from '@angular/router';
 import { CoachProfileResponse } from './../models/profileResponse.model';
 import { FormBuilder,FormArray,FormControl } from '@angular/forms';
+import { ArrayValidators } from './checkbox.validator';
 
 
 @Component({
@@ -73,6 +74,7 @@ export class CoachProfileComponent implements OnInit {
 
   }
 
+
   async generatePracticePreferenceForm(){
     this.preferenceForm = await this.fb.group({
       locationPreference: this.patchLocationPreference(),
@@ -113,11 +115,18 @@ export class CoachProfileComponent implements OnInit {
 
   patchTimeOfTheDayPreference(){
     let arr = new FormArray([]);
+    for(var i=0; i<this.profileData.Value.TimeOfDayPreferenceValues.length;++i){
+      arr.push(this.fb.group({
+        TimeId:this.profileData.Value.TimeOfDayPreferenceValues[i].TimeId,
+        TimeName:this.profileData.Value.TimeOfDayPreferenceValues[i].Time,
+        Selected:this.profileData.Value.TimeOfDayPreferenceValues[i].Selected
+      }))
+    }
     return arr;
   }
 
   patchDaysYouCantHavePractice(){
-    let arr = new FormArray([]);
+    let arr = new FormArray([],ArrayValidators.maxLength(3));
     for(var i=0; i<this.profileData.Value.DaysYouCannotHavePracticeValues.length;++i){
       arr.push(this.fb.group({
         DayId:this.profileData.Value.DaysYouCannotHavePracticeValues[i].DayId,
@@ -125,14 +134,22 @@ export class CoachProfileComponent implements OnInit {
         Selected:this.profileData.Value.DaysYouCannotHavePracticeValues[i].Selected
       }))
     }
+    //arr.setValidators(minLengthError);
     return arr;
   }
 
   patchTimeYouCantHavePractice(){
-    let arr = new FormArray([]);
+    let arr = new FormArray([],ArrayValidators.maxLength(3));
+    for(var i=0; i<this.profileData.Value.TimeYouCannotHavePracticeValues.length;++i){
+      arr.push(this.fb.group({
+        TimeId:this.profileData.Value.TimeYouCannotHavePracticeValues[i].TimeId,
+        TimeName:this.profileData.Value.TimeYouCannotHavePracticeValues[i].Time,
+        Selected:this.profileData.Value.TimeYouCannotHavePracticeValues[i].Selected
+      }))
+    }
+    //arr.setValidators(minLengthError);
     return arr;
   }
-
 
   locationPreference: number[] = []
 
@@ -156,10 +173,42 @@ export class CoachProfileComponent implements OnInit {
   //Event Handling
   dayOfTheWeekPreferenceChange(e:any, id:number){  
     if(e.currentTarget.checked){
+      //const control = <FormArray>this.preferenceForm.get('daysYouCantHavePractice');      
+      (<FormArray>this.preferenceForm.get('dayOfTheWeekPreference')).controls.forEach((group) => {
+        let dayIdControl = group.get('DayId') as FormControl;  
+        let selectedControl = group.get('Selected') as FormControl;    
+       
+        if (dayIdControl.value == id) {
+          console.log("Disable" + dayIdControl.value);
+          
+          selectedControl.setValue(false);
+          selectedControl.disable();
+          group.updateValueAndValidity();
+          group.disable();        
+        }
+         
+      });
+    }
+    // else{
+    //   (<FormArray>this.preferenceForm.get('dayOfTheWeekPreference')).controls.forEach((group) => {
+    //     let dayIdControl = group.get('DayId') as FormControl;    
+        
+        
+    //     if (dayIdControl.value == id) {
+    //       console.log("Enable" + dayIdControl.value);   
+    //       group.enable();        
+    //     }
+    //   });
+    // }
+
+  }
+
+  daysYouCantHavePracticeChange(e:any, id:number){
+    if(e.currentTarget.checked){
       //const control = <FormArray>this.preferenceForm.get('daysYouCantHavePractice');
 
       
-      (<FormArray>this.preferenceForm.get('daysYouCantHavePractice')).controls.forEach((group) => {
+      (<FormArray>this.preferenceForm.get('dayOfTheWeekPreference')).controls.forEach((group) => {
         let dayIdControl = group.get('DayId') as FormControl;  
         let selectedControl = group.get('Selected') as FormControl;    
        
@@ -172,19 +221,70 @@ export class CoachProfileComponent implements OnInit {
          
       });
     }
-    else{
-      (<FormArray>this.preferenceForm.get('daysYouCantHavePractice')).controls.forEach((group) => {
-        let dayIdControl = group.get('DayId') as FormControl;    
+    // else{
+    //   (<FormArray>this.preferenceForm.get('dayOfTheWeekPreference')).controls.forEach((group) => {
+    //     let dayIdControl = group.get('DayId') as FormControl;    
         
         
-        if (dayIdControl.value == id) {
-          console.log("Enable" + dayIdControl.value);   
-          group.enable();        
+    //     if (dayIdControl.value == id) {
+    //       console.log("Enable" + dayIdControl.value);   
+    //       group.enable();        
+    //     }
+    //   });
+    // }
+
+    console.log("Form Valid?"+this.preferenceForm.valid);
+
+  }
+
+  
+  // timeOfTheDayPreference
+  // timeYouCantHavePractice
+
+  timeOfTheDayPreferenceChange(e:any, id:number){
+    if(e.currentTarget.checked){
+      //const control = <FormArray>this.preferenceForm.get('daysYouCantHavePractice');
+
+      
+      (<FormArray>this.preferenceForm.get('timeYouCantHavePractice')).controls.forEach((group) => {
+        let timeIdControl = group.get('TimeId') as FormControl;  
+        let selectedControl = group.get('Selected') as FormControl;    
+       
+        if (timeIdControl.value == id) {
+          console.log("Disable" + timeIdControl.value);
+          selectedControl.setValue(false);
+          selectedControl.disable();
+          group.disable();        
         }
+         
+      });
+    }
+  }
+  
+  timeYouCantHavePracticeChange(e:any, id:number){
+    if(e.currentTarget.checked){
+      //const control = <FormArray>this.preferenceForm.get('daysYouCantHavePractice');
+
+      
+      (<FormArray>this.preferenceForm.get('timeOfTheDayPreference')).controls.forEach((group) => {
+        let timeIdControl = group.get('TimeId') as FormControl;  
+        let selectedControl = group.get('Selected') as FormControl;    
+       
+        if (timeIdControl.value == id) {
+          console.log("Disable" + timeIdControl.value);
+          selectedControl.setValue(false);
+          selectedControl.disable();
+          group.disable();        
+        }
+         
       });
     }
 
+    
+
   }
+
+  
 
 
 
