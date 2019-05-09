@@ -1,266 +1,288 @@
-<ngb-accordion *ngIf="personalDetailsForm">
+<div *ngIf="profileData!= null" class="container paddingBottom50">
+  <div class="row">
+    <div class="col-lg-12 OffcProfile fontSize12">
+      <h1 class="mainDate name_player"><strong>{{profileData.Value.CoachName}}</strong></h1>
+
+      <ngb-accordion *ngIf="personalDetailsForm">
+
+        <!--------------------------->
+        <!-------Personal Info------->
+        <!--------------------------->
+
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Personal Info</h2>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <form [formGroup]="personalDetailsForm">
+              <div class="data_module bgBlue">
+                <div class="fms_time marginleftNone wordBreak">
+                  <div class="row-fluid signupPosition borderTopNone">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Coach Name:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{CoachProfile.CoachName}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="row-fluid signupPosition ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Date Fingerprinted:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{CoachProfile.DateFingerPrinted}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="row-fluid signupPosition ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Email</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      <input type="text" formControlName="email">
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="row-fluid signupPosition">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Shirt Size:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      <select formControlName="shirtSize">
+                        <!-- [formGroupName]="i" *ngFor="let child of personalDetailsForm.controls.shirtSize['controls'];let i=index" -->
+                        <option *ngFor="let item of profileData.Value.ShirtSizeValue" [value]="item.Size"
+                          [selected]="item.Selected">
+                          {{item.Size}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
 
 
-  <!--------------------------->
-  <!-------Personal Info------->
-  <!--------------------------->
+                  <div class="row-fluid signupPosition ">
+                    <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                      <strong>Timeslot Name:</strong>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                      {{CoachProfile.TimeslotName}}
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
 
-
-
-  <ngb-panel>
-    <ng-template ngbPanelTitle>
-      <div class="HeadCollapse">
-        <h2 class="paidHead">Personal Info</h2>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <form [formGroup]="personalDetailsForm">
-        <div class="data_module bgBlue">
-          <div class="fms_time marginleftNone wordBreak">
-            <div class="row-fluid signupPosition borderTopNone">
-              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                <strong>Coach Name:</strong>
+                </div>
               </div>
-              <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                {{CoachProfile.CoachName}}
-              </div>
-              <div class="clearfix"></div>
+            </form>
+          </ng-template>
+        </ngb-panel>
+
+
+        <!------------------------------------->
+        <!-----Assigned Practice TimeSlot------->
+        <!--------------------------------------->
+
+
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Assigned Practice TimeSlot</h2>
             </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="data_module bgBlue">
+              <div class="fms_time marginleftNone wordBreak">
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Assigned Facility</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{CoachProfile.AssignedFacility}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
 
-            <div class="row-fluid signupPosition ">
-              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                <strong>Date Fingerprinted:</strong>
-              </div>
-              <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                {{CoachProfile.DateFingerPrinted}}
-              </div>
-              <div class="clearfix"></div>
-            </div>
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Assigned Time of the Day</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{CoachProfile.AssignedTimeOfDay}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
 
-            <div class="row-fluid signupPosition ">
-              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                <strong>Email</strong>
-              </div>
-              <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                <input type="text" formControlName="email">
-              </div>
-              <div class="clearfix"></div>
-            </div>
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Assigned Day of the Week</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    {{CoachProfile.AssignedDayOfWeek}}
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
 
-            <div class="row-fluid signupPosition">
-              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                <strong>Shirt Size:</strong>
-              </div>
-              <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                <select formControlName="shirtSize">
-                  <!-- [formGroupName]="i" *ngFor="let child of personalDetailsForm.controls.shirtSize['controls'];let i=index" -->
-                  <option *ngFor="let item of profileData.Value.ShirtSizeValue" [value]="item.Size"
-                    [selected]="item.Selected">
-                    {{item.Size}}
-                  </option>
-                </select>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-
-
-            <div class="row-fluid signupPosition ">
-              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                <strong>Timeslot Name:</strong>
-              </div>
-              <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                {{CoachProfile.TimeslotName}}
-              </div>
-              <div class="clearfix"></div>
-            </div>
-
-          </div>
-        </div>
-      </form>
-    </ng-template>
-  </ngb-panel>
-
-
-  <!------------------------------------->
-  <!-----Assigned Practice TimeSlot------->
-  <!--------------------------------------->
-
-
-  <ngb-panel>
-    <ng-template ngbPanelTitle>
-      <div class="HeadCollapse">
-        <h2 class="paidHead">Assigned Practice TimeSlot</h2>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div class="data_module bgBlue">
-        <div class="fms_time marginleftNone wordBreak">
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Assigned Facility</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              {{CoachProfile.AssignedFacility}}
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Assigned Time of the Day</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              {{CoachProfile.AssignedTimeOfDay}}
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Assigned Day of the Week</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              {{CoachProfile.AssignedDayOfWeek}}
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-        </div>
-      </div>
-    </ng-template>
-  </ngb-panel>
-
-
-  <!------------------------------------->
-  <!---------Practice Preferences--------->
-  <!--------------------------------------->
-
-  <ngb-panel>
-    <ng-template ngbPanelTitle>
-      <div class="HeadCollapse">
-        <h2 class="paidHead">Practice Preferences</h2>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div class="data_module bgBlue">
-        <div class="fms_time marginleftNone wordBreak">
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Location Preferences</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <div *ngFor="let preference of CoachProfile.LocationPreferenceValues">
-                <input type="checkbox" [checked]="preference.Selected"
-                  (change)="preferenceChange($event,preference.LocationId)">
-                <label> {{preference.LocationName}}</label>
-              </div>
-
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Location Rank</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <select name="" id="">
-                <option>Select</option>
-              </select>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Day of the Week Preference</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <div *ngFor="let day of profileData.Value.DayOfTheWeekPreferenceValues">
-                <input type="checkbox" [value]="day.DayId" [checked]="day.Selected==true" />
-                <label> {{day.DayName}}</label>
               </div>
             </div>
-            <div class="clearfix"></div>
-          </div>
+          </ng-template>
+        </ngb-panel>
 
 
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Day of the Week Rank</strong>
+        <!------------------------------------->
+        <!---------Practice Preferences--------->
+        <!--------------------------------------->
+
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <div class="HeadCollapse">
+              <h2 class="paidHead">Practice Preferences</h2>
             </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <select>
-                <option *ngFor="let day of profileData.Value.DayOfTheWeekRankValues" [value]="day.RankId"
-                  [selected]="day.Selected==true">{{day.RankName}}</option>
-              </select>
-              <!-- {{CoachProfile.AssignedDayOfWeek}} -->
-            </div>
-            <div class="clearfix"></div>
-          </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div [formGroup]="preferenceForm" class="data_module bgBlue">
+              <div class="fms_time marginleftNone wordBreak">
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Location Preferences</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <div *ngFor="let preference of CoachProfile.LocationPreferenceValues">
+                      <input type="checkbox" [checked]="preference.Selected"
+                        (change)="preferenceChange($event,preference.LocationId)">
+                      <label> {{preference.LocationName}}</label>
+                    </div>
+
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Location Rank</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <select name="" id="">
+                      <option>Select</option>
+                    </select>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div formArrayName="dayOfTheWeekPreference" class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Day of the Week Preference</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <!-- <div *ngFor="let day of profileData.Value.DayOfTheWeekPreferenceValues">
+                      <input type="checkbox" [value]="day.DayId" [checked]="day.Selected==true" />
+                      <label> {{day.DayName}}</label>
+                    </div> -->
+                    <div *ngFor="let child of preferenceForm.controls.dayOfTheWeekPreference['controls']; let i=index">
+                      <ng-container [formGroupName]="i">
+                        <input type="checkbox" [value]="child.get('DayId').value"
+                          (change)="dayOfTheWeekPreferenceChange($event, child.get('DayId').value)"
+                          [checked]="child.get('Selected').value" />
+                        <label> {{child.get('DayName').value}}</label>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
 
 
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Time of the Day Preference</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <div *ngFor="let time of profileData.Value.TimeOfDayPreferenceValues">
-                <input type="checkbox" [value]="time.TimeId" [checked]="time.Selected==true" />
-                <label> {{time.Time}}</label>
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Day of the Week Rank</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <select>
+                      <option *ngFor="let day of profileData.Value.DayOfTheWeekRankValues" [value]="day.RankId"
+                        [selected]="day.Selected==true">{{day.RankName}}</option>
+                    </select>
+                    <!-- {{CoachProfile.AssignedDayOfWeek}} -->
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Time of the Day Preference</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <div *ngFor="let time of profileData.Value.TimeOfDayPreferenceValues">
+                      <input type="checkbox" [value]="time.TimeId" [checked]="time.Selected==true" />
+                      <label> {{time.Time}}</label>
+                    </div>
+
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Time of the Day Rank</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <select>
+                      <option *ngFor="let time of profileData.Value.TimeOfDayRankValues" [value]="time.RankId"
+                        [selected]="time.Selected==true">{{time.RankName}}</option>
+                    </select>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div formArrayName="daysYouCantHavePractice" class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Days you CANNOT have practice</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <!-- <div *ngFor="let day of profileData.Value.DaysYouCannotHavePracticeValues">
+                                      <input type="checkbox" [value]="day.DayId" [checked]="day.Selected==true" />
+                                      <label> {{day.DayName}}</label>
+                                    </div> -->
+                
+                    <div *ngFor="let child of preferenceForm.controls.daysYouCantHavePractice['controls']; let i=index">
+                      <ng-container [formGroupName]="i">
+                        <input type="checkbox" [value]="child.get('DayId').value"
+                          (change)="daysYouCantHavePracticeChange($event, child.get('DayId').value)"
+                          [checked]="child.get('Selected').value" />
+                        <label> {{child.get('DayName').value}}</label>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="row-fluid signupPosition borderTopNone">
+                  <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                    <strong>Time you CANNOT have practice</strong>
+                  </div>
+                  <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
+                    <div *ngFor="let time of profileData.Value.TimeYouCannotHavePracticeValues">
+                      <input type="checkbox" [value]="time.TimeId" [checked]="time.Selected==true" />
+                      <label> {{time.Time}}</label>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
               </div>
-
             </div>
-            <div class="clearfix"></div>
-          </div>
+          </ng-template>
+        </ngb-panel>
 
 
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Time of the Day Rank</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <select>
-                <option *ngFor="let time of profileData.Value.TimeOfDayRankValues" [value]="time.RankId"
-                  [selected]="time.Selected==true">{{time.RankName}}</option>
-              </select>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Days you CANNOT have practice</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-              <div *ngFor="let day of profileData.Value.DaysYouCannotHavePracticeValues">
-                <input type="checkbox" [value]="day.DayId" [checked]="day.Selected==true" />
-                <label> {{day.DayName}}</label>
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="row-fluid signupPosition borderTopNone">
-            <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-              <strong>Time you CANNOT have practice</strong>
-            </div>
-            <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">   
-              <div *ngFor="let time of profileData.Value.TimeYouCannotHavePracticeValues">
-                <input type="checkbox" [value]="time.TimeId" [checked]="time.Selected==true" />
-                <label> {{time.Time}}</label>
-              </div>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-
-        </div>
-      </div>
-    </ng-template>
-  </ngb-panel>
-
-
-</ngb-accordion>
+      </ngb-accordion>
+    </div>
+  </div>
+</div>
 
 
 <app-fybaloader *ngIf="dataRequest"></app-fybaloader>

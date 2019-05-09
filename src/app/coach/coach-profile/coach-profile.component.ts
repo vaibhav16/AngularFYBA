@@ -13,7 +13,7 @@ import { FormBuilder,FormArray,FormControl } from '@angular/forms';
 })
 export class CoachProfileComponent implements OnInit {
   dataRequest: boolean;
-  profileData: CoachProfileResponse;
+  profileData: CoachProfileResponse = null;
   personalDetailsForm;
   preferenceForm;
 
@@ -101,6 +101,13 @@ export class CoachProfileComponent implements OnInit {
 
   patchDayOfTheWeekPreference(){
     let arr = new FormArray([]);
+    for(var i=0; i<this.profileData.Value.DayOfTheWeekPreferenceValues.length;++i){
+      arr.push(this.fb.group({
+        DayId:this.profileData.Value.DayOfTheWeekPreferenceValues[i].DayId,
+        DayName:this.profileData.Value.DayOfTheWeekPreferenceValues[i].DayName,
+        Selected:this.profileData.Value.DayOfTheWeekPreferenceValues[i].Selected
+      }))
+    }
     return arr;
   }
 
@@ -111,6 +118,13 @@ export class CoachProfileComponent implements OnInit {
 
   patchDaysYouCantHavePractice(){
     let arr = new FormArray([]);
+    for(var i=0; i<this.profileData.Value.DaysYouCannotHavePracticeValues.length;++i){
+      arr.push(this.fb.group({
+        DayId:this.profileData.Value.DaysYouCannotHavePracticeValues[i].DayId,
+        DayName:this.profileData.Value.DaysYouCannotHavePracticeValues[i].DayName,
+        Selected:this.profileData.Value.DaysYouCannotHavePracticeValues[i].Selected
+      }))
+    }
     return arr;
   }
 
@@ -137,6 +151,39 @@ export class CoachProfileComponent implements OnInit {
 
   onSubmit(){
     
+  }
+
+  //Event Handling
+  dayOfTheWeekPreferenceChange(e:any, id:number){  
+    if(e.currentTarget.checked){
+      //const control = <FormArray>this.preferenceForm.get('daysYouCantHavePractice');
+
+      
+      (<FormArray>this.preferenceForm.get('daysYouCantHavePractice')).controls.forEach((group) => {
+        let dayIdControl = group.get('DayId') as FormControl;  
+        let selectedControl = group.get('Selected') as FormControl;    
+       
+        if (dayIdControl.value == id) {
+          console.log("Disable" + dayIdControl.value);
+          selectedControl.setValue(false);
+          selectedControl.disable();
+          group.disable();        
+        }
+         
+      });
+    }
+    else{
+      (<FormArray>this.preferenceForm.get('daysYouCantHavePractice')).controls.forEach((group) => {
+        let dayIdControl = group.get('DayId') as FormControl;    
+        
+        
+        if (dayIdControl.value == id) {
+          console.log("Enable" + dayIdControl.value);   
+          group.enable();        
+        }
+      });
+    }
+
   }
 
 
