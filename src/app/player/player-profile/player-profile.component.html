@@ -232,7 +232,7 @@
 
         </ngb-accordion>
         <div id="submitDiv" style="text-align:center">
-          <button (click)="onSubmit()" [disabled]="profileForm.invalid" class="btn btn-success">Save</button>
+          <button (click)="onSubmit()" [disabled]="profileForm.invalid || !profileForm.touched" class="btn btn-success">Save</button>
         </div>
       </div>
     </div>
@@ -246,5 +246,5 @@
   </div> -->
 
 <!--##########loader###################-->
-<app-fybaloader *ngIf="fetchingData || !this.playerService.profileData"></app-fybaloader>
+<app-fybaloader *ngIf="fetchingData || !playerService.profileData"></app-fybaloader>
 <!-- ###################################### -->

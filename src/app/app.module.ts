@@ -48,7 +48,7 @@ import { SavedataPopupComponent } from './official/report-game/savedata-popup/sa
 import { interval } from 'rxjs';
 import { ReportFormComponent } from './official/report-game/report-form/report-form.component';
 import { GamelistFormComponent } from './official/report-game/gamelist-form/gamelist-form.component';
-import { PlayerDataComponent } from './player/player-data/player-data.component';
+//import { PlayerDataComponent } from './player/player-data/player-data.component';
 import { PlayerProfileComponent } from './player/player-profile/player-profile.component';
 import { TeamComponent } from './player/team/team.component';
 import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
@@ -84,7 +84,7 @@ import { CoachProfileComponent } from './coach/coach-profile/coach-profile.compo
     StringSplit,
     ReportFormComponent,
     GamelistFormComponent,
-    PlayerDataComponent,
+    //PlayerDataComponent,
     PlayerProfileComponent,
     TeamComponent,
     ComposeEmailComponent,

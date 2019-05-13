@@ -64,7 +64,7 @@ export class PlayerComponent implements OnInit {
       console.log(this.playerSection);
       if (this.playerLists != null) this.playerData = this.playerLists[0];
       this.playerService.playerId = this.playerData["PlayerId"];
-      this.dataRequest = false;
+      //this.dataRequest = false;
 
       this.playerService.getPlayerProfile().subscribe(
         (res)=>{
