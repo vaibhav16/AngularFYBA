@@ -9,7 +9,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="container">
+  <div class="container-fluid">
     <ngb-accordion>
       <ngb-panel>
         <ng-template ngbPanelTitle>
@@ -30,19 +30,19 @@
       </ngb-panel>
     </ngb-accordion>
     <br/>
-    <label>Current Player Status: {{details.Status}}</label>
-    <label>Registration Payment Method:  {{details.PaymentMode}}</label>
-    <label>Refund Processing Date:  </label>
-    <label>Refund Period:  </label>
-    <label>Withdrawal Reason:  </label>
-    <label>Withdrawal Explaination:  </label>
+    <label><b>Current Player Status:</b> {{details.Status}}</label>
+    <label><b>Registration Payment Method:</b>  {{details.PaymentMode}}</label>
+    <label><b>Refund Processing Date:</b>  </label>
+    <label><b>Refund Period:</b>  </label>
+    <label><b>Withdrawal Reason:</b>  </label>
+    <label><b>Withdrawal Explaination:</b></label>
   </div>
 </div>
 <div style="text-align:center" class="modal-footer">
   <button type="button" class="btn btn-danger" (click)="withdraw()">
     WITHDRAW
   </button>&nbsp;
-  <button type="button" class="btn btn-primary" (click)="modalRef.hide()">
+  <button type="button" class="btn btn-primary" (click)="cancel()">
     CANCEL
   </button>
 

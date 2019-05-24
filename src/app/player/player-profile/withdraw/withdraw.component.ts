@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+//import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PlayerService } from './../../player.service';
 
 @Component({
@@ -10,9 +10,9 @@ import { PlayerService } from './../../player.service';
 })
 export class WithdrawComponent implements OnInit {
 
-  constructor(private playerService: PlayerService) { }
+  constructor(private playerService: PlayerService, public modalRef: BsModalRef) { }
 
-  modalRef: BsModalRef;
+  
   playerId:number;
   details:JSON;
 
@@ -29,6 +29,10 @@ export class WithdrawComponent implements OnInit {
         console.log(JSON.parse(res["_body"]));
       }
     )
+  }
+
+  cancel(){
+    this.modalRef.hide();
   }
 
 }
