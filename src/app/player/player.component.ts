@@ -50,6 +50,9 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.dss.isOfficial);
+    console.log(this.dss.isPlayer);
+    console.log(this.dss.isCoach);
     this.dataRequest=true;
     this.getPlayerData().then(() => {
       this.dss.currentRoute = 'player';

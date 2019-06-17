@@ -152,9 +152,9 @@
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
                     <div *ngFor="let preference of CoachProfile.LocationPreferenceValues">
-                      <input type="checkbox" [checked]="preference.Selected"
+                      <input class="checkBoxClass" type="checkbox" [checked]="preference.Selected"
                         (change)="preferenceChange($event,preference.LocationId)">
-                      <label> {{preference.LocationName}}</label>
+                      <label>  {{preference.LocationName}}</label>
                     </div>
 
                   </div>
@@ -184,7 +184,7 @@
                     </div> -->
                     <div *ngFor="let child of preferenceForm.controls.dayOfTheWeekPreference['controls']; let i=index">
                       <ng-container [formGroupName]="i">
-                        <input type="checkbox" [value]="child.get('DayId').value"
+                        <input class="checkBoxClass" type="checkbox" [value]="child.get('DayId').value"
                           (change)="dayOfTheWeekPreferenceChange($event, child.get('DayId').value)"
                           [checked]="child.get('Selected').value" />
                         <label> {{child.get('DayName').value}}</label>
@@ -222,7 +222,7 @@
 
                     <div *ngFor="let child of preferenceForm.controls.timeOfTheDayPreference['controls']; let i=index">
                       <ng-container [formGroupName]="i">
-                        <input type="checkbox" [value]="child.get('TimeId').value"
+                        <input class="checkBoxClass" type="checkbox" [value]="child.get('TimeId').value"
                           (change)="timeOfTheDayPreferenceChange($event, child.get('TimeId').value)"
                           [checked]="child.get('Selected').value" />
                         <label> {{child.get('TimeName').value}}</label>
@@ -261,7 +261,7 @@
                 
                     <div *ngFor="let child of preferenceForm.controls.daysYouCantHavePractice['controls']; let i=index">
                       <ng-container [formGroupName]="i">
-                        <input type="checkbox" [value]="child.get('DayId').value"
+                        <input class="checkBoxClass" type="checkbox" [value]="child.get('DayId').value"
                           (change)="daysYouCantHavePracticeChange($event, child.get('DayId').value)"
                           [checked]="child.get('Selected').value" />
                         <label> {{child.get('DayName').value}}</label>
@@ -283,7 +283,7 @@
 
                     <div *ngFor="let child of preferenceForm.controls.timeYouCantHavePractice['controls']; let i=index">
                       <ng-container [formGroupName]="i">
-                        <input type="checkbox" [value]="child.get('TimeId').value"
+                        <input class="checkBoxClass" type="checkbox" [value]="child.get('TimeId').value"
                           (change)="timeYouCantHavePracticeChange($event, child.get('TimeId').value)"
                           [checked]="child.get('Selected').value" />
                         <label> {{child.get('TimeName').value}}</label>
