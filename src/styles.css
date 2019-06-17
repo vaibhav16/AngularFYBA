@@ -907,7 +907,7 @@ div {
     line-height: 1;content: "\e252"; float:left;}
    
     .accordion .card .btn-link.collapsed .HeadCollapse:before{content: "\e250"; float:left;}
-    .card-body .btn-success{ background: #70ad47; margin-left:0px;  margin-right:1%; padding:5px 10px; font-size:16px; text-transform: uppercase; font-weight:bold;}
+    .card-body .btn-success{width:49%; background: #70ad47; margin-left:0px;  margin-right:1%; padding:5px 10px; font-size:16px; text-transform: uppercase; font-weight:bold;}
     .card-body .btn-danger{width:49%; font-size:18px; margin-left:1%;  margin-right:0px; padding:5px 10px; text-transform: uppercase; font-weight:bold;}
    
    .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus{outline:0px;}

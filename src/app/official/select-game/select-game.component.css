@@ -37,6 +37,9 @@ h2, a { font-family: "Open Sans Light", "Open Sans", "Segoe UI", Helvetica, Aria
 .modal-sm{width: 100%;max-width: 600px;}
 .paddTopBottom10{padding:0px 10; margin-bottom:10px;}
 .modal-content{margin:0px 15px;}
+/* .btn-success{
+    width:49%
+} */
 
 @media only screen and (max-width : 385px) {
     .btnWordBreak{display:block;}
