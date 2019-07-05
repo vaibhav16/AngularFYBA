@@ -327,7 +327,7 @@ div {
    .matchInfo span{color:#fffb85; text-decoration:underline;}
    .matchInfo_selectGame{font-size:14px; margin-left:20px; margin-top:10px; line-height:20px; font-weight:normal;}
    .matchInfo_selectGame span{color:#b1b1b1;}
-   .matchInfo_selectGame div{color:#b1b1b1;text-decoration:underline; word-break: break-all;}
+   .matchInfo_selectGame div{color:#b1b1b1; word-break: break-all;}
    
    
    .paddingBottom50{padding-bottom:50px;}

@@ -115,7 +115,7 @@
 
   <div class="clearfix"></div>
 
-  <ul class="tab_main tabsMain" *ngIf="(dss.isOfficial && dss.isPlayer) || (dss.isCoach && dss.isPlayer) || (dss.isOfficial && dss.isCoach)">
+  <ul class="tab_main tabsMain" *ngIf="(dss.isOfficial && dss.isPlayer && !dss.isCoach) || (dss.isOfficial && !dss.isPlayer && dss.isCoach) || (!dss.isOfficial && dss.isPlayer && dss.isCoach)">
     <li *ngIf="dss.isPlayer" class="tab-link width50" data-tab="tabMain-1" routerLink="/player" routerLinkActive="active">
       <div class="bg_img_style player_img"></div><span>PLAYER</span>
     </li>
@@ -127,7 +127,7 @@
     </li>
   </ul>
   
-  <ul class="tab_main tabsMain" *ngIf="(dss.isOfficial && dss.isPlayer && dss.isCoach)">
+  <ul class="tab_main tabsMain" *ngIf="dss.isOfficial && dss.isPlayer && dss.isCoach">
       <li *ngIf="dss.isPlayer" class="tab-link width33" data-tab="tabMain-1" routerLink="/player" routerLinkActive="active">
         <div class="bg_img_style player_img"></div><span>PLAYER</span>
       </li>

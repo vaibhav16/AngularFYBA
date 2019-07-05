@@ -72,7 +72,7 @@ export class ReportGameComponent {
     if (this.officialService.dataChanged == true) {
       $event.preventDefault();
       const initialState = {
-        popupTitle: 'Save Game Data',
+        popupTitle: 'Save Data Before Exiting',
         popupMsg: 'Please save your previous game data else it will not be saved.'
       };
 

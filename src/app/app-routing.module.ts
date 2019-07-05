@@ -19,6 +19,7 @@ import { PlayerProfileComponent } from './player/player-profile/player-profile.c
 import { TeamComponent } from './player/team/team.component';
 import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
+import { StandingsComponent } from './player/standings/standings.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -77,6 +78,11 @@ const routes: Routes = [
           path: 'compose-email',
           component: ComposeEmailComponent
         }]
+      },
+      {
+        path: 'standings',
+        component: StandingsComponent,
+        canDeactivate: [DeactivateGuard]        
       }
       // {
       //   path:'compose-email',

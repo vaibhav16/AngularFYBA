@@ -119,12 +119,12 @@
                         <span *ngIf="nestedChild.ScoreKeeper == 3">Scorekeeper: Available<br /></span>
                         <span *ngIf="nestedChild.ScoreKeeper != 3">Scorekeeper:
                           {{ nestedChild.ScoreKeeper }}<br /></span>
-                        <!-- <span *ngIf="nestedChild.Scoresheet!=null || nestedChild.Scoresheet.length>0">Scoresheet: scoresheet.pdf<br/></span> -->
-                        <div (click)="downloadPdf(nestedChild.Scoresheet)" *ngIf="
-                            nestedChild.Scoresheet != null ||
-                            nestedChild.Scoresheet.length > 0
-                          ">
-                          Scoresheet: {{ nestedChild.ScoresheetName }}
+
+                        <div (click)="downloadPdf(nestedChild.Scoresheet)" 
+                        *ngIf="nestedChild.Scoresheet != null ||
+                            nestedChild.Scoresheet.length > 0">
+                          Blank Scoresheet:
+                          <u> {{ nestedChild.ScoresheetName }}</u>
                         </div>
                       </div>
                     </h3>

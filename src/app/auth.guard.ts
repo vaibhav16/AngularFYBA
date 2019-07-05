@@ -44,11 +44,7 @@ export class AuthGuard implements CanActivate{
       this.dss.textSize = this.cookieService.get(
         "textSize"
       );
-
-      if((this.cookieService.get("isCoach"))=="true"){
-        this.dss.isCoach = true;
-      }
-
+      
       if((this.cookieService.get("isOfficial"))=="true"){
         this.dss.isOfficial = true;
       }
@@ -57,6 +53,22 @@ export class AuthGuard implements CanActivate{
         this.dss.isPlayer = true;
       }
 
+      if((this.cookieService.get("isCoach"))=="true"){
+        this.dss.isCoach = true;
+      }
+
+      if((this.cookieService.get("isOfficial"))=="false"){
+        this.dss.isOfficial = false;
+      }
+     
+      if((this.cookieService.get("isPlayer"))=="false"){
+        this.dss.isPlayer = false;
+      }
+
+      if((this.cookieService.get("isCoach"))=="false"){
+        this.dss.isCoach = false;
+      }
+ 
       this.dss.email = this.cookieService.get(
         "email"
       );

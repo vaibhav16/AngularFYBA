@@ -14,7 +14,7 @@
                   <tr>
                     <th>Team Name</th>
                     <th>Final Score</th>
-                    <th style="text-align: left !important">Forfeit</th>
+                    <th >Forfeit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -167,7 +167,7 @@
             <li *ngIf="gameData.PrePrintedScoresheetPdf" (click)="downloadPdf(gameData.PrePrintedScoresheetPdf)"
               class="preFilledDiv customLI">
               <span class="preFilledSS">
-                Pre-filled<br />
+                Blank<br />
                 Score<br class="breakAll" />Sheet
               </span>
             </li>
@@ -203,7 +203,7 @@
             <li class="Incidentclass uploadDiv">
               <input #imageInput type="file" multiple accept="image/*" (change)="addImage(imageInput)" />
               <span class="addHeading">
-                Add<br />Score<br class="breakAll" />Sheet</span>
+                UPLOAD<br />SCORE<br class="breakAll" />SHEET</span>
             </li>
           </ul>
         </div>

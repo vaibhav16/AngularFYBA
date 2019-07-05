@@ -56,6 +56,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { RequestStatusPopupComponent } from './common/request-status-popup/request-status-popup.component';
 import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.component';
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
+import { StandingsComponent } from './player/standings/standings.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { CoachProfileComponent } from './coach/coach-profile/coach-profile.compo
     ComposeEmailComponent,
     RequestStatusPopupComponent,
     WithdrawComponent,
-    CoachProfileComponent
+    CoachProfileComponent,
+    StandingsComponent
   ],
   imports: [
     HttpModule,

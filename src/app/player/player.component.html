@@ -33,43 +33,46 @@
             <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
           </li>
 
-            <!--Team Info-->
-          <li style="width:20% !important;"  class="tab-link" data-tab="tab3-2">
-            <a routerLink="/player/team" routerLinkActive="active" >
-             <!-- [ngClass]="{'active': playerService.emailFlag==true}" -->
+          <!--Team Info-->
+          <li style="width:20% !important;" class="tab-link" data-tab="tab3-2">
+            <a routerLink="/player/team" routerLinkActive="active">
+              <!-- [ngClass]="{'active': playerService.emailFlag==true}" -->
               <img src="assets/images/team_icon.png" alt="Team" /><span class="wordLimit">Team
                 <br class="breakAll" /> Info</span>
 
             </a>
           </li>
 
-            <!--Share-->
+          <!--Share-->
           <!-- <li style="width:20% !important;"  class="tab-link" data-tab="tab3-3">
             <img src="assets/images/share_icon.png" alt="Share Icon" /><span>Share <span
                 class="spaceBorder">&nbsp;</span></span>
           </li> -->
 
-            <!--Report-->
-            <li style="width:20% !important;"  class="tab-link" data-tab="tab3-3">
-              <img src="assets/images/report_icon.png" alt="Share Icon" /><span>Report <span
-                  class="spaceBorder">&nbsp;</span></span>
+          <!--Report-->
+          <li style="width:20% !important;" class="tab-link" data-tab="tab3-3">
+            <img src="assets/images/report_icon.png" alt="Share Icon" /><span>Report <span
+                class="spaceBorder">&nbsp;</span></span>
+          </li>
+
+
+            <!--Standings-->
+            <li style="width:20% !important;" class="tab-link" data-tab="tab3-5">
+              <a routerLink="/player/standings" routerLinkActive="active">
+                <img src="assets/images/standings.png" alt="standings" />
+                <span>Standings</span>
+              </a>
             </li>
 
           <!--Player Profile-->
-          <li style="width:20% !important;"  class="tab-link" data-tab="tab3-5">
+          <li style="width:20% !important;" class="tab-link" data-tab="tab3-5">
             <a routerLink="/player/profile" routerLinkActive="active">
-              <img src="assets/images/officiating.png" alt="Profile" /><span class="wordLimit">Player
-                <br class="breakAll" />Profile</span>
+              <img src="assets/images/officiating.png" alt="Profile" />
+              <span class="wordLimit">Player <br class="breakAll" />Profile</span>
             </a>
           </li>
 
-              <!--Standings-->
-              <li style="width:20% !important;"  class="tab-link" data-tab="tab3-5">
-                <a routerLink="/player/standings" routerLinkActive="active">
-                  <img src="assets/images/officiating.png" alt="standings" />
-                  <span class="wordLimit"> Standings </span>
-                </a>
-              </li>
+        
         </ul>
       </div>
     </div>

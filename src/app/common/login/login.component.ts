@@ -140,9 +140,11 @@ export class LoginComponent implements OnInit {
           );
 
           this.cookieService.set('email', this.userData.Value.Email, 365);
-          this.cookieService.set('volunteerId', this.userData.Value.VolunteerId.toString(), 365);
-          this.cookieService.set('volunteerSeasonId', this.userData.Value.VolunteerSeasonalId.toString(), 365);          
-          this.cookieService.set('volunteerStatusId', this.userData.Value.VolunteerStatusId.toString(), 365);
+
+         
+          this.cookieService.set('volunteerId', this.userData.Value.VolunteerId, 365);
+          this.cookieService.set('volunteerSeasonId', this.userData.Value.VolunteerSeasonalId, 365);          
+          this.cookieService.set('volunteerStatusId', this.userData.Value.VolunteerStatusId, 365);
           //this.cookieService.set("name", this.userData.Value.FirstName + " " + this.userData.Value.LastName, 365);
           this.dss.textSize = this.userData.Value.Text_Size;
           //console.log
