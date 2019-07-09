@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CoachProfileResponse } from './../models/profileResponse.model';
 import { FormBuilder,FormArray,FormControl } from '@angular/forms';
 import { ArrayValidators } from './checkbox.validator';
+import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -20,9 +21,10 @@ export class CoachProfileComponent implements OnInit {
 
   constructor(private dss: DataSharingService, 
     private coachService: CoachService,
+    private config: NgbAccordionConfig,
     private router: Router,
-    private fb: FormBuilder) { 
-  
+    private fb: FormBuilder) {   
+      config.closeOthers=true;
     }
 
   ngOnInit() {

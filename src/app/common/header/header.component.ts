@@ -35,11 +35,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     let currentUrl = this._router.url;
     console.log(currentUrl);
-    console.log("All three True: ");
-    console.log(this.dss.isOfficial && this.dss.isPlayer && this.dss.isCoach);
-    console.log(this.dss.isOfficial);
-    console.log(this.dss.isPlayer);
-    console.log(this.dss.isCoach);
+    // console.log("All three True: ");
+    // console.log(this.dss.isOfficial && this.dss.isPlayer && this.dss.isCoach);
+    // console.log(this.dss.isOfficial);
+    // console.log(this.dss.isPlayer);
+    // console.log(this.dss.isCoach);
 
     //this.imageClass.nativeElement.classList.remove('player_header_img');
     //this.imageClass.nativeElement.classList.remove('official_header_img');

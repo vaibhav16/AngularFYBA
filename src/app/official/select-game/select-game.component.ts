@@ -43,7 +43,7 @@ export class SelectGameComponent implements OnInit {
     private modalService: BsModalService,
     public dss: DataSharingService
   ) {
-    config.closeOthers = false;
+    config.closeOthers = true;
     config.type = 'info';
   }
 

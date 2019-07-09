@@ -3,6 +3,7 @@ import { OfficialService } from './../official.service';
 import { ErrorModalComponent } from './../../common/error-modal/error-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { IPaidSection } from './../classes/pay/pay.model';
+import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-pay',
@@ -11,7 +12,11 @@ import { IPaidSection } from './../classes/pay/pay.model';
 })
 export class PayComponent implements OnInit {
   modalRef: BsModalRef;
-  constructor(public modalService: BsModalService, public officialService: OfficialService) {}
+  constructor(public modalService: BsModalService, 
+    private config: NgbAccordionConfig,
+    public officialService: OfficialService) {  
+      config.closeOthers = true;      
+  }
 
   public paidSection: IPaidSection;
   initialFetchError = null;

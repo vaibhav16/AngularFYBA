@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { DataSharingService } from './../../data-sharing.service';
 import { MatSnackBar } from '@angular/material';
+import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 //import { RequestStatusPopupComponent } from './../../common/request-status-popup/request-status-popup.component';
 // import { format } from 'path';
 // import { Observable, of, interval, Subscription, timer, pipe } from 'rxjs';
@@ -25,7 +26,9 @@ export class PlayerProfileComponent implements OnInit {
   constructor(public playerService: PlayerService,
     public router: Router, private fb: FormBuilder,
     private modalService: BsModalService,
+    private config: NgbAccordionConfig,
     private snackbar: MatSnackBar) {
+      config.closeOthers=true;
 
   }
 

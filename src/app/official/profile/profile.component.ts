@@ -7,6 +7,7 @@ import { IProfileSection } from './../classes/profile/IProfile.model';
 import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../data-sharing.service';
 import { Router } from '@angular/router';
+import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile',
@@ -24,12 +25,15 @@ export class ProfileComponent implements OnInit {
   constructor(
     public officialService: OfficialService,
     public elRef: ElementRef,
+    private config: NgbAccordionConfig,
     private modalService: BsModalService,
     public renderer: Renderer2,
     private cookieService: CookieService,
     public dss: DataSharingService,
     public router: Router
-  ) {}
+  ) {
+    config.closeOthers=true;
+  }
 
   ngOnInit() {
     this.profileRequest = true;
