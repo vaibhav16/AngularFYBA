@@ -55,7 +55,6 @@ import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.com
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 import { StandingsComponent } from './player/standings/standings.component';
 import { TeamInfoComponent } from './player/team-info/team-info.component';
-import { InstallAppPopupComponent } from './common/install-app-popup/install-app-popup.component';
 
 @NgModule({
   declarations: [
@@ -92,8 +91,7 @@ import { InstallAppPopupComponent } from './common/install-app-popup/install-app
     WithdrawComponent,
     CoachProfileComponent,
     StandingsComponent,
-    TeamInfoComponent,
-    InstallAppPopupComponent
+    TeamInfoComponent
   ],
   imports: [
     HttpModule,

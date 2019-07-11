@@ -5,7 +5,6 @@ import { CommonService } from '../services/common.service';
 import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { CookieService } from 'ngx-cookie-service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { InstallAppPopupComponent } from '../install-app-popup/install-app-popup.component';
 
 @Component({
   selector: 'app-header',
