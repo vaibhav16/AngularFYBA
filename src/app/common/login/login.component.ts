@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
       else if (this.dss.isPlayer) this.router.navigate(['player']);
     }
 
-    //this.loginService.isLoggedIn=false;
     if (browser) {
       this.browserName = browser.name;
       // console.log(browser.name);

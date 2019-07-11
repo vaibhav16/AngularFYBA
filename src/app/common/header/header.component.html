@@ -1,19 +1,9 @@
 <div>
-  <div
-    class="modal fade bs-example-modal-sm"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="mySmallModalLabel"
-  >
+  <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <h4 class="modal-title" id="myModalLabel"></h4>
@@ -33,54 +23,61 @@
       </div>
     </div>
   </div>
-  <!----div class="topBg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="add_to_home"><a href="javascript:void(0);" alt="" data-toggle="modal" data-target=".bs-example-modal-sm">ADD TO HOME</a></div>
-				</div>
-			</div>
-		</div>
-	</div>-->
 
-  <div class="topheaderFixed">
+  <!-- *ngIf="browserName == 'ios' && !iosStandalone" -->
+  <div  class="topheaderFixed">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
-          <div *ngIf="dss.roundThumbnail == null" class="img_profile">
-            <img
-              src="https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200524/68824656-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6"
-              alt=""
-            />
-          </div>
-          <div *ngIf="dss.roundThumbnail != null" class="img_profile">
-            <img src="{{ dss.roundThumbnail }}" alt="" />
+
+        <div class="col-lg-6 col-md-6 col-sm-10 col-xs-6 text-left">
+          <label style="color:white;margin-bottom: 0;margin-top: 6px;" class="lb">App is not installed</label>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-10 col-xs-6 text-right">
+          <button style="padding: 2px 12px;" class="btn btn-success pull-right">Get App</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg_logo">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+          <div class="logo_text">
+            <div *ngIf="dss.roundThumbnail == null" class="img_profile">
+              <img
+                src="https://us.123rf.com/450wm/pikepicture/pikepicture1612/pikepicture161200524/68824656-male-default-placeholder-avatar-profile-gray-picture-isolated-on-white-background-for-your-design-ve.jpg?ver=6"
+                alt="" />
+            </div>
+            <div *ngIf="dss.roundThumbnail != null" class="img_profile pull-left">
+              <img src="{{ dss.roundThumbnail }}" alt="" />
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <a alt="Logo Text">FYBA</a>
+            </div>
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-right paddRightNone">
+          <div class="logo_main">
+            <a href="javascript:void(0);"><img src="../../assets/images/fyba_logo_old.png" alt="FYBA Logo" /></a>
+          </div>
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-left paddNone">
           <div (click)="toggleMenu()" class="mobile_menu">
-            <span></span> <span></span> <span></span>
-            <div
-              [ngStyle]="{ display: toggle ? 'block' : 'none' }"
-              class="mobile_menu_div"
-            >
+            <!--<span></span> <span></span> <span></span>-->
+            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+            <div [ngStyle]="{ display: toggle ? 'block' : 'none' }" class="mobile_menu_div">
               <ul>
-                <!-- <li><label class="switch">
-												<input [checked]="textType" type="checkbox" id="togBtn" (change) = "toggleText()">
-												<div class="slider round"></div></label>
-											</li> -->
+
                 <li style="padding-bottom:0%">
-                  <p
-                    (click)="toggleText()"
-                    *ngIf="dss.textSize == 'Small'"
-                  >
+                  <p (click)="toggleText()" *ngIf="dss.textSize == 'Small'">
                     Classic Layout
                   </p>
-                  <p
-                    (click)="toggleText()"
-                    *ngIf="dss.textSize == 'Large'"
-                  >
+                  <p (click)="toggleText()" *ngIf="dss.textSize == 'Large'">
                     Compact Layout
                   </p>
                 </li>
@@ -90,54 +87,41 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="bg_logo">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-          <div class="logo_text">
-            <a alt="Logo Text">FYBA</a>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-          <div class="logo_main">
-            <a href="javascript:void(0);"
-              ><img src="../../assets/images/fyba_logo_old.png" alt="FYBA Logo"
-            /></a>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
   <div class="clearfix"></div>
 
-  <ul class="tab_main tabsMain" *ngIf="(dss.isOfficial && dss.isPlayer && !dss.isCoach) || (dss.isOfficial && !dss.isPlayer && dss.isCoach) || (!dss.isOfficial && dss.isPlayer && dss.isCoach)">
-    <li *ngIf="dss.isPlayer" class="tab-link width50" data-tab="tabMain-1" routerLink="/player" routerLinkActive="active">
+  <ul class="tab_main tabsMain"
+    *ngIf="(dss.isOfficial && dss.isPlayer && !dss.isCoach) || (dss.isOfficial && !dss.isPlayer && dss.isCoach) || (!dss.isOfficial && dss.isPlayer && dss.isCoach)">
+    <li *ngIf="dss.isPlayer" class="tab-link width50" data-tab="tabMain-1" routerLink="/player"
+      routerLinkActive="active">
       <div class="bg_img_style player_img"></div><span>PLAYER</span>
     </li>
     <li *ngIf="dss.isCoach" class="tab-link width50" data-tab="tabMain-2" routerLink="/coach" routerLinkActive="active">
       <div class="bg_img_style coach_img"></div><span>COACH</span>
-    </li> 
-    <li *ngIf="dss.isOfficial" class="tab-link width50" data-tab="tabMain-3" routerLink="/official" routerLinkActive="active">
+    </li>
+    <li *ngIf="dss.isOfficial" class="tab-link width50" data-tab="tabMain-3" routerLink="/official"
+      routerLinkActive="active">
       <div class="bg_img_style official_img"></div><span>OFFICIAL</span>
     </li>
   </ul>
-  
+
   <ul class="tab_main tabsMain" *ngIf="dss.isOfficial && dss.isPlayer && dss.isCoach">
-      <li *ngIf="dss.isPlayer" class="tab-link width33" data-tab="tabMain-1" routerLink="/player" routerLinkActive="active">
-        <div class="bg_img_style player_img"></div><span>PLAYER</span>
-      </li>
-      <li *ngIf="dss.isCoach" class="tab-link width33" data-tab="tabMain-2" routerLink="/coach" routerLinkActive="active">
-        <div class="bg_img_style coach_img"></div><span>COACH</span>
-      </li> 
-      <li *ngIf="dss.isOfficial" class="tab-link width33" data-tab="tabMain-3" routerLink="/official" routerLinkActive="active">
-        <div class="bg_img_style official_img"></div><span>OFFICIAL</span>
-      </li>
-    </ul>  
+    <li *ngIf="dss.isPlayer" class="tab-link width33" data-tab="tabMain-1" routerLink="/player"
+      routerLinkActive="active">
+      <div class="bg_img_style player_img"></div><span>PLAYER</span>
+    </li>
+    <li *ngIf="dss.isCoach" class="tab-link width33" data-tab="tabMain-2" routerLink="/coach" routerLinkActive="active">
+      <div class="bg_img_style coach_img"></div><span>COACH</span>
+    </li>
+    <li *ngIf="dss.isOfficial" class="tab-link width33" data-tab="tabMain-3" routerLink="/official"
+      routerLinkActive="active">
+      <div class="bg_img_style official_img"></div><span>OFFICIAL</span>
+    </li>
+  </ul>
 
   <div class="clearfix"></div>
 
@@ -157,8 +141,8 @@
     <div class="row">
       <div class="col-md-12 text-center">
         <div #imageClass><span *ngIf="dss.currentRoute=='official'" class="header_img_text">Officials</span></div>
-        <div #imageClass><span *ngIf="dss.currentRoute=='player'" class="header_img_text" >Players</span></div>
-        <div #imageClass><span *ngIf="dss.currentRoute=='coach'" class="header_img_text" >Coaches</span></div>
+        <div #imageClass><span *ngIf="dss.currentRoute=='player'" class="header_img_text">Players</span></div>
+        <div #imageClass><span *ngIf="dss.currentRoute=='coach'" class="header_img_text">Coaches</span></div>
       </div>
     </div>
   </div>

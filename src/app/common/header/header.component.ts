@@ -3,6 +3,7 @@ import { DataSharingService } from './../../data-sharing.service';
 import { Router } from '@angular/router';
 import { CommonService } from '../services/common.service';
 import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,8 @@ import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  iosStandalone;
+  browserName;
   apiModel: FinalFilter = {
     UserID: '',
     SessionKey: '',
@@ -19,7 +22,9 @@ export class HeaderComponent implements OnInit {
   constructor(
     private _router: Router,
     public commonService: CommonService,
-    public dss: DataSharingService
+    public dss: DataSharingService,
+    private cookieService: CookieService,
+    private router: Router
   ) {
     if (this.dss.textSize == 'Small') this.textType = false;
     else this.textType = true;
@@ -35,6 +40,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     let currentUrl = this._router.url;
     console.log(currentUrl);
+    let newVariable: any;
+    newVariable = window.navigator;
+    if (newVariable.standalone) this.iosStandalone = true;
+
+    if (this.cookieService.check('sessionKey')) {
+      if (this.dss.isOfficial) this.router.navigate(['player']);
+      else if (this.dss.isPlayer) this.router.navigate(['player']);
+    }
     // console.log("All three True: ");
     // console.log(this.dss.isOfficial && this.dss.isPlayer && this.dss.isCoach);
     // console.log(this.dss.isOfficial);
@@ -50,13 +63,13 @@ export class HeaderComponent implements OnInit {
     //this.coachActive.nativeElement.classList.remove('active');
     //this.officialActive.nativeElement.classList.remove('active');
 
-    if (this.topImage == 'player_header_img') {
-      //this.playerActive.nativeElement.classList.add('active');
-    } else if (this.topImage == 'coach_header_img') {
-      //this.coachActive.nativeElement.classList.add('active');
-    } else {
-      //this.officialActive.nativeElement.classList.add('active');
-    }
+    // if (this.topImage == 'player_header_img') {
+    //   //this.playerActive.nativeElement.classList.add('active');
+    // } else if (this.topImage == 'coach_header_img') {
+    //   //this.coachActive.nativeElement.classList.add('active');
+    // } else {
+    //   //this.officialActive.nativeElement.classList.add('active');
+    // }
   }
   toggle: boolean = false;
   toggleMenu() {

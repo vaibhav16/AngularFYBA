@@ -1,3 +1,11 @@
 .header_img_text{
     text-transform: uppercase;
 }
+
+.glyphicon {
+    font-size: 35px;
+    color: white;
+}
+
+.paddRightNone{padding-right:0px;}
+.paddNone{padding:0px;}

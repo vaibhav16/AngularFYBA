@@ -57,6 +57,7 @@ import { RequestStatusPopupComponent } from './common/request-status-popup/reque
 import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.component';
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 import { StandingsComponent } from './player/standings/standings.component';
+import { TeamInfoComponent } from './player/team-info/team-info.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { StandingsComponent } from './player/standings/standings.component';
     RequestStatusPopupComponent,
     WithdrawComponent,
     CoachProfileComponent,
-    StandingsComponent
+    StandingsComponent,
+    TeamInfoComponent
   ],
   imports: [
     HttpModule,
