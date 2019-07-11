@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { DataSharingService } from './../../data-sharing.service';
 import { Router } from '@angular/router';
 import { CommonService } from '../services/common.service';
 import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model';
 import { CookieService } from 'ngx-cookie-service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { InstallAppPopupComponent } from '../install-app-popup/install-app-popup.component';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  modalRef: BsModalRef;
   iosStandalone;
   browserName;
   apiModel: FinalFilter = {
@@ -19,11 +22,17 @@ export class HeaderComponent implements OnInit {
     RequestedData: ''
   };
 
+  config = {
+    backdrop: true,
+    ignoreBackdropClick: false
+  };
+
   constructor(
     private _router: Router,
     public commonService: CommonService,
     public dss: DataSharingService,
     private cookieService: CookieService,
+    private modalService: BsModalService,
     private router: Router
   ) {
     if (this.dss.textSize == 'Small') this.textType = false;
@@ -102,5 +111,9 @@ export class HeaderComponent implements OnInit {
       this.toggleRequest = false;
     });
     //this.commonService.toggleTextSize(JSON.stringify(this.TextSizeModel));
+  }
+
+  getApp(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template, Object.assign(this.config, { class: 'noBorder' }));
   }
 }

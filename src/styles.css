@@ -6,7 +6,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 
-
 body{
     /* Disables pull-to-refresh but allows overscroll glow effects. */
     overscroll-behavior-y: contain;
@@ -50,10 +49,10 @@ body{
 
    .btn-grey{background-color: #ddd;}
    .rightGameAvailable{font-size:16px;padding-top: 3px;}
-   .tapDiv{background:#fff; padding:10px; border-radius:4px; position:absolute; left:15px; right:15px; z-index: 1; bottom:15px;}
+   .tapDiv{background:#fff; padding:0x; padding-bottom: 35px; border-radius:4px;  left:15px; right:15px; z-index: 1; bottom:15px;}
    .tapDiv > div > img{position:absolute; top:50%; transform:translateY(-50%);}
    .tapDiv p{width:calc(100% - 40px); float:left; font-size:12px; margin-bottom:0px; margin-left:35px;}
-   .tapDiv p img{height:15px;} 
+   .tapDiv p img{height:18px;} 
 
 
    .borderTopNone{border-top:0px !important;}
@@ -636,6 +635,9 @@ div {
        margin:0px;
        margin-top:20px;
    }
+
+   
+/* .noBorder > .modal-content{border:0px !important;} */
    
    .newsfeedBox ul li{display:block; padding:12px 0; display:inline-block; width:100%;}
    .newsfeedBox ul li:first-child{padding-top:0px;}

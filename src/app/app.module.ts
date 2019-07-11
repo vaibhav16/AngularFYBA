@@ -31,8 +31,6 @@ import { AuthGuard } from './auth.guard';
 import { FybaloaderComponent } from './common/fybaloader/fybaloader.component';
 import { LogoutComponent } from './common/logout/logout.component';
 import { ModalContentComponent } from './official/official.component';
-//import {GrowlModule} from 'primeng/growl';
-//import { LightboxModule } from 'ngx-lightbox';
 import { ServiceWorkerModule, SwUpdate, SwPush } from '@angular/service-worker';
 import { ChangepasswordComponent } from './common/changepassword/changepassword.component';
 import { ErrorModalComponent } from './common/error-modal/error-modal.component';
@@ -40,7 +38,6 @@ import { NewIncidentComponent } from './official/report-game/new-incident/new-in
 import { ShowIncidentComponent } from './official/report-game/show-incident/show-incident.component';
 import { ValidationModalComponent } from './official/report-game/validation-modal/validation-modal.component';
 import { StringSplit } from './official/report-game/strsplit.pipe';
-
 import { SuccessPopupComponent } from './official/report-game/success-popup/success-popup.component';
 import { ShowNewIncidentComponent } from './official/report-game/show-new-incident/show-new-incident.component';
 import { NotifierModule } from 'angular-notifier';
@@ -58,6 +55,7 @@ import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.com
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 import { StandingsComponent } from './player/standings/standings.component';
 import { TeamInfoComponent } from './player/team-info/team-info.component';
+import { InstallAppPopupComponent } from './common/install-app-popup/install-app-popup.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +92,8 @@ import { TeamInfoComponent } from './player/team-info/team-info.component';
     WithdrawComponent,
     CoachProfileComponent,
     StandingsComponent,
-    TeamInfoComponent
+    TeamInfoComponent,
+    InstallAppPopupComponent
   ],
   imports: [
     HttpModule,
@@ -109,7 +108,6 @@ import { TeamInfoComponent } from './player/team-info/team-info.component';
     AppRoutingModule,
     NotifierModule,
     MatSnackBarModule,
-    //GrowlModule,
     CKEditorModule,
     NgbAccordionModule.forRoot(),
     NgbModalModule.forRoot(),
@@ -117,7 +115,6 @@ import { TeamInfoComponent } from './player/team-info/team-info.component';
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production
     })
-    //LightboxModule
   ],
   entryComponents: [
     ModalContentComponent,

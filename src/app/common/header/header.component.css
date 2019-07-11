@@ -9,3 +9,16 @@
 
 .paddRightNone{padding-right:0px;}
 .paddNone{padding:0px;}
+
+
+/* .modal-body{
+    padding: 0px;
+} */
+
+
+.modal-header{
+    padding: 5px;
+    background: #5B9BD5;
+    color:white;
+    border-radius:5px;
+}

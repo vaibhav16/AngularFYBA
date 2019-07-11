@@ -24,16 +24,17 @@
     </div>
   </div>
 
+  <!--  -->
   <!-- *ngIf="browserName == 'ios' && !iosStandalone" -->
-  <div  class="topheaderFixed">
+  <div *ngIf="browserName == 'ios' && !iosStandalone" class="topheaderFixed">
     <div class="container">
       <div class="row">
-
         <div class="col-lg-6 col-md-6 col-sm-10 col-xs-6 text-left">
           <label style="color:white;margin-bottom: 0;margin-top: 6px;" class="lb">App is not installed</label>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-10 col-xs-6 text-right">
-          <button style="padding: 2px 12px;" class="btn btn-success pull-right">Get App</button>
+          <button style="padding: 2px 12px;" (click)="getApp(template)" class="btn btn-success pull-right">Get
+            App</button>
         </div>
       </div>
     </div>
@@ -151,3 +152,56 @@
 <!--##########loader###################-->
 <app-fybaloader *ngIf="toggleRequest"></app-fybaloader>
 <!--######################################-->
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">FYBA App</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="tapDiv ">
+            <div><img src="assets/images/add_home_icon.png" alt="Add to Home" /></div>
+            <p>
+              Install this webapp on your iPhone; tap &nbsp;<img src="assets/images/share_icon-2.png"
+                alt="Share Icon" />&nbsp; and then Add to Homescreen
+            </p>
+          </div>
+        </div>
+      </ng-template>
+    <!-- <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="tapDiv ">
+            <div><img src="assets/images/add_home_icon.png" alt="Add to Home" /></div>
+            <p>
+              Install this webapp on your iPhone; tap &nbsp;<img src="assets/images/share_icon-2.png"
+                alt="Share Icon" />&nbsp; and then &nbsp;
+              Add to Homescreen
+            </p>
+          </div>
+        </div> -->
+
+
+
+
+
+<!-- <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-sm">
+    <div class="tapDiv ">
+      <div><img src="assets/images/add_home_icon.png" alt="Add to Home" /></div>
+      <p>
+        Install this webapp on your iPhone; tap &nbsp;<img src="assets/images/share_icon-2.png"
+          alt="Share Icon" />&nbsp; and then &nbsp;
+        Add to Homescreen
+      </p>
+    </div>
+  </div>
+</div> -->
