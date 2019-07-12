@@ -2,9 +2,37 @@
     text-transform: uppercase;
 }
 
+/* @media only screen and (max-width : 780px) {
+    .header_img_text{
+        margin: 
+    }
+   } */
+
+   @media only screen and (min-width : 768px) {
+    .header_img_text{
+        margin: 1px 10px;
+    }
+
+    .img_profile img{height:30px; width:30px; border:0px; border-radius:50%; cursor:pointer; margin-top: 45%;}
+
+    .logo_text a{font-size:40px;}
+   }
+
+   @media only screen and (max-width : 767px) {
+
+    .img_profile img{height:20px; width:20px; border:0px; border-radius:50%; cursor:pointer; margin-top: 45%;}
+   }
+
+   
+
+  
+
+   
+
 .glyphicon {
     font-size: 35px;
     color: white;
+    margin-left: 30%;
 }
 
 .paddRightNone{padding-right:0px;}

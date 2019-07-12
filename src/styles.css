@@ -703,7 +703,7 @@ div {
     .breakAll{word-wrap:break-word; display:block;} 
        .spaceBorder{display:block !important;}
        
-   .logo_text a{font-size:22px;}
+  
    .logo_main img{max-width:100%; height:45px;}
    .bg_img_style{width:40px; height:40px;}
    ul.tab_main li span{font-size:16px;}
@@ -781,8 +781,22 @@ div {
        table.scoreTable tr th{font-size:4vw;}
        table.scoreTable tr td{font-size:4vw;}
        table.scoreTable tr td span{word-break:break-word;} 
-        
+       
    }
+
+   /* @media only screen and (max-width : 990px) {
+    
+   }
+
+   
+
+   @media only screen and (min-width : 991px)  {
+    .img_profile img{height:40px; width:40px; border:0px; 
+      border-radius:50%; cursor:pointer;
+      margin-top: 25%;
+      margin-left: 10px;
+      margin-right: 5px}
+   } */
 
    @media only screen and (max-width : 275px) {
     .leftGameDate strong{position:inherit;}  
@@ -1020,7 +1034,7 @@ div {
   .header_img_text{font-size:28px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute; margin: 0px 0px;}
   .topheaderFixed{background-color:#000; padding:8px 0;}
 
-  .img_profile img{height:30px; width:30px; border:0px; border-radius:50%; cursor:pointer; margin-top: 5px;}
+  
   /* .mobile_menu span{background-color:#fff; height:3px; margin-top:5px; display:block;} */
   .mobile_menu{width:25px; display:inline-block; cursor: pointer; position: relative;}
   .mobile_menu_div{display:none;background-color: #fff;padding:0px 10px; position: absolute; top:26px; left:-125px; z-index: 1; width:150px; border:2px solid #5B9BD5;}
