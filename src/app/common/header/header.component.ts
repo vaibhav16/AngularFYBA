@@ -52,10 +52,6 @@ export class HeaderComponent implements OnInit {
     newVariable = window.navigator;
     if (newVariable.standalone) this.iosStandalone = true;
 
-    if (this.cookieService.check('sessionKey')) {
-      if (this.dss.isOfficial) this.router.navigate(['player']);
-      else if (this.dss.isPlayer) this.router.navigate(['player']);
-    }
     // console.log("All three True: ");
     // console.log(this.dss.isOfficial && this.dss.isPlayer && this.dss.isCoach);
     // console.log(this.dss.isOfficial);

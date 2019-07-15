@@ -46,15 +46,15 @@ export class AuthGuard implements CanActivate{
       );
       
       if((this.cookieService.get("isOfficial"))=="true"){
-        this.dss.isOfficial = true;
+        this.dss.isOfficial = true;       
       }
      
       if((this.cookieService.get("isPlayer"))=="true"){
-        this.dss.isPlayer = true;
+        this.dss.isPlayer = true;       
       }
 
       if((this.cookieService.get("isCoach"))=="true"){
-        this.dss.isCoach = true;
+        this.dss.isCoach = true;       
       }
 
       if((this.cookieService.get("isOfficial"))=="false"){
@@ -82,6 +82,11 @@ export class AuthGuard implements CanActivate{
       this.dss.VolunteerStatusId = this.cookieService.get(
         "volunteerStatusId"
       );
+
+      console.log(this.dss.isOfficial);
+      console.log(this.dss.isPlayer);
+      console.log(this.dss.isCoach);
+
       // logged in so return true
       return true;
     }

@@ -106,17 +106,21 @@ export class LoginComponent implements OnInit {
 
           if (this.userData.Value.PlayerIsPlayer) {
             this.router.navigate(['player']);
-            this.cookieService.set('isPlayer', 'true', 365);
+            this.cookieService.set('isPlayer', 'true', 365);            
+            this.dss.isPlayer = this.userData.Value.PlayerIsPlayer;         
+  
           }
 
           if (this.userData.Value.CoachIsCoach) {
             this.router.navigate(['coach']);
             this.cookieService.set('isCoach', 'true', 365);
+            this.dss.isCoach = this.userData.Value.CoachIsCoach;
           }
 
           if (this.userData.Value.OfficialIsOfficial) {
             this.router.navigate(['official']);
             this.cookieService.set('isOfficial', 'true', 365);
+            this.dss.isOfficial = this.userData.Value.OfficialIsOfficial;
           }      
         
 
@@ -168,10 +172,7 @@ export class LoginComponent implements OnInit {
           this.dss.VolunteerId = this.userData.Value.VolunteerId;
           this.dss.VolunteerSeasonalId = this.userData.Value.VolunteerSeasonalId;
           this.dss.VolunteerStatusId = this.userData.Value.VolunteerStatusId;
-          this.dss.isCoach = this.userData.Value.CoachIsCoach;
-          this.dss.isPlayer = this.userData.Value.PlayerIsPlayer;
-          this.dss.isOfficial = this.userData.Value.OfficialIsOfficial;
-
+      
         }
       }
     );
