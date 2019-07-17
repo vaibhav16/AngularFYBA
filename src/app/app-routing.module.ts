@@ -88,19 +88,19 @@ const routes: Routes = [
         path: 'team',
         component: TeamComponent,
         canDeactivate: [DeactivateGuard],
-        children: [{
-          path: 'compose-email',
-          component: ComposeEmailComponent
-        }]
+        // children: [{
+        //   path: 'compose-email',
+        //   component: ComposeEmailComponent
+        // }]
       },
       {
         path: 'teaminfo',
         component: PlayerteamComponent,
         canDeactivate: [DeactivateGuard],
-        children: [{
-          path: 'compose-email',
-          component: ComposeEmailComponent
-        }]
+        // children: [{
+        //   path: 'compose-email',
+        //   component: ComposeEmailComponent
+        // }]
       },
       {
         path: 'standings',
@@ -111,7 +111,11 @@ const routes: Routes = [
         path: 'profile',
         component: PlayerProfileComponent,
         canDeactivate: [DeactivateGuard]
-      }
+      },
+      {
+        path: 'compose-email', 
+        component: ComposeEmailComponent
+      },
     ]
   },
   { path: 'fybaloader', component: FybaloaderComponent },
