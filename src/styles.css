@@ -518,14 +518,16 @@ div {
     margin-right: 20px;
     margin-bottom: 20px;
     height: 100px;
-    /*background: #999999;*/
+    background: #446cc1;
     text-align: center;
     line-height: 100px;
-    color: #ffffff; position:relative; /*border:3px solid #3c98db;*/margin-top:10px;}
+    color: #ffffff; position:relative; border:1px solid #1e31ae;margin-top:10px;}
 
     ul.addList.incidentLi li{
         background: #1e31ae;
     }
+
+    .RLStyle{font-size:32px; font-weight: bold;}
     
     ul.addList li.preFilledDiv{float: left;
         width: 100px;

@@ -29,8 +29,13 @@
         <ul class="game_select">
 
           <!--Calendar-->
-          <li style="width:25% !important;" routerLink="/player/calendar" class="tab-link current active" data-tab="tab3-1">
-            <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calender</span>
+          <li style="width:25% !important;" class="tab-link" data-tab="tab3-1">
+          
+
+            <a routerLink="/player/calendar" routerLinkActive="active">
+              <!-- [ngClass]="{'active': playerService.emailFlag==true}" -->
+              <img src="assets/images/calender_icon.png" alt="Calender" /><span>Calendar</span>
+            </a>
           </li>
 
           <!--Team Info-->

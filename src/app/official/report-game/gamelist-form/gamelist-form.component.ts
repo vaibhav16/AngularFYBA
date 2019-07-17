@@ -1,12 +1,5 @@
 import { Component, OnInit, Input, ElementRef, Renderer2 } from '@angular/core';
-import {
-  FormGroup,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  Validator,
-  Validators
-} from '@angular/forms';
+import {FormGroup,FormArray,FormBuilder,FormControl,Validator,Validators } from '@angular/forms';
 import { ScoreSheetImages } from '../../classes/reportgame/ScoreSheet.model';
 import { DeletedScoreSheetImages } from './../../classes/reportgame/DeletedScoreSheetImages';
 import { APIGamePost, DeleteIncidentReport } from '../../classes/reportgame/APIGamePost.model';
