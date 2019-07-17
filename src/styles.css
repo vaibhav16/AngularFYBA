@@ -146,6 +146,7 @@ div {
    .btn-link.focus, .btn-link:hover, .btn-link:focus {
     text-decoration: none;
    }
+   .fontSize12 .col-md-4, .small_font .fontSize12 .col-md-8{font-size:16px !important;}
 
    .fontSize12 .accordion .accordion .card-header {
     border: 1px solid #bbc9da;
@@ -174,6 +175,11 @@ div {
    table.leftTable > tbody > tr > td:nth-child(2) tr td:first-child{min-width:100px;}*/
 
 
+   @media only screen and (min-width : 992px) {
+    .header_img_text{margin-left: 10px;}
+  } 
+
+
 
    .card h5{margin:0px;}
    
@@ -191,8 +197,9 @@ div {
    .topBg{background:#000000;}
    .add_to_home a{background-color:#b03d26; padding:5px 15px; margin:10px 0; display:inline-block; color:#ffffff;}
    .add_to_home a:hover, .add_to_home a:focus{color:#ffffff; text-decoration:none;}
-   .logo_text a{color:#ffffff; font-size:46px; font-weight:bold; letter-spacing:1px;}
+   .logo_text a{color:#ffffff; font-size:40px; margin-left: -8px; font-weight:bold; letter-spacing:1px;}
    .logo_text a:hover, .logo_text a:focus{color:#ffffff; text-decoration:none;}
+   .img_profile img{height:30px; width:30px; border:0px; border-radius:50%; cursor:pointer; margin-top: 40%;}
    .bg_logo{background-color:#011a9a; padding:15px 0;}
    .logo_main a{float:right;}
    ul.tab_main{list-style:none; margin:0px; padding:0px;}
@@ -301,7 +308,8 @@ div {
    .marginTop10{margin-top:10px;}
    a.btnFilter{background:#3c98db; padding:5px 10px; border-radius:5px; color:#ffffff; text-decoration:underline;}
    a.btnFilter:hover, a.btnFilter:focus{ color:#ffffff;}
-   h1.mainDate{font-size:30px;margin-bottom: 0;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
+   h1{font-size:30px;margin-bottom: 0;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
+   
    
    .marginBottom10{margin-bottom:10px;}
    .data_module h3{font-size:18px; color:#000000; margin-top:10px; font-weight:normal; font-style: italic;}
@@ -358,7 +366,7 @@ div {
    .cancelBtn:hover, .cancelBtn:focus{color:#ffffff !important;}
    .lognin_bg{background-image:url("./assets/images/login_bg2.jpg"); background-size:cover; background-repeat:no-repeat; height:100%; width:100%; position:fixed; background-position:center center; left:0px; top:0px;}
    .lognin_box{position:absolute; width:400px; left:50%; top:50%; transform:translateX(-50%) translateY(-50%);}
-   .input_field input{width:100%; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:40px; color:#cccccc; text-align:center; border-radius:0px !important; box-shadow:none !important;}
+   .input_field input{width:100%; border-radius: 50px; margin: auto; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:45px; color:#cccccc; text-align:center;  box-shadow:none !important;}
    .invalid_credintial{
     color: #ff0000; text-align: center; font-weight:bold;}
     .noRecords{
@@ -397,13 +405,13 @@ div {
 
 
    .logo_login{text-align:center; margin-bottom:80px;}
-   .forgot_pass{text-align:right; margin-top:15px;}
+   .forgot_pass{text-align:right; margin-top:15px; }
    .forgot_pass a{color:rgba(255,255,255,1);}
    .validation-error{color:#ff0000;padding: 0 10px;}
    .forgot_pass a:hover, .forgot_pass a:focus{color:rgba(255,255,255,1); text-decoration:none;}
    .dont_acnt{color:rgba(255,255,255,0.4); text-align:center;}
    .dont_acnt a, .dont_acnt a:hover, .dont_acnt a:focus{color:#ffffff; text-decoration:none;}
-   .signIn_btn{background: rgba(255,214,2,1);height: 50px;width: 100%;
+   .signIn_btn{background: rgba(255,214,2,1);height: 45px;width: 100%;
     border-radius: 50px;
     color: #000000 !important;
     font-size: 16px;
@@ -689,6 +697,7 @@ div {
    .slideDate .custom-dropdown select{font-size:12px;}
    
    @media only screen and (max-width : 767px) {
+    .forgot_pass{text-align:right; margin-top:15px; margin-right: 36px;}
     .composeHeading { font-size: 18px;}
     .addList .addListDiv.uploadDiv{ width: 60px !important; height: 60px !important;}
     .addList .addListDiv{width: 60px !important; height: 60px !important;}
@@ -704,11 +713,11 @@ div {
        .spaceBorder{display:block !important;}
        
   
-   .logo_main img{max-width:100%; height:45px;}
+   .logo_main img{max-width:100%; height:50px; margin-top: 3px;}
    .bg_img_style{width:40px; height:40px;}
    ul.tab_main li span{font-size:16px;}
    ul.game_select li img{height:22px;}
-   ul.game_select li span{font-size:13px;}
+   ul.game_select li span{font-size:15px;}
    .notification_tip{font-size:10px !important; padding:1px 5px 1px 4px !important;}
    .select_pos{margin-left: -20px;}
    .report_pos{margin-left: -15px;}
@@ -716,8 +725,8 @@ div {
    .officiating_pos{margin-left: -19px;}
    .filter_div label{text-align:left;font-size: 14px;margin-bottom: 5px;margin-top: 0;}
    .lognin_box{width:100%;}
+   .input_field input{width:80%; border-radius: 50px; margin: auto; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:45px; color:#cccccc; text-align:center;  box-shadow:none !important;}
    .signIn_btn{width:80%;display: inline-block;}
-   .forgot_pass{margin-right:15px;}
    .bgGrey .col-md-2{text-align:center; margin-bottom:5px;}
    .inputfull input[type="text"]{width:100%;}
    .overflowAuto{overflow:hidden;}
@@ -730,7 +739,7 @@ div {
    .coach_header_img{height:200px; background-position:center center;}
    .official_header_img_paddNone .col-md-12{padding-left:0px !important; padding-right:0px !important;}
    .breakWord{display:block;}
-   h1.mainDate{font-size:19px;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
+  
    .data_module h3{font-size:15px;}
    ul.addList li{float:left; width:60px; margin-left:0px;height: 60px;
    line-height: 60px;
@@ -1031,7 +1040,7 @@ div {
   .leftTable tr th, .leftTable tr td{text-align:left !important;color: #000;}
   .leftTable tr th{vertical-align: bottom;}
 
-  .header_img_text{font-size:28px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute; margin: 0px 0px;}
+  .header_img_text{font-size:32px; color:#fff; left:15px; top:10px; font-weight: bold; position: absolute; }
   .topheaderFixed{background-color:#000; padding:8px 0;}
 
   
@@ -1147,7 +1156,7 @@ div {
    /* ---- Start Small Font Css --- */
 
   @media only screen and (max-width : 991px) {    
-    .small_font .header_img_text{font-size:26px;}
+    .small_font .header_img_text{font-size:26px; margin: 0px 0px;}
     .small_font .card .btn-link{font-size:14px;}
     .small_font .card-body .btn-success{font-size:14px;padding: 5px 10px; margin-left:0px;}
     .small_font .card-body .btn-danger{font-size:14px;padding: 5px 10px; margin-right:0px;}
@@ -1198,6 +1207,12 @@ div {
     .small_font #submitDiv button {font-size:14px !important;}
     .small_font .withdrawDiv button {font-size:14px !important;}
     .small_font .composeHeading { font-size: 16px !important;}
+    .small_font .img_profile img{height:20px; width:20px; border:0px; border-radius:50%; cursor:pointer; margin-top: 45%;}
+    .small_font .logo_main img{max-width:100%; height:45px;}
+    .small_font ul.game_select li span{font-size:13px;}
+     
+    
+    
 }
 
   /* ---- End Small Font Css --- */

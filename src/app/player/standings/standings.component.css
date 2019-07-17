@@ -10,3 +10,11 @@ table.table_stanings thead{color:#ffffff; background-color:#5B9BD5; border-botto
 table.table_stanings tbody tr:nth-child(2n+1) td{background-color:#D0DEEF;}
 table.table_stanings tr td, table.table_stanings tr th{border:1px solid #ffffff; text-align:center;}
 table.table_stanings tbody tr td{background-color:#E9EFF7; vertical-align: middle;}
+
+h2{
+    font-size: 26px;
+}
+@media only screen and (max-width : 991px) {    
+    .small_font h2{font-size: 22px;}
+
+}
