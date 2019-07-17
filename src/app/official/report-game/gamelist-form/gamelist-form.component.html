@@ -173,7 +173,8 @@
             </li>
             <ng-container *ngIf="gameData.ScoreSheetImages.length > 0">
               <li *ngFor="let child of gameData.ScoreSheetImages; let ssIndex = index" id="scoresheet{{ ssIndex }}">
-                <img src="{{ child.ImageThumbnail }}" />
+                <span class="RLStyle">RL</span>
+                <!--<img src="{{ child.ImageThumbnail }}" />-->
                 <span class="glyphicon glyphicon-remove-circle" url="child.ImageURL"
                   (click)="deleteSavedImage($event,child.ImageURL,'scoresheet' + ssIndex)" aria-hidden="true"></span>
               </li>

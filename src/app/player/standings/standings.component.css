@@ -1,4 +1,4 @@
-table.table_division{margin-top:20px;}
+/*table.table_division{margin-top:20px;}
 table.table_division thead{color:#ffffff; background-color:#5B9BD5; border-bottom:2px solid #ffffff;}
 table.table_division tbody tr:nth-child(2n+1) td{background-color:#D0DEEF;}
 table.table_division tr td, table.table_division tr th{border:1px solid #ffffff; text-align:center;}
@@ -9,4 +9,8 @@ table.table_stanings{margin-top:20px;}
 table.table_stanings thead{color:#ffffff; background-color:#5B9BD5; border-bottom:2px solid #ffffff;}
 table.table_stanings tbody tr:nth-child(2n+1) td{background-color:#D0DEEF;}
 table.table_stanings tr td, table.table_stanings tr th{border:1px solid #ffffff; text-align:center;}
-table.table_stanings tbody tr td{background-color:#E9EFF7; vertical-align: middle;}
+table.table_stanings tbody tr td{background-color:#E9EFF7; vertical-align: middle;}*/
+
+.blueBGHead{background-color:#1e31ae; padding:5px; color:#ffffff; font-size:16px; font-weight:bold;}
+.mainPanel table thead tr th{background-color:#ededed; padding:5px; color:#000000; text-align:center; border:1px solid #ffffff;font-size:14px; border-bottom:2px solid #ffffff;}
+.mainPanel table tbody tr td{background-color:#cdd4ea; padding:5px; color:#000000; text-align:center; border:1px solid #ffffff;font-size:14px;}
