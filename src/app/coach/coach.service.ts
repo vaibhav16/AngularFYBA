@@ -4,6 +4,7 @@ import { Constants } from './../constants';
 import { CoachProfileRequest } from './models/profileRequest.model';
 import { CoachProfileResponse } from './models/profileResponse.model';
 import { DataSharingService } from './../data-sharing.service';
+import { IEmail } from './models/blastemail.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 
@@ -11,7 +12,8 @@ import { map } from 'rxjs/operators'
   providedIn: 'root'
 })
 export class CoachService {
-
+  recepient: string='Kyle Larson (rflarson@yahoo.com , tami@thelarsons.net)';
+  from:string='Bob Larson (rflarson@yahoo.com)';
   constructor(private http: Http, private dss: DataSharingService) { 
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
     this.postRequestOptions = new RequestOptions({
@@ -46,4 +48,24 @@ export class CoachService {
     return this.http.get('assets/test.json')
       .pipe(map((res) => res))
   }
+
+  sendEmail(subject,emailBody): Observable<any> {
+    var emailModel = new IEmail();
+    emailModel.UserID = this.dss.userId;
+    emailModel.SessionKey = this.dss.sessionKey;
+    emailModel.RequestedData = JSON.stringify({
+      ToEmailIds:this.recepient,
+      FromEmailId: this.dss.email,
+      Subject: subject,
+      Body: emailBody,
+      SeasonId: this.dss.seasonId,
+      LeagueId: this.dss.leagueId
+    });
+
+    var body = JSON.stringify(emailModel);
+    console.log(body);
+    return this.http.post(Constants.apiURL + '/api/SendMail', body, this.postRequestOptions);
+  }
+
+
 }
