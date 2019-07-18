@@ -67,7 +67,7 @@ export class SelectGameComponent implements OnInit {
   }
 
   get selectGameData() {
-    console.log(this.officialService.selectGameJson);
+    //console.log(this.officialService.selectGameJson);
     return this.officialService.selectGameJson;
   }
 

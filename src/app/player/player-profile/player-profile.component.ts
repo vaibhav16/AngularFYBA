@@ -86,7 +86,7 @@ export class PlayerProfileComponent implements OnInit {
 
     console.log("Player Id in profile:" + this.playerService.playerId);
 
-    console.log(this.profileForm);
+    // console.log(this.profileForm);
 
       this.interval = setInterval( () => {
       this.timesRun += 1;

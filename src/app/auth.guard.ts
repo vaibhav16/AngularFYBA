@@ -15,6 +15,13 @@ export class AuthGuard implements CanActivate{
     private cookieService: CookieService,
     private dss: DataSharingService) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    let allCookies  = {};
+    allCookies = this.cookieService.getAll();
+    
+    this.dss.isOfficial=false;
+    this.dss.isCoach=false;
+    this.dss.isPlayer=false;
+
     if (this.cookieService.check("sessionKey")) {
       this.dss.sessionKey = this.cookieService.get(
         "sessionKey"
@@ -45,6 +52,10 @@ export class AuthGuard implements CanActivate{
         "textSize"
       );
       
+      console.log(this.cookieService.get("isOfficial"));
+      console.log(this.cookieService.get("isPlayer"));
+      console.log(this.cookieService.get("isCoach"));
+
       if((this.cookieService.get("isOfficial"))=="true"){
         this.dss.isOfficial = true;       
       }
@@ -57,15 +68,15 @@ export class AuthGuard implements CanActivate{
         this.dss.isCoach = true;       
       }
 
-      if((this.cookieService.get("isOfficial"))=="false"){
+      if((this.cookieService.get("isOfficial"))==null){
         this.dss.isOfficial = false;
       }
      
-      if((this.cookieService.get("isPlayer"))=="false"){
+      if((this.cookieService.get("isPlayer"))==null){
         this.dss.isPlayer = false;
       }
 
-      if((this.cookieService.get("isCoach"))=="false"){
+      if((this.cookieService.get("isCoach"))==null){
         this.dss.isCoach = false;
       }
  
@@ -86,6 +97,8 @@ export class AuthGuard implements CanActivate{
       console.log(this.dss.isOfficial);
       console.log(this.dss.isPlayer);
       console.log(this.dss.isCoach);
+      // console.log(this.cookieService);
+
 
       // logged in so return true
       return true;

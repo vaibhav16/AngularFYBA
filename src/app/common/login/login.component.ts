@@ -21,11 +21,15 @@ declare var require: any;
 })
 export class LoginComponent implements OnInit {
   @ViewChild(FybaloaderComponent) loader;
-  browser = require('detect-browser');
+  browser = require("detect-browser");
   userData: IUserData;
   browserName;
   iosStandalone;
   selectedLogin: Login;
+  config = {
+    backdrop: true,
+    ignoreBackdropClick: false
+  };
 
   constructor(
     public loginService: LoginService,
@@ -38,17 +42,13 @@ export class LoginComponent implements OnInit {
   modalRef: BsModalRef;
 
   ngOnInit() {
+    this.cookieService.deleteAll();
+
     let newVariable: any;
     newVariable = window.navigator;
     this.resetForm();
     //this.ios = ['iPad', 'iPhone', 'iPod'].indexOf(navigator.platform) >= 0;
     //this.iosStandalone = window.navigator.standalone;
-    if (newVariable.standalone) this.iosStandalone = true;
-
-    if (this.loginService.cookieService.check('sessionKey')) {
-      if (this.dss.isOfficial) this.router.navigate(['player']);
-      else if (this.dss.isPlayer) this.router.navigate(['player']);
-    }
 
     if (browser) {
       this.browserName = browser.name;
@@ -56,6 +56,18 @@ export class LoginComponent implements OnInit {
       // console.log(browser.version);
       // console.log(browser.os);
     }
+    if (newVariable.standalone) this.iosStandalone = true;
+    // console.log(newVariable);
+    // console.log(this.browserName == "ios");
+    // console.log(!this.iosStandalone);
+
+
+    if (this.loginService.cookieService.check('sessionKey')) {
+      if (this.dss.isOfficial) this.router.navigate(['oficial']);
+      else if (this.dss.isPlayer) this.router.navigate(['player']);
+    }
+
+    
   }
 
   resetForm(form?: NgForm) {
@@ -85,6 +97,9 @@ export class LoginComponent implements OnInit {
 
     this.loginService.postLoginCredentials(form.value).subscribe(
       (res) => {
+        this.cookieService.delete('isOfficial');
+        this.cookieService.delete('isPlayer');
+        this.cookieService.delete('isCoach');
         console.log(res);
         this.userData = res;
         if (!res['Status']) {
@@ -103,48 +118,17 @@ export class LoginComponent implements OnInit {
       () => {
         this.loginRequest = false;
         if (this.userData.Status) {
-
-          if (this.userData.Value.PlayerIsPlayer) {
-            this.router.navigate(['player']);
-            this.cookieService.set('isPlayer', 'true', 365);            
-            this.dss.isPlayer = this.userData.Value.PlayerIsPlayer;         
-  
-          }
-
-          if (this.userData.Value.CoachIsCoach) {
-            this.router.navigate(['coach']);
-            this.cookieService.set('isCoach', 'true', 365);
-            this.dss.isCoach = this.userData.Value.CoachIsCoach;
-          }
-
-          if (this.userData.Value.OfficialIsOfficial) {
-            this.router.navigate(['official']);
-            this.cookieService.set('isOfficial', 'true', 365);
-            this.dss.isOfficial = this.userData.Value.OfficialIsOfficial;
-          }      
-        
-
+          
           this.cookieService.set('sessionKey', this.userData.SessionKey);
           this.cookieService.set('userId', this.userData.Value.UserId.toString(), 365);
           this.cookieService.set('officialSeasonId', this.userData.Value.OfficialSeasonalId, 365);
           this.cookieService.set('seasonId', this.userData.Value.SeasonId.toString(), 365);
           this.cookieService.set('roleId', this.userData.Value.RoleId.toString(), 365);
           this.cookieService.set('leagueId', this.userData.Value.LeagueId.toString(), 365);
-          this.cookieService.set(
-            'reportTagLabel',
-            this.userData.Value.tagsLables.ReportCount.toString(),
-            365
-          );
+          this.cookieService.set('reportTagLabel',this.userData.Value.tagsLables.ReportCount.toString(),365);
           this.cookieService.set('textSize', this.userData.Value.Text_Size, 365);
-          this.cookieService.set(
-            'name',
-            this.userData.Value.FirstName + this.userData.Value.LastName,
-            365
-          );
-
+          this.cookieService.set('name',this.userData.Value.FirstName + this.userData.Value.LastName,365);
           this.cookieService.set('email', this.userData.Value.Email, 365);
-
-         
           this.cookieService.set('volunteerId', this.userData.Value.VolunteerId, 365);
           this.cookieService.set('volunteerSeasonId', this.userData.Value.VolunteerSeasonalId, 365);          
           this.cookieService.set('volunteerStatusId', this.userData.Value.VolunteerStatusId, 365);
@@ -157,7 +141,7 @@ export class LoginComponent implements OnInit {
           ) {
             this.cookieService.set('roundThumbnail', this.userData.Value.RoundThumbnail, 365);
           }
-
+          this.dss.sessionKey = this.userData.SessionKey;
           this.dss.userId = this.userData.Value.UserId;
           this.dss.officialSeasonId = this.userData.Value.OfficialSeasonalId;
           //console.log(this.officialSeasonId);
@@ -172,6 +156,29 @@ export class LoginComponent implements OnInit {
           this.dss.VolunteerId = this.userData.Value.VolunteerId;
           this.dss.VolunteerSeasonalId = this.userData.Value.VolunteerSeasonalId;
           this.dss.VolunteerStatusId = this.userData.Value.VolunteerStatusId;
+          console.log(this.userData);
+
+          if (this.userData.Value.PlayerIsPlayer==true) {
+
+            this.cookieService.set('isPlayer', 'true', 365);            
+            this.dss.isPlayer = this.userData.Value.PlayerIsPlayer; 
+            this.router.navigate(['player']);        
+  
+          }
+
+          if (this.userData.Value.CoachIsCoach==true) {
+            // debugger;
+            this.cookieService.set('isCoach', 'true', 365);
+            this.dss.isCoach = this.userData.Value.CoachIsCoach;
+            this.router.navigate(['coach']);
+          }
+
+          if (this.userData.Value.OfficialIsOfficial==true) {
+            this.cookieService.set('isOfficial', 'true', 365);
+            this.dss.isOfficial = this.userData.Value.OfficialIsOfficial;
+            this.router.navigate(['official']);
+          } 
+
       
         }
       }
@@ -181,4 +188,8 @@ export class LoginComponent implements OnInit {
   closeErrorModal() {
     this.modalRef.hide();
   }
+
+  // getApp(template: TemplateRef<any>){
+  //   this.modalRef = this.modalService.show(template, Object.assign(this.config, { class: 'noBorder' }));
+  // }
 }

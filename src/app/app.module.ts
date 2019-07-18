@@ -59,6 +59,7 @@ import { CoachCalendarComponent } from './coach/coach-calendar/coach-calendar.co
 import { PlayerCalendarComponent } from './player/player-calendar/player-calendar.component';
 import { PlayerteamComponent } from './player/playerteam/playerteam.component';
 import { CoachteamComponent } from './coach/coachteam/coachteam.component';
+import { TeamInfoComponent } from './coach/team-info/team-info.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { CoachteamComponent } from './coach/coachteam/coachteam.component';
     CoachCalendarComponent,
     PlayerCalendarComponent,
     PlayerteamComponent,
-    CoachteamComponent
+    CoachteamComponent,
+    TeamInfoComponent
   ],
   imports: [
     HttpModule,
