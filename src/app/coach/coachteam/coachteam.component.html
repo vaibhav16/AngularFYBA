@@ -55,8 +55,8 @@
   <div class="mainPanel marginTop30">
       <h4 class="blueBGHead">TEAM ROSTER</h4>
       <div class="marginTop10 blastCentre">
-      <button type="button" class="btn blastbtn">SEND BLAST EMAIL</button>&nbsp;
-      <button type="button" class="btn blastbtn">SEND BLAST TEXT</button>
+      <button type="button" class="btn blastbtn" (click)="sendEmail('blast_email')" >SEND BLAST EMAIL</button>&nbsp;
+      <button type="button" class="btn blastbtn"(click)="sendEmail('blast_text')">SEND BLAST TEXT</button>
     </div>
       <table id ="player_other" class="marginTop10" cellspacing="0" cellpadding="0" border="0" width="100%">
         <thead>
