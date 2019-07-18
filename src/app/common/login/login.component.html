@@ -1,19 +1,6 @@
-<html>
-<head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-</head>
-
-<title>FYBA Login</title>
-<link
-  href="https://fonts.googleapis.com/css?family=Open+Sans"
-  rel="stylesheet"
-/>
-
-<body>
   <!-- for getapp button on login screan -->
-  <!-- <div *ngIf="browserName == 'ios' && !iosStandalone" class="topheaderFixed">
+  <div *ngIf="browserName == 'ios' && !iosStandalone" class="topheaderFixed">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-10 col-xs-6 text-left">
@@ -25,7 +12,7 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div> 
   <div class="container-fluid">
     <form
     #loginForm="ngForm"
@@ -101,7 +88,7 @@
   </form>
 
   <!-- for getapp button on login screan -->
-  <!-- <ng-template #template>
+   <ng-template #template>
     <div class="modal-header">
         <h4 class="modal-title pull-left">FYBA App</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -117,7 +104,7 @@
             </p>
           </div>
         </div>
-      </ng-template> -->
+      </ng-template> 
   <!-- <ng-template #loginErrorTemplate>
     <div class="modal-body text-center">
       <p class="heading-signUp">Error</p>     
@@ -130,8 +117,7 @@
   </ng-template> -->
   </div>
   
-</body>
-</html>
+
 <!--##########loader###################-->
 <app-fybaloader *ngIf="loginRequest"></app-fybaloader>
 <!--######################################-->

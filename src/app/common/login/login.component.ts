@@ -189,7 +189,7 @@ export class LoginComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  // getApp(template: TemplateRef<any>){
-  //   this.modalRef = this.modalService.show(template, Object.assign(this.config, { class: 'noBorder' }));
-  // }
+  getApp(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template, Object.assign(this.config, { class: 'noBorder' }));
+  }
 }

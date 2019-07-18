@@ -6,35 +6,38 @@
       <!--****PRACTICES SECTION**--->
 <div class="mainPanel marginTop30">
   <h4 class="blueBGHead">TEAM LEADERSHIP</h4>
-  <table cellspacing="0" cellpadding="0" border="0" width="100%">
-    <thead>
-      <tr>
-        <th>POSITION</th>
-        <th>NAME</th>
-        <th>EMAIL</th>
-        <th>MOBILE</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Coach</td>
-        <td>Tami Larson</td>
-        <td class="coachemail"><u>tami@thelarsons.net</u></td>
-        <td>916-220-4931</td>
-      </tr>
-       <tr>
-        <td>Coach</td>
-        <td>Tami Larson</td>
-        <td class="coachemail"><u>tami@thelarsons.net</u></td>
-        <td>916-220-4931</td>
-      </tr>
-    </tbody>
-  </table>
+  <div style="overflow-x:auto;">
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+      <thead>
+        <tr>
+          <th>POSITION</th>
+          <th>NAME</th>
+          <th>EMAIL</th>
+          <th>MOBILE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Coach</td>
+          <td>Tami Larson</td>
+          <td class="coachemail"><u>tami@thelarsons.net</u></td>
+          <td>916-220-4931</td>
+        </tr>
+         <tr>
+          <td>Coach</td>
+          <td>Tami Larson</td>
+          <td class="coachemail"><u>tami@thelarsons.net</u></td>
+          <td>916-220-4931</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
 </div>
 
 <!---******Player HEALTH SECTION****-->
 <div class="mainPanel marginTop30">
-    <h4 class="blueBGHead">PLAYER HEALTH CONDITIONS</h4>
+    <h4 class="blueBGHead_health">PLAYER HEALTH CONDITIONS</h4>
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
       <thead>
         <tr>
@@ -55,9 +58,10 @@
   <div class="mainPanel marginTop30">
       <h4 class="blueBGHead">TEAM ROSTER</h4>
       <div class="marginTop10 blastCentre">
-      <button type="button" class="btn blastbtn" (click)="sendEmail('blast_email')" >SEND BLAST EMAIL</button>&nbsp;
-      <button type="button" class="btn blastbtn"(click)="sendEmail('blast_text')">SEND BLAST TEXT</button>
+      <button type="button" class="btn blastbtn btn-sm marginTop10 marginBottom10" (click)="sendEmail('blast_email')" >SEND BLAST EMAIL</button>&nbsp;
+      <button type="button" class="btn blastbtn btn-sm marginTop10 marginBottom10"(click)="sendEmail('blast_text')">SEND BLAST TEXT</button>
     </div>
+    <div style="overflow-x:auto;">
       <table id ="player_other" class="marginTop10" cellspacing="0" cellpadding="0" border="0" width="100%">
         <thead>
           <tr>
@@ -83,6 +87,7 @@
             </tr>
         </tbody>
       </table>
+      </div>
     </div>
     </div>
   </div>
