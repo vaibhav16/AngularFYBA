@@ -60,6 +60,7 @@ import { PlayerCalendarComponent } from './player/player-calendar/player-calenda
 import { PlayerteamComponent } from './player/playerteam/playerteam.component';
 import { CoachteamComponent } from './coach/coachteam/coachteam.component';
 import { TeamInfoComponent } from './coach/team-info/team-info.component';
+import { BlastemailComponent } from './coach/blastemail/blastemail.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { TeamInfoComponent } from './coach/team-info/team-info.component';
     PlayerCalendarComponent,
     PlayerteamComponent,
     CoachteamComponent,
-    TeamInfoComponent
+    TeamInfoComponent,
+    BlastemailComponent
   ],
   imports: [
     HttpModule,

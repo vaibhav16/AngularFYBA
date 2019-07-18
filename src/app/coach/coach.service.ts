@@ -40,7 +40,10 @@ export class CoachService {
     return this.http.post(Constants.apiURL+'/api/CoachDetails', body, this.postRequestOptions)
     .pipe(map((res)=>res.json()))
     
-    
+  }
 
+  getReportResultData(): Observable<any> {
+    return this.http.get('assets/test.json')
+      .pipe(map((res) => res))
   }
 }

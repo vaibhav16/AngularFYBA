@@ -19,20 +19,20 @@
       <tr>
         <td>Coach</td>
         <td>Tami Larson</td>
-        <td><u>tami@thelarsons.net</u></td>
+        <td class="coachemail"><u>tami@thelarsons.net</u></td>
         <td>916-220-4931</td>
       </tr>
        <tr>
         <td>Coach</td>
         <td>Tami Larson</td>
-        <td><u>tami@thelarsons.net</u></td>
+        <td class="coachemail"><u>tami@thelarsons.net</u></td>
         <td>916-220-4931</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!---******GAMES SECTION****-->
+<!---******Player HEALTH SECTION****-->
 <div class="mainPanel marginTop30">
     <h4 class="blueBGHead">PLAYER HEALTH CONDITIONS</h4>
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -51,13 +51,17 @@
     </table>
   </div>
 
-  <!---***OTHER SECTION**********-->
+  <!---***TEAM ROASTER SECTION**********-->
   <div class="mainPanel marginTop30">
       <h4 class="blueBGHead">TEAM ROSTER</h4>
-      <>
-      <table id ="player_other" cellspacing="0" cellpadding="0" border="0" width="100%">
+      <div class="marginTop10 blastCentre">
+      <button type="button" class="btn blastbtn" (click)="sendEmail('blast_email')" >SEND BLAST EMAIL</button>&nbsp;
+      <button type="button" class="btn blastbtn"(click)="sendEmail('blast_text')">SEND BLAST TEXT</button>
+    </div>
+      <table id ="player_other" class="marginTop10" cellspacing="0" cellpadding="0" border="0" width="100%">
         <thead>
           <tr>
+            <th>#</th>
             <th>PLAYER NAME</th>
             <th>PARENT NAME</th>
             <th>PARENT EMAIL</th>
@@ -66,15 +70,16 @@
         </thead>
         <tbody>
           <tr>
+            <td rowspan="2">11</td>
             <td rowspan="2">Kyle Larson</td>
             <td>Robert Larson</td>
-            <td><u>rflarson@yahoo.com</u></td>
+            <td class="coachemail"><u>rflarson@yahoo.com</u></td>
             <td>916-757-7118</td>
           </tr>
           <tr>
-              <td rowspan="2">Tamara Larson</td>
-              <td rowspan="2">tami@thelarsons.net</td>
-              <td rowspan="2">916-220-4931</td>
+              <td>Tamara Larson</td>
+              <td class="coachemail"><u>tami@thelarsons.net</u></td>
+              <td>916-220-4931</td>
             </tr>
         </tbody>
       </table>
