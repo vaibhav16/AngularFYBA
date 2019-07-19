@@ -59,8 +59,8 @@ import { CoachCalendarComponent } from './coach/coach-calendar/coach-calendar.co
 import { PlayerCalendarComponent } from './player/player-calendar/player-calendar.component';
 import { PlayerteamComponent } from './player/playerteam/playerteam.component';
 import { CoachteamComponent } from './coach/coachteam/coachteam.component';
-import { TeamInfoComponent } from './coach/team-info/team-info.component';
 import { BlastemailComponent } from './coach/blastemail/blastemail.component';
+import { CoachGamelistFormComponent } from './coach/report-results/coach-gamelist-form/coach-gamelist-form.component';
 
 @NgModule({
   declarations: [
@@ -102,8 +102,8 @@ import { BlastemailComponent } from './coach/blastemail/blastemail.component';
     PlayerCalendarComponent,
     PlayerteamComponent,
     CoachteamComponent,
-    TeamInfoComponent,
-    BlastemailComponent
+    BlastemailComponent,
+    CoachGamelistFormComponent
   ],
   imports: [
     HttpModule,

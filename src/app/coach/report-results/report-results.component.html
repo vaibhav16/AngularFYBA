@@ -1,8 +1,8 @@
-<div class="container paddingBottom50" *ngIf="officialService.reportGameJson != null && dss.initialFetchError!=true">
+<div class="container paddingBottom50" *ngIf="coachReportData!=null">
     <div *ngIf="
-       (reportGameData.Value != null &&
-       reportGameData.Value.length > 0) ||
-       reportGameData.Value.GameList.length;
+       (coachReportData.Value != null &&
+       coachReportData.Value.length > 0) ||
+       coachReportData.Value.GameList.length;
        else noRecordDiv
        " class="row">
        <div class="col-lg-12">
@@ -10,7 +10,7 @@
           <div class="data_module">
              <ngb-accordion #acc="ngbAccordion" (panelChange)="panelChange($event)">
                 <ngb-panel *ngFor="
-                let item of officialService.reportGameJson.Value.GameList;
+                let item of coachReportData.Value.GameList;
                 let gameListIndex = index" id={{gameListIndex}}>
                    <ng-template ngbPanelTitle>
                       <div class="{{ item.GameReported }} HeadCollapse">
@@ -42,9 +42,9 @@
                    </ng-template>
                    <ng-template ngbPanelContent>
                       
-                      <app-gamelist-form [gameData]="item" [gameIndex]="gameListIndex" >
+                      <app-coach-gamelist-form [gameData]="item" [gameIndex]="gameListIndex" >
  
-                      </app-gamelist-form>
+                      </app-coach-gamelist-form>
  
                    </ng-template>
                 </ngb-panel>
@@ -59,15 +59,15 @@
  
  
  <!--Loader-->
- <app-fybaloader *ngIf="officialService.reportRequest"></app-fybaloader>
+ <!-- <app-fybaloader *ngIf="officialService.reportRequest"></app-fybaloader> -->
  <!--Loader-->
  
- <div *ngIf="dss.initialFetchError" #serverError>
+ <!-- <div *ngIf="dss.initialFetchError" #serverError>
     <div class="noRecords">
        <span *ngIf="!this.officialService.timeoutError" class="spanError">Server Error</span> 
        <span *ngIf="this.officialService.timeoutError"  class="spanError">Timeout Error</span> 
        Please try again later!
     </div>
- </div>
+ </div> -->
  <notifier-container>
  </notifier-container>

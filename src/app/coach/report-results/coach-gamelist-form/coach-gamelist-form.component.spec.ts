@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TeamInfoComponent } from './team-info.component';
+import { CoachGamelistFormComponent } from './coach-gamelist-form.component';
 
-describe('TeamInfoComponent', () => {
-  let component: TeamInfoComponent;
-  let fixture: ComponentFixture<TeamInfoComponent>;
+describe('CoachGamelistFormComponent', () => {
+  let component: CoachGamelistFormComponent;
+  let fixture: ComponentFixture<CoachGamelistFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TeamInfoComponent ]
+      declarations: [ CoachGamelistFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TeamInfoComponent);
+    fixture = TestBed.createComponent(CoachGamelistFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

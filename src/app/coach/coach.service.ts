@@ -5,16 +5,32 @@ import { CoachProfileRequest } from './models/profileRequest.model';
 import { CoachProfileResponse } from './models/profileResponse.model';
 import { DataSharingService } from './../data-sharing.service';
 import { IEmail } from './models/blastemail.model';
-import { Observable } from 'rxjs';
+import { Observable, TimeoutError } from 'rxjs';
 import { map } from 'rxjs/operators'
+import { IncidentReports } from './models/coachReport.model';
+import { CookieService } from 'ngx-cookie-service';
+import { FinalFilter } from '../official/classes/selectgame/finalFilter.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CoachService {
+
+  dataChanged:boolean;
+  serviceError:boolean;
+  reportRequest:boolean;
+  initialJson: string;
+  finalFilter = new FinalFilter();
+  IncidentReports: IncidentReports[] = [];
+  NewIncidents: IncidentReports[] = [];
+  ModifiedIncidents: IncidentReports[] = [];
+
   recepient: string='Kyle Larson (rflarson@yahoo.com , tami@thelarsons.net)';
   from:string='Bob Larson (rflarson@yahoo.com)';
-  constructor(private http: Http, private dss: DataSharingService) { 
+  constructor(private http: Http, 
+    private dss: DataSharingService,
+    private cookieService: CookieService) { 
     this.headerOptions = new Headers({ 'Content-Type': 'application/json' });
     this.postRequestOptions = new RequestOptions({
       method: RequestMethod.Post,
@@ -67,5 +83,51 @@ export class CoachService {
     return this.http.post(Constants.apiURL + '/api/SendMail', body, this.postRequestOptions);
   }
 
+  public getPdfUrl(url: string): any {
+    return this.http.get(url);
+  }
+
+   /* - This function is used to post the entire gameList model to the API.
+  It comes into play when the ScoreKeeper make any changes to the player scores in a specific game. 
+  An updated model with all the scores is sent to the database and the records are updated. - */
+  postReportTitle: string;
+  postReportMsg: string;
+  postReportStatus: boolean;
+  postReportData(gameListObj: any):Observable<any> {
+    console.log(gameListObj);
+    var trailingUrl;
+    if (gameListObj.OfficiatingPositionId == 3) {
+      trailingUrl = '/api/savereportgames';
+    } else {
+      trailingUrl = '/api/SaveReportGamesNonScoreKeeper';
+    }
+    this.reportRequest = true;
+    this.postReportMsg = null;
+    this.finalFilter.RequestedData = JSON.stringify(gameListObj);
+    this.finalFilter.SessionKey = this.dss.sessionKey;
+    this.finalFilter.UserID = this.dss.userId.toString();
+    console.log(this.finalFilter);
+    var body = JSON.stringify(this.finalFilter);
+    console.log(JSON.stringify(this.finalFilter));
+
+    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+    var requestOptions = new RequestOptions({
+      method: RequestMethod.Post,
+      headers: headerOptions
+    });
+    return this.http
+      .post(Constants.apiURL + trailingUrl, body, requestOptions)
+  }
+
+  timeoutError: boolean;
+  private handleError(error: any) {
+    console.log(error);
+    if (error instanceof TimeoutError) {
+      this.timeoutError = true;
+    }
+    this.serviceError = true;
+    this.reportRequest = false;
+    console.log('A Server Error has occured!', error);
+  }
 
 }
