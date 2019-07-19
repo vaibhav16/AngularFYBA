@@ -97,15 +97,13 @@
                               <div class="clearfix"></div>
                             </div>
                             <div class="row-fluid signupPosition">
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                                  <strong>Volunteered Position:</strong>
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                                  <angular2-multiselect [data]="dropdownList" formControlName="Volunteeredposition"
-                                    [settings]="dropdownSettings">
-                                  </angular2-multiselect>
-                                </div>
-                                <div class="clearfix"></div>
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Volunteered Position:</strong>
+                              </div>
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <label>Player Evals – 10:00 AM – 12:00 PM</label>
+                              </div>
+                              <div class="clearfix"></div>
                             </div>
                             <div class="row-fluid signupPosition">
                                 <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
@@ -115,7 +113,7 @@
                                   <label>Player Evaluations (11/5/19  8:00 AM)</label>
                                 </div>
                                 <div class="clearfix"></div>
-                              </div>
+                            </div>
 
                             
 
@@ -144,8 +142,30 @@
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
-
-              <ngb-accordion>
+              <div class="mainPanel">
+              <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>DATE/TIME</th>
+                    <th>ACTION</th>
+                    <th>NEW VALUE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>7/3/19  8:09 PM</td>
+                    <td>New Registration</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                      <td>7/8/19  10:14 AM</td>
+                      <td>Status Change</td>
+                      <td>Admitted</td>
+                    </tr>
+                </tbody>
+              </table>
+              </div>
+              <!-- <ngb-accordion>
                 <ngb-panel *ngFor="let status of registrationStatus">
                   <ng-template ngbPanelTitle>
                     <div class="HeadCollapse">
@@ -155,16 +175,7 @@
                   <ng-template ngbPanelContent>
                     <div class="data_module bgBlue">
                       <div class="fms_time marginleftNone wordBreak">
-                        <!-- <div class="row-fluid signupPosition borderTopNone">
-                        <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                          <strong>Season:</strong>
-                        </div>
-                        <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                          {{registrationStatus.SeasonName}}
-                        </div>
-                        <div class="clearfix"></div>
-                      </div> -->
-
+                       
                         <div class="row-fluid signupPosition">
                           <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                             <strong>Registration Status:</strong>
@@ -223,7 +234,7 @@
                     </div>
                   </ng-template>
                 </ngb-panel>
-              </ngb-accordion>
+              </ngb-accordion> -->
             </ng-template>
           </ngb-panel>
 
