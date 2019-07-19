@@ -29,3 +29,8 @@ label {
       width: 60px;
 
   }
+
+
+
+.mainPanel table thead tr th{background-color:#ededed; padding:5px; color:#000000; text-align:left; border:1px solid #dddddd;font-size:14px;}
+.mainPanel table tbody tr td{background-color:#ffffff; padding:5px; color:#000000; text-align:left; border:1px solid #dddddd;font-size:14px;}
