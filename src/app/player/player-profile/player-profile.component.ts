@@ -22,13 +22,21 @@ export class PlayerProfileComponent implements OnInit {
 
   fetchingData: boolean;
   profileForm;
-
+  
+  dropdownList = [];
+  dropdownSettings = {};
+  numbers=[];
   constructor(public playerService: PlayerService,
     public router: Router, private fb: FormBuilder,
     private modalService: BsModalService,
     private config: NgbAccordionConfig,
     private snackbar: MatSnackBar) {
       config.closeOthers=true;
+      
+      for(var i=0;i<=100;i++)
+      {
+        this.numbers[i]=i;
+      }
 
   }
 
@@ -45,8 +53,9 @@ export class PlayerProfileComponent implements OnInit {
           email: new FormControl(this.parentInfo[i]["Parent_Email"],[Validators.email, Validators.required]),          
           homePhone: new FormControl(this.parentInfo[i]["Parent_HomePhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7), Validators.maxLength(14)]),          
           mobilePhone:new FormControl(this.parentInfo[i]["Parent_MobilePhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)]), 
-          workPhone:new FormControl(this.parentInfo[i]["Parent_WorkPhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)])
-         
+          workPhone:new FormControl(this.parentInfo[i]["Parent_WorkPhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)]),
+          textingoption:null,
+          Volunteeredposition:null  
         })
       )
     }
@@ -83,7 +92,7 @@ export class PlayerProfileComponent implements OnInit {
 
     console.log("Player Id in profile:" + this.playerService.playerId);
 
-    console.log(this.profileForm);
+    // console.log(this.profileForm);
 
       this.interval = setInterval( () => {
       this.timesRun += 1;
@@ -108,7 +117,22 @@ export class PlayerProfileComponent implements OnInit {
     //     this.fetchingData=false;
     //   }
     // )
+    this.dropdownList = [
+      {"id":1,"itemName":"Email"},
+      {"id":2,"itemName":"Home Phone"},
+      {"id":3,"itemName":"Mobile Phone"},    
+    ];
+    
+this.dropdownSettings = { 
+        singleSelection: false, 
+        text:"Select Texting",
+        selectAllText:'Select All',
+        unSelectAllText:'UnSelect All',
+        enableSearchFilter: true,
+        classes:"myclass custom-class"
+      }; 
   }
+  
 
   validEmail: boolean;
 
@@ -122,6 +146,7 @@ export class PlayerProfileComponent implements OnInit {
     }
 
   }
+  
 
 
   onSubmit(){
@@ -170,5 +195,8 @@ export class PlayerProfileComponent implements OnInit {
     // this.modalRef.content.route = "/player/team";
   }
 
+ 
+
 
 }
+

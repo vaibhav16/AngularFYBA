@@ -39,11 +39,10 @@ ul.parentPlayer li.active span{
 
 @media only screen and (max-width : 767px) {
 ul.parentPlayer li span {
-    font-size: 12px;
+    font-size: 15px;
 }
 
 ul.parentPlayer li {
     min-height: 68px;
 }
 }
-

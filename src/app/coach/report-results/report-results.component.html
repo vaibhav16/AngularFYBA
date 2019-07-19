@@ -1,0 +1,73 @@
+<div class="container paddingBottom50" *ngIf="coachReportData!=null">
+    <div *ngIf="
+       (coachReportData.Value != null &&
+       coachReportData.Value.length > 0) ||
+       coachReportData.Value.GameList.length;
+       else noRecordDiv
+       " class="row">
+       <div class="col-lg-12">
+          <h1 class="mainDate"><strong>Games to Report</strong></h1>
+          <div class="data_module">
+             <ngb-accordion #acc="ngbAccordion" (panelChange)="panelChange($event)">
+                <ngb-panel *ngFor="
+                let item of coachReportData.Value.GameList;
+                let gameListIndex = index" id={{gameListIndex}}>
+                   <ng-template ngbPanelTitle>
+                      <div class="{{ item.GameReported }} HeadCollapse">
+                         <h2>
+                            <div class="leftReportDate"
+                               [ngStyle]="{ width: item.IncentiveText.length>0 ? '100%' : '100%' }">
+                               <div>
+                                  {{ item.GameName }}
+                                  <img class="report_status"
+                                     *ngIf="item.IsScoreFilled && item.OfficiatingPositionId == 3"
+                                     src="assets/images/tick.png">
+                                  <img class="report_status"
+                                     *ngIf="!item.IsScoreFilled && item.OfficiatingPositionId == 3"
+                                     src="assets/images/error.png">
+                               </div>
+                               <div class="customSpan">
+                                  <span class="">
+                                     {{ item.GameDate }} @{{ item.Location }} @
+                                     {{ item.GameStartTime }}
+                                  </span>
+                                  <span> Game ID: {{item.GameId}}</span>
+                                  <span class="asCoach">{{ item.PositionText }}
+                                     <span class="earnMore">{{ item.IncentiveText }}</span>
+                                  </span>
+                               </div>
+                            </div>
+                         </h2>
+                      </div>
+                   </ng-template>
+                   <ng-template ngbPanelContent>
+                      
+                      <app-coach-gamelist-form [gameData]="item" [gameIndex]="gameListIndex" >
+ 
+                      </app-coach-gamelist-form>
+ 
+                   </ng-template>
+                </ngb-panel>
+             </ngb-accordion>
+          </div>
+       </div>
+    </div>
+    <ng-template #noRecordDiv>
+       <div class="noRecordsBlack">No games to report</div>
+    </ng-template>
+ </div>
+ 
+ 
+ <!--Loader-->
+ <!-- <app-fybaloader *ngIf="officialService.reportRequest"></app-fybaloader> -->
+ <!--Loader-->
+ 
+ <!-- <div *ngIf="dss.initialFetchError" #serverError>
+    <div class="noRecords">
+       <span *ngIf="!this.officialService.timeoutError" class="spanError">Server Error</span> 
+       <span *ngIf="this.officialService.timeoutError"  class="spanError">Timeout Error</span> 
+       Please try again later!
+    </div>
+ </div> -->
+ <notifier-container>
+ </notifier-container>

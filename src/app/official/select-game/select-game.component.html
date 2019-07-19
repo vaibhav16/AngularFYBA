@@ -51,7 +51,7 @@
                     " value="selectGameData.Value.SelectedFilters.ShowPastGames" />
                   <span class="checkmark"></span>
                 </label>
-             
+
                 <button type="submit" class="btn btn-success">
                   Apply<br class="btnWordBreak" />
                   Filters
@@ -93,7 +93,7 @@
                 <h2>{{ child.GameTimeSlots[0].GameTimeSlotName }}</h2>
               </div>
             </ng-template>
-            <ng-template ngbPanelContent>              
+            <ng-template ngbPanelContent>
               <ngb-accordion #acc="ngbAccordion">
                 <ngb-panel *ngFor="let nestedChild of child.GameTimeSlots[0].Matchups" class="teamList"
                   id="{{ nestedChild.MatchupName }}">
@@ -120,8 +120,7 @@
                         <span *ngIf="nestedChild.ScoreKeeper != 3">Scorekeeper:
                           {{ nestedChild.ScoreKeeper }}<br /></span>
 
-                        <div (click)="downloadPdf(nestedChild.Scoresheet)" 
-                        *ngIf="nestedChild.Scoresheet != null ||
+                        <div (click)="downloadPdf(nestedChild.Scoresheet)" *ngIf="nestedChild.Scoresheet != null ||
                             nestedChild.Scoresheet.length > 0">
                           Blank Scoresheet:
                           <u> {{ nestedChild.ScoresheetName }}</u>
@@ -203,7 +202,7 @@
                       : 'col-md-8 col-sm-8 col-xs-8'
                   ">
                   {{ child.GameTimeSlots[0].Positions.Umpire }}
-                </div>           
+                </div>
 
                 <div *ngIf="child.GameTimeSlots[0].Positions.Umpire == 2" style="padding-left:0px !important" (click)="
                     postSignUp(
@@ -232,7 +231,7 @@
                   " class="col-md-4 col-sm-4 col-xs-4">
                   <a class="btn cancelSignupBtn">CANCEL SIGNUP</a>
                 </div>
-                
+
                 <div *ngIf="
                     !child.GameTimeSlots[0].Positions.IsGamePast &&
                     (child.GameTimeSlots[0].Positions.UmpireCancel &&
@@ -257,7 +256,7 @@
                       ? 'col-md-4 col-sm-4 col-xs-4'
                       : 'col-md-8 col-sm-8 col-xs-8'
                   ">
-      
+
                   {{ child.GameTimeSlots[0].Positions.ScoreKeeper }}
                 </div>
 

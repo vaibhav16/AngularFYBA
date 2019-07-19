@@ -44,20 +44,20 @@
       <div class="col-lg-12">
         <ul class="game_select">
           <li class="tab-link current active" data-tab="tab2-1">
-            <a routerLinkActive="active">
+            <a routerLinkActive="active" routerLink="/coach/calendar">
               <img [src]="calender_icon" alt="Calender" /><span>Calender</span>
             </a>
           </li>
           <li class="tab-link" data-tab="tab2-2">
-            <a  routerLinkActive="active">
+            <a  routerLinkActive="active" routerLink="/coach/teaminfo">
               <img [src]="team_icon" alt="Team" />
               <span class="wordLimit">
                 Team <br class="breakAll" /> Info</span>
             </a>
           </li>
-          <li class="tab-link" data-tab="tab2-3">
-            <a routerLinkActive="active">
-              <img [src]="game_icon" alt="Teach" /><span>Report <br class="breakAll" />Results </span>
+          <li class="tab-link" data-tab="tab2-3" >
+            <a routerLinkActive="active" routerLink="/coach/reportresults">
+              <img [src]="game_icon" alt="Report_Results" /><span>Report <br class="breakAll" />Results </span>
             </a>
           </li>
           <!----li class="tab-link" data-tab="tab2-4"><div class="imgRelative"><img [src]="report_icon" alt="Report Icon" /><span class="notification_tip report_pos">20</span></div><span>Report <br class="breakWord" />Games</span></li-->

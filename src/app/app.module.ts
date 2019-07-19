@@ -54,7 +54,13 @@ import { RequestStatusPopupComponent } from './common/request-status-popup/reque
 import { WithdrawComponent } from './player/player-profile/withdraw/withdraw.component';
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 import { StandingsComponent } from './player/standings/standings.component';
-import { TeamInfoComponent } from './player/team-info/team-info.component';
+import { ReportResultsComponent } from './coach/report-results/report-results.component';
+import { CoachCalendarComponent } from './coach/coach-calendar/coach-calendar.component';
+import { PlayerCalendarComponent } from './player/player-calendar/player-calendar.component';
+import { PlayerteamComponent } from './player/playerteam/playerteam.component';
+import { CoachteamComponent } from './coach/coachteam/coachteam.component';
+import { BlastemailComponent } from './coach/blastemail/blastemail.component';
+import { CoachGamelistFormComponent } from './coach/report-results/coach-gamelist-form/coach-gamelist-form.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +97,13 @@ import { TeamInfoComponent } from './player/team-info/team-info.component';
     WithdrawComponent,
     CoachProfileComponent,
     StandingsComponent,
-    TeamInfoComponent
+    ReportResultsComponent,
+    CoachCalendarComponent,
+    PlayerCalendarComponent,
+    PlayerteamComponent,
+    CoachteamComponent,
+    BlastemailComponent,
+    CoachGamelistFormComponent
   ],
   imports: [
     HttpModule,

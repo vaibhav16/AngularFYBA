@@ -6,6 +6,10 @@ import { FinalFilter } from '../../official/classes/selectgame/finalFilter.model
 import { CookieService } from 'ngx-cookie-service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
+const { detect } = require('detect-browser');
+const browser = detect();
+declare var require: any;
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,6 +19,7 @@ export class HeaderComponent implements OnInit {
   modalRef: BsModalRef;
   iosStandalone;
   browserName;
+  browser = require("detect-browser");
   apiModel: FinalFilter = {
     UserID: '',
     SessionKey: '',
@@ -41,21 +46,24 @@ export class HeaderComponent implements OnInit {
   @Input('topImage') topImage: string;
   @ViewChild('imageClass') imageClass: ElementRef;
 
-  //@ViewChild('playerActive') playerActive: ElementRef;
-  //@ViewChild('coachActive') coachActive: ElementRef;
-  //@ViewChild('officialActive') officialActive: ElementRef;
-
   ngOnInit() {
     let currentUrl = this._router.url;
     console.log(currentUrl);
+    
     let newVariable: any;
     newVariable = window.navigator;
-    if (newVariable.standalone) this.iosStandalone = true;
-
-    if (this.cookieService.check('sessionKey')) {
-      if (this.dss.isOfficial) this.router.navigate(['player']);
-      else if (this.dss.isPlayer) this.router.navigate(['player']);
+    if (browser) {
+      this.browserName = browser.name;
+      //console.log(browser.name);
+      // console.log(browser.version);
+      // console.log(browser.os);
     }
+    if (newVariable.standalone) this.iosStandalone = true;
+    // console.log(newVariable);
+    // console.log(this.browserName == "ios");
+    // console.log(!this.iosStandalone);
+
+
     // console.log("All three True: ");
     // console.log(this.dss.isOfficial && this.dss.isPlayer && this.dss.isCoach);
     // console.log(this.dss.isOfficial);

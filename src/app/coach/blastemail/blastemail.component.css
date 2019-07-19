@@ -1,0 +1,27 @@
+#composeEmailDiv * :not(.btnMargin){
+    display: block;
+    width: 100%;
+    }
+    
+    .btnMargin {
+        font-weight: bold;
+        margin-top: 5%;
+        display: inline-block;
+        margin-top: 15px;
+        /* margin-left: 10%;
+        margin-right: 10%; */
+    }
+    
+    :host ::ng-deep .ck-editor__editable_inline {
+        min-height: 200px !important;
+    }
+    
+    .customMargin{
+        margin-bottom: 2%;
+    }
+    
+    .btn-responsive {
+        white-space: normal !important;
+        word-wrap: break-word;
+        /* width: 12%; */
+    }

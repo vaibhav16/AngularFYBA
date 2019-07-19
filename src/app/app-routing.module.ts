@@ -20,6 +20,12 @@ import { TeamComponent } from './player/team/team.component';
 import { ComposeEmailComponent } from './player/team/compose-email/compose-email.component';
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 import { StandingsComponent } from './player/standings/standings.component';
+import { PlayerCalendarComponent } from './player/player-calendar/player-calendar.component';
+import { CoachCalendarComponent } from './coach/coach-calendar/coach-calendar.component';
+import { PlayerteamComponent } from './player/playerteam/playerteam.component';
+import { ReportResultsComponent } from './coach/report-results/report-results.component';
+import { CoachteamComponent } from './coach/coachteam/coachteam.component';
+import { BlastemailComponent } from './coach/blastemail/blastemail.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -52,10 +58,25 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'calendar', 
+        component: CoachCalendarComponent
+      },
+      {
+        path: 'teaminfo', 
+        component: CoachteamComponent
+      },
+      {
+        path: 'reportresults', 
+        component: ReportResultsComponent
+      },
+      {
         path: 'profile', 
         component: CoachProfileComponent
+      },
+      {
+        path: 'blastemail', 
+        component: BlastemailComponent
       }
-
     ]
   },
   {
@@ -64,31 +85,42 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canDeactivate: [DeactivateGuard],
     children: [
-      // { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      {
+        path: 'calendar', 
+        component: PlayerCalendarComponent
+      },
+      {
+        path: 'team',
+        component: TeamComponent,
+        canDeactivate: [DeactivateGuard],
+        // children: [{
+        //   path: 'compose-email',
+        //   component: ComposeEmailComponent
+        // }]
+      },
+      {
+        path: 'teaminfo',
+        component: PlayerteamComponent,
+        canDeactivate: [DeactivateGuard],
+        // children: [{
+        //   path: 'compose-email',
+        //   component: ComposeEmailComponent
+        // }]
+      },
+      {
+        path: 'standings',
+        component: StandingsComponent,
+        canDeactivate: [DeactivateGuard]        
+      },
       {
         path: 'profile',
         component: PlayerProfileComponent,
         canDeactivate: [DeactivateGuard]
       },
       {
-        path: 'team',
-        component: TeamComponent,
-        canDeactivate: [DeactivateGuard],
-        children: [{
-          path: 'compose-email',
-          component: ComposeEmailComponent
-        }]
+        path: 'compose-email', 
+        component: ComposeEmailComponent
       },
-      {
-        path: 'standings',
-        component: StandingsComponent,
-        canDeactivate: [DeactivateGuard]        
-      }
-      // {
-      //   path:'compose-email',
-      //   component:ComposeEmailComponent
-      // }
-
     ]
   },
   { path: 'fybaloader', component: FybaloaderComponent },
