@@ -16,3 +16,16 @@ ul.inputCheck li{
     
 .withdrawDiv { text-align: center; }
 .withdrawDiv button{text-transform: uppercase; font-weight: bold; font-size: 16px; margin-top: 2%; width: auto;}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: unset;
+  }
+
+  .my-dropdown{
+      margin-left: 6px;
+      height: 27px;
+      width: 60px;
+
+  }

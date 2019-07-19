@@ -308,7 +308,7 @@ div {
    .marginTop10{margin-top:10px;}
    a.btnFilter{background:#3c98db; padding:5px 10px; border-radius:5px; color:#ffffff; text-decoration:underline;}
    a.btnFilter:hover, a.btnFilter:focus{ color:#ffffff;}
-   h1{font-size:30px;margin-bottom: 0;margin-top: 20px;display: inline-block;width: 100%; position:relative;}
+   h1{font-size:30px;margin-bottom: 0;margin-top: 12px;display: inline-block;width: 100%; position:relative;}
    
    
    .marginBottom10{margin-bottom:10px;}

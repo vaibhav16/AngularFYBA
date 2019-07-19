@@ -101,9 +101,7 @@
                                   <strong>Volunteered Position:</strong>
                                 </div>
                                 <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                                  <angular2-multiselect [data]="dropdownList" formControlName="Volunteeredposition"
-                                    [settings]="dropdownSettings">
-                                  </angular2-multiselect>
+                                  <label>Player Evals-10:00 AM - 12:00 PM)</label>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -266,14 +264,18 @@
                     </div>
                     <div class="clearfix"></div>
                   </div>
-
+                 
                   <div class="row-fluid signupPosition ">
                     <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                       <strong>Jersey # Request (1st choice):</strong>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      {{apparel.RequestedJersey1}}
-                    </div>
+                        <select class="my-dropdown" name="my-dropdown">
+                            <option [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{apparel.RequestedJersey1}}</option>
+                            <option *ngFor="let number of numbers" [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{number}}</option>
+
+                        </select>
+                     </div>
                     <div class="clearfix"></div>
                   </div>
 
@@ -282,7 +284,12 @@
                       <strong>Jersey # Request (2nd choice):</strong>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      {{apparel.RequestedJersey2}}
+                        <select class="my-dropdown" name="my-dropdown">
+                            <option [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{apparel.RequestedJersey2}}</option>
+                            <option *ngFor="let number of numbers" [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{number}}</option>
+
+                        </select>
+                      
                     </div>
                     <div class="clearfix"></div>
                   </div>

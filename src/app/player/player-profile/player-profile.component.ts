@@ -25,12 +25,18 @@ export class PlayerProfileComponent implements OnInit {
   
   dropdownList = [];
   dropdownSettings = {};
+  numbers=[];
   constructor(public playerService: PlayerService,
     public router: Router, private fb: FormBuilder,
     private modalService: BsModalService,
     private config: NgbAccordionConfig,
     private snackbar: MatSnackBar) {
       config.closeOthers=true;
+      
+      for(var i=0;i<=100;i++)
+      {
+        this.numbers[i]=i;
+      }
 
   }
 
@@ -126,6 +132,7 @@ this.dropdownSettings = {
         classes:"myclass custom-class"
       }; 
   }
+  
 
   validEmail: boolean;
 
@@ -139,6 +146,7 @@ this.dropdownSettings = {
     }
 
   }
+  
 
 
   onSubmit(){
@@ -187,5 +195,8 @@ this.dropdownSettings = {
     // this.modalRef.content.route = "/player/team";
   }
 
+ 
+
 
 }
+
