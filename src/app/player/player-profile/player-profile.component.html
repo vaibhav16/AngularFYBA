@@ -76,15 +76,15 @@
                               <div class="clearfix"></div>
                             </div>
                             <div class="row-fluid signupPosition">
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                                  <strong>Mobile Phone:</strong>
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                                  <input type="text" formControlName="mobilePhone">
-                                </div>
-                                <div class="clearfix"></div>
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Mobile Phone:</strong>
                               </div>
-                              
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <input type="text" formControlName="mobilePhone">
+                              </div>
+                              <div class="clearfix"></div>
+                            </div>
+
                             <div class="row-fluid signupPosition">
                               <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                                 <strong>Texting Option:</strong>
@@ -106,16 +106,16 @@
                               <div class="clearfix"></div>
                             </div>
                             <div class="row-fluid signupPosition">
-                                <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                                  <strong>Volunteer Check-in:</strong>
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
-                                  <label>Player Evaluations (11/5/19  8:00 AM)</label>
-                                </div>
-                                <div class="clearfix"></div>
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
+                                <strong>Volunteer Check-in:</strong>
+                              </div>
+                              <div class="col-md-8 col-sm-8 col-xs-8 paddTop4 paddLeft5">
+                                <label>Player Evaluations (11/5/19 8:00 AM)</label>
+                              </div>
+                              <div class="clearfix"></div>
                             </div>
 
-                            
+
 
                             <div class="clearfix"></div>
                           </div>
@@ -143,27 +143,27 @@
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="mainPanel">
-              <table cellspacing="0" cellpadding="0" border="0" width="100%">
-                <thead>
-                  <tr>
-                    <th>DATE/TIME</th>
-                    <th>ACTION</th>
-                    <th>NEW VALUE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>7/3/19  8:09 PM</td>
-                    <td>New Registration</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                      <td>7/8/19  10:14 AM</td>
+                <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>DATE/TIME</th>
+                      <th>ACTION</th>
+                      <th>NEW VALUE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>7/3/19 8:09 PM</td>
+                      <td>New Registration</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>7/8/19 10:14 AM</td>
                       <td>Status Change</td>
                       <td>Admitted</td>
                     </tr>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
               </div>
               <!-- <ngb-accordion>
                 <ngb-panel *ngFor="let status of registrationStatus">
@@ -244,8 +244,8 @@
                 <h2 class="paidHead">Apparel</h2>
               </div>
             </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="data_module bgBlue">
+            <ng-template ngbPanelContent >
+              <div class="data_module bgBlue" >
                 <div class="fms_time marginleftNone wordBreak">
                   <div class="row-fluid signupPosition borderTopNone">
                     <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
@@ -270,25 +270,30 @@
                   <div class="row-fluid signupPosition ">
                     <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                       <strong>Assigned Jersey :</strong>
-                    
+
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      <input type="number" style="margin-left: 6px ; width:60px ;"   maxlength="2"  pattern="[0-9]{2}" value="99" disabled>
+                      <input type="number" style="margin-left: 6px ; width:60px ;" maxlength="2" pattern="[0-9]{2}"
+                        value="99" disabled>
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                 
-                  <div class="row-fluid signupPosition ">
+
+                  <div class="row-fluid signupPosition">
                     <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                       <strong>Jersey # Request (1st choice):</strong>
                     </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                        <select class="my-dropdown" name="my-dropdown">
-                            <option [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{apparel.RequestedJersey1}}</option>
-                            <option *ngFor="let number of numbers" [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{number}}</option>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5" #Apparel1>
+                      <select class="my-dropdown" name="my-dropdown" disabled>
+                        <!-- *ngFor="let dummy of ' '.repeat(10).split(''), let x = index" role="menuitem" -->
+                        <option [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{apparel.RequestedJersey1}}
+                        </option>
+                        <option *ngFor="let number of numbers" [ngValue]="number" value="{{apparel.RequestedJersey1}}" >
+                          {{number}}</option>
 
-                        </select>
-                     </div>
+                      </select>
+                      <img class="lock" [src]="currentSrc" alt="lock" (click)="toggle()" />
+                    </div>
                     <div class="clearfix"></div>
                   </div>
 
@@ -296,13 +301,17 @@
                     <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
                       <strong>Jersey # Request (2nd choice):</strong>
                     </div>
-                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                        <select class="my-dropdown" name="my-dropdown">
-                            <option [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{apparel.RequestedJersey2}}</option>
-                            <option *ngFor="let number of numbers" [ngValue]="number" value="{{apparel.RequestedJersey1}}">{{number}}</option>
+                    <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5" #Apparel2>
+                      <select class="my-dropdown" name="my-dropdown" disabled>
+                        <option [ngValue]="number" value="{{apparel.RequestedJersey1}}" >{{apparel.RequestedJersey2}}
+                        </option>
+                        <option *ngFor="let number of numbers" [ngValue]="number" value="{{apparel.RequestedJersey1}}">
+                          {{number}}</option>
 
-                        </select>
-                      
+                      </select>
+
+                      <img class="lock" [src]="currentSrc" alt="lock" (click)="toggle()" />
+
                     </div>
                     <div class="clearfix"></div>
                   </div>

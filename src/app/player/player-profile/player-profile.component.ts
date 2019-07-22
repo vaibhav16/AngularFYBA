@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PlayerService } from './../player.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Form, FormArray, Validators, FormControl } from '@angular/forms';
@@ -18,25 +18,37 @@ import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './player-profile.component.html',
   styleUrls: ['./player-profile.component.css']
 })
+
+
 export class PlayerProfileComponent implements OnInit {
+  @ViewChild('Apparel1') Apparel1: ElementRef;
+  @ViewChild('Apparel2') Apparel2: ElementRef;
+
 
   fetchingData: boolean;
   profileForm;
-  
+
   dropdownList = [];
   dropdownSettings = {};
-  numbers=[];
+  numbers = [];
+  img1: string;
+  img2: string;
+  currentSrc: string;
+
+
   constructor(public playerService: PlayerService,
     public router: Router, private fb: FormBuilder,
     private modalService: BsModalService,
     private config: NgbAccordionConfig,
     private snackbar: MatSnackBar) {
-      config.closeOthers=true;
-      
-      for(var i=0;i<=100;i++)
-      {
-        this.numbers[i]=i;
-      }
+    config.closeOthers = true;
+    this.img1 = "./assets/images/lock.png",
+      this.img2 = "./assets/images/unlock.png"
+    this.currentSrc = this.img1;
+
+    for (var i = 0; i <= 100; i++) {
+      this.numbers[i] = i;
+    }
 
   }
 
@@ -48,14 +60,14 @@ export class PlayerProfileComponent implements OnInit {
       formArr.push(
         this.fb.group({
           userId: this.parentInfo[i]["UserId"],
-          parentName:this.parentInfo[i]["Parent_Name"],
-          relationship:this.parentInfo[i]["Parent_Relationship"],
-          email: new FormControl(this.parentInfo[i]["Parent_Email"],[Validators.email, Validators.required]),          
-          homePhone: new FormControl(this.parentInfo[i]["Parent_HomePhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7), Validators.maxLength(14)]),          
-          mobilePhone:new FormControl(this.parentInfo[i]["Parent_MobilePhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)]), 
-          workPhone:new FormControl(this.parentInfo[i]["Parent_WorkPhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)]),
-          textingoption:null,
-          Volunteeredposition:null  
+          parentName: this.parentInfo[i]["Parent_Name"],
+          relationship: this.parentInfo[i]["Parent_Relationship"],
+          email: new FormControl(this.parentInfo[i]["Parent_Email"], [Validators.email, Validators.required]),
+          homePhone: new FormControl(this.parentInfo[i]["Parent_HomePhone"], [Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.minLength(7), Validators.maxLength(14)]),
+          mobilePhone: new FormControl(this.parentInfo[i]["Parent_MobilePhone"], [Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/), Validators.minLength(7), Validators.maxLength(14)]),
+          // workPhone:new FormControl(this.parentInfo[i]["Parent_WorkPhone"],[ Validators.pattern(/^[- +()]*[0-9][- +()0-9]*$/),Validators.minLength(7),Validators.maxLength(14)]),
+          textingoption: null,
+          Volunteeredposition: null
         })
       )
     }
@@ -85,16 +97,16 @@ export class PlayerProfileComponent implements OnInit {
   timesRun;
   interval;
   modalRef: BsModalRef;
-  
+
   ngOnInit() {
-    this.fetchingData=true;
+    this.fetchingData = true;
     console.log(this.playerService.profileData);
 
     console.log("Player Id in profile:" + this.playerService.playerId);
 
     // console.log(this.profileForm);
 
-      this.interval = setInterval( () => {
+    this.interval = setInterval(() => {
       this.timesRun += 1;
       console.log(this.playerService.profileData);
       if (this.playerService.profileData) {
@@ -103,9 +115,9 @@ export class PlayerProfileComponent implements OnInit {
         });
         clearInterval(this.interval);
         console.log(this.profileForm.value);
-        this.fetchingData=false;
+        this.fetchingData = false;
       }
-    }, 2000); 
+    }, 2000);
 
     //this.fetchingData=true;
 
@@ -118,21 +130,21 @@ export class PlayerProfileComponent implements OnInit {
     //   }
     // )
     this.dropdownList = [
-      {"id":1,"itemName":"Email"},
-      {"id":2,"itemName":"Home Phone"},
-      {"id":3,"itemName":"Mobile Phone"},    
+      { "id": 1, "itemName": "Email" },
+      { "id": 2, "itemName": "Home Phone" },
+      { "id": 3, "itemName": "Mobile Phone" },
     ];
-    
-this.dropdownSettings = { 
-        singleSelection: false, 
-        text:"Select Texting",
-        selectAllText:'Select All',
-        unSelectAllText:'UnSelect All',
-        enableSearchFilter: true,
-        classes:"myclass custom-class"
-      }; 
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      text: "Select Texting",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: true,
+      classes: "myclass custom-class"
+    };
   }
-  
+
 
   validEmail: boolean;
 
@@ -146,44 +158,63 @@ this.dropdownSettings = {
     }
 
   }
-  
+
+  toggle() {
+
+    if (this.Apparel1.nativeElement.firstElementChild.disabled) {
+      this.Apparel1.nativeElement.firstElementChild.disabled = false;
+    }
+    else {
+      this.Apparel1.nativeElement.firstElementChild.disabled = true;
+    }
+    
+    if (this.Apparel2.nativeElement.firstElementChild.disabled) {
+      this.Apparel2.nativeElement.firstElementChild.disabled = false;
+    }
+    else {
+      this.Apparel2.nativeElement.firstElementChild.disabled = true;
+    }
+
+    this.currentSrc = (this.currentSrc == this.img1) ? this.img2 : this.img1;
+  }
 
 
-  onSubmit(){
-    this.fetchingData=true;
-    console.log(this.profileForm.value);    
+
+  onSubmit() {
+    this.fetchingData = true;
+    console.log(this.profileForm.value);
     // for(var i=0; i<this.profileForm.controls['ParentInfo'].length; ++i){
     //   console.log(i);
     // }
     var rd = "[";
-    (<FormArray>this.profileForm.get('ParentInfo')).controls.forEach((group) =>{
+    (<FormArray>this.profileForm.get('ParentInfo')).controls.forEach((group) => {
       console.log(group.value);
       rd += JSON.stringify({
-        UserId:group.value.userId,
-        Parent_HomePhone:group.value.homePhone,
-        Parent_MobilePhone:group.value.mobilePhone,
-        Parent_WorkPhone:group.value.workPhone,
-        Parent_Email:group.value.email
-      })+","
+        UserId: group.value.userId,
+        Parent_HomePhone: group.value.homePhone,
+        Parent_MobilePhone: group.value.mobilePhone,
+        Parent_WorkPhone: group.value.workPhone,
+        Parent_Email: group.value.email
+      }) + ","
     });
     rd = rd.substring(0, rd.length - 1);
-    rd +="]"
+    rd += "]"
 
     console.log(JSON.stringify(rd));
     this.playerService.saveProfileData(rd)
-    .subscribe((res)=>{
-      res = JSON.parse(res["_body"]);
-      
-      this.fetchingData=false;
-      this.snackbar.open(res.Message.PopupHeading,'',{duration:3000});
-      
-      //console.log(JSON.parse(res["_body"]));
-    }
-  );
+      .subscribe((res) => {
+        res = JSON.parse(res["_body"]);
+
+        this.fetchingData = false;
+        this.snackbar.open(res.Message.PopupHeading, '', { duration: 3000 });
+
+        //console.log(JSON.parse(res["_body"]));
+      }
+      );
   }
 
   modalRed: BsModalRef;
-  withdraw(playerId : number,status :JSON){
+  withdraw(playerId: number, status: JSON) {
     console.log(status);
     this.modalRef = this.modalService.show(WithdrawComponent);
     this.modalRef.content.playerId = playerId;
@@ -195,7 +226,7 @@ this.dropdownSettings = {
     // this.modalRef.content.route = "/player/team";
   }
 
- 
+
 
 
 }
