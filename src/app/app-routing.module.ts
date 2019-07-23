@@ -22,7 +22,6 @@ import { CoachProfileComponent } from './coach/coach-profile/coach-profile.compo
 import { StandingsComponent } from './player/standings/standings.component';
 import { PlayerCalendarComponent } from './player/player-calendar/player-calendar.component';
 import { CoachCalendarComponent } from './coach/coach-calendar/coach-calendar.component';
-import { PlayerteamComponent } from './player/playerteam/playerteam.component';
 import { ReportResultsComponent } from './coach/report-results/report-results.component';
 import { CoachteamComponent } from './coach/coachteam/coachteam.component';
 import { BlastemailComponent } from './coach/blastemail/blastemail.component';
@@ -92,15 +91,6 @@ const routes: Routes = [
       {
         path: 'team',
         component: TeamComponent,
-        canDeactivate: [DeactivateGuard],
-        // children: [{
-        //   path: 'compose-email',
-        //   component: ComposeEmailComponent
-        // }]
-      },
-      {
-        path: 'teaminfo',
-        component: PlayerteamComponent,
         canDeactivate: [DeactivateGuard],
         // children: [{
         //   path: 'compose-email',
