@@ -10,6 +10,7 @@ import { RequestedData } from './../models/blastemail.model';
 //import { RequestStatusPopupComponent } from './../../../common/request-status-popup/request-status-popup.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
+import { RequestStatusPopupComponent } from 'src/app/common/request-status-popup/request-status-popup.component';
 
 @Component({
   selector: 'app-blastemail',
@@ -32,7 +33,7 @@ export class BlastemailComponent {
     this.emailForm = this.fb.group({
       recepient: this.fb.control(this.CoachService.recepient),
       from: this.fb.control(this.CoachService.from),
-      subject: this.fb.control([]),
+      subject:'',
       body: this.fb.control([]),
     })
   }
@@ -46,6 +47,7 @@ export class BlastemailComponent {
       this.blastemailtype=false;
       this.blasttext='TEXT';
     }
+    console.log(this.blastemail);
 
   }
   modalRef: BsModalRef;
@@ -59,12 +61,12 @@ export class BlastemailComponent {
           this.request = false;
           responseBody = JSON.parse(res["_body"]);
           //this.playerService.emailFlag = false;
-          //this.modalRef = this.modalService.show(RequestStatusPopupComponent);
+          this.modalRef = this.modalService.show(RequestStatusPopupComponent);
           this.modalRef.content.status = responseBody.Status;
           this.modalRef.content.popupTitle = responseBody.Message.PopupHeading;
           this.modalRef.content.popupMsg = responseBody.Message.PopupMessage;
           //this.playerService.indicator.next(true);
-          this.modalRef.content.route = "/player/team";
+          this.modalRef.content.route = "/coach/teaminfo";
           
           
         }
