@@ -26,3 +26,7 @@ export class RequestedData{
         this.LeagueId = '';
     }
 }
+export interface CoachTeam {
+    blasttype: string;
+    
+    }

@@ -3,7 +3,7 @@ import { Router,NavigationExtras } from '@angular/router';
 import { BsModalService } from "ngx-bootstrap/modal";
 import { BsModalRef } from "ngx-bootstrap/modal/bs-modal-ref.service";
 import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
-import { CoachTeam } from '../models/coachteam.models';
+import { CoachTeam } from '../models/blastemail.model';
 
 @Component({
   selector: 'app-coachteam',
