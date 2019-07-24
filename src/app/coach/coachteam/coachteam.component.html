@@ -6,7 +6,7 @@
       <!--****PRACTICES SECTION**--->
 <div class="mainPanel marginTop30">
   <h4 class="blueBGHead">TEAM LEADERSHIP</h4>
-  <div style="overflow-x:auto;">
+  <div class="table-responsive borderNone">
     <table cellspacing="0" cellpadding="0" border="0" width="100%">
       <thead>
         <tr>
@@ -38,7 +38,8 @@
 <!---******Player HEALTH SECTION****-->
 <div class="mainPanel marginTop30">
     <h4 class="blueBGHead_health">PLAYER HEALTH CONDITIONS</h4>
-    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+    <div class="table-responsive borderNone">
+      <table cellspacing="0" cellpadding="0" border="0" width="100%">
       <thead>
         <tr>
           <th>PLAYER NAME</th>
@@ -52,6 +53,8 @@
         </tr>
       </tbody>
     </table>
+    </div>
+    
   </div>
 
   <!---***TEAM ROASTER SECTION**********-->
@@ -61,7 +64,7 @@
       <button type="button" class="btn blastbtn btn-sm marginTop10 marginBottom10" (click)="sendEmail('blast_email')" >SEND BLAST EMAIL</button>&nbsp;
       <button type="button" class="btn blastbtn btn-sm marginTop10 marginBottom10"(click)="sendEmail('blast_text')">SEND BLAST TEXT</button>
     </div>
-    <div style="overflow-x:auto;">
+    <div class="table-responsive borderNone">
       <table id ="player_other" class="marginTop10" cellspacing="0" cellpadding="0" border="0" width="100%">
         <thead>
           <tr>
