@@ -34,3 +34,9 @@ label {
 
 .mainPanel table thead tr th{background-color:#ededed; padding:5px; color:#000000; text-align:left; border:1px solid #dddddd;font-size:14px;}
 .mainPanel table tbody tr td{background-color:#ffffff; padding:5px; color:#000000; text-align:left; border:1px solid #dddddd;font-size:14px;}
+
+.lock {
+    margin-left: 30px;
+    height: 18px;
+    width: 15px;
+}

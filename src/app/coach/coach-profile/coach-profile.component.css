@@ -3,3 +3,9 @@
 label{
     font-weight: normal;
 }
+
+.lock {
+    margin-left: 30px;
+    height: 18px;
+    width: 15px;
+}

@@ -5,14 +5,15 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-
 body{
     /* Disables pull-to-refresh but allows overscroll glow effects. */
     overscroll-behavior-y: contain;
+    height:100%;
     /*touch-action: "pan-down";*/
   }
   html {
     overscroll-behavior-y: contain;
+    height:100%;
     /*touch-action: "pan-down";*/
   }
 
@@ -229,7 +230,7 @@ div {
    ul.game_select li a{text-decoration:none; color:#ffffff;}
    ul.game_select li:first-child{border-left:0px;}
    ul.game_select li.active{color:#ffffff; text-decoration:none;}
-   ul.game_select li a.active img, ul.game_select li a.active > span{opacity:1; font-weight: bold;}
+   ul.game_select li.active a img, ul.game_select li.active a > span{opacity:1; font-weight: bold;}
    ul.game_select li span{display:block; font-size:18px; font-weight:normal; padding-top:5px;opacity: 0.5;}
    .official_header_img{background-image:url("./assets/images/official_header_img.jpg");height:365px; background-position:center 20%;background-repeat: no-repeat;background-size: cover; /*position:relative;*/}
    .coach_header_img{background-image:url("./assets/images/coach_header_img.jpg");height:365px; background-position:center 20%;background-repeat: no-repeat;background-size: cover;}
@@ -364,8 +365,9 @@ div {
    .saveBtn{background:#b03d26 !important; color:#ffffff !important; border-radius:0px !important; padding:4px 20px !important;}
    .saveBtn:hover, .saveBtn:focus{color:#ffffff !important;}
    .cancelBtn:hover, .cancelBtn:focus{color:#ffffff !important;}
-   .lognin_bg{background-image:url("./assets/images/login_bg2.jpg"); background-size:cover; background-repeat:no-repeat; height:100%; width:100%; position:fixed; left:0px;}
-   .lognin_box{position:absolute; width:400px; left:50%; top:50%; transform:translateX(-50%) translateY(-50%);}
+   .lognin_bg{background-image:url("./assets/images/login_bg2.jpg"); background-size:cover; background-repeat:no-repeat; min-height:100vh; width:100%;}
+   .lognin_box{/*position:absolute;*/ width:400px; /*left:50%; top:50%; transform:translateX(-50%) translateY(-50%);*/display:table; height:100vh; margin: 0 auto;}
+   .login_middle{display:table-cell; vertical-align:middle;}
    .input_field input{width:100%; border-radius: 50px; margin: auto; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:45px; color:#cccccc; text-align:center;  box-shadow:none !important;}
    .invalid_credintial{
     color: #ff0000; text-align: center; font-weight:bold;}
@@ -425,7 +427,6 @@ div {
        
    .signIn_btn:hover{background: rgba(255,214,2,0.9);} 
        
-       
    .marginTop30{margin-top:30px;}
    .marginTop20{margin-top:20px;}
    
@@ -468,7 +469,7 @@ div {
     position: relative;
     display: inline-block;
        margin-left:0px;
-       top:-5px;
+       top:-2px;
    }
    
    .tooltip_abc .tooltiptext { 
@@ -699,7 +700,8 @@ div {
    .slideDate .custom-dropdown select{font-size:12px;}
    
    @media only screen and (max-width : 767px) {
-    .forgot_pass{text-align:right; margin-top:15px; margin-right: 36px;}
+     .logo_login{margin-top: 20px;}
+    .forgot_pass{text-align:right; margin-top:15px; margin-right: 10%;}
     .composeHeading { font-size: 18px;}
     .addList .addListDiv.uploadDiv{ width: 60px !important; height: 60px !important;}
     .addList .addListDiv{width: 60px !important; height: 60px !important;}
@@ -727,8 +729,8 @@ div {
    .officiating_pos{margin-left: -19px;}
    .filter_div label{text-align:left;font-size: 14px;margin-bottom: 5px;margin-top: 0;}
    .lognin_box{width:100%;}
-   .input_field input{width:80%; border-radius: 50px; margin: auto; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:45px; color:#cccccc; text-align:center;  box-shadow:none !important;}
-   .signIn_btn{width:80%;display: inline-block;}
+   .input_field input{width:80%; border-radius: 50px; margin: auto; border:0px; border-bottom:1px solid rgba(255,255,255,0.3); background:transparent; height:35px; color:#cccccc; text-align:center;  box-shadow:none !important;}
+   .signIn_btn{width:80%;display: inline-block; height: 35px;line-height: 36px;}
    .bgGrey .col-md-2{text-align:center; margin-bottom:5px;}
    .inputfull input[type="text"]{width:100%;}
    .overflowAuto{overflow:hidden;}

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataSharingService } from './../../data-sharing.service';
 import { CoachService }  from './../coach.service';
 import { Router } from '@angular/router';
 import { CoachProfileResponse } from './../models/profileResponse.model';
-import { FormBuilder,FormArray,FormControl } from '@angular/forms';
+import { FormBuilder,FormArray,FormControl, FormGroup } from '@angular/forms';
 import { ArrayValidators } from './checkbox.validator';
 import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,6 +18,11 @@ export class CoachProfileComponent implements OnInit {
   profileData: CoachProfileResponse = null;
   personalDetailsForm;
   preferenceForm;
+  img1:string;
+  img2:string;
+  currentSrc:string;
+  
+ 
 
   constructor(private dss: DataSharingService, 
     private coachService: CoachService,
@@ -25,10 +30,20 @@ export class CoachProfileComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder) {   
       config.closeOthers=true;
+      this.img1="./assets/images/lock.png",
+      this.img2="./assets/images/unlock.png"
+      this.currentSrc = this.img1;
+    
+       
+      
     }
+    
 
   ngOnInit() {
+   
+ 
     this.dataRequest=true;
+    
     this.coachService.getCoach()
     .subscribe(
       (res)=>{        
@@ -50,6 +65,7 @@ export class CoachProfileComponent implements OnInit {
   get CoachProfile(){
     return this.profileData.Value;
   }
+  
 
 
   async generateDetailsForm(){
@@ -57,7 +73,8 @@ export class CoachProfileComponent implements OnInit {
     this.personalDetailsForm = await this.fb.group({
       coachName:this.profileData.Value.CoachName,
       email: this.profileData.Value.Email,
-      shirtSize: this.initShirtSize(),
+      shirtSize: new FormControl({value:this.initShirtSize(), disabled:true}),
+      
       snacksField: ''
     })
 
@@ -75,6 +92,28 @@ export class CoachProfileComponent implements OnInit {
       }
 
   }
+
+
+  
+
+  toggle(){
+    console.log(this.personalDetailsForm.controls["shirtSize"].disabled);
+    if(this.personalDetailsForm.controls["shirtSize"].disabled)
+    {
+      // debugger;
+      this.personalDetailsForm.controls["shirtSize"].enable();
+      console.log(this.personalDetailsForm.controls["shirtSize"].disabled);
+      
+    }
+    else
+    {
+      //  debugger;
+      this.personalDetailsForm.controls["shirtSize"].disable();
+    }
+    
+    this.currentSrc = (this.currentSrc == this.img1)? this.img2 : this.img1;
+    
+    }
 
 
   async generatePracticePreferenceForm(){

@@ -54,14 +54,14 @@
                       <strong>Shirt Size:</strong>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
-                      <select formControlName="shirtSize">
+                      <select formControlName="shirtSize" >
                         <!-- [formGroupName]="i" *ngFor="let child of personalDetailsForm.controls.shirtSize['controls'];let i=index" -->
-                        <option *ngFor="let item of profileData.Value.ShirtSizeValue" [value]="item.Size"
-                          [selected]="item.Selected">
+                        <option *ngFor="let item of profileData.Value.ShirtSizeValue" [value]="item.Size" 
+                          [selected]="item.Selected" >
                           {{item.Size}}
                         </option>
                       </select>                      
-                      
+                      <img  class="lock" [src]="currentSrc" alt="lock" (click)="toggle()"/>
                     </div>
                     <div class="clearfix"></div>
                   </div>

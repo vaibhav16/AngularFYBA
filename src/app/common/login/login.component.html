@@ -13,13 +13,14 @@
       </div>
     </div>
   </div> 
-  <div class="container-fluid">
+  <div class="">
     <form
     #loginForm="ngForm"
     (ngSubmit)="onSubmit(loginForm)"
   >
     <div class="lognin_bg">
       <div class="lognin_box">
+        <div class="login_middle">
         <div class="logo_login">
           <img src="../../assets/images/fyba_logo.png" />
         </div>
@@ -85,6 +86,7 @@
         <div class="clearfix"></div>
       </div>
     </div>
+    </div>
   </form>
 
   <!-- for getapp button on login screan -->
@@ -103,7 +105,9 @@
                 alt="Share Icon" />&nbsp; and then Add to Homescreen
             </p>
           </div>
+          <div class="clearfix"></div>
         </div>
+        <div class="clearfix"></div>
       </ng-template> 
   <!-- <ng-template #loginErrorTemplate>
     <div class="modal-body text-center">

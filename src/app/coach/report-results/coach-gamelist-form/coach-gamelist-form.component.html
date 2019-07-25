@@ -118,15 +118,33 @@
           </h2>
           <div class="overflowAuto">
             <table class="scoreTable marginTop10 widthTable" cellspacing="0" cellpadding="0" border="0" width="100%">
-              <thead>
-                <tr>
-                  <th width="5%">#</th>
-                  <th width="58%">Name</th>
-                  <th width="13%">NP</th>
-                  <th width="13%">PON</th>
-                  <th width="11%">PTS</th>
-                </tr>
-              </thead>
+                <thead>
+                    <tr>
+                      <th width="5%">#</th>
+                      <th width="58%">Name</th>
+                      <th width="13%">
+                        NP
+                        <div class="tooltip_abc">
+                          <img class="info_icon" src="../../assets/images/info-icon.png" />
+                          <span class="tooltiptext tooltip-top">Not Present</span>
+                        </div>
+                      </th>
+                      <th width="13%">
+                        PON
+                        <div class="tooltip_abc">
+                          <img class="info_icon" src="../../assets/images/info-icon.png" />
+                          <span class="tooltiptext tooltip-top">Player Of Note</span>
+                        </div>
+                      </th>
+                      <th width="11%">
+                        PTS
+                        <div class="tooltip_abc">
+                          <img class="info_icon" src="../../assets/images/info-icon.png" />
+                          <span class="tooltiptext tooltip-top">Points Scored</span>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
               <tbody formArrayName="VisitingTeamPlayerScores">
                 <ng-container *ngFor="let child of form.controls.VisitingTeamPlayerScores['controls']; let j=index">
                   <tr [formGroupName]="j">

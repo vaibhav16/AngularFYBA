@@ -7,7 +7,7 @@
           <input class="form-control" formControlName="recepient" style="margin-bottom: 2%;" type="email"
             placeholder="To" />
             <input *ngIf="blastemailtype" class="form-control" formControlName="from" style="margin-bottom: 2%;" type="text"
-            placeholder="From" readonly />
+            placeholder="From"  />
           <input *ngIf="blastemailtype" class="form-control" formControlName="subject" style="margin-bottom: 2%;" type="text"
             placeholder="Subject" />
           <ckeditor [editor]="Editor" formControlName="body" (ready)="onReady($event)"></ckeditor>

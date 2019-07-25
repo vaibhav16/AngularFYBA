@@ -109,7 +109,7 @@
                         <div (click)="
                             openMapModal(nestedChild.GoogleMapAdd, mapTemplate)
                           ">
-                          {{ nestedChild.Location }}
+                         <u class="link">{{ nestedChild.Location }}</u> 
                         </div>
 
                         <span *ngIf="nestedChild.Referee == 1">Referee: Available<br /></span>
