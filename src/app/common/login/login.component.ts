@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
   onSubmit(form: NgForm) {
     this.loginRequest = true;
     //this.loginFailed = false;
-    console.log(form.value);
+    // console.log(form.value);
 
     // this.loginService.postLoginData(form.value).then(res => {
     //   if (this.loginService.serviceError || this.loginService.loginFailed) {
@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
         this.cookieService.delete('isOfficial');
         this.cookieService.delete('isPlayer');
         this.cookieService.delete('isCoach');
-        console.log(res);
+        //console.log(res);
         this.userData = res;
         if (!res['Status']) {
           this.loginRequest = false;
@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
       },
       (err) => {
         this.loginRequest = false;
-        console.log(err);
+         //console.log(err);
         // this.modalRef = this.modalService.show(ErrorModalComponent);
         // this.modalRef.content.closeBtnName = 'Close';
       },
@@ -156,7 +156,7 @@ export class LoginComponent implements OnInit {
           this.dss.VolunteerId = this.userData.Value.VolunteerId;
           this.dss.VolunteerSeasonalId = this.userData.Value.VolunteerSeasonalId;
           this.dss.VolunteerStatusId = this.userData.Value.VolunteerStatusId;
-          console.log(this.userData);
+          //console.log(this.userData);
 
           if (this.userData.Value.PlayerIsPlayer==true) {
 
@@ -168,7 +168,7 @@ export class LoginComponent implements OnInit {
 
           if (this.userData.Value.CoachIsCoach==true) {
             // debugger;
-            this.cookieService.set('isCoach', 'true', 365);
+            this.cookieService.set('isCoach', 'true', 365); // 365 days
             this.dss.isCoach = this.userData.Value.CoachIsCoach;
             this.router.navigate(['coach']);
           }

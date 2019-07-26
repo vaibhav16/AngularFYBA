@@ -52,7 +52,7 @@ export class ReportGameComponent {
     await this.officialService.getReportData().then(() => {
       
       this.officialService.initialJson = JSON.stringify(this.reportGameData);
-      console.log(this.officialService);  
+       //console.log(this.officialService);  
       if (this.officialService.serviceError) {
         this.modalRef = this.modalService.show(ErrorModalComponent);
         this.modalRef.content.closeBtnName = 'Close';
@@ -67,8 +67,8 @@ export class ReportGameComponent {
   We hide the message if the user clicks on a new panel - */
   incidentCount = 0;
   panelChange($event: NgbPanelChangeEvent) {
-    console.log($event);
-    console.log(this.officialService.dataChanged);
+    //console.log($event);
+    //console.log(this.officialService.dataChanged);
 
     if (this.officialService.dataChanged == true) {
       $event.preventDefault();
@@ -83,10 +83,10 @@ export class ReportGameComponent {
       );
 
       newPanelModal.content.saveStatus.subscribe(($e) => {
-        console.log('Should it be saved?' + $e);
-        console.log(this.reportGameData['Value']);
+        //console.log('Should it be saved?' + $e);
+        //console.log(this.reportGameData['Value']);
         if ($e == false) {
-          console.log('Should it be saved?' + $e);
+          //console.log('Should it be saved?' + $e);
           this.officialService.IncidentReports = [];
           this.officialService.NewIncidents = [];
           this.officialService.ModifiedIncidents = [];
