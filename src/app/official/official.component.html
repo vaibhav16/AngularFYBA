@@ -7,24 +7,18 @@
         <div class="col-lg-12">
           <ul class="game_select">
             <!--[ngClass]="{active:isSelectGameActive}"-->
-            <li>
-              <a
-                (click)="keepSelectActive()"
-                routerLinkActive="active"
-                routerLink="/official/SelectGameComponent"
-              >
+            <li (click)="keepSelectActive()" routerLinkActive="active"
+            routerLink="/official/SelectGameComponent">
+              <a>
                 <img src="../../assets/images/game_icon.png" alt="Game Icon" />
                 <span>Select <br class="breakWord" />Games</span>
               </a>
             </li>
 
-            <li>
-              <a
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="toggleSelectClass()"
-                routerLink="/official/ReportGameComponent"
-                routerLinkActive="active"
-              >
+            <li [routerLinkActiveOptions]="{ exact: true }"
+            (click)="toggleSelectClass()" routerLink="/official/ReportGameComponent"
+            routerLinkActive="active">
+              <a>
                 <div class="imgRelative">
                   <img
                     src="../../assets/images/report_icon.png"
@@ -40,23 +34,19 @@
                 <span>Report <br class="breakWord" />Games</span>
               </a>
             </li>
-            <li>
-              <a
-                (click)="toggleSelectClass()"
-                routerLink="/official/PayComponent"
-                routerLinkActive="active"
-                ><img
+            <li (click)="toggleSelectClass()" routerLink="/official/PayComponent"
+            routerLinkActive="active">
+              <a>
+                <img
                   src="../../assets/images/paid_icon.png"
                   alt="Paid Icon"
                 /><span>Get <br class="breakWord" />Paid</span></a
               >
             </li>
-            <li>
-              <a
-                (click)="toggleSelectClass()"
-                routerLink="/official/ProfileComponent"
-                routerLinkActive="active"
-                ><img
+            <li  (click)="toggleSelectClass()" routerLink="/official/ProfileComponent"
+            routerLinkActive="active">
+              <a>
+                <img
                   src="../../assets/images/officiating.png"
                   alt="Officiating Icon"
                 /><span>Officiating <br class="breakWord" />Profile</span></a
