@@ -25,6 +25,7 @@ export class PlayerService {
   postRequestOptions;
   playerId;
   profileData = null;
+  standingsData=null;
   backClick = false;
   recepient: string;
   emailFlag:boolean;
@@ -47,12 +48,12 @@ export class PlayerService {
       SeasonId: this.dss.seasonId
     });
     var body = JSON.stringify(getPlayerModel);
-    console.log(body);
+    //console.log(body);
     return this.http.post(Constants.apiURL + '/api/Player', body, this.postRequestOptions);
   }
 
   getTeamInfo(): Observable<any> {
-    console.log(this.playerId);
+    //console.log(this.playerId);
     var getPlayerModel = new GetPlayer();
     getPlayerModel.UserID = 11199;
     getPlayerModel.SessionKey = this.dss.sessionKey;
@@ -64,7 +65,7 @@ export class PlayerService {
         RoleId: this.dss.roleId
       });
       var body = JSON.stringify(getPlayerModel);
-      console.log(body);
+      //console.log(body);
       return this.http.post(Constants.apiURL + '/api/TeamInfo', body, this.postRequestOptions);
     }
   }
@@ -79,7 +80,7 @@ export class PlayerService {
       SeasonId: this.dss.seasonId
     });
     var body = JSON.stringify(getPlayerModel);
-    console.log(body);
+    //console.log(body);
     return this.http.post(Constants.apiURL + '/api/PlayerDetails', body, this.postRequestOptions);
 
   }
@@ -99,7 +100,7 @@ export class PlayerService {
     });
 
     var body = JSON.stringify(emailModel);
-    console.log(body);
+    //console.log(body);
     return this.http.post(Constants.apiURL + '/api/SendMail', body, this.postRequestOptions);
   }
 
@@ -109,7 +110,7 @@ export class PlayerService {
     saveProfileModel.SessionKey = this.dss.sessionKey;
     saveProfileModel.RequestedData = requestedData;
     var body = JSON.stringify(saveProfileModel);
-    console.log(body);
+    //console.log(body);
     return this.http.post(Constants.apiURL + '/api/PlayerDetailsSave', body, this.postRequestOptions);
   }
 
@@ -123,7 +124,7 @@ export class PlayerService {
       LeagueId: this.dss.leagueId
     })
     var body = JSON.stringify(withdrawModel);
-    console.log(body);
+    //console.log(body);
     return this.http.post(Constants.apiURL + '/api/PlayerWithdraw', body, this.postRequestOptions);
   }
 
@@ -132,7 +133,20 @@ export class PlayerService {
     return this.indicator.asObservable();
 }
 
- 
+  getstandingsData():Observable<any>{
+    var standlingsModel = new GetPlayer();
+    standlingsModel.UserID = this.dss.userId;
+    standlingsModel.SessionKey = this.dss.sessionKey;
+    standlingsModel.RequestedData = JSON.stringify({
+    DivisionId: this.dss.DivisionId,
+    LeagueId: this.dss.leagueId,
+    SeasonId: this.dss.seasonId
+    });
+    var body = JSON.stringify(standlingsModel);
+    return this.http.post(Constants.apiURL + '/api/Standings', body, this.postRequestOptions);
+
+  }
+
 
   // get backClicked(){
   //   return this.backClick;

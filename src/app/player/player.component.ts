@@ -49,10 +49,7 @@ export class PlayerComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    console.log(this.dss.isOfficial);
-    console.log(this.dss.isPlayer);
-    console.log(this.dss.isCoach);
+  ngOnInit() {    
     this.dataRequest=true;
     this.getPlayerData().then(() => {
       this.dss.currentRoute = 'player';
@@ -64,20 +61,17 @@ export class PlayerComponent implements OnInit {
   async getPlayerData() {
     await this.playerService.getPlayerData().subscribe((res) => {
       this.playerSection = JSON.parse(res['_body']);
-      console.log(this.playerSection);
       if (this.playerLists != null) this.playerData = this.playerLists[0];
       this.playerService.playerId = this.playerData["PlayerId"];
-      //this.dataRequest = false;
-
+      
       this.playerService.getPlayerProfile().subscribe(
         (res)=>{
-          this.playerService.profileData = JSON.parse(res["_body"]);
+          this.playerService.profileData = JSON.parse(res["_body"]);           
+          this.dss.DivisionId = this.playerService.profileData.Value.playerInfo.DivisionId;
           this.dataRequest = false;
           this.router.navigate(["/player/profile"]);
         }
-      )
-      // console.log("Player Id:"+this.playerService.playerId);
-      // console.log("Navigated");  
+      )      
     });  
   }
 
@@ -99,9 +93,7 @@ export class PlayerComponent implements OnInit {
         this.dataRequest=false;
         this.router.navigate(["/player/profile"]);
       }
-    )
-    // await this.router.navigateByUrl('/player', {skipLocationChange: true}).then(()=>
-    // this.router.navigate(["/player/profile"])); 
+    )   
   }
 
 

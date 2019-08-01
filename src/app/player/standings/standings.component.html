@@ -17,13 +17,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                <tr *ngFor="let stand of standlings; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{stand.Teamname}}</td>
+                  <td>{{stand.Win}}</td>
+                  <td>{{stand.Loss}}</td>
+                  <td>{{stand.Tie}}</td>
+                  <td>{{stand.Percentage}}</td>
                 </tr>
               </tbody>
             </table>
@@ -109,3 +109,4 @@
     </div>
   </div>
 </div>
+<app-fybaloader *ngIf="dataRequest"></app-fybaloader>

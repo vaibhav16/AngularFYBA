@@ -67,7 +67,7 @@ export class SelectGameComponent implements OnInit {
   }
 
   get selectGameData() {
-    //console.log(this.officialService.selectGameJson);
+    // console.log(this.officialService.selectGameJson);
     return this.officialService.selectGameJson;
   }
 
@@ -244,17 +244,28 @@ export class SelectGameComponent implements OnInit {
 
   pdfUrl: string;
   downloadRequest: boolean;
+  
+
   downloadPdf(url) {
+    console.log(url);
     this.downloadRequest = true;
     var downLoadUrl;
+   
     this.officialService.getPdfUrl(url).subscribe((res) => {
       console.log(res);
-      console.log(res['_body']);
+      // console.log(res['_body']);
       var x = JSON.parse(res['_body']);
+       console.log(x);
+
+
       downLoadUrl = x['Value'].AbsoluteUrl;
       this.downloadRequest = false;
       window.location.href = downLoadUrl;
-    });
+    }),
+    (err)=>{
+      this.downloadRequest=false;
+    }
+    ;
   }
 
   // downloadPdf2(url) {

@@ -9,11 +9,3 @@ export class GetPlayer {
   }
 }
 
-// export class RequestedData {
-//   LeagueId: number;
-//   SeasonId: number;
-//   constructor() {
-//     this.LeagueId = null;
-//     this.SeasonId = null;
-//   }
-// }

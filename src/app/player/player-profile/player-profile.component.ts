@@ -53,7 +53,7 @@ export class PlayerProfileComponent implements OnInit {
   }
 
   initProfileDetailsArray() {
-    console.log(this.parentInfo);
+    //console.log(this.parentInfo);
     const formArr = new FormArray([]);
 
     for (var i in this.parentInfo) {
@@ -91,7 +91,10 @@ export class PlayerProfileComponent implements OnInit {
   get apparel() {
     return this.profileSection.Value.apparel;
   }
-
+  
+  get playerInfo() {
+    return this.profileSection.Value.playerInfo;
+  }
 
   subscription;
   timesRun;
@@ -100,21 +103,21 @@ export class PlayerProfileComponent implements OnInit {
 
   ngOnInit() {
     this.fetchingData = true;
-    console.log(this.playerService.profileData);
+    //console.log(this.playerService.profileData);
 
-    console.log("Player Id in profile:" + this.playerService.playerId);
+    //console.log("Player Id in profile:" + this.playerService.playerId);
 
     // console.log(this.profileForm);
 
     this.interval = setInterval(() => {
       this.timesRun += 1;
-      console.log(this.playerService.profileData);
+      //console.log(this.playerService.profileData);
       if (this.playerService.profileData) {
         this.profileForm = this.fb.group({
           ParentInfo: this.initProfileDetailsArray()
         });
         clearInterval(this.interval);
-        console.log(this.profileForm.value);
+        //console.log(this.profileForm.value);
         this.fetchingData = false;
       }
     }, 2000);
@@ -149,7 +152,7 @@ export class PlayerProfileComponent implements OnInit {
   validEmail: boolean;
 
   onChange(newValue) {
-    console.log(newValue);
+    //console.log(newValue);
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (validEmailRegEx.test(newValue)) {
       this.validEmail = true;
@@ -182,13 +185,13 @@ export class PlayerProfileComponent implements OnInit {
 
   onSubmit() {
     this.fetchingData = true;
-    console.log(this.profileForm.value);
+    //console.log(this.profileForm.value);
     // for(var i=0; i<this.profileForm.controls['ParentInfo'].length; ++i){
     //   console.log(i);
     // }
     var rd = "[";
     (<FormArray>this.profileForm.get('ParentInfo')).controls.forEach((group) => {
-      console.log(group.value);
+      //console.log(group.value);
       rd += JSON.stringify({
         UserId: group.value.userId,
         Parent_HomePhone: group.value.homePhone,
@@ -200,7 +203,7 @@ export class PlayerProfileComponent implements OnInit {
     rd = rd.substring(0, rd.length - 1);
     rd += "]"
 
-    console.log(JSON.stringify(rd));
+    //console.log(JSON.stringify(rd));
     this.playerService.saveProfileData(rd)
       .subscribe((res) => {
         res = JSON.parse(res["_body"]);
@@ -215,7 +218,7 @@ export class PlayerProfileComponent implements OnInit {
 
   modalRed: BsModalRef;
   withdraw(playerId: number, status: JSON) {
-    console.log(status);
+    //console.log(status);
     this.modalRef = this.modalService.show(WithdrawComponent);
     this.modalRef.content.playerId = playerId;
     this.modalRef.content.details = status;

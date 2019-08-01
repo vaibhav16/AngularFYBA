@@ -47,3 +47,6 @@ h1.mainDate{font-size:20px;margin-bottom: 0;margin-top: 20px;display: inline-blo
     .btnWordBreak{display:block;}
 
 }
+.link{
+    cursor: pointer;
+}
