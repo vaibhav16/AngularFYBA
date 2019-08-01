@@ -2,7 +2,7 @@
   <form *ngIf="profileForm" [formGroup]="profileForm">
     <div class="row">
       <div class="col-lg-12 OffcProfile fontSize12">
-        <h1 class="mainDate name_player"><strong>{{profileSection.Value.PlayerName}}</strong></h1>
+        <h1 class="mainDate name_player"><strong>{{playerInfo.PlayerName}}</strong></h1>
         <ngb-accordion>
           <ngb-panel formArrayName="ParentInfo">
             <ng-template ngbPanelTitle>
@@ -17,7 +17,7 @@
                     <strong>Gender:</strong>
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-8">
-                    <label></label>
+                    <label>{{playerInfo.Gender}}</label>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -26,7 +26,7 @@
                     <strong>Grade:</strong>
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-8">
-                    <label></label>
+                    <label>{{playerInfo.Grade}}</label>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -35,7 +35,7 @@
                     <strong>Division:</strong>
                   </div>
                   <div class="col-md-8 col-sm-8 col-xs-8">
-                    <label></label>
+                    <label>{{playerInfo.Division}}</label>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -138,11 +138,12 @@
           <ngb-panel>
             <ng-template ngbPanelTitle>
               <div class="HeadCollapse">
-                <h2 class="paidHead">Payment Details</h2>
+                <h2 class="paidHead">Registration Status</h2>
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="mainPanel">
+<<<<<<< HEAD
                 <table cellspacing="0" cellpadding="0" border="0" width="100%">
                   <thead>
                     <tr>
@@ -159,6 +160,8 @@
                     </tr>             
                   </tbody>
                 </table>
+=======
+>>>>>>> c9bc69ecef9c1e17fc10070bad49c85c753fb50e
                 
               </div>
 
@@ -175,7 +178,7 @@
                        
                         <div class="row-fluid signupPosition">
                           <div class="col-md-4 col-sm-4 col-xs-4 text-right paddRight5">
-                            <strong>Payment Status:</strong>
+                            <strong>Registration Status:</strong>
                           </div>
                           <div class="col-md-8 col-sm-8 col-xs-8 paddLeft5">
                             {{status.Status}}

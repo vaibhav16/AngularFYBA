@@ -27,6 +27,7 @@ export class DataSharingService {
   VolunteerId:string = null;
   VolunteerSeasonalId: string = null;
   VolunteerStatusId: string = null;
+  DivisionId:number=null;
   isBackButtonClicked: boolean = null;
   currentRoute: string = null;
   isCoach:boolean = null;
